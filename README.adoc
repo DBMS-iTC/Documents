@@ -3,10 +3,12 @@
 == Introduction
 This is the document repository for the DBMS iTC. 
 
-*Included*
+*Included here*
 
-1. working cPP and SD documents in ascii doc format
+- working cPP and SD documents in ascii doc format
+- minutes
+- ESR
 
-DBMS iTC is currently migrating main documents and repositories to GitHub from CCUF portal.
+The DBMS iTC is currently migrating main documents and repositories to GitHub from the CCUF portal.
 
 Check out the main page for the iTC at https://dbms-itc.github.io/.
