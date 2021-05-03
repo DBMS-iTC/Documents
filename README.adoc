@@ -3,6 +3,6 @@
 == Introduction
 This is the repository for the DBMS iTC. 
 
-DBMS iTC is currently migrating documents and repository to GitHub. 
+DBMS iTC is currently migrating main documents and repositories to GitHub from CCUF portal.
 
 Check out the main page for the iTC at https://dbms-itc.github.io/.
