@@ -6,7 +6,6 @@ This is the document repository for the DBMS iTC.
 *Included here*
 
 - working cPP and SD documents in ascii doc format
-- minutes
 - ESR
 
 The DBMS iTC is currently migrating main documents and repositories to GitHub from the CCUF portal.
