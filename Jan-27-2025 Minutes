@@ -11,23 +11,29 @@ Santiago Gómez Muñoz
 
 Minutes:
 
-Intro for Santiago 
+Intro for Santiago, he is taking over as the Lab SME as Jesus steps away. 
 
 Review of Previous Minutes
-  Endorsements on the table for Canada / BSI
-  NAIP still holding out for Crypto Module
+  Endorsement statements are still on the table for Canada / BSI. We may
+    need to follow up with Cory @ the Canadian scheme for more info.
+  NAIP still holding out for Crypto Module.
 
 Review of FMT_MSA and FMT_REV.1 Consistency Issue
-  Solution was posted to Github, one comment was received and adressed.
-  We are still waiting on a response to close the issue
+  Solution was posted to Github and a comment was received asking for additiona
+  clarity. We went back and added an explicit "user role", along with other
+  tweaks to satisfy the comment. No response yet on the full solution has been
+  received.
+  
+  We are still waiting on a response to close the issue and update the PP.
 
 Discussion about DBMS Cloud Module
-  Targeting February for draft of the module
-  Supporting Doc work to follow
+  Brandon is targeting February to present a draft of the module for iTC review.
+  If we are all in agreement, the supporting doc work will follow
 
 CC 2022 Update
-  can be done in parallel with module development
-  cPP can still be used until 2027 but with the new CEM
+  This can be done in parallel with module development.
+  The cPP can still be used until 2027 but with the new CEM so our deadline is 
+  somewhat relaxed.
 
 Next meeting on Feb. 24th. 
 
