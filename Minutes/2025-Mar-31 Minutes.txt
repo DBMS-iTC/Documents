@@ -1,0 +1,32 @@
+Attendees:
+
+Brandon Harvey
+Maureen Barry
+Roger French
+Ander Staaf
+Andrea Lerdell
+Gaya Chandran
+
+Minutes:
+
+Recap from previous call on endorsement statements and BSI issue resolution.
+   * We are not pursuing additional endorsements because of the uncertain nature of EUCC
+
+Brandon presented the initial draft of the Cloud Module. It will be committed to github for review in the "Modules" folder.
+    * It is roughly 75% complete
+    * May publish before the Crypto Module is complete
+    * Includes a use case for crypto to help NIAP bring to PCL
+
+Group understanding is that our cPP can be used until Dec 2027 but after June 2024 needs to be evaluated per CEM 2022.
+    * Crypto module will pull from Crypto Catalogue that is 2022 conformant.
+
+Review of BSI solution
+    * Confirmed no new SFRs only iterations and substitutions.
+    * Reviewed SD to confirm any needed changes.
+        ** New iteration needed for FMT_MSA.1/Users - We need to change the existing test to /Users with only checking auth. admin role. A new iteration for FMT_MSA.1/Objects which tests the same procedure for /Objects from both the admin and user roles.
+        ** For FMT_REV.1 - We may need to change user to authorized user. More investigation needed as this will possibly need to update all invocations of 'user'
+        *** We believe leaving plain 'users' alone and having 'authorized users' in the FMT SFRs when talking about security attributes specifically is acceptable.
+        *** This is support as the cPP says there are two types of users, users and admin and FMT says there are two roles which are admins and auth. users.
+
+        ** For FMT_REV.1(2) - replace sufficient priv. user with auth. user
+
