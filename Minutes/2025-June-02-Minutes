@@ -1,0 +1,33 @@
+Attendees:
+
+Brandon Harvey
+Maureen Barry
+Roger French
+Ander Staaf
+Andrea Lerdell
+Gaya Chandran
+
+Minutes:
+
+CC 2022 Update
+  This can be done in parallel with module development.
+  The cPP can still be used until 2027 but with the new CEM so our deadline is 
+  somewhat relaxed.
+
+DB Cloud Module
+  Still in development
+
+DBIT Issues
+  We can not update the cPP due to CC 2022 deadline. We will have to issue two TDs instead. We discussed the TD solution
+  which will be posted to our github page.
+
+  We reviewed the User Session Locking update to include group, database, and database server selections to FTA_MCS.1. We made a slight change
+  in FCS_MCS.1.2 to refer to selections as defined in FCS_MCS.1.1 instead of duplicating and needing an app. note. Maureen will email out the
+  changes for iTC review, review period will be two weeks.
+
+ICCC 25
+  Briefly discussed logistics for a workshop in Seoul. Maureen and Brandon will
+  schedule a working session for CCUF. 
+  
+
+  
