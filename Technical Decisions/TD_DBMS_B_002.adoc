@@ -1,51 +1,127 @@
-= Technical Decision TD_DBMS_B_002: Additional Configurable Session Limiting Mechanisms
-:issued-date: 2024-06-20
-:published-date: 2024-06-24
+= Technical Decision TD_DBMS_B_002: Session Locking Mechanism Expansion
+:issued-date: 2025-06-20
+:published-date: 2025-07-29
 :affected-pp: DBMS Collaborative Protection Profile (cPP) v1.3
 
 == Issue
 
-The current version of the DBMS cPP provides an option for session limiting mechanisms but does not mandate the inclusion of FTA_MCS_EXT.1. Stakeholders have requested clarification on whether FTA_MCS_EXT.1 should be mandatory and how it should be implemented and tested.
+The DBMS cPP requires pre-user session limiting in FTA_MCS.1.  
+Stakeholders have requested clarification if session limiting must be performed on a per-user basis, or if session limits can be set by other mechanisms.
 
 == Resolution
 
-FTA_MCS_EXT.1 (Configurable Session Limiting Mechanisms) is now a mandatory requirement for the DBMS cPP.
-This includes the option to use FTA_MCS.1, as permitted by the current cPP.
-The following requirements and evaluation activities apply:
+The DBMS cPP has been updated to include FTA_MCS_EXT.1 as a mandatory requirement.  
+This SFR will allow ST authors to assign a mechanism for session limit enforcement.  
+This update makes FTA_MCS.1 selection-based, depending on the selection within FTA_MCS_EXT.1.
 
-=== New Mandatory SFR
+The following updates apply:
 
-*FTA_MCS_EXT.1 Configurable Session Limiting Mechanisms*
+* Update *Table 4: Auditable Events* in Section 6.1.1 to replace FTA_MCS.1 with FTA_MCS_EXT.1.
+* Update Section 6.4.4 *Specification of Management Functions (FMT_SMF)* to include the management function “Configure the session limiting mechanism”.
 
-- *FTA_MCS_EXT.1.1*: The TSF shall restrict the maximum number of concurrent sessions based on [selection: _User session locking as defined by FTA_MCS.1_, [assignment: _mechanism(s) for session limitation enforced by the TSF_]].
-- *FTA_MCS_EXT.1.2*: The TSF shall provide the capability for an authorized administrator to configure the selected enforcement mechanisms.
+[requirement]
+.FMT_SMF.1.1
+====
+The TSF shall be capable of performing the following security management functions:
 
-=== Change to Selection-Based SFR
+* Database configuration
+* User and role management
+* Configure the session limiting mechanism
+====
 
-*FTA_MCS.1 Concurrent Session Control*
+== Section 6.5.1 Update
 
-- *FTA_MCS.1.1*: The TSF shall restrict the maximum number of concurrent sessions that belong to the same user.
-- *FTA_MCS.1.2*: The TSF shall enforce, by default, a limit of [assignment: default number] sessions per user.
+[component]
+.FTA_MCS_EXT.1 Configurable Session Limiting Mechanisms
+====
+FTA_MCS_EXT.1.1  
+The TSF shall restrict the maximum number of concurrent sessions based on  
+[selection: User session locking as defined by FTA_MCS.1, [assignment: mechanism(s) for session limitation enforced by the TSF]].
 
-== Evaluation Activities
+FTA_MCS_EXT.1.2  
+The TSF shall provide the capability for an authorized administrator to configure the selected enforcement mechanism(s).
+====
 
-The following Evaluation Activities shall apply to FTA_MCS_EXT.1 
+[application-note]
+====
+*Application Note 12:*  
+If “User session locking as defined by FTA_MCS.1” is selected, then the FTA_MCS.1 SFR must also be included.
+====
 
-=== TSS (Security Target)
-The evaluator shall examine the TSS and verify that it states the default number of concurrent sessions for the evaluated configuration. If the default number of concurrent sessions can be changed then the evaluator shall verify that the TSS states the default can be changed.
+== Section B.2 Update
 
-=== Guidance Documentation
-The evaluator shall examine the guidance documentation and verify that it states how to set the default number of sessions and, if applicable, how the default can be changed.
+=== Family Behaviour
 
-=== Tests
-The evaluator shall establish the maximum number of concurrent sessions and verify that this number of concurrent sessions is allowed. The evaluator shall attempt to establish a number of sessions greater than the maximum specified and verify that additional concurrent sessions cannot be established.
+This family defines requirements to place limits on the number of concurrent sessions.
 
-If the default number of concurrent sessions can be changed then the evaluator shall change the default value and repeat the test.
+=== Component Leveling
 
-== Rationale
+[ditaa, "fta_mcs_ext_leveling", png]
+....
++-------------------------+
+| FTA_MCS_EXT.1           |
+| Basic limitation on     |
+| multiple concurrent     |
+| sessions                |
++-------------------------+
+....
 
-The ITC determined that limiting concurrent sessions solely by user (as in FTA_MCS.1) did not cover all security or policy needs. By making FTA_MCS_EXT.1 mandatory, the cPP explicitly allows for additional or alternative session limiting mechanisms—beyond user-based restrictions—such as those based on roles, connection sources, or other relevant criteria. This improves flexibility and ensures that a broader range of session management controls can be evaluated and implemented, aligning the cPP with evolving security requirements and deployment scenarios.
+[management]
+====
+FTA_MCS_EXT.1  
+* management of the maximum allowed number of concurrent user sessions  
+* management of the enforcement mechanism(s)
+====
 
-== Impact
+[audit]
+====
+FTA_MCS_EXT.1  
+If FAU_GEN is included in the PP/ST, the following should be auditable:  
+* Rejection of a new session based on the limitation of multiple concurrent sessions
+====
 
-This Technical Decision is effective immediately and shall be cited in all relevant cPP evaluations and corresponding SD evaluation activities.
+[dependencies]
+====
+* FIA_UID.1 Timing of identification
+====
+
+== Appendix D: Selection-Based Requirements
+
+As described in the introduction, baseline requirements are in the body of the cPP.  
+Additional requirements appear here if certain selections are made.
+
+[component]
+.FTA_MCS.1 Basic limitation on multiple concurrent sessions
+====
+FTA_MCS.1.1  
+The TSF shall restrict the maximum number of concurrent sessions that belong to the same user.
+
+FTA_MCS.1.2  
+The TSF shall enforce, by default, a limit of [assignment: default number] sessions per user.
+====
+
+[application-note]
+====
+*Application Note 17:*  
+CC Part 2 (para 473) allows that the default number may be defined as a management function in FMT.
+====
+
+== Supporting Document Updates
+
+=== Section 2.4: FTA_MCS_EXT.1 Configurable Session Limiting Mechanisms
+
+[evaluation-activity]
+====
+*TSS*  
+The evaluator shall examine the TSS and verify that it states the default number of concurrent sessions per user.  
+If this default can be changed, the evaluator shall verify that the TSS specifies this.
+
+*Guidance Documentation*  
+The evaluator shall verify that guidance describes how to set the default number of sessions per user and, if applicable, how to change it.
+
+*Tests*  
+The evaluator shall:  
+* Establish the maximum number of concurrent sessions and verify it is enforced.  
+* Attempt to exceed the maximum and verify additional sessions cannot be created.  
+* If the default number can be changed, modify it and repeat the test.
+====
