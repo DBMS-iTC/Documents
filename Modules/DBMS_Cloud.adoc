@@ -387,7 +387,7 @@ The TSF shall require each user to be successfully authenticated before allowing
 
 ==== FIA_UID_EXT.1 External Identity Integration
 
-The TSF shall provide user identification using external identity providers such as [assignment: cloud IAM roles, federated users, service principals].
+The TSF shall provide user identification using external identity providers such as [selection: cloud IAM roles, federated directory users (e.g., LDAP/AD integrated with cloud IAM), service principals, [assignment: other]].
 
 *Application Note:* Ensures the TOE can interpret identities from external cloud-native IAM systems and map them internally.
 

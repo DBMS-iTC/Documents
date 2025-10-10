@@ -452,15 +452,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .admonitionblock td.icon .icon-discussion:before {content:"\f086";color:#F5F008;}
 </style>
 </head>
-<body class="article toc2 toc-left">
+<body class="technical-decision toc2 toc-left">
 <div id="header">
 <h1>Technical Decision TD_DBMS_B_001: Update to Role Definitions and Security Attribute Management for Consistency</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_issue">Issue</a></li>
-<li><a href="#_resolution">Resolution</a></li>
-<li><a href="#_additional_clarification">Additional Clarification</a></li>
+<li><a href="#_resolution">Resolution</a>
+<ul class="sectlevel2">
+<li><a href="#_updates_to_section_6_4_5_fmt_smr_security_roles">Updates to Section 6.4.5 (FMT_SMR – Security Roles)</a></li>
+<li><a href="#_updates_to_section_6_4_1_fmt_msa_management_of_security_attributes">Updates to Section 6.4.1 (FMT_MSA – Management of Security Attributes)</a></li>
+<li><a href="#_updates_to_section_6_4_3_fmt_rev_revocation">Updates to Section 6.4.3 (FMT_REV – Revocation)</a></li>
+<li><a href="#_updates_to_section_6_2_1_fdp_acc_access_control_policy">Updates to Section 6.2.1 (FDP_ACC – Access Control Policy)</a></li>
+<li><a href="#_supporting_guidance">Supporting Guidance</a></li>
+</ul>
+</li>
 <li><a href="#_rationale">Rationale</a></li>
 <li><a href="#_impact">Impact</a></li>
 </ul>
@@ -471,7 +478,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_issue">Issue</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Several Security Functional Requirements (SFRs) in the DBMS cPP, specifically FMT_MSA.1.1, FMT_REV.1.1(2), and FMT_SMR.1.1, contained inconsistencies regarding which roles may manage and revoke security attributes of users and objects. In particular, prior wording did not align the ability of "users with sufficient privileges" (per the Discretionary Access Control policy) with clearly defined roles in FMT_SMR.1, nor clarify distinctions between "users" and "objects" in these SFRs. This led to ambiguity and potential non-conformities for evaluations.</p>
+<p>Several Security Functional Requirements (SFRs) in the DBMS cPP, specifically FMT_MSA.1.1, FMT_REV.1.1(2), and FMT_SMR.1.1, contained inconsistencies regarding which roles may manage or revoke security attributes of users and objects.</p>
+</div>
+<div class="paragraph">
+<p>Prior wording did not align the authority of “users with sufficient privileges” (per the Discretionary Access Control policy)
+with the defined roles in FMT_SMR.1, nor clearly distinguish between <strong>users</strong> and <strong>objects</strong>.</p>
+</div>
+<div class="paragraph">
+<p>This resulted in ambiguity for ST authors and evaluators.</p>
 </div>
 </div>
 </div>
@@ -479,51 +493,79 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_resolution">Resolution</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To resolve the inconsistencies and clarify role definitions and allowable authority for managing and revoking security attributes, the following changes are adopted (effective immediately):</p>
+<p>To resolve these inconsistencies and clarify role definitions and associated authority,
+the following updates apply to <strong>Section 6.4.1 (FMT_MSA)</strong>, <strong>Section 6.4.3 (FMT_REV)</strong>, <strong>Section 6.4.5 (FMT_SMR)</strong>,
+and <strong>Section 6.2.1 (FDP_ACC)</strong> of the DBMS cPP v1.3.</p>
+</div>
+<div class="sect2">
+<h3 id="_updates_to_section_6_4_5_fmt_smr_security_roles">Updates to Section 6.4.5 (FMT_SMR – Security Roles)</h3>
+<div class="paragraph">
+<p>Replace existing text with:</p>
 </div>
 <div class="paragraph">
 <div class="title">FMT_SMR.1.1</div>
 <p>The TSF shall maintain the roles <em>[authorized administrator, authorized users, and [assignment: additional authorized identified roles]]</em>.</p>
 </div>
 <div class="paragraph">
-<p>Application note: The new ‘authorized users’ role in SMR is referenced in FMT_REV.1.1(2) and FMT_MSA.1.1(2) (Objects)</p>
+<p><em>Application Note:</em> The new “authorized users” role defined in FMT_SMR.1.1 is referenced in FMT_REV.1.1(2) and FMT_MSA.1.1(2) (Objects).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_updates_to_section_6_4_1_fmt_msa_management_of_security_attributes">Updates to Section 6.4.1 (FMT_MSA – Management of Security Attributes)</h3>
+<div class="paragraph">
+<p>Revise component text to distinguish user and object contexts as follows.</p>
 </div>
 <div class="paragraph">
-<div class="title">FMT_MSA.1.1(1) (Users)</div>
-<p>The TSF shall enforce the [Discretionary Access Control policy] to restrict the ability to [manage] the security attributes [associated with users] to [authorized administrators].</p>
+<div class="title">FMT_MSA.1.1(1) – Users</div>
+<p>The TSF shall enforce the [Discretionary Access Control policy] to restrict the ability to manage the security attributes associated with users to authorized administrators.</p>
 </div>
 <div class="paragraph">
-<div class="title">FMT_MSA.1.1(2) (Objects)</div>
-<p>The TSF shall enforce the [Discretionary Access Control policy] to restrict the ability to [manage] the security attributes [associated with objects] to [authorized administrators, authorized users].</p>
+<div class="title">FMT_MSA.1.1(2) – Objects</div>
+<p>The TSF shall enforce the [Discretionary Access Control policy] to restrict the ability to manage the security attributes associated with objects to authorized administrators and authorized users.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_updates_to_section_6_4_3_fmt_rev_revocation">Updates to Section 6.4.3 (FMT_REV – Revocation)</h3>
+<div class="paragraph">
+<p>Clarify roles permitted to revoke object attributes:</p>
 </div>
 <div class="paragraph">
 <div class="title">FMT_REV.1.1(2)</div>
-<p>The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with objects under the control of the TSF to [the authorized administrator, authorized users].</p>
+<p>The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with objects under the control of the TSF to the authorized administrator and authorized users.</p>
+</div>
+<div class="paragraph">
+<div class="title">FMT_REV.1.2(2)</div>
+<p>The TSF shall enforce the rules [assignment: specification of revocation rules].</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_updates_to_section_6_2_1_fdp_acc_access_control_policy">Updates to Section 6.2.1 (FDP_ACC – Access Control Policy)</h3>
+<div class="paragraph">
+<p>Clarify scope and remove invalid refinements:</p>
 </div>
 <div class="paragraph">
 <div class="title">FDP_ACC.1.1</div>
-<p>The TSF shall enforce the [Discretionary Access Control policy] on [all subjects, all DBMS-controlled objects, and all operations among them].</p>
+<p>The TSF shall enforce the [Discretionary Access Control policy] on all subjects, all DBMS-controlled objects, and all operations among them.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_additional_clarification">Additional Clarification</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_supporting_guidance">Supporting Guidance</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>The term <em>authorized users</em> is explicitly added as a role in FMT_SMR.1.1 to resolve previous lack of alignment between roles cited in management and revocation SFRs.</p>
+<p>The term <em>authorized users</em> is explicitly added as a role in FMT_SMR.1.1 to harmonize references across management and revocation SFRs.</p>
 </li>
 <li>
-<p>"Authorized users" in these SFRs replaces prior language such as "database users with sufficient privileges as allowed by the Discretionary Access Control policy."</p>
+<p><em>Authorized users</em> replaces phrases such as “database users with sufficient privileges as allowed by the Discretionary Access Control policy.”</p>
 </li>
 <li>
-<p>The distinction between managing/revoking attributes associated with users (administrators only) vs. those associated with objects (administrators and authorized users) is now made explicit.</p>
+<p>Management of user-associated attributes is restricted to administrators only; management of object-associated attributes may be performed by administrators and authorized users.</p>
 </li>
 <li>
-<p>FDP_ACC.1.1 wording is updated to remove invalid refinements and to ensure access control provisions are neither limited nor ambiguous.</p>
+<p>FDP_ACC.1.1 is clarified to apply comprehensively to all subjects and objects under DBMS control.</p>
 </li>
 </ul>
+</div>
 </div>
 </div>
 </div>
@@ -531,7 +573,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_rationale">Rationale</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>These updates remove longstanding inconsistencies and ambiguities regarding role-based authority for security attribute management, enforcing clear, consistent, and evaluatable requirements for both objects and users under the Discretionary Access Control Policy. Explicitly naming "authorized users" as a role aligns FMT_SMR, FMT_MSA, and FMT_REV, thereby ensuring conformity with CC standards and ease of evaluation. This alignment provides implementers, evaluators, and stakeholders with a precise framework for correct assignment and restriction of management privileges, in line with principle of least privilege and separation of duties.</p>
+<p>These updates remove ambiguities and establish consistent role-based authority for security attribute management and revocation.</p>
+</div>
+<div class="paragraph">
+<p>They align FMT_SMR, FMT_MSA, and FMT_REV with Common Criteria Part 2 principles for evaluability, least privilege, and separation of duties.</p>
 </div>
 </div>
 </div>
@@ -541,25 +586,25 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>All evaluations against current versions of the DBMS cPP must follow these clarifications.</p>
+<p>All evaluations performed against the DBMS cPP v1.3 shall apply these clarifications.</p>
 </li>
 <li>
-<p>Implementations and Security Targets must ensure that "authorized users" is defined as a role for appropriate SFRs and that policy documentation, guidance, and testing aligns accordingly.</p>
+<p>Security Targets must define “authorized users” as a role where applicable and update documentation and guidance accordingly.</p>
 </li>
 <li>
-<p>Evaluators must confirm that the assignment and enforcement of rights to manage and revoke security attributes of objects and users are implemented faithfully following these updated roles and SFR iterations.</p>
+<p>Evaluators shall confirm that rights to manage and revoke security attributes of users and objects are enforced per these revised role definitions.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>This Technical Decision is effective immediately and shall be cited in all relevant cPP evaluations and corresponding SD evaluation activities.</p>
+<p><em>Effective immediately. Cite this Technical Decision when applying Sections 6.2.1, 6.4.1, 6.4.3, and 6.4.5 of the DBMS cPP v1.3.</em></p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-07-29 09:40:49 -0500
+Last updated 2025-10-09 19:08:11 -0500
 </div>
 </div>
 </body>

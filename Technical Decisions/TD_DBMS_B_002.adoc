@@ -5,7 +5,7 @@
 
 == Issue
 
-The DBMS cPP requires pre-user session limiting in FTA_MCS.1.  
+The DBMS cPP requires per-user session limiting in FTA_MCS.1.  
 Stakeholders have requested clarification if session limiting must be performed on a per-user basis, or if session limits can be set by other mechanisms.
 
 == Resolution
