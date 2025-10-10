@@ -29,16 +29,16 @@ _Application Note:_ The new “authorized users” role defined in FMT_SMR.1.1 i
 Revise component text to distinguish user and object contexts as follows.
 
 .FMT_MSA.1.1(1) – Users  
-The TSF shall enforce the [Discretionary Access Control policy] to restrict the ability to manage the security attributes associated with users to authorized administrators.
+The TSF shall enforce the [*Discretionary Access Control policy*] to restrict the ability to *[manage]* the security attributes associated with [*users*] to [*authorized administrator*]s.
 
 .FMT_MSA.1.1(2) – Objects  
-The TSF shall enforce the [Discretionary Access Control policy] to restrict the ability to manage the security attributes associated with objects to authorized administrators and authorized users.
+The TSF shall enforce the [*Discretionary Access Control policy*] to restrict the ability to [*manage*] the security attributes associated with [*objects*] to [*authorized administrators, authorized users]*.
 
 === Updates to Section 6.4.3 (FMT_REV – Revocation)
 Clarify roles permitted to revoke object attributes:
 
 .FMT_REV.1.1(2)  
-The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with objects under the control of the TSF to the authorized administrator and authorized users.
+The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the[*objects*] under the control of the TSF to the [*authorized administrator, authorized users*].
 
 .FMT_REV.1.2(2)  
 The TSF shall enforce the rules [assignment: specification of revocation rules].
