@@ -1,0 +1,426 @@
+diff --git a/cPP/DBMS_cPP-working_copy.adoc b/cPP/DBMS_cPP-working_copy.adoc
+index 2190b2a..3f25707 100644
+--- a/cPP/DBMS_cPP-working_copy.adoc
++++ b/cPP/DBMS_cPP-working_copy.adoc
+@@ -74,39 +74,39 @@ Although the cPPs and SDs may contain minor editorial errors, cPPs are recognize
+ 
+ The following documents are available from the CC Portal at https://www.commoncriteriaportal.org/
+ 
+ Common Criteria
+ 
+-[%header,cols="1,1"]
++[cols="1,1"]
+ |===
+ |[CC1]
+-|Common Criteria for Information Technology Security Evaluation,  + Part 1: Introduction and General Model,  + ISO/IEC 15408-1:2022.
++|Common Criteria for Information Technology Security Evaluation, Part 1: Introduction and general model, CCMB-2022-11-001, CC:2022 Revision 1, November 2022.
+ |[CC2]
+-|Common Criteria for Information Technology Security Evaluation,  + Part 2: Security Functional Components,  + ISO/IEC 15408-2:2022.
++|Common Criteria for Information Technology Security Evaluation, Part 2: Security functional requirements, CCMB-2022-11-002, CC:2022 Revision 1, November 2022.
+ |[CC3]
+-|Common Criteria for Information Technology Security Evaluation,  + Part 3: Security Assurance Components,  + ISO/IEC 15408-3:2022.
++|Common Criteria for Information Technology Security Evaluation, Part 3: Security assurance requirements, CCMB-2022-11-003, CC:2022 Revision 1, November 2022.
+ |[CC4]
+-|Common Criteria for Information Technology Security Evaluation,  + Part 4: Framework for the specification of evaluation methods and activities,  + ISO/IEC 15408-4:2022.
++|Common Criteria for Information Technology Security Evaluation, Part 4: Framework for the specification of evaluation methods and activities, CCMB-2022-11-004, CC:2022 Revision 1, November 2022.
+ |[CC5]
+-|Common Criteria for Information Technology Security Evaluation,  + Part 5: Pre-defined packages of security requirements,  + ISO/IEC 15408-5:2022.
++|Common Criteria for Information Technology Security Evaluation, Part 5: Pre-defined packages of security requirements, CCMB-2022-11-005, CC:2022 Revision 1, November 2022.
++|[CCE]
++|Common Criteria for Information Technology Security Evaluation, Errata and interpretation for CC:2022 (Release 1) and CEM:2022 (Release 1), CCMB-002, Version 1.1, July 22, 2024.
+ |[CEM]
+-|Evaluation Methodology for IT Security,  + ISO/IEC 18045:2022.
++|Common Methodology for Information Technology Security Evaluation, Evaluation methodology, CCMB-2022-11-006, CEM:2022, Revision 1, November 2022.
+ |===
+ 
+ Documents related to this cPP
+ 
+-[%header,cols="1,1"]
++[cols="1,1"]
+ |===
+ |[SD]
+ |Supporting Document Mandatory Technical Document Evaluation Activities for the collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026
+-|
+-|
+ |===
+ 
+ Other Documents
+ 
+-[%header,cols="1,1"]
++[cols="1,1"]
+ |===
+ |[DBMSiTC]
+ |DBMS iTC Status https://www.commoncriteriaportal.org/files/communities/Status.DBMS.pdf
+ |[TD_DBMS_B_001]
+ |Technical Decision TD_DBMS_B_001: Update to Role Definitions and Security Attribute Management for Consistency, published 29 July 2025
+@@ -132,11 +132,11 @@ Iteration is denoted by showing the iteration number in parenthesis following th
+ 
+ The CC paradigm also allows protection profile authors to create their own requirements. Such requirements are termed “extended requirements” and are permitted if the CC does not offer suitable requirements to meet the author’s needs. Extended requirements must be identified and are required to use the CC class/family/component model in articulating the requirements. In this cPP, extended requirements will be indicated with the “_EXT” following the component name.
+ 
+ _Application Notes are provided to help the developer, either to clarify the intent of a requirement, identify implementation choices, or to define “pass-fail” criteria for a requirement. For those components where Application Notes are appropriate, the Application Notes will follow the requirement component. They are numbered and formatted thus:_
+ 
+-_This is an application note._
++_Application Note 1: This is an application note._
+ 
+ === Revision History
+ 
+ [%header,cols="1,1,1"]
+ |===
+@@ -241,13 +241,13 @@ A DBMS supports two user types:
+ * The authorized administrators who implement and manage the various information-related policies of an organization (e.g., access, integrity, consistency, availability) for the databases that they install, configure, manage, and/or own.
+ 
+ A DBMS stores and controls access to two types of data:
+ 
+ * The first type is the user data that the DBMS maintains and protects. User data may consist of the following:
+-* The user data stored in or as database objects;
+-* The definitions of user databases and database objects, commonly known as DBMS metadata; and
+-* The user-developed queries, functions, or procedures that the DBMS maintains for users.
++** The user data stored in or as database objects;
++** The definitions of user databases and database objects, commonly known as DBMS metadata; and
++** The user-developed queries, functions, or procedures that the DBMS maintains for users.
+ * The second type is the DBMS data (e.g., configuration parameters, user security attributes, transaction log, audit instructions, and records) that the DBMS maintains and may use to operate the DBMS.
+ 
+ DBMS specifications identify the detailed requirements for the DBMS server functions given in the above list.
+ 
+ ==== Security Functionality Provided by the TOE
+@@ -269,15 +269,13 @@ The TOE consists of at least one instance of the security functions of the DBMS
+ 
+ This cPP does not dictate a specific architecture. The ST writer will need to identify and describe the TOE architecture to be evaluated. Architectures are described in section 1.4.2.
+ 
+ The external IT entities, with which the DBMS may interact, may include the following:
+ 
+-Client applications that allow users to interface with the DBMS server.
+-
+-The host operating system (host OS) on which the TOE has been installed;
+-
+-The networking, printing, data-storage, and other devices and services with which the host OS may interact on behalf of the DBMS or the DBMS user; and the other IT products such as application servers, web servers, authentication servers, directory services, and transaction processors with which the DBMS may interact to perform a DBMS function or a security function.
++* Client applications that allow users to interface with the DBMS server.
++* The host operating system (host OS) on which the TOE has been installed.
++* The networking, printing, data-storage, and other devices and services with which the host OS may interact on behalf of the DBMS or the DBMS user; and the other IT products such as application servers, web servers, authentication servers, directory services, and transaction processors with which the DBMS may interact to perform a DBMS function or a security function.
+ 
+ The TOE Security Function (TSF) is limited to the elements required to exercise the evaluated security functionality.
+ 
+ The DBMS must specify the host OS on which it must reside to provide the desired degree of security feature integration as well as the configuration of those OS(es) required to support the DBMS functions. In all cases, the TOE must be installed and administered in accordance with the TOE installation and administration instructions.
+ 
+@@ -311,11 +309,11 @@ Authorized administrators of the TOE will have capabilities that are commensurat
+ 
+ == Conformance Claims
+ 
+ === Conformance with CC
+ 
+-This cPP conforms to the requirements of Common Criteria:2022 as defined by the references [CC1], [CC2] and [CC3]. The framework for the specification of evaluation activities is defined in [CC4], the assurance package is defined in [CC5], and the methodology applied for the PP evaluation is defined in [CEM].
++This cPP conforms to the requirements of Common Criteria:2022 as defined by the references [CC1], [CC2] and [CC3]. The framework for the specification of evaluation activities is defined in [CC4], the assurance package is defined in [CC5], and the methodology applied for the PP evaluation is defined in [CEM]. This cPP also accounts for errata and interpretations for CC:2022 and CEM:2022 [CCE].
+ 
+ This cPP applies exact conformance, selection-based SFRs, and optional SFRs as defined for CC:2022.
+ 
+ This cPP satisfies the following Assurance Families: APE_CCL.1, APE_ECD.1, APE_INT.1, APE_OBJ.2, APE_REQ.2 and APE_SPD.1.
+ 
+@@ -534,11 +532,11 @@ The TSF shall be able to generate audit data of the following auditable events:
+ The TSF shall record within the audit data at least the following information:
+ 
+ * Date and time of the auditable event, type of event, subject identity (if applicable), and the outcome (success or failure) of the event; and
+ * For each auditable event type, based on the auditable event definitions of the functional components included in the PP, PP-Module, functional package or ST, [information specified in column three of Table 4: Auditable Events].
+ 
+-_In column 3 of the table below, “Additional Audit Data Contents” is used to designate data that should be included in the audit data if it “makes sense” in the context of the event which generates the data. If no other information is required (other than that listed in item a) above) for a particular auditable event type, then an assignment of “none” is acceptable._
++_Application Note 1: In column 3 of the table below, “Additional Audit Data Contents” is used to designate data that should be included in the audit data if it “makes sense” in the context of the event which generates the data. If no other information is required (other than that listed in item a) above) for a particular auditable event type, then an assignment of “none” is acceptable._
+ 
+ .Table 4: Auditable Events
+ [%header,cols="1,1,1"]
+ |===
+ |Column 1: Security Functional Requirement
+@@ -611,11 +609,11 @@ _In column 3 of the table below, “Additional Audit Data Contents” is used to
+ *FAU_GEN.2 User identity association*
+ ====
+ 
+ *FAU_GEN.2.1*
+ 
+-For audit events resulting from actions of identified users, the TSF shall be able to associate each auditable event with the identity of the user that caused the event.
++For audit events resulting from actions of identified users and any identified groups, the TSF shall be able to associate each auditable event with the identity of the [selection: user, user and group] that caused the event.
+ 
+ ==== Security audit event selection (FAU_SEL)
+ 
+ [BOILERPLATE]
+ ====
+@@ -625,16 +623,16 @@ For audit events resulting from actions of identified users, the TSF shall be ab
+ *FAU_SEL.1.1*
+ 
+ The TSF shall be able to select the set of events to be audited from the set of all auditable events based on the following attributes:
+ 
+ * user identity;
+-* [selection: object identity, user identity, subject identity, host identity, group identity, event type, success of auditable security events, failure of auditable security events];
++* [selection: object identity, subject identity, host identity, group identity, event type, success of auditable security events, failure of auditable security events];
+ * [assignment: list of additional attributes that audit selectivity is based upon].
+ 
+-_“event type” is to be defined by the ST author; the intent is to be able to include or exclude classes of audit events._
++_Application Note 2: “event type” is to be defined by the ST author; the intent is to be able to include or exclude classes of audit events._
+ 
+-_The intent of this requirement is to capture sufficient audit data to allow the administrators to perform their tasks; additional audit data may be captured._
++_Application Note 3: The intent of this requirement is to capture sufficient audit data to allow the administrators to perform their tasks; additional audit data may be captured._
+ 
+ === Class: User Data Protection (FDP)
+ 
+ ==== Access control policy (FDP_ACC)
+ 
+@@ -643,11 +641,11 @@ _The intent of this requirement is to capture sufficient audit data to allow the
+ *FDP_ACC.1 Subset access control*
+ ====
+ 
+ *FDP_ACC.1.1*
+ 
+-The TSF shall enforce the [Discretionary Access Control policy] on all subjects, all DBMS-controlled objects, and all operations among them.
++The TSF shall enforce the [Discretionary Access Control policy] on [all subjects, all DBMS-controlled objects, and all operations among them].
+ 
+ ==== Access control functions (FDP_ACF)
+ 
+ [BOILERPLATE]
+ ====
+@@ -656,13 +654,13 @@ The TSF shall enforce the [Discretionary Access Control policy] on all subjects,
+ 
+ *FDP_ACF.1.1*
+ 
+ The TSF shall enforce the [Discretionary Access Control policy] to objects based on the following: [assignment: list of subjects and objects controlled under the indicated SFP, and for each, the SFP-relevant security attributes, or named groups of SFP-relevant security attributes].
+ 
+-_DBMS-controlled objects may be implementation-specific objects that are presented to authorized users at the user interface to the DBMS. They may include, but are not limited to tables, records, files, indexes, views, constraints, stored queries, and metadata. Data structures that are not presented to authorized users at the DBMS user interface, but are used internally, are internal TSF data structures. Internal TSF data structures are not controlled according to the rules specified in FDP_ACF.1._
++_Application Note 4: DBMS-controlled objects may be implementation-specific objects that are presented to authorized users at the user interface to the DBMS. They may include, but are not limited to tables, records, files, indexes, views, constraints, stored queries, and metadata. Data structures that are not presented to authorized users at the DBMS user interface, but are used internally, are internal TSF data structures. Internal TSF data structures are not controlled according to the rules specified in FDP_ACF.1._
+ 
+-_Named groups of security attributes can be specified to provide a convenient means to refer to multiple security attributes. In this PP, ‘Named group of SFP-relevant security attributes’ refers to a group of attributes that can be associated with an object or a subject. For example, this could be a named Access Control List (ACL)._
++_Application Note 5: Named groups of security attributes can be specified to provide a convenient means to refer to multiple security attributes. In this PP, ‘Named group of SFP-relevant security attributes’ refers to a group of attributes that can be associated with an object or a subject. For example, this could be a named Access Control List (ACL)._
+ 
+ *FDP_ACF.1.2*
+ 
+ The TSF shall enforce the following rules to determine if an operation among controlled subjects and controlled objects is allowed: [assignment: rules governing access among controlled subjects and controlled objects using controlled operations on controlled objects].
+ 
+@@ -685,11 +683,11 @@ The TSF shall explicitly deny access of subjects to objects based on the followi
+ 
+ The TSF shall ensure that any previous information content of a resource is made unavailable upon the allocation of the resource to the following objects: [assignment: list of objects].
+ 
+ === Class: Identification and authentication (FIA)
+ 
+-_It is drawn to the attention of the ST writer that the identification and authentication family was written in such a way that the SFRs might be used in either the case that Identification and Authentication (I&A) services are performed by the TOE itself or that they are performed within the TOE environment._
++_Application Note 6: It is drawn to the attention of the ST writer that the identification and authentication family was written in such a way that the SFRs might be used in either the case that Identification and Authentication (I&A) services are performed by the TOE itself or that they are performed within the TOE environment._
+ 
+ ==== User authentication (FIA_UAU)
+ 
+ [BOILERPLATE]
+ ====
+@@ -713,11 +711,11 @@ The TSF shall maintain the following list of security attributes belonging to in
+ 
+ * Database user identifier and any associated group memberships;
+ * Security-relevant database roles; and
+ * [assignment: list of security attributes].
+ 
+-_The intent of this requirement is to specify the TOE security attributes that the TOE utilizes to determine access. These attributes may be controlled by the environment or by the TOE itself._
++_Application Note 7: The intent of this requirement is to specify the TOE security attributes that the TOE utilizes to determine access. These attributes may be controlled by the environment or by the TOE itself._
+ 
+ ==== User identification (FIA_UID)
+ 
+ [BOILERPLATE]
+ ====
+@@ -757,15 +755,15 @@ The TSF shall enforce the [Discretionary Access Control policy] to restrict the
+ 
+ *FMT_MSA.3.1*
+ 
+ The TSF shall enforce the [Discretionary Access Control policy] to provide restrictive default values for security attributes that are used to enforce the SFP.
+ 
+-_This requirement applies to new objects at the top-level (e.g., tables). When lower-level objects are created (e.g., rows, cells), these may inherit the permissions of the top-level objects by default. In other words, the permissions of the ‘child’ objects can take the permissions of the ‘parent’ objects by default._
++_Application Note 8: This requirement applies to new objects at the top-level (e.g., tables). When lower-level objects are created (e.g., rows, cells), these may inherit the permissions of the top-level objects by default. In other words, the permissions of the ‘child’ objects can take the permissions of the ‘parent’ objects by default._
+ 
+ *FMT_MSA.3.2*
+ 
+-The TSF shall allow the [no user] to specify alternative initial values to override the default values when an object or information is created.
++The TSF shall allow [no user] to specify alternative initial values to override the default values when an object or information is created.
+ 
+ ==== Management of TSF data (FMT_MTD)
+ 
+ [BOILERPLATE]
+ ====
+@@ -778,11 +776,11 @@ The TSF shall restrict the ability to [include or exclude] the [auditable events
+ 
+ ==== Revocation (FMT_REV)
+ 
+ [BOILERPLATE]
+ ====
+-*FMT_REV.1(1) Revocation*
++*FMT_REV.1(1) Revocation (Users)*
+ ====
+ 
+ *FMT_REV.1.1(1)*
+ 
+ The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the users under the control of the TSF to [authorized administrator].
+@@ -791,11 +789,11 @@ The TSF shall restrict the ability to revoke [assignment: list of security attri
+ 
+ The TSF shall enforce the rules [assignment: specification of revocation rules].
+ 
+ [BOILERPLATE]
+ ====
+-*FMT_REV.1(2) Revocation (DAC)*
++*FMT_REV.1(2) Revocation (Objects)*
+ ====
+ 
+ *FMT_REV.1.1(2)*
+ 
+ The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the objects under the control of the TSF to [authorized administrator, authorized users].
+@@ -833,11 +831,11 @@ The TSF shall be capable of performing the following security management functio
+ 
+ [assignment: any additional security management functions required to configure the claimed security]
+ 
+ ].
+ 
+-_The ST author should ensure that all security attributes identified in FIA_ATD.1 are adequately managed and protected._
++_Application Note 9: The ST author should ensure that all security attributes identified in FIA_ATD.1 are adequately managed and protected._
+ 
+ ==== Security management roles (FMT_SMR)
+ 
+ [BOILERPLATE]
+ ====
+@@ -850,13 +848,13 @@ The TSF shall maintain the roles [authorized administrator, authorized users, an
+ 
+ *FMT_SMR.1.2*
+ 
+ The TSF shall be able to associate users with roles.
+ 
+-_The authorized users role defined in FMT_SMR.1.1 is referenced in FMT_REV.1.1(2) and FMT_MSA.1.1(2) for objects._
++_Application Note 10: The authorized users role defined in FMT_SMR.1.1 is referenced in FMT_REV.1.1(2) and FMT_MSA.1.1(2) for objects._
+ 
+-_This requirement identifies a minimum set of management roles. An ST may describe, or an operational environment may contain a finer-grain decomposition of roles that correspond to the roles identified here (e.g., database non-administrative user or database operator). The ST author may change the names of the roles identified above but the “new” roles must still perform the functions that the security management requirements in this cPP have defined. It is not necessary to list roles that are not exercised in the evaluated configuration._
++_Application Note 11: This requirement identifies a minimum set of management roles. An ST may describe, or an operational environment may contain a finer-grain decomposition of roles that correspond to the roles identified here (e.g., database non-administrative user or database operator). The ST author may change the names of the roles identified above but the “new” roles must still perform the functions that the security management requirements in this cPP have defined. It is not necessary to list roles that are not exercised in the evaluated configuration._
+ 
+ === Class: TOE access (FTA)
+ 
+ ==== Configurable Session Limiting Mechanisms (FTA_MCS_EXT)
+ 
+@@ -871,11 +869,11 @@ The TSF shall restrict the maximum number of concurrent sessions based on [selec
+ 
+ *FTA_MCS_EXT.1.2*
+ 
+ The TSF shall provide the capability for an authorized administrator to configure the selected enforcement mechanism(s).
+ 
+-_If "User session locking as defined by FTA_MCS.1" is selected in FTA_MCS_EXT.1.1, then FTA_MCS.1 must also be included from Appendix D._
++_Application Note 12: If "User session locking as defined by FTA_MCS.1" is selected in FTA_MCS_EXT.1.1, then FTA_MCS.1 must also be included from Appendix D._
+ 
+ ==== TOE session establishment (FTA_TSE)
+ 
+ [BOILERPLATE]
+ ====
+@@ -1001,13 +999,13 @@ The TSF shall enforce the following rules governing changes to the user security
+ 
+ *FIA_USB_EXT.2 .4*
+ 
+ The TSF shall enforce the following rules for the assignment of subject security attributes not derived from user security attributes when a subject is created: [assignment: rules for the initial association of the subject security attributes not derived from user security attributes].
+ 
+-_Some administrative tasks may be delegated to specific users (which by that delegation become administrators although they can only perform some limited administrative actions). Ensuring that those users cannot extend the administrative rights assigned to them is a security functionality the TOE has to provide._
++_Application Note 13: Some administrative tasks may be delegated to specific users (which by that delegation become administrators although they can only perform some limited administrative actions). Ensuring that those users cannot extend the administrative rights assigned to them is a security functionality the TOE has to provide._
+ 
+-_If FIA_USB_EXT.2 is included in an ST then Table 4: Auditable Events is refined to add the following entry:_
++_Application Note 14: If FIA_USB_EXT.2 is included in an ST then Table 4: Auditable Events is refined to add the following entry:_
+ 
+ [%header,cols="1,1,1"]
+ |===
+ |Column 1: Security Functional Requirement
+ |Column 2: Auditable Event(s)
+@@ -1032,11 +1030,11 @@ The TSF shall ensure that TSF data is consistent when replicated between parts o
+ 
+ *FPT_TRC.1.2*
+ 
+ When parts of the TOE containing replicated TSF data are disconnected, the TSF shall ensure the consistency of the replicated TSF data upon reconnection before processing any requests for [assignment: list of functions dependent on TSF data replication consistency].
+ 
+-_In general, it is impossible to achieve complete, constant consistency of TSF data that is distributed to remote portions of a TOE because distributed portions of the TSF may be active at different times or disconnected from one another. This requirement attempts to address this situation in a practical manner by acknowledging that there will be TSF data inconsistencies but that they will be corrected without undue delay. For example, a TSF could provide timely consistency through periodic broadcast of TSF data to all TSF nodes maintaining replicated TSF data. Another example approach is for the TSF to provide a mechanism to explicitly probe remote TSF nodes for inconsistencies and respond with action to correct the identified inconsistencies._
++_Application Note 15: In general, it is impossible to achieve complete, constant consistency of TSF data that is distributed to remote portions of a TOE because distributed portions of the TSF may be active at different times or disconnected from one another. This requirement attempts to address this situation in a practical manner by acknowledging that there will be TSF data inconsistencies but that they will be corrected without undue delay. For example, a TSF could provide timely consistency through periodic broadcast of TSF data to all TSF nodes maintaining replicated TSF data. Another example approach is for the TSF to provide a mechanism to explicitly probe remote TSF nodes for inconsistencies and respond with action to correct the identified inconsistencies._
+ 
+ === Class: TOE access (FTA)
+ 
+ ==== TOE access information (FTA_TAH_EXT)
+ 
+@@ -1059,11 +1057,11 @@ attempt(s).
+ Upon successful session establishment, the TSF shall allow the date and time of
+ 
+ * the previous last successful session establishment, and
+ * the last unsuccessful attempt to session establishment and the number of unsuccessful attempts since the previous last successful session establishment to be retrieved by the user.
+ 
+-_If FTA_TAH_EXT.1 is included in an ST then Table 4: Auditable Events is refined to add the following entry:_
++_Application Note 16: If FTA_TAH_EXT.1 is included in an ST then Table 4: Auditable Events is refined to add the following entry:_
+ 
+ [%header,cols="1,1,1"]
+ |===
+ |Column 1: Security Functional Requirement
+ |Column 2: Auditable Event(s)
+@@ -1143,20 +1141,23 @@ The TSF shall enforce the following rules for the assignment of subject security
+ 
+ This family defines requirements to place limits on the number of concurrent sessions.
+ 
+ ===== Component levelling
+ 
++FTA_MCS_EXT.1 is not hierarchical to any other components.
++
+ [#img-FTA-MCS-EXT]
+ .Component levelling
+ [ditaa, fta_mcs_ext_leveling, png]
+ ....
+-+-------------------------+
+-| FTA_MCS_EXT.1           |
+-| Basic limitation on     |
+-| multiple concurrent     |
+-| sessions                |
+-+-------------------------+
++
++    +------------------------------------+  
++    |                                    |          +---+  
++    | FTA_MCS_EXT Session Limitation     | +-+-+->  | 1 | 
++    |                                    |          +---+  
++    +------------------------------------+
++
+ ....
+ 
+ ===== Management
+ 
+ The following actions could be considered for the management functions in FMT:
+@@ -1170,20 +1171,20 @@ The following actions should be auditable if FAU_GEN Security audit data generat
+ 
+ * rejection of a new session based on the limitation of multiple concurrent sessions
+ 
+ ===== Dependencies
+ 
+-FIA_UID.1 Timing of identification
++FIA_UID.2 User identification before any action
+ 
+ [BOILERPLATE]
+ ====
+ *FTA_MCS_EXT.1 Configurable Session Limiting Mechanisms*
+ ====
+ 
+ Hierarchical to: No other components.
+ 
+-Dependencies: FIA_UID.1 Timing of identification
++Dependencies: FIA_UID.2 User identification before any action
+ 
+ *FTA_MCS_EXT.1.1*
+ 
+ The TSF shall restrict the maximum number of concurrent sessions based on [selection: User session locking as defined by FTA_MCS.1, [assignment: mechanism(s) for session limitation enforced by the TSF]].
+ 
+@@ -1578,12 +1579,12 @@ The following table provides the rationale for the selection of the security fun
+ |This requirement is satisfied by FIA_UID.2 which is hierarchical to FIA_UID.1.
+ |FPT_TRC.1
+ |FPT_ITT.1
+ |For a distributed TOE, the dependency is satisfied through the environmental assumption, A.CONNECT, that assures the confidentiality and integrity of  the transmitted data.
+ |FTA_MCS_EXT.1
+-|FIA_UID.1
+-|This requirement is satisfied by FIA_UID.2 which is hierarchical to FIA_UID.1.
++|FIA_UID.2
++|This requirement is satisfied by FIA_UID.2.
+ |FTA_MCS.1
+ |FIA_UID.1
+ |When FTA_MCS.1 is selected through FTA_MCS_EXT.1, this requirement is satisfied by FIA_UID.2 which is hierarchical to FIA_UID.1.
+ |FTA_TSE.1
+ |None
+@@ -1644,11 +1645,11 @@ The TSF shall restrict the maximum number of concurrent sessions that belong to
+ 
+ *FTA_MCS.1.2*
+ 
+ The TSF shall enforce, by default, a limit of [assignment: default number] sessions per user.
+ 
+-_The ST author is reminded that CC Part 2 [CC2] allows that the default number may be defined as a management function in FMT._
++_Application Note 17: The ST author is reminded that CC Part 2 [CC2] allows that the default number may be defined as a management function in FMT._
+ 
+ == Glossary
+ 
+ The terms, definitions and abbreviations given [CC1] apply to this document. Additional terms, definitions and abbreviations applicable only within the DBMS cPP context are given below:
