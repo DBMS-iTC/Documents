@@ -87,14 +87,14 @@
   <div class="meta-box">
     <p><strong>Baseline:</strong> 10dde95 - removed pdf headers / footers</p>
     <p><strong>Compared to:</strong> current working tree final publication source</p>
-    <p><strong>Generated:</strong> 2026-06-25 15:57:22 UTC</p>
+    <p><strong>Generated:</strong> 2026-06-25 16:10:41 UTC</p>
   </div>
   <div class="summary">
-    <span class="pill adds">+72 additions</span>
-    <span class="pill dels">-71 deletions</span>
+    <span class="pill adds">+84 additions</span>
+    <span class="pill dels">-104 deletions</span>
   </div>
   <pre class="diff"><span class="line meta">diff --git a/cPP/DBMS_cPP-working_copy.adoc b/cPP/DBMS_cPP-working_copy.adoc</span>
-<span class="line meta">index 2190b2a..520142b 100644</span>
+<span class="line meta">index 2190b2a..d7f9087 100644</span>
 <span class="line meta">--- a/cPP/DBMS_cPP-working_copy.adoc</span>
 <span class="line meta">+++ b/cPP/DBMS_cPP-working_copy.adoc</span>
 <span class="line hunk">@@ -74,39 +74,39 @@ Although the cPPs and SDs may contain minor editorial errors, cPPs are recognize</span>
@@ -158,10 +158,10 @@
 <span class="line add">+The *refinement* operation is used to add detail to a requirement, and thus further restricts a requirement. Refinement of security requirements is denoted by *bold text* or in the case of deletions, by *+++&lt;del&gt;+++crossed out bold text+++&lt;/del&gt;+++*.</span>
 <span class="line ctx"> </span>
 <span class="line del">-The selection operation is used to select one or more options provided by the CC in stating a requirement. Selections that have been made by the PP authors are denoted by italicized text, selections to be filled in by the Security Target (ST) author appear in square brackets with an indication that a selection is to be made, [selection:], and are not italicized.</span>
-<span class="line add">+The *selection* operation is used to select one or more options provided by the CC in stating a requirement. Selections that have been made by the PP authors are denoted by _italicized text_, selections to be filled in by the Security Target (ST) author appear in square brackets with an indication that a selection is to be made, [selection:], and are not italicized.</span>
+<span class="line add">+The *selection* operation is used to select one or more options provided by the CC in stating a requirement. Selections are denoted in square brackets using the CC operation designator, [selection: selection_value]. Selections to be filled in by the Security Target (ST) author retain the available choices after the designator.</span>
 <span class="line ctx"> </span>
 <span class="line del">-The assignment operation is used to assign a specific value to an unspecified parameter, such as the length of a password. Assignments that have been made by the cPP authors are denoted by showing the value in square brackets, [assignment_value], assignments to be filled in by the ST author appear in square brackets with an indication that an assignment is to be made [assignment:]. Assignments within selections are denoted by showing the value in square brackets and italics [assignment_value].</span>
-<span class="line add">+The *assignment* operation is used to assign a specific value to an unspecified parameter, such as the length of a password. Assignments that have been made by the cPP authors are denoted by showing the value in square brackets, [assignment_value], assignments to be filled in by the ST author appear in square brackets with an indication that an assignment is to be made [assignment:]. Assignments within selections are denoted by showing the value in square brackets and italics [_assignment_value_].</span>
+<span class="line add">+The *assignment* operation is used to assign a specific value to an unspecified parameter, such as the length of a password. Assignments are denoted in square brackets using the CC operation designator, [assignment: assignment_value]. Assignments to be filled in by the Security Target (ST) author retain placeholder text after the designator.</span>
 <span class="line ctx"> </span>
 <span class="line del">-The iteration operation is used when a component is repeated with varying operations.</span>
 <span class="line add">+The *iteration* operation is used when a component is repeated with varying operations.</span>
@@ -228,11 +228,25 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> This cPP satisfies the following Assurance Families: APE_CCL.1, APE_ECD.1, APE_INT.1, APE_OBJ.2, APE_REQ.2 and APE_SPD.1.</span>
 <span class="line ctx"> </span>
-<span class="line hunk">@@ -534,11 +532,11 @@ The TSF shall be able to generate audit data of the following auditable events:</span>
+<span class="line hunk">@@ -523,22 +521,21 @@ The individual security functional requirements are specified in the sections be</span>
+<span class="line ctx"> *FAU_GEN.1.1*</span>
+<span class="line ctx"> </span>
+<span class="line ctx"> The TSF shall be able to generate audit data of the following auditable events:</span>
+<span class="line ctx"> </span>
+<span class="line ctx"> * Start-up and shutdown of the audit functions;</span>
+<span class="line del">-* All auditable events for the [minimum] level of audit listed in Table 4: Auditable Events; and</span>
+<span class="line del">-* [Start-up and shutdown of the DBMS; and</span>
+<span class="line del">-* Use of special permissions (e.g., those often used by authorized administrators to circumvent access control policies).]</span>
+<span class="line add">+* All auditable events for the [selection: minimum] level of audit listed in Table 4: Auditable Events; and</span>
+<span class="line add">+* [assignment: Start-up and shutdown of the DBMS; and use of special permissions (e.g., those often used by authorized administrators to circumvent access control policies).]</span>
+<span class="line ctx"> </span>
+<span class="line ctx"> *FAU_GEN.1.2*</span>
+<span class="line ctx"> </span>
 <span class="line ctx"> The TSF shall record within the audit data at least the following information:</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> * Date and time of the auditable event, type of event, subject identity (if applicable), and the outcome (success or failure) of the event; and</span>
-<span class="line ctx"> * For each auditable event type, based on the auditable event definitions of the functional components included in the PP, PP-Module, functional package or ST, [information specified in column three of Table 4: Auditable Events].</span>
+<span class="line del">-* For each auditable event type, based on the auditable event definitions of the functional components included in the PP, PP-Module, functional package or ST, [information specified in column three of Table 4: Auditable Events].</span>
+<span class="line add">+* For each auditable event type, based on the auditable event definitions of the functional components included in the PP, PP-Module, functional package or ST, [assignment: information specified in column three of Table 4: Auditable Events].</span>
 <span class="line ctx"> </span>
 <span class="line del">-_In column 3 of the table below, “Additional Audit Data Contents” is used to designate data that should be included in the audit data if it “makes sense” in the context of the event which generates the data. If no other information is required (other than that listed in item a) above) for a particular auditable event type, then an assignment of “none” is acceptable._</span>
 <span class="line add">+_Application Note 1: In column 3 of the table below, “Additional Audit Data Contents” is used to designate data that should be included in the audit data if it “makes sense” in the context of the event which generates the data. If no other information is required (other than that listed in item a) above) for a particular auditable event type, then an assignment of “none” is acceptable._</span>
@@ -241,7 +255,7 @@
 <span class="line ctx"> [%header,cols=&quot;1,1,1&quot;]</span>
 <span class="line ctx"> |===</span>
 <span class="line ctx"> |Column 1: Security Functional Requirement</span>
-<span class="line hunk">@@ -611,11 +609,11 @@ _In column 3 of the table below, “Additional Audit Data Contents” is used to</span>
+<span class="line hunk">@@ -611,11 +608,11 @@ _In column 3 of the table below, “Additional Audit Data Contents” is used to</span>
 <span class="line ctx"> *FAU_GEN.2 User identity association*</span>
 <span class="line ctx"> ====</span>
 <span class="line ctx"> </span>
@@ -254,7 +268,7 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> [BOILERPLATE]</span>
 <span class="line ctx"> ====</span>
-<span class="line hunk">@@ -624,17 +622,17 @@ For audit events resulting from actions of identified users, the TSF shall be ab</span>
+<span class="line hunk">@@ -624,17 +621,17 @@ For audit events resulting from actions of identified users, the TSF shall be ab</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> *FAU_SEL.1.1*</span>
 <span class="line ctx"> </span>
@@ -276,24 +290,26 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> ==== Access control policy (FDP_ACC)</span>
 <span class="line ctx"> </span>
-<span class="line hunk">@@ -643,11 +641,11 @@ _The intent of this requirement is to capture sufficient audit data to allow the</span>
+<span class="line hunk">@@ -643,26 +640,26 @@ _The intent of this requirement is to capture sufficient audit data to allow the</span>
 <span class="line ctx"> *FDP_ACC.1 Subset access control*</span>
 <span class="line ctx"> ====</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> *FDP_ACC.1.1*</span>
 <span class="line ctx"> </span>
 <span class="line del">-The TSF shall enforce the [Discretionary Access Control policy] on all subjects, all DBMS-controlled objects, and all operations among them.</span>
-<span class="line add">+The TSF shall enforce the [Discretionary Access Control policy] on [all subjects, all DBMS-controlled objects, and all operations among them].</span>
+<span class="line add">+The TSF shall enforce the [assignment: Discretionary Access Control policy] on [assignment: all subjects, all DBMS-controlled objects, and all operations among them].</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> ==== Access control functions (FDP_ACF)</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> [BOILERPLATE]</span>
 <span class="line ctx"> ====</span>
-<span class="line hunk">@@ -656,13 +654,13 @@ The TSF shall enforce the [Discretionary Access Control policy] on all subjects,</span>
+<span class="line ctx"> *FDP_ACF.1 Security attribute based access control*</span>
+<span class="line ctx"> ====</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> *FDP_ACF.1.1*</span>
 <span class="line ctx"> </span>
-<span class="line ctx"> The TSF shall enforce the [Discretionary Access Control policy] to objects based on the following: [assignment: list of subjects and objects controlled under the indicated SFP, and for each, the SFP-relevant security attributes, or named groups of SFP-relevant security attributes].</span>
+<span class="line del">-The TSF shall enforce the [Discretionary Access Control policy] to objects based on the following: [assignment: list of subjects and objects controlled under the indicated SFP, and for each, the SFP-relevant security attributes, or named groups of SFP-relevant security attributes].</span>
+<span class="line add">+The TSF shall enforce the [assignment: Discretionary Access Control policy] to objects based on the following: [assignment: list of subjects and objects controlled under the indicated SFP, and for each, the SFP-relevant security attributes, or named groups of SFP-relevant security attributes].</span>
 <span class="line ctx"> </span>
 <span class="line del">-_DBMS-controlled objects may be implementation-specific objects that are presented to authorized users at the user interface to the DBMS. They may include, but are not limited to tables, records, files, indexes, views, constraints, stored queries, and metadata. Data structures that are not presented to authorized users at the DBMS user interface, but are used internally, are internal TSF data structures. Internal TSF data structures are not controlled according to the rules specified in FDP_ACF.1._</span>
 <span class="line add">+_Application Note 4: DBMS-controlled objects may be implementation-specific objects that are presented to authorized users at the user interface to the DBMS. They may include, but are not limited to tables, records, files, indexes, views, constraints, stored queries, and metadata. Data structures that are not presented to authorized users at the DBMS user interface, but are used internally, are internal TSF data structures. Internal TSF data structures are not controlled according to the rules specified in FDP_ACF.1._</span>
@@ -305,7 +321,7 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> The TSF shall enforce the following rules to determine if an operation among controlled subjects and controlled objects is allowed: [assignment: rules governing access among controlled subjects and controlled objects using controlled operations on controlled objects].</span>
 <span class="line ctx"> </span>
-<span class="line hunk">@@ -685,11 +683,11 @@ The TSF shall explicitly deny access of subjects to objects based on the followi</span>
+<span class="line hunk">@@ -685,11 +682,11 @@ The TSF shall explicitly deny access of subjects to objects based on the followi</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> The TSF shall ensure that any previous information content of a resource is made unavailable upon the allocation of the resource to the following objects: [assignment: list of objects].</span>
 <span class="line ctx"> </span>
@@ -318,7 +334,7 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> [BOILERPLATE]</span>
 <span class="line ctx"> ====</span>
-<span class="line hunk">@@ -713,11 +711,11 @@ The TSF shall maintain the following list of security attributes belonging to in</span>
+<span class="line hunk">@@ -713,11 +710,11 @@ The TSF shall maintain the following list of security attributes belonging to in</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> * Database user identifier and any associated group memberships;</span>
 <span class="line ctx"> * Security-relevant database roles; and</span>
@@ -331,11 +347,34 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> [BOILERPLATE]</span>
 <span class="line ctx"> ====</span>
-<span class="line hunk">@@ -757,15 +755,15 @@ The TSF shall enforce the [Discretionary Access Control policy] to restrict the</span>
+<span class="line hunk">@@ -737,70 +734,70 @@ The TSF shall require each user to be successfully identified before allowing an</span>
+<span class="line ctx"> *FMT_MSA.1(1) Management of security attributes (Users)*</span>
+<span class="line ctx"> ====</span>
+<span class="line ctx"> </span>
+<span class="line ctx"> *FMT_MSA.1.1(1)*</span>
+<span class="line ctx"> </span>
+<span class="line del">-The TSF shall enforce the [Discretionary Access Control policy] to restrict the ability to [manage] the security attributes [associated with users] to [authorized administrators].</span>
+<span class="line add">+The TSF shall enforce the [assignment: Discretionary Access Control policy] to restrict the ability to [selection: [assignment: manage]] the security attributes [assignment: associated with users] to [assignment: authorized administrators].</span>
+<span class="line ctx"> </span>
+<span class="line ctx"> [BOILERPLATE]</span>
+<span class="line ctx"> ====</span>
+<span class="line ctx"> *FMT_MSA.1(2) Management of security attributes (Objects)*</span>
+<span class="line ctx"> ====</span>
+<span class="line ctx"> </span>
+<span class="line ctx"> *FMT_MSA.1.1(2)*</span>
+<span class="line ctx"> </span>
+<span class="line del">-The TSF shall enforce the [Discretionary Access Control policy] to restrict the ability to [manage] the security attributes [associated with objects] to [authorized administrators, authorized users].</span>
+<span class="line add">+The TSF shall enforce the [assignment: Discretionary Access Control policy] to restrict the ability to [selection: [assignment: manage]] the security attributes [assignment: associated with objects] to [assignment: authorized administrators, authorized users].</span>
+<span class="line ctx"> </span>
+<span class="line ctx"> [BOILERPLATE]</span>
+<span class="line ctx"> ====</span>
+<span class="line ctx"> *FMT_MSA.3 Static attribute initialization*</span>
+<span class="line ctx"> ====</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> *FMT_MSA.3.1*</span>
 <span class="line ctx"> </span>
-<span class="line ctx"> The TSF shall enforce the [Discretionary Access Control policy] to provide restrictive default values for security attributes that are used to enforce the SFP.</span>
+<span class="line del">-The TSF shall enforce the [Discretionary Access Control policy] to provide restrictive default values for security attributes that are used to enforce the SFP.</span>
+<span class="line add">+The TSF shall enforce the [assignment: Discretionary Access Control policy] to provide [selection: restrictive] default values for security attributes that are used to enforce the SFP.</span>
 <span class="line ctx"> </span>
 <span class="line del">-_This requirement applies to new objects at the top-level (e.g., tables). When lower-level objects are created (e.g., rows, cells), these may inherit the permissions of the top-level objects by default. In other words, the permissions of the ‘child’ objects can take the permissions of the ‘parent’ objects by default._</span>
 <span class="line add">+_Application Note 8: This requirement applies to new objects at the top-level (e.g., tables). When lower-level objects are created (e.g., rows, cells), these may inherit the permissions of the top-level objects by default. In other words, the permissions of the ‘child’ objects can take the permissions of the ‘parent’ objects by default._</span>
@@ -343,13 +382,19 @@
 <span class="line ctx"> *FMT_MSA.3.2*</span>
 <span class="line ctx"> </span>
 <span class="line del">-The TSF shall allow the [no user] to specify alternative initial values to override the default values when an object or information is created.</span>
-<span class="line add">+The TSF shall allow *+++&lt;del&gt;+++the+++&lt;/del&gt;+++* [no user] to specify alternative initial values to override the default values when an object or information is created.</span>
+<span class="line add">+The TSF shall allow *+++&lt;del&gt;+++the+++&lt;/del&gt;+++* [assignment: no user] to specify alternative initial values to override the default values when an object or information is created.</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> ==== Management of TSF data (FMT_MTD)</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> [BOILERPLATE]</span>
 <span class="line ctx"> ====</span>
-<span class="line hunk">@@ -778,11 +776,11 @@ The TSF shall restrict the ability to [include or exclude] the [auditable events</span>
+<span class="line ctx"> *FMT_MTD.1 Management of TSF data*</span>
+<span class="line ctx"> ====</span>
+<span class="line ctx"> </span>
+<span class="line ctx"> *FMT_MTD.1.1*</span>
+<span class="line ctx"> </span>
+<span class="line del">-The TSF shall restrict the ability to [include or exclude] the [auditable events] to [authorized administrators].</span>
+<span class="line add">+The TSF shall restrict the ability to [selection: [assignment: include or exclude]] the [assignment: auditable events] to [assignment: authorized administrators].</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> ==== Revocation (FMT_REV)</span>
 <span class="line ctx"> </span>
@@ -361,8 +406,10 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> *FMT_REV.1.1(1)*</span>
 <span class="line ctx"> </span>
-<span class="line ctx"> The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the users under the control of the TSF to [authorized administrator].</span>
-<span class="line hunk">@@ -791,11 +789,11 @@ The TSF shall restrict the ability to revoke [assignment: list of security attri</span>
+<span class="line del">-The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the users under the control of the TSF to [authorized administrator].</span>
+<span class="line add">+The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the [selection: users] under the control of the TSF to [assignment: authorized administrator].</span>
+<span class="line ctx"> </span>
+<span class="line ctx"> *FMT_REV.1.2(1)*</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> The TSF shall enforce the rules [assignment: specification of revocation rules].</span>
 <span class="line ctx"> </span>
@@ -374,13 +421,42 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> *FMT_REV.1.1(2)*</span>
 <span class="line ctx"> </span>
-<span class="line ctx"> The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the objects under the control of the TSF to [authorized administrator, authorized users].</span>
-<span class="line hunk">@@ -833,11 +831,11 @@ The TSF shall be capable of performing the following security management functio</span>
+<span class="line del">-The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the objects under the control of the TSF to [authorized administrator, authorized users].</span>
+<span class="line add">+The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the [selection: objects] under the control of the TSF to [assignment: authorized administrator, authorized users].</span>
 <span class="line ctx"> </span>
-<span class="line ctx"> [assignment: any additional security management functions required to configure the claimed security]</span>
+<span class="line ctx"> *FMT_REV.1.2(2)*</span>
 <span class="line ctx"> </span>
-<span class="line ctx"> ].</span>
+<span class="line ctx"> The TSF shall enforce the rules [assignment: specification of revocation rules].</span>
 <span class="line ctx"> </span>
+<span class="line hunk">@@ -811,52 +808,32 @@ The TSF shall enforce the rules [assignment: specification of revocation rules].</span>
+<span class="line ctx"> *FMT_SMF.1 Specification of Management Functions*</span>
+<span class="line ctx"> ====</span>
+<span class="line ctx"> </span>
+<span class="line ctx"> *FMT_SMF.1.1*</span>
+<span class="line ctx"> </span>
+<span class="line del">-The TSF shall be capable of performing the following security management functions:</span>
+<span class="line del">-</span>
+<span class="line del">-[</span>
+<span class="line add">+The TSF shall be capable of performing the following security management functions: [assignment: Database configuration; User and role management; Configure the session limiting mechanism; [selection: Management of groups, Adding or removing a database, Revocation of security attributes, Configuration of session establishment rules, Configuration of TSF replication and consistency, Configuration of TOE access information rules, No other security management functions]; [assignment: any additional security management functions required to configure the claimed security]].</span>
+<span class="line ctx"> </span>
+<span class="line del">-* Database configuration</span>
+<span class="line del">-* User and role management</span>
+<span class="line del">-* Configure the session limiting mechanism</span>
+<span class="line del">-</span>
+<span class="line del">-[selection:</span>
+<span class="line del">-</span>
+<span class="line del">-* Management of groups</span>
+<span class="line del">-* Adding or removing a database</span>
+<span class="line del">-* Revocation of security attributes</span>
+<span class="line del">-* Configuration of session establishment rules</span>
+<span class="line del">-* Configuration of TSF replication and consistency</span>
+<span class="line del">-* Configuration of TOE access information rules</span>
+<span class="line del">-* No other security management functions]</span>
+<span class="line del">-</span>
+<span class="line del">-[assignment: any additional security management functions required to configure the claimed security]</span>
+<span class="line del">-</span>
+<span class="line del">-].</span>
+<span class="line del">-</span>
 <span class="line del">-_The ST author should ensure that all security attributes identified in FIA_ATD.1 are adequately managed and protected._</span>
 <span class="line add">+_Application Note 9: The ST author should ensure that all security attributes identified in FIA_ATD.1 are adequately managed and protected._</span>
 <span class="line ctx"> </span>
@@ -388,7 +464,13 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> [BOILERPLATE]</span>
 <span class="line ctx"> ====</span>
-<span class="line hunk">@@ -850,13 +848,13 @@ The TSF shall maintain the roles [authorized administrator, authorized users, an</span>
+<span class="line ctx"> *FMT_SMR.1 Security roles*</span>
+<span class="line ctx"> ====</span>
+<span class="line ctx"> </span>
+<span class="line ctx"> *FMT_SMR.1.1*</span>
+<span class="line ctx"> </span>
+<span class="line del">-The TSF shall maintain the roles [authorized administrator, authorized users, and [assignment: additional authorized identified roles]].</span>
+<span class="line add">+The TSF shall maintain the roles [assignment: authorized administrator, authorized users, and [assignment: additional authorized identified roles]].</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> *FMT_SMR.1.2*</span>
 <span class="line ctx"> </span>
@@ -404,7 +486,7 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> ==== Configurable Session Limiting Mechanisms (FTA_MCS_EXT)</span>
 <span class="line ctx"> </span>
-<span class="line hunk">@@ -871,11 +869,11 @@ The TSF shall restrict the maximum number of concurrent sessions based on [selec</span>
+<span class="line hunk">@@ -871,11 +848,11 @@ The TSF shall restrict the maximum number of concurrent sessions based on [selec</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> *FTA_MCS_EXT.1.2*</span>
 <span class="line ctx"> </span>
@@ -417,7 +499,7 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> [BOILERPLATE]</span>
 <span class="line ctx"> ====</span>
-<span class="line hunk">@@ -985,29 +983,29 @@ ST authors are free to choose none, some or all SFRs defined in this chapter. It</span>
+<span class="line hunk">@@ -985,29 +962,29 @@ ST authors are free to choose none, some or all SFRs defined in this chapter. It</span>
 <span class="line ctx"> [BOILERPLATE]</span>
 <span class="line ctx"> ====</span>
 <span class="line ctx"> *FIA_USB_EXT.2 Enhanced user-subject binding*</span>
@@ -454,7 +536,7 @@
 <span class="line ctx"> |===</span>
 <span class="line ctx"> |Column 1: Security Functional Requirement</span>
 <span class="line ctx"> |Column 2: Auditable Event(s)</span>
-<span class="line hunk">@@ -1032,11 +1030,11 @@ The TSF shall ensure that TSF data is consistent when replicated between parts o</span>
+<span class="line hunk">@@ -1032,11 +1009,11 @@ The TSF shall ensure that TSF data is consistent when replicated between parts o</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> *FPT_TRC.1.2*</span>
 <span class="line ctx"> </span>
@@ -467,7 +549,7 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> ==== TOE access information (FTA_TAH_EXT)</span>
 <span class="line ctx"> </span>
-<span class="line hunk">@@ -1059,11 +1057,11 @@ attempt(s).</span>
+<span class="line hunk">@@ -1059,11 +1036,11 @@ attempt(s).</span>
 <span class="line ctx"> Upon successful session establishment, the TSF shall allow the date and time of</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> * the previous last successful session establishment, and</span>
@@ -480,7 +562,7 @@
 <span class="line ctx"> |===</span>
 <span class="line ctx"> |Column 1: Security Functional Requirement</span>
 <span class="line ctx"> |Column 2: Auditable Event(s)</span>
-<span class="line hunk">@@ -1131,11 +1129,11 @@ The TSF shall enforce the following rules on the initial association of user sec</span>
+<span class="line hunk">@@ -1131,11 +1108,11 @@ The TSF shall enforce the following rules on the initial association of user sec</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> The TSF shall enforce the following rules governing changes to the user security attributes associated with subjects acting on the behalf of users: [assignment: rules for the changing of attributes].</span>
 <span class="line ctx"> </span>
@@ -493,7 +575,7 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> ==== Limitation on multiple concurrent sessions (FTA_MCS_EXT)</span>
 <span class="line ctx"> </span>
-<span class="line hunk">@@ -1143,20 +1141,23 @@ The TSF shall enforce the following rules for the assignment of subject security</span>
+<span class="line hunk">@@ -1143,20 +1120,23 @@ The TSF shall enforce the following rules for the assignment of subject security</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> This family defines requirements to place limits on the number of concurrent sessions.</span>
 <span class="line ctx"> </span>
@@ -523,7 +605,7 @@
 <span class="line ctx"> ===== Management</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> The following actions could be considered for the management functions in FMT:</span>
-<span class="line hunk">@@ -1170,20 +1171,20 @@ The following actions should be auditable if FAU_GEN Security audit data generat</span>
+<span class="line hunk">@@ -1170,20 +1150,20 @@ The following actions should be auditable if FAU_GEN Security audit data generat</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> * rejection of a new session based on the limitation of multiple concurrent sessions</span>
 <span class="line ctx"> </span>
@@ -546,7 +628,7 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> The TSF shall restrict the maximum number of concurrent sessions based on [selection: User session locking as defined by FTA_MCS.1, [assignment: mechanism(s) for session limitation enforced by the TSF]].</span>
 <span class="line ctx"> </span>
-<span class="line hunk">@@ -1452,11 +1453,11 @@ The table below provides a rationale for the environmental security objectives.</span>
+<span class="line hunk">@@ -1452,11 +1432,11 @@ The table below provides a rationale for the environmental security objectives.</span>
 <span class="line ctx"> |OE.IT_I&amp;A supports the assumption implicitly.</span>
 <span class="line ctx"> |A.MANAGE The TOE security functionality is managed by one or more competent, authorized administrators. The system administrative personnel are not careless, willfully negligent, or hostile, and will follow and abide by the instructions provided by the guidance documentation.</span>
 <span class="line ctx"> |OE.ADMIN Those responsible for the TOE are competent and trustworthy individuals, capable of managing the TOE and the security of information it contains.</span>
@@ -559,7 +641,7 @@
 <span class="line ctx"> |OE.NO_GENERAL_PURPOSE There shall be no general-purpose computing capabilities (e.g., compilers or user applications) available on DMBS servers, other than those services necessary for the operation, administration, and support of the DBMS.</span>
 <span class="line ctx"> |OE.NO_GENERAL_PURPOSE The DBMS server must not include any general-purpose computing capabilities. This will protect the TSF data from malicious processes.</span>
 <span class="line ctx"> |A.PEER_FUNC_&amp;_MGT All external trusted IT systems trusted by the TSF to provide TSF data or services to the TOE, or to support the TSF in the enforcement of security policy decisions are assumed to correctly implement the functionality used by the TSF consistent with the assumptions defined for this functionality and to be properly managed and operate under security policy constraints compatible with those of the TOE.</span>
-<span class="line hunk">@@ -1464,14 +1465,14 @@ The table below provides a rationale for the environmental security objectives.</span>
+<span class="line hunk">@@ -1464,14 +1444,14 @@ The table below provides a rationale for the environmental security objectives.</span>
 <span class="line ctx"> |OE.IT_TRUSTED_SYSTEM supports this assumption by ensuring that remote systems supporting the TOE are managed in a manner consistent with the security policies applicable to the TOE.</span>
 <span class="line ctx"> |A.PHYSICAL The operational environment is assumed to provide the TOE with appropriate physical protection such that the TOE is not subject to physical attack that may compromise the security and/or interfere with the platform’s correct operation. This includes protection for the physical infrastructure on which the TOE depends for correct operation and hardware devices on which the TOE is executing.</span>
 <span class="line ctx"> |OE.PHYSICAL Those responsible for the TOE shall ensure that those parts of the TOE critical to enforcement of the security policy are protected from physical attack that might compromise IT security objectives. The protection shall be commensurate with the value of the IT assets protected by the TOE.</span>
@@ -576,7 +658,7 @@
 <span class="line ctx"> |OE.ADMIN Those responsible for the TOE are competent and trustworthy individuals, capable of managing the TOE and the security of information it contains.</span>
 <span class="line ctx"> |OE.ADMIN supports the policy by ensuring that the authorized administrators, responsible for granting authority to users, are trustworthy.</span>
 <span class="line ctx"> |</span>
-<span class="line hunk">@@ -1495,20 +1496,20 @@ The following table provides the rationale for the selection of the security fun</span>
+<span class="line hunk">@@ -1495,20 +1475,20 @@ The following table provides the rationale for the selection of the security fun</span>
 <span class="line ctx"> |O.ADMIN_ROLE The TOE shall provide roles that allow only authorized users to have access to administrative privileges that are specific to the role.</span>
 <span class="line ctx"> |FMT_SMR.1</span>
 <span class="line ctx"> |The TOE will establish, at least, an authorized administrator role and authorized user roles. Additional roles may also be specified.</span>
@@ -600,7 +682,7 @@
 <span class="line ctx"> |FDP_RIP.1 ensures that the contents of resources are not available upon reallocation of the resource.</span>
 <span class="line ctx"> |O.TOE_ACCESS The TOE shall provide mechanisms that control a user's logical access to user data and to the TSF.</span>
 <span class="line ctx"> |FDP_ACC.1 FDP_ACF.1 FIA_ATD.1 FTA_MCS_EXT.1 FTA_MCS.1 (Selection-Based) FTA_TSE.1 FTA_TAH_EXT.1 (Optional) FPT_TRC.1 (Optional)</span>
-<span class="line hunk">@@ -1578,12 +1579,12 @@ The following table provides the rationale for the selection of the security fun</span>
+<span class="line hunk">@@ -1578,12 +1558,12 @@ The following table provides the rationale for the selection of the security fun</span>
 <span class="line ctx"> |This requirement is satisfied by FIA_UID.2 which is hierarchical to FIA_UID.1.</span>
 <span class="line ctx"> |FPT_TRC.1</span>
 <span class="line ctx"> |FPT_ITT.1</span>
@@ -615,7 +697,7 @@
 <span class="line ctx"> |When FTA_MCS.1 is selected through FTA_MCS_EXT.1, this requirement is satisfied by FIA_UID.2 which is hierarchical to FIA_UID.1.</span>
 <span class="line ctx"> |FTA_TSE.1</span>
 <span class="line ctx"> |None</span>
-<span class="line hunk">@@ -1644,11 +1645,11 @@ The TSF shall restrict the maximum number of concurrent sessions that belong to</span>
+<span class="line hunk">@@ -1644,11 +1624,11 @@ The TSF shall restrict the maximum number of concurrent sessions that belong to</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> *FTA_MCS.1.2*</span>
 <span class="line ctx"> </span>

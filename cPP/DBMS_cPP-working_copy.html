@@ -572,9 +572,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_security_management_roles_fmt_smr"><span class="toc-title">Security management roles (FMT_SMR)</span><span class="toc-page">27</span></a></li>
 </ul>
 </li>
-<li><a href="#_class_toe_access_fta"><span class="toc-title">Class: TOE access (FTA)</span><span class="toc-page">28</span></a>
+<li><a href="#_class_toe_access_fta"><span class="toc-title">Class: TOE access (FTA)</span><span class="toc-page">27</span></a>
 <ul class="sectlevel3">
-<li><a href="#_configurable_session_limiting_mechanisms_fta_mcs_ext"><span class="toc-title">Configurable Session Limiting Mechanisms (FTA_MCS_EXT)</span><span class="toc-page">28</span></a></li>
+<li><a href="#_configurable_session_limiting_mechanisms_fta_mcs_ext"><span class="toc-title">Configurable Session Limiting Mechanisms (FTA_MCS_EXT)</span><span class="toc-page">27</span></a></li>
 <li><a href="#_toe_session_establishment_fta_tse"><span class="toc-title">TOE session establishment (FTA_TSE)</span><span class="toc-page">28</span></a></li>
 </ul>
 </li>
@@ -852,10 +852,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>The <strong>refinement</strong> operation is used to add detail to a requirement, and thus further restricts a requirement. Refinement of security requirements is denoted by <strong>bold text</strong> or in the case of deletions, by <strong><del>crossed out bold text</del></strong>.</p>
 </div>
 <div class="paragraph">
-<p>The <strong>selection</strong> operation is used to select one or more options provided by the CC in stating a requirement. Selections that have been made by the PP authors are denoted by <em>italicized text</em>, selections to be filled in by the Security Target (ST) author appear in square brackets with an indication that a selection is to be made, [selection:], and are not italicized.</p>
+<p>The <strong>selection</strong> operation is used to select one or more options provided by the CC in stating a requirement. Selections are denoted in square brackets using the CC operation designator, [selection: selection_value]. Selections to be filled in by the Security Target (ST) author retain the available choices after the designator.</p>
 </div>
 <div class="paragraph">
-<p>The <strong>assignment</strong> operation is used to assign a specific value to an unspecified parameter, such as the length of a password. Assignments that have been made by the cPP authors are denoted by showing the value in square brackets, [assignment_value], assignments to be filled in by the ST author appear in square brackets with an indication that an assignment is to be made [assignment:]. Assignments within selections are denoted by showing the value in square brackets and italics [<em>assignment_value</em>].</p>
+<p>The <strong>assignment</strong> operation is used to assign a specific value to an unspecified parameter, such as the length of a password. Assignments are denoted in square brackets using the CC operation designator, [assignment: assignment_value]. Assignments to be filled in by the Security Target (ST) author retain placeholder text after the designator.</p>
 </div>
 <div class="paragraph">
 <p>The <strong>iteration</strong> operation is used when a component is repeated with varying operations.</p>
@@ -1594,13 +1594,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Start-up and shutdown of the audit functions;</p>
 </li>
 <li>
-<p>All auditable events for the [minimum] level of audit listed in Table 4: Auditable Events; and</p>
+<p>All auditable events for the [selection: minimum] level of audit listed in Table 4: Auditable Events; and</p>
 </li>
 <li>
-<p>[Start-up and shutdown of the DBMS; and</p>
-</li>
-<li>
-<p>Use of special permissions (e.g., those often used by authorized administrators to circumvent access control policies).]</p>
+<p>[assignment: Start-up and shutdown of the DBMS; and use of special permissions (e.g., those often used by authorized administrators to circumvent access control policies).]</p>
 </li>
 </ul>
 </div>
@@ -1616,7 +1613,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Date and time of the auditable event, type of event, subject identity (if applicable), and the outcome (success or failure) of the event; and</p>
 </li>
 <li>
-<p>For each auditable event type, based on the auditable event definitions of the functional components included in the PP, PP-Module, functional package or ST, [information specified in column three of Table 4: Auditable Events].</p>
+<p>For each auditable event type, based on the auditable event definitions of the functional components included in the PP, PP-Module, functional package or ST, [assignment: information specified in column three of Table 4: Auditable Events].</p>
 </li>
 </ul>
 </div>
@@ -1805,7 +1802,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>FDP_ACC.1.1</strong></p>
 </div>
 <div class="paragraph">
-<p>The TSF shall enforce the [Discretionary Access Control policy] on [all subjects, all DBMS-controlled objects, and all operations among them].</p>
+<p>The TSF shall enforce the [assignment: Discretionary Access Control policy] on [assignment: all subjects, all DBMS-controlled objects, and all operations among them].</p>
 </div>
 </div>
 <div class="sect3">
@@ -1821,7 +1818,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>FDP_ACF.1.1</strong></p>
 </div>
 <div class="paragraph">
-<p>The TSF shall enforce the [Discretionary Access Control policy] to objects based on the following: [assignment: list of subjects and objects controlled under the indicated SFP, and for each, the SFP-relevant security attributes, or named groups of SFP-relevant security attributes].</p>
+<p>The TSF shall enforce the [assignment: Discretionary Access Control policy] to objects based on the following: [assignment: list of subjects and objects controlled under the indicated SFP, and for each, the SFP-relevant security attributes, or named groups of SFP-relevant security attributes].</p>
 </div>
 <div class="paragraph">
 <p><em>Application Note 4: DBMS-controlled objects may be implementation-specific objects that are presented to authorized users at the user interface to the DBMS. They may include, but are not limited to tables, records, files, indexes, views, constraints, stored queries, and metadata. Data structures that are not presented to authorized users at the DBMS user interface, but are used internally, are internal TSF data structures. Internal TSF data structures are not controlled according to the rules specified in FDP_ACF.1.</em></p>
@@ -1950,7 +1947,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>FMT_MSA.1.1(1)</strong></p>
 </div>
 <div class="paragraph">
-<p>The TSF shall enforce the [Discretionary Access Control policy] to restrict the ability to [manage] the security attributes [associated with users] to [authorized administrators].</p>
+<p>The TSF shall enforce the [assignment: Discretionary Access Control policy] to restrict the ability to [selection: [assignment: manage]] the security attributes [assignment: associated with users] to [assignment: authorized administrators].</p>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -1963,7 +1960,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>FMT_MSA.1.1(2)</strong></p>
 </div>
 <div class="paragraph">
-<p>The TSF shall enforce the [Discretionary Access Control policy] to restrict the ability to [manage] the security attributes [associated with objects] to [authorized administrators, authorized users].</p>
+<p>The TSF shall enforce the [assignment: Discretionary Access Control policy] to restrict the ability to [selection: [assignment: manage]] the security attributes [assignment: associated with objects] to [assignment: authorized administrators, authorized users].</p>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -1976,7 +1973,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>FMT_MSA.3.1</strong></p>
 </div>
 <div class="paragraph">
-<p>The TSF shall enforce the [Discretionary Access Control policy] to provide restrictive default values for security attributes that are used to enforce the SFP.</p>
+<p>The TSF shall enforce the [assignment: Discretionary Access Control policy] to provide [selection: restrictive] default values for security attributes that are used to enforce the SFP.</p>
 </div>
 <div class="paragraph">
 <p><em>Application Note 8: This requirement applies to new objects at the top-level (e.g., tables). When lower-level objects are created (e.g., rows, cells), these may inherit the permissions of the top-level objects by default. In other words, the permissions of the ‘child’ objects can take the permissions of the ‘parent’ objects by default.</em></p>
@@ -1985,7 +1982,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>FMT_MSA.3.2</strong></p>
 </div>
 <div class="paragraph">
-<p>The TSF shall allow <strong><del>the</del></strong> [no user] to specify alternative initial values to override the default values when an object or information is created.</p>
+<p>The TSF shall allow <strong><del>the</del></strong> [assignment: no user] to specify alternative initial values to override the default values when an object or information is created.</p>
 </div>
 </div>
 <div class="sect3">
@@ -2001,7 +1998,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>FMT_MTD.1.1</strong></p>
 </div>
 <div class="paragraph">
-<p>The TSF shall restrict the ability to [include or exclude] the [auditable events] to [authorized administrators].</p>
+<p>The TSF shall restrict the ability to [selection: [assignment: include or exclude]] the [assignment: auditable events] to [assignment: authorized administrators].</p>
 </div>
 </div>
 <div class="sect3">
@@ -2017,7 +2014,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>FMT_REV.1.1(1)</strong></p>
 </div>
 <div class="paragraph">
-<p>The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the users under the control of the TSF to [authorized administrator].</p>
+<p>The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the [selection: users] under the control of the TSF to [assignment: authorized administrator].</p>
 </div>
 <div class="paragraph">
 <p><strong>FMT_REV.1.2(1)</strong></p>
@@ -2036,7 +2033,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>FMT_REV.1.1(2)</strong></p>
 </div>
 <div class="paragraph">
-<p>The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the objects under the control of the TSF to [authorized administrator, authorized users].</p>
+<p>The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the [selection: objects] under the control of the TSF to [assignment: authorized administrator, authorized users].</p>
 </div>
 <div class="paragraph">
 <p><strong>FMT_REV.1.2(2)</strong></p>
@@ -2058,54 +2055,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>FMT_SMF.1.1</strong></p>
 </div>
 <div class="paragraph">
-<p>The TSF shall be capable of performing the following security management functions:</p>
-</div>
-<div class="paragraph">
-<p>[</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Database configuration</p>
-</li>
-<li>
-<p>User and role management</p>
-</li>
-<li>
-<p>Configure the session limiting mechanism</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>[selection:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Management of groups</p>
-</li>
-<li>
-<p>Adding or removing a database</p>
-</li>
-<li>
-<p>Revocation of security attributes</p>
-</li>
-<li>
-<p>Configuration of session establishment rules</p>
-</li>
-<li>
-<p>Configuration of TSF replication and consistency</p>
-</li>
-<li>
-<p>Configuration of TOE access information rules</p>
-</li>
-<li>
-<p>No other security management functions]</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>].</p>
+<p>The TSF shall be capable of performing the following security management functions: [assignment: Database configuration; User and role management; Configure the session limiting mechanism; [selection: Management of groups, Adding or removing a database, Revocation of security attributes, Configuration of session establishment rules, Configuration of TSF replication and consistency, Configuration of TOE access information rules, No other security management functions]; [assignment: any additional security management functions required to configure the claimed security]].</p>
 </div>
 <div class="paragraph">
 <p><em>Application Note 9: The ST author should ensure that all security attributes identified in FIA_ATD.1 are adequately managed and protected.</em></p>
@@ -2124,7 +2074,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>FMT_SMR.1.1</strong></p>
 </div>
 <div class="paragraph">
-<p>The TSF shall maintain the roles [authorized administrator, authorized users, and [assignment: additional authorized identified roles]].</p>
+<p>The TSF shall maintain the roles [assignment: authorized administrator, authorized users, and [assignment: additional authorized identified roles]].</p>
 </div>
 <div class="paragraph">
 <p><strong>FMT_SMR.1.2</strong></p>
@@ -3803,7 +3753,7 @@ The Supporting Document [SD] contains evaluation activities that refine the eval
 <div id="footer">
 <div id="footer-text">
 Version 2.0<br>
-Last updated 2026-06-25 10:55:29 -0500
+Last updated 2026-06-25 11:08:34 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

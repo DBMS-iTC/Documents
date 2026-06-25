@@ -122,9 +122,9 @@ The CC allows several operations to be performed on functional requirements; ref
 
 The *refinement* operation is used to add detail to a requirement, and thus further restricts a requirement. Refinement of security requirements is denoted by *bold text* or in the case of deletions, by *+++<del>+++crossed out bold text+++</del>+++*.
 
-The *selection* operation is used to select one or more options provided by the CC in stating a requirement. Selections that have been made by the PP authors are denoted by _italicized text_, selections to be filled in by the Security Target (ST) author appear in square brackets with an indication that a selection is to be made, [selection:], and are not italicized.
+The *selection* operation is used to select one or more options provided by the CC in stating a requirement. Selections are denoted in square brackets using the CC operation designator, [selection: selection_value]. Selections to be filled in by the Security Target (ST) author retain the available choices after the designator.
 
-The *assignment* operation is used to assign a specific value to an unspecified parameter, such as the length of a password. Assignments that have been made by the cPP authors are denoted by showing the value in square brackets, [assignment_value], assignments to be filled in by the ST author appear in square brackets with an indication that an assignment is to be made [assignment:]. Assignments within selections are denoted by showing the value in square brackets and italics [_assignment_value_].
+The *assignment* operation is used to assign a specific value to an unspecified parameter, such as the length of a password. Assignments are denoted in square brackets using the CC operation designator, [assignment: assignment_value]. Assignments to be filled in by the Security Target (ST) author retain placeholder text after the designator.
 
 The *iteration* operation is used when a component is repeated with varying operations.
 
@@ -523,16 +523,15 @@ The individual security functional requirements are specified in the sections be
 The TSF shall be able to generate audit data of the following auditable events:
 
 * Start-up and shutdown of the audit functions;
-* All auditable events for the [minimum] level of audit listed in Table 4: Auditable Events; and
-* [Start-up and shutdown of the DBMS; and
-* Use of special permissions (e.g., those often used by authorized administrators to circumvent access control policies).]
+* All auditable events for the [selection: minimum] level of audit listed in Table 4: Auditable Events; and
+* [assignment: Start-up and shutdown of the DBMS; and use of special permissions (e.g., those often used by authorized administrators to circumvent access control policies).]
 
 *FAU_GEN.1.2*
 
 The TSF shall record within the audit data at least the following information:
 
 * Date and time of the auditable event, type of event, subject identity (if applicable), and the outcome (success or failure) of the event; and
-* For each auditable event type, based on the auditable event definitions of the functional components included in the PP, PP-Module, functional package or ST, [information specified in column three of Table 4: Auditable Events].
+* For each auditable event type, based on the auditable event definitions of the functional components included in the PP, PP-Module, functional package or ST, [assignment: information specified in column three of Table 4: Auditable Events].
 
 _Application Note 1: In column 3 of the table below, “Additional Audit Data Contents” is used to designate data that should be included in the audit data if it “makes sense” in the context of the event which generates the data. If no other information is required (other than that listed in item a) above) for a particular auditable event type, then an assignment of “none” is acceptable._
 
@@ -643,7 +642,7 @@ _Application Note 3: The intent of this requirement is to capture sufficient aud
 
 *FDP_ACC.1.1*
 
-The TSF shall enforce the [Discretionary Access Control policy] on [all subjects, all DBMS-controlled objects, and all operations among them].
+The TSF shall enforce the [assignment: Discretionary Access Control policy] on [assignment: all subjects, all DBMS-controlled objects, and all operations among them].
 
 ==== Access control functions (FDP_ACF)
 
@@ -654,7 +653,7 @@ The TSF shall enforce the [Discretionary Access Control policy] on [all subjects
 
 *FDP_ACF.1.1*
 
-The TSF shall enforce the [Discretionary Access Control policy] to objects based on the following: [assignment: list of subjects and objects controlled under the indicated SFP, and for each, the SFP-relevant security attributes, or named groups of SFP-relevant security attributes].
+The TSF shall enforce the [assignment: Discretionary Access Control policy] to objects based on the following: [assignment: list of subjects and objects controlled under the indicated SFP, and for each, the SFP-relevant security attributes, or named groups of SFP-relevant security attributes].
 
 _Application Note 4: DBMS-controlled objects may be implementation-specific objects that are presented to authorized users at the user interface to the DBMS. They may include, but are not limited to tables, records, files, indexes, views, constraints, stored queries, and metadata. Data structures that are not presented to authorized users at the DBMS user interface, but are used internally, are internal TSF data structures. Internal TSF data structures are not controlled according to the rules specified in FDP_ACF.1._
 
@@ -737,7 +736,7 @@ The TSF shall require each user to be successfully identified before allowing an
 
 *FMT_MSA.1.1(1)*
 
-The TSF shall enforce the [Discretionary Access Control policy] to restrict the ability to [manage] the security attributes [associated with users] to [authorized administrators].
+The TSF shall enforce the [assignment: Discretionary Access Control policy] to restrict the ability to [selection: [assignment: manage]] the security attributes [assignment: associated with users] to [assignment: authorized administrators].
 
 [BOILERPLATE]
 ====
@@ -746,7 +745,7 @@ The TSF shall enforce the [Discretionary Access Control policy] to restrict the 
 
 *FMT_MSA.1.1(2)*
 
-The TSF shall enforce the [Discretionary Access Control policy] to restrict the ability to [manage] the security attributes [associated with objects] to [authorized administrators, authorized users].
+The TSF shall enforce the [assignment: Discretionary Access Control policy] to restrict the ability to [selection: [assignment: manage]] the security attributes [assignment: associated with objects] to [assignment: authorized administrators, authorized users].
 
 [BOILERPLATE]
 ====
@@ -755,13 +754,13 @@ The TSF shall enforce the [Discretionary Access Control policy] to restrict the 
 
 *FMT_MSA.3.1*
 
-The TSF shall enforce the [Discretionary Access Control policy] to provide restrictive default values for security attributes that are used to enforce the SFP.
+The TSF shall enforce the [assignment: Discretionary Access Control policy] to provide [selection: restrictive] default values for security attributes that are used to enforce the SFP.
 
 _Application Note 8: This requirement applies to new objects at the top-level (e.g., tables). When lower-level objects are created (e.g., rows, cells), these may inherit the permissions of the top-level objects by default. In other words, the permissions of the ‘child’ objects can take the permissions of the ‘parent’ objects by default._
 
 *FMT_MSA.3.2*
 
-The TSF shall allow *+++<del>+++the+++</del>+++* [no user] to specify alternative initial values to override the default values when an object or information is created.
+The TSF shall allow *+++<del>+++the+++</del>+++* [assignment: no user] to specify alternative initial values to override the default values when an object or information is created.
 
 ==== Management of TSF data (FMT_MTD)
 
@@ -772,7 +771,7 @@ The TSF shall allow *+++<del>+++the+++</del>+++* [no user] to specify alternativ
 
 *FMT_MTD.1.1*
 
-The TSF shall restrict the ability to [include or exclude] the [auditable events] to [authorized administrators].
+The TSF shall restrict the ability to [selection: [assignment: include or exclude]] the [assignment: auditable events] to [assignment: authorized administrators].
 
 ==== Revocation (FMT_REV)
 
@@ -783,7 +782,7 @@ The TSF shall restrict the ability to [include or exclude] the [auditable events
 
 *FMT_REV.1.1(1)*
 
-The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the users under the control of the TSF to [authorized administrator].
+The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the [selection: users] under the control of the TSF to [assignment: authorized administrator].
 
 *FMT_REV.1.2(1)*
 
@@ -796,7 +795,7 @@ The TSF shall enforce the rules [assignment: specification of revocation rules].
 
 *FMT_REV.1.1(2)*
 
-The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the objects under the control of the TSF to [authorized administrator, authorized users].
+The TSF shall restrict the ability to revoke [assignment: list of security attributes] associated with the [selection: objects] under the control of the TSF to [assignment: authorized administrator, authorized users].
 
 *FMT_REV.1.2(2)*
 
@@ -811,27 +810,7 @@ The TSF shall enforce the rules [assignment: specification of revocation rules].
 
 *FMT_SMF.1.1*
 
-The TSF shall be capable of performing the following security management functions:
-
-[
-
-* Database configuration
-* User and role management
-* Configure the session limiting mechanism
-
-[selection:
-
-* Management of groups
-* Adding or removing a database
-* Revocation of security attributes
-* Configuration of session establishment rules
-* Configuration of TSF replication and consistency
-* Configuration of TOE access information rules
-* No other security management functions]
-
-[assignment: any additional security management functions required to configure the claimed security]
-
-].
+The TSF shall be capable of performing the following security management functions: [assignment: Database configuration; User and role management; Configure the session limiting mechanism; [selection: Management of groups, Adding or removing a database, Revocation of security attributes, Configuration of session establishment rules, Configuration of TSF replication and consistency, Configuration of TOE access information rules, No other security management functions]; [assignment: any additional security management functions required to configure the claimed security]].
 
 _Application Note 9: The ST author should ensure that all security attributes identified in FIA_ATD.1 are adequately managed and protected._
 
@@ -844,7 +823,7 @@ _Application Note 9: The ST author should ensure that all security attributes id
 
 *FMT_SMR.1.1*
 
-The TSF shall maintain the roles [authorized administrator, authorized users, and [assignment: additional authorized identified roles]].
+The TSF shall maintain the roles [assignment: authorized administrator, authorized users, and [assignment: additional authorized identified roles]].
 
 *FMT_SMR.1.2*
 
