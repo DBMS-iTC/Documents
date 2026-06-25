@@ -1,5 +1,5 @@
 diff --git a/cPP/DBMS_cPP-working_copy.adoc b/cPP/DBMS_cPP-working_copy.adoc
-index 2190b2a..08f01e1 100644
+index 2190b2a..520142b 100644
 --- a/cPP/DBMS_cPP-working_copy.adoc
 +++ b/cPP/DBMS_cPP-working_copy.adoc
 @@ -74,39 +74,39 @@ Although the cPPs and SDs may contain minor editorial errors, cPPs are recognize
@@ -53,7 +53,25 @@ index 2190b2a..08f01e1 100644
  |DBMS iTC Status https://www.commoncriteriaportal.org/files/communities/Status.DBMS.pdf
  |[TD_DBMS_B_001]
  |Technical Decision TD_DBMS_B_001: Update to Role Definitions and Security Attribute Management for Consistency, published 29 July 2025
-@@ -132,11 +132,11 @@ Iteration is denoted by showing the iteration number in parenthesis following th
+@@ -118,25 +118,25 @@ Other Documents
+ 
+ Except for replacing United Kingdom spelling with American spelling, the notation, formatting, and conventions used in this cPP are consistent with CC:2022. Selected presentation choices are discussed here to aid the cPP reader.
+ 
+ The CC allows several operations to be performed on functional requirements; refinement, selection, assignment, and iteration are defined in clause 8 of Part 1 of the CC [CC1]. Each of these operations is used in this Protection Profile (PP).
+ 
+-The refinement operation is used to add detail to a requirement, and thus further restricts a requirement. Refinement of security requirements is denoted by bold text or in the case of deletions, by crossed out bold text.
++The *refinement* operation is used to add detail to a requirement, and thus further restricts a requirement. Refinement of security requirements is denoted by *bold text* or in the case of deletions, by *+++<del>+++crossed out bold text+++</del>+++*.
+ 
+-The selection operation is used to select one or more options provided by the CC in stating a requirement. Selections that have been made by the PP authors are denoted by italicized text, selections to be filled in by the Security Target (ST) author appear in square brackets with an indication that a selection is to be made, [selection:], and are not italicized.
++The *selection* operation is used to select one or more options provided by the CC in stating a requirement. Selections that have been made by the PP authors are denoted by _italicized text_, selections to be filled in by the Security Target (ST) author appear in square brackets with an indication that a selection is to be made, [selection:], and are not italicized.
+ 
+-The assignment operation is used to assign a specific value to an unspecified parameter, such as the length of a password. Assignments that have been made by the cPP authors are denoted by showing the value in square brackets, [assignment_value], assignments to be filled in by the ST author appear in square brackets with an indication that an assignment is to be made [assignment:]. Assignments within selections are denoted by showing the value in square brackets and italics [assignment_value].
++The *assignment* operation is used to assign a specific value to an unspecified parameter, such as the length of a password. Assignments that have been made by the cPP authors are denoted by showing the value in square brackets, [assignment_value], assignments to be filled in by the ST author appear in square brackets with an indication that an assignment is to be made [assignment:]. Assignments within selections are denoted by showing the value in square brackets and italics [_assignment_value_].
+ 
+-The iteration operation is used when a component is repeated with varying operations.
++The *iteration* operation is used when a component is repeated with varying operations.
+ 
+ Iteration is denoted by showing the iteration number in parenthesis following the component identifier, (iteration number).
  
  The CC paradigm also allows protection profile authors to create their own requirements. Such requirements are termed “extended requirements” and are permitted if the CC does not offer suitable requirements to meet the author’s needs. Extended requirements must be identified and are required to use the CC class/family/component model in articulating the requirements. In this cPP, extended requirements will be indicated with the “_EXT” following the component name.
  
@@ -135,20 +153,22 @@ index 2190b2a..08f01e1 100644
  *FAU_GEN.2.1*
  
 -For audit events resulting from actions of identified users, the TSF shall be able to associate each auditable event with the identity of the user that caused the event.
-+For audit events resulting from actions of identified users and any identified groups, the TSF shall be able to associate each auditable event with the identity of the [selection: user, user and group] that caused the event.
++For audit events resulting from actions of identified users *and any identified groups*, the TSF shall be able to associate each auditable event with the identity of the [selection: user, user and group] that caused the event.
  
  ==== Security audit event selection (FAU_SEL)
  
  [BOILERPLATE]
  ====
-@@ -625,16 +623,16 @@ For audit events resulting from actions of identified users, the TSF shall be ab
+@@ -624,17 +622,17 @@ For audit events resulting from actions of identified users, the TSF shall be ab
+ 
  *FAU_SEL.1.1*
  
  The TSF shall be able to select the set of events to be audited from the set of all auditable events based on the following attributes:
  
- * user identity;
+-* user identity;
 -* [selection: object identity, user identity, subject identity, host identity, group identity, event type, success of auditable security events, failure of auditable security events];
-+* [selection: object identity, subject identity, host identity, group identity, event type, success of auditable security events, failure of auditable security events];
++* *user identity*;
++* [selection: object identity, *+++<del>+++user identity+++</del>+++*, subject identity, host identity, group identity, event type, success of auditable security events, failure of auditable security events];
  * [assignment: list of additional attributes that audit selectivity is based upon].
  
 -_“event type” is to be defined by the ST author; the intent is to be able to include or exclude classes of audit events._
@@ -228,7 +248,7 @@ index 2190b2a..08f01e1 100644
  *FMT_MSA.3.2*
  
 -The TSF shall allow the [no user] to specify alternative initial values to override the default values when an object or information is created.
-+The TSF shall allow [no user] to specify alternative initial values to override the default values when an object or information is created.
++The TSF shall allow *+++<del>+++the+++</del>+++* [no user] to specify alternative initial values to override the default values when an object or information is created.
  
  ==== Management of TSF data (FMT_MTD)
  
@@ -302,11 +322,32 @@ index 2190b2a..08f01e1 100644
  
  [BOILERPLATE]
  ====
-@@ -1001,13 +999,13 @@ The TSF shall enforce the following rules governing changes to the user security
+@@ -985,29 +983,29 @@ ST authors are free to choose none, some or all SFRs defined in this chapter. It
+ [BOILERPLATE]
+ ====
+ *FIA_USB_EXT.2 Enhanced user-subject binding*
+ ====
  
- *FIA_USB_EXT.2 .4*
+-*FIA_USB_EXT.2 .1*
++*FIA_USB_EXT.2.1*
  
- The TSF shall enforce the following rules for the assignment of subject security attributes not derived from user security attributes when a subject is created: [assignment: rules for the initial association of the subject security attributes not derived from user security attributes].
+ The TSF shall associate the following user security attributes with subjects acting on the behalf of that user: [assignment: list of user security attributes].
+ 
+-*FIA_USB_EXT.2 .2*
++*FIA_USB_EXT.2.2*
+ 
+ The TSF shall enforce the following rules on the initial association of user security attributes with subjects acting on the behalf of users: [assignment: rules for the initial association of attributes].
+ 
+-*FIA_USB_EXT.2 .3*
++*FIA_USB_EXT.2.3*
+ 
+ The TSF shall enforce the following rules governing changes to the user security attributes associated with subjects acting on the behalf of users: [assignment: rules for the changing of attributes].
+ 
+-*FIA_USB_EXT.2 .4*
++*FIA_USB_EXT.2.4*
+ 
+-The TSF shall enforce the following rules for the assignment of subject security attributes not derived from user security attributes when a subject is created: [assignment: rules for the initial association of the subject security attributes not derived from user security attributes].
++*The TSF shall enforce the following rules for the assignment of subject security attributes not derived from user security attributes when a subject is created: [assignment: rules for the initial association of the subject security attributes not derived from user security attributes].*
  
 -_Some administrative tasks may be delegated to specific users (which by that delegation become administrators although they can only perform some limited administrative actions). Ensuring that those users cannot extend the administrative rights assigned to them is a security functionality the TOE has to provide._
 +_Application Note 13: Some administrative tasks may be delegated to specific users (which by that delegation become administrators although they can only perform some limited administrative actions). Ensuring that those users cannot extend the administrative rights assigned to them is a security functionality the TOE has to provide._
@@ -344,6 +385,19 @@ index 2190b2a..08f01e1 100644
  |===
  |Column 1: Security Functional Requirement
  |Column 2: Auditable Event(s)
+@@ -1131,11 +1129,11 @@ The TSF shall enforce the following rules on the initial association of user sec
+ 
+ The TSF shall enforce the following rules governing changes to the user security attributes associated with subjects acting on the behalf of users: [assignment: rules for the changing of attributes].
+ 
+ *FIA_USB_EXT.2.4*
+ 
+-The TSF shall enforce the following rules for the assignment of subject security attributes not derived from user security attributes when a subject is created: [assignment: rules for the initial association of the subject security attributes not derived from user security attributes].
++*The TSF shall enforce the following rules for the assignment of subject security attributes not derived from user security attributes when a subject is created: [assignment: rules for the initial association of the subject security attributes not derived from user security attributes].*
+ 
+ === Class: TOE access (FTA)
+ 
+ ==== Limitation on multiple concurrent sessions (FTA_MCS_EXT)
+ 
 @@ -1143,20 +1141,23 @@ The TSF shall enforce the following rules for the assignment of subject security
  
  This family defines requirements to place limits on the number of concurrent sessions.

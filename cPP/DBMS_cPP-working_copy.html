@@ -849,16 +849,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>The CC allows several operations to be performed on functional requirements; refinement, selection, assignment, and iteration are defined in clause 8 of Part 1 of the CC [CC1]. Each of these operations is used in this Protection Profile (PP).</p>
 </div>
 <div class="paragraph">
-<p>The refinement operation is used to add detail to a requirement, and thus further restricts a requirement. Refinement of security requirements is denoted by bold text or in the case of deletions, by crossed out bold text.</p>
+<p>The <strong>refinement</strong> operation is used to add detail to a requirement, and thus further restricts a requirement. Refinement of security requirements is denoted by <strong>bold text</strong> or in the case of deletions, by <strong><del>crossed out bold text</del></strong>.</p>
 </div>
 <div class="paragraph">
-<p>The selection operation is used to select one or more options provided by the CC in stating a requirement. Selections that have been made by the PP authors are denoted by italicized text, selections to be filled in by the Security Target (ST) author appear in square brackets with an indication that a selection is to be made, [selection:], and are not italicized.</p>
+<p>The <strong>selection</strong> operation is used to select one or more options provided by the CC in stating a requirement. Selections that have been made by the PP authors are denoted by <em>italicized text</em>, selections to be filled in by the Security Target (ST) author appear in square brackets with an indication that a selection is to be made, [selection:], and are not italicized.</p>
 </div>
 <div class="paragraph">
-<p>The assignment operation is used to assign a specific value to an unspecified parameter, such as the length of a password. Assignments that have been made by the cPP authors are denoted by showing the value in square brackets, [assignment_value], assignments to be filled in by the ST author appear in square brackets with an indication that an assignment is to be made [assignment:]. Assignments within selections are denoted by showing the value in square brackets and italics [assignment_value].</p>
+<p>The <strong>assignment</strong> operation is used to assign a specific value to an unspecified parameter, such as the length of a password. Assignments that have been made by the cPP authors are denoted by showing the value in square brackets, [assignment_value], assignments to be filled in by the ST author appear in square brackets with an indication that an assignment is to be made [assignment:]. Assignments within selections are denoted by showing the value in square brackets and italics [<em>assignment_value</em>].</p>
 </div>
 <div class="paragraph">
-<p>The iteration operation is used when a component is repeated with varying operations.</p>
+<p>The <strong>iteration</strong> operation is used when a component is repeated with varying operations.</p>
 </div>
 <div class="paragraph">
 <p>Iteration is denoted by showing the iteration number in parenthesis following the component identifier, (iteration number).</p>
@@ -1751,7 +1751,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>FAU_GEN.2.1</strong></p>
 </div>
 <div class="paragraph">
-<p>For audit events resulting from actions of identified users and any identified groups, the TSF shall be able to associate each auditable event with the identity of the [selection: user, user and group] that caused the event.</p>
+<p>For audit events resulting from actions of identified users <strong>and any identified groups</strong>, the TSF shall be able to associate each auditable event with the identity of the [selection: user, user and group] that caused the event.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1772,10 +1772,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>user identity;</p>
+<p><strong>user identity</strong>;</p>
 </li>
 <li>
-<p>[selection: object identity, subject identity, host identity, group identity, event type, success of auditable security events, failure of auditable security events];</p>
+<p>[selection: object identity, <strong><del>user identity</del></strong>, subject identity, host identity, group identity, event type, success of auditable security events, failure of auditable security events];</p>
 </li>
 <li>
 <p>[assignment: list of additional attributes that audit selectivity is based upon].</p>
@@ -1985,7 +1985,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>FMT_MSA.3.2</strong></p>
 </div>
 <div class="paragraph">
-<p>The TSF shall allow [no user] to specify alternative initial values to override the default values when an object or information is created.</p>
+<p>The TSF shall allow <strong><del>the</del></strong> [no user] to specify alternative initial values to override the default values when an object or information is created.</p>
 </div>
 </div>
 <div class="sect3">
@@ -2415,28 +2415,28 @@ The Supporting Document [SD] contains evaluation activities that refine the eval
 </div>
 </div>
 <div class="paragraph">
-<p><strong>FIA_USB_EXT.2 .1</strong></p>
+<p><strong>FIA_USB_EXT.2.1</strong></p>
 </div>
 <div class="paragraph">
 <p>The TSF shall associate the following user security attributes with subjects acting on the behalf of that user: [assignment: list of user security attributes].</p>
 </div>
 <div class="paragraph">
-<p><strong>FIA_USB_EXT.2 .2</strong></p>
+<p><strong>FIA_USB_EXT.2.2</strong></p>
 </div>
 <div class="paragraph">
 <p>The TSF shall enforce the following rules on the initial association of user security attributes with subjects acting on the behalf of users: [assignment: rules for the initial association of attributes].</p>
 </div>
 <div class="paragraph">
-<p><strong>FIA_USB_EXT.2 .3</strong></p>
+<p><strong>FIA_USB_EXT.2.3</strong></p>
 </div>
 <div class="paragraph">
 <p>The TSF shall enforce the following rules governing changes to the user security attributes associated with subjects acting on the behalf of users: [assignment: rules for the changing of attributes].</p>
 </div>
 <div class="paragraph">
-<p><strong>FIA_USB_EXT.2 .4</strong></p>
+<p><strong>FIA_USB_EXT.2.4</strong></p>
 </div>
 <div class="paragraph">
-<p>The TSF shall enforce the following rules for the assignment of subject security attributes not derived from user security attributes when a subject is created: [assignment: rules for the initial association of the subject security attributes not derived from user security attributes].</p>
+<p><strong>The TSF shall enforce the following rules for the assignment of subject security attributes not derived from user security attributes when a subject is created: [assignment: rules for the initial association of the subject security attributes not derived from user security attributes].</strong></p>
 </div>
 <div class="paragraph">
 <p><em>Application Note 13: Some administrative tasks may be delegated to specific users (which by that delegation become administrators although they can only perform some limited administrative actions). Ensuring that those users cannot extend the administrative rights assigned to them is a security functionality the TOE has to provide.</em></p>
@@ -2647,7 +2647,7 @@ The Supporting Document [SD] contains evaluation activities that refine the eval
 <p><strong>FIA_USB_EXT.2.4</strong></p>
 </div>
 <div class="paragraph">
-<p>The TSF shall enforce the following rules for the assignment of subject security attributes not derived from user security attributes when a subject is created: [assignment: rules for the initial association of the subject security attributes not derived from user security attributes].</p>
+<p><strong>The TSF shall enforce the following rules for the assignment of subject security attributes not derived from user security attributes when a subject is created: [assignment: rules for the initial association of the subject security attributes not derived from user security attributes].</strong></p>
 </div>
 </div>
 </div>
@@ -3803,7 +3803,7 @@ The Supporting Document [SD] contains evaluation activities that refine the eval
 <div id="footer">
 <div id="footer-text">
 Version 2.0<br>
-Last updated 2026-06-25 10:32:59 -0500
+Last updated 2026-06-25 10:55:29 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
