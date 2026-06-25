@@ -1,5 +1,5 @@
 diff --git a/SD/DBMS_SD-working_copy.adoc b/SD/DBMS_SD-working_copy.adoc
-index ec97f64..be16358 100644
+index ec97f64..6efd22a 100644
 --- a/SD/DBMS_SD-working_copy.adoc
 +++ b/SD/DBMS_SD-working_copy.adoc
 @@ -131,11 +131,11 @@ The evaluator shall check the guidance documentation to ensure that, as a minimu
@@ -12,6 +12,19 @@ index ec97f64..be16358 100644
 +Note that the testing here may be accomplished in conjunction with the testing of other security mechanisms.
  
  ==== FAU_GEN.2 User identity association
+ 
+ *TSS*
+ 
+@@ -145,11 +145,11 @@ See FAU_GEN.1
+ 
+ See FAU_GEN.1
+ 
+ *Tests*
+ 
+-This activity is accomplished in conjunction with the testing of FAU_GEN.1.1.
++This activity is accomplished in conjunction with the testing of FAU_GEN.1.1. For each generated auditable event caused by an identified user, the evaluator shall verify that the audit data associates the event with the user identity that caused the event. If the ST selects "user and group" in FAU_GEN.2.1, the evaluator shall also verify that the audit data associates the event with the applicable group identity.
+ 
+ ==== FAU_SEL.1 Selective audit
  
  *TSS*
  
