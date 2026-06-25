@@ -612,7 +612,7 @@ _Application Note 1: In column 3 of the table below, “Additional Audit Data Co
 
 *FAU_GEN.2.1*
 
-For audit events resulting from actions of identified users *and any identified groups*, the TSF shall be able to associate each auditable event with the identity of the [selection: user, user and group] that caused the event.
+For audit events resulting from actions of identified users *and any identified groups*, the TSF shall be able to associate each auditable event with the identity of the [selection: user, user *and group*] that caused the event.
 
 ==== Security audit event selection (FAU_SEL)
 
@@ -626,7 +626,7 @@ For audit events resulting from actions of identified users *and any identified 
 The TSF shall be able to select the set of events to be audited from the set of all auditable events based on the following attributes:
 
 * *user identity*;
-* [selection: object identity, *+++<del>+++user identity+++</del>+++*, subject identity, host identity, group identity, event type, success of auditable security events, failure of auditable security events];
+* [selection: object identity, *+++<del>+++user identity+++</del>+++*, subject identity, host identity, *group identity*, event type, *success of auditable security events*, *failure of auditable security events*];
 * [assignment: list of additional attributes that audit selectivity is based upon].
 
 _Application Note 2: “event type” is to be defined by the ST author; the intent is to be able to include or exclude classes of audit events._
@@ -682,7 +682,7 @@ The TSF shall explicitly deny access of subjects to objects based on the followi
 
 *FDP_RIP.1.1*
 
-The TSF shall ensure that any previous information content of a resource is made unavailable upon the allocation of the resource to the following objects: [assignment: list of objects].
+The TSF shall ensure that any previous information content of a resource is made unavailable upon the [selection: allocation of the resource to] the following objects: [assignment: list of objects].
 
 === Class: Identification and authentication (FIA)
 

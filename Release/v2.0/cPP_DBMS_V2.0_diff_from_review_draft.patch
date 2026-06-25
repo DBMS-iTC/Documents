@@ -1,5 +1,5 @@
 diff --git a/cPP/DBMS_cPP-working_copy.adoc b/cPP/DBMS_cPP-working_copy.adoc
-index 2190b2a..3d21e29 100644
+index 2190b2a..ef22938 100644
 --- a/cPP/DBMS_cPP-working_copy.adoc
 +++ b/cPP/DBMS_cPP-working_copy.adoc
 @@ -74,39 +74,39 @@ Although the cPPs and SDs may contain minor editorial errors, cPPs are recognize
@@ -180,7 +180,7 @@ index 2190b2a..3d21e29 100644
  *FAU_GEN.2.1*
  
 -For audit events resulting from actions of identified users, the TSF shall be able to associate each auditable event with the identity of the user that caused the event.
-+For audit events resulting from actions of identified users *and any identified groups*, the TSF shall be able to associate each auditable event with the identity of the [selection: user, user and group] that caused the event.
++For audit events resulting from actions of identified users *and any identified groups*, the TSF shall be able to associate each auditable event with the identity of the [selection: user, user *and group*] that caused the event.
  
  ==== Security audit event selection (FAU_SEL)
  
@@ -195,7 +195,7 @@ index 2190b2a..3d21e29 100644
 -* user identity;
 -* [selection: object identity, user identity, subject identity, host identity, group identity, event type, success of auditable security events, failure of auditable security events];
 +* *user identity*;
-+* [selection: object identity, *+++<del>+++user identity+++</del>+++*, subject identity, host identity, group identity, event type, success of auditable security events, failure of auditable security events];
++* [selection: object identity, *+++<del>+++user identity+++</del>+++*, subject identity, host identity, *group identity*, event type, *success of auditable security events*, *failure of auditable security events*];
  * [assignment: list of additional attributes that audit selectivity is based upon].
  
 -_“event type” is to be defined by the ST author; the intent is to be able to include or exclude classes of audit events._
@@ -239,9 +239,14 @@ index 2190b2a..3d21e29 100644
  
  The TSF shall enforce the following rules to determine if an operation among controlled subjects and controlled objects is allowed: [assignment: rules governing access among controlled subjects and controlled objects using controlled operations on controlled objects].
  
-@@ -685,11 +684,11 @@ The TSF shall explicitly deny access of subjects to objects based on the followi
+@@ -681,15 +680,15 @@ The TSF shall explicitly deny access of subjects to objects based on the followi
+ *FDP_RIP.1 Subset residual information protection*
+ ====
  
- The TSF shall ensure that any previous information content of a resource is made unavailable upon the allocation of the resource to the following objects: [assignment: list of objects].
+ *FDP_RIP.1.1*
+ 
+-The TSF shall ensure that any previous information content of a resource is made unavailable upon the allocation of the resource to the following objects: [assignment: list of objects].
++The TSF shall ensure that any previous information content of a resource is made unavailable upon the [selection: allocation of the resource to] the following objects: [assignment: list of objects].
  
  === Class: Identification and authentication (FIA)
  

@@ -87,14 +87,14 @@
   <div class="meta-box">
     <p><strong>Baseline:</strong> 10dde95 - removed pdf headers / footers</p>
     <p><strong>Compared to:</strong> current working tree final publication source</p>
-    <p><strong>Generated:</strong> 2026-06-25 17:56:06 UTC</p>
+    <p><strong>Generated:</strong> 2026-06-25 18:08:23 UTC</p>
   </div>
   <div class="summary">
-    <span class="pill adds">+86 additions</span>
-    <span class="pill dels">-104 deletions</span>
+    <span class="pill adds">+87 additions</span>
+    <span class="pill dels">-105 deletions</span>
   </div>
   <pre class="diff"><span class="line meta">diff --git a/cPP/DBMS_cPP-working_copy.adoc b/cPP/DBMS_cPP-working_copy.adoc</span>
-<span class="line meta">index 2190b2a..3d21e29 100644</span>
+<span class="line meta">index 2190b2a..ef22938 100644</span>
 <span class="line meta">--- a/cPP/DBMS_cPP-working_copy.adoc</span>
 <span class="line meta">+++ b/cPP/DBMS_cPP-working_copy.adoc</span>
 <span class="line hunk">@@ -74,39 +74,39 @@ Although the cPPs and SDs may contain minor editorial errors, cPPs are recognize</span>
@@ -275,7 +275,7 @@
 <span class="line ctx"> *FAU_GEN.2.1*</span>
 <span class="line ctx"> </span>
 <span class="line del">-For audit events resulting from actions of identified users, the TSF shall be able to associate each auditable event with the identity of the user that caused the event.</span>
-<span class="line add">+For audit events resulting from actions of identified users *and any identified groups*, the TSF shall be able to associate each auditable event with the identity of the [selection: user, user and group] that caused the event.</span>
+<span class="line add">+For audit events resulting from actions of identified users *and any identified groups*, the TSF shall be able to associate each auditable event with the identity of the [selection: user, user *and group*] that caused the event.</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> ==== Security audit event selection (FAU_SEL)</span>
 <span class="line ctx"> </span>
@@ -290,7 +290,7 @@
 <span class="line del">-* user identity;</span>
 <span class="line del">-* [selection: object identity, user identity, subject identity, host identity, group identity, event type, success of auditable security events, failure of auditable security events];</span>
 <span class="line add">+* *user identity*;</span>
-<span class="line add">+* [selection: object identity, *+++&lt;del&gt;+++user identity+++&lt;/del&gt;+++*, subject identity, host identity, group identity, event type, success of auditable security events, failure of auditable security events];</span>
+<span class="line add">+* [selection: object identity, *+++&lt;del&gt;+++user identity+++&lt;/del&gt;+++*, subject identity, host identity, *group identity*, event type, *success of auditable security events*, *failure of auditable security events*];</span>
 <span class="line ctx"> * [assignment: list of additional attributes that audit selectivity is based upon].</span>
 <span class="line ctx"> </span>
 <span class="line del">-_“event type” is to be defined by the ST author; the intent is to be able to include or exclude classes of audit events._</span>
@@ -334,9 +334,14 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> The TSF shall enforce the following rules to determine if an operation among controlled subjects and controlled objects is allowed: [assignment: rules governing access among controlled subjects and controlled objects using controlled operations on controlled objects].</span>
 <span class="line ctx"> </span>
-<span class="line hunk">@@ -685,11 +684,11 @@ The TSF shall explicitly deny access of subjects to objects based on the followi</span>
+<span class="line hunk">@@ -681,15 +680,15 @@ The TSF shall explicitly deny access of subjects to objects based on the followi</span>
+<span class="line ctx"> *FDP_RIP.1 Subset residual information protection*</span>
+<span class="line ctx"> ====</span>
 <span class="line ctx"> </span>
-<span class="line ctx"> The TSF shall ensure that any previous information content of a resource is made unavailable upon the allocation of the resource to the following objects: [assignment: list of objects].</span>
+<span class="line ctx"> *FDP_RIP.1.1*</span>
+<span class="line ctx"> </span>
+<span class="line del">-The TSF shall ensure that any previous information content of a resource is made unavailable upon the allocation of the resource to the following objects: [assignment: list of objects].</span>
+<span class="line add">+The TSF shall ensure that any previous information content of a resource is made unavailable upon the [selection: allocation of the resource to] the following objects: [assignment: list of objects].</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> === Class: Identification and authentication (FIA)</span>
 <span class="line ctx"> </span>

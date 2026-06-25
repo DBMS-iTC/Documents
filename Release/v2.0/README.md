@@ -1,6 +1,6 @@
 # DBMS Version 2.0 Release Artifacts
 
-Generated: 2026-06-25 17:56:06 UTC
+Generated: 2026-06-25 18:08:23 UTC
 Diff baseline: 10dde95 - removed pdf headers / footers
 PDF renderer: Asciidoctor PDF via WSL
 
