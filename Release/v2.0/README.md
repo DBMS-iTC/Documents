@@ -1,6 +1,6 @@
 # DBMS Version 2.0 Release Artifacts
 
-Generated: 2026-06-24 21:22:04 UTC
+Generated: 2026-06-25 15:19:50 UTC
 Diff baseline: 10dde95 - removed pdf headers / footers
 
 ## Clean publication files
