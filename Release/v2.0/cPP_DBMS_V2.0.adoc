@@ -189,6 +189,8 @@ _Application Note 1: This is an application note._
 
 toc::[]
 
+:sectnums:
+
 == cPP Introduction
 
 === cPP Reference Identification
