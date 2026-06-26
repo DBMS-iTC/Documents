@@ -87,14 +87,14 @@
   <div class="meta-box">
     <p><strong>Baseline:</strong> 10dde95 - removed pdf headers / footers</p>
     <p><strong>Compared to:</strong> current working tree final publication source</p>
-    <p><strong>Generated:</strong> 2026-06-26 16:09:40 UTC</p>
+    <p><strong>Generated:</strong> 2026-06-26 16:23:34 UTC</p>
   </div>
   <div class="summary">
-    <span class="pill adds">+90 additions</span>
-    <span class="pill dels">-106 deletions</span>
+    <span class="pill adds">+91 additions</span>
+    <span class="pill dels">-119 deletions</span>
   </div>
   <pre class="diff"><span class="line meta">diff --git a/cPP/DBMS_cPP-working_copy.adoc b/cPP/DBMS_cPP-working_copy.adoc</span>
-<span class="line meta">index 2190b2a..bc0b764 100644</span>
+<span class="line meta">index 2190b2a..2a42db8 100644</span>
 <span class="line meta">--- a/cPP/DBMS_cPP-working_copy.adoc</span>
 <span class="line meta">+++ b/cPP/DBMS_cPP-working_copy.adoc</span>
 <span class="line hunk">@@ -1,16 +1,18 @@</span>
@@ -108,7 +108,8 @@
 <span class="line ctx"> :icons: font</span>
 <span class="line ctx"> :doctype: book</span>
 <span class="line ctx"> :revnumber: 2.0</span>
-<span class="line ctx"> :revdate: 2026-04-27</span>
+<span class="line del">-:revdate: 2026-04-27</span>
+<span class="line add">+:revdate: 2026-06-26</span>
 <span class="line add">+:front-cover-image: images/dbms-cpp-cover.pdf</span>
 <span class="line add">+:pdf-themesdir: {docdir}/themes</span>
 <span class="line add">+:pdf-theme: dbms-cpp-theme.yml</span>
@@ -473,10 +474,10 @@
 <span class="line ctx"> *FMT_SMF.1.1*</span>
 <span class="line ctx"> </span>
 <span class="line del">-The TSF shall be capable of performing the following security management functions:</span>
+<span class="line del">-</span>
+<span class="line del">-[</span>
 <span class="line add">+The TSF shall be capable of performing the following security management functions: [assignment: Database configuration; User and role management; Configure the session limiting mechanism; [selection: Management of groups, Adding or removing a database, Revocation of security attributes, Configuration of session establishment rules, Configuration of TSF replication and consistency, Configuration of TOE access information rules, No other security management functions]; [assignment: any additional security management functions required to configure the claimed security]].</span>
 <span class="line ctx"> </span>
-<span class="line del">-[</span>
-<span class="line del">-</span>
 <span class="line del">-* Database configuration</span>
 <span class="line del">-* User and role management</span>
 <span class="line del">-* Configure the session limiting mechanism</span>
@@ -537,7 +538,40 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> [BOILERPLATE]</span>
 <span class="line ctx"> ====</span>
-<span class="line hunk">@@ -985,29 +966,29 @@ ST authors are free to choose none, some or all SFRs defined in this chapter. It</span>
+<span class="line hunk">@@ -945,32 +926,20 @@ The TOE security assurance requirements are identified in Table 5.</span>
+<span class="line ctx"> |Vulnerability survey (AVA_VAN.2)</span>
+<span class="line ctx"> |===</span>
+<span class="line ctx"> </span>
+<span class="line ctx"> === Class ASE: Security Target</span>
+<span class="line ctx"> </span>
+<span class="line del">-NOTE: The Supporting Document [SD] contains evaluation activities that refine the evaluation activities given in [CEM].</span>
+<span class="line del">-</span>
+<span class="line ctx"> === Class ADV: Development</span>
+<span class="line ctx"> </span>
+<span class="line del">-NOTE: The Supporting Document [SD] contains evaluation activities that refine the evaluation activities given in [CEM].</span>
+<span class="line del">-</span>
+<span class="line ctx"> === Class AGD: Guidance Documentation</span>
+<span class="line ctx"> </span>
+<span class="line del">-NOTE: The Supporting Document [SD] contains evaluation activities that refine the evaluation activities given in [CEM].</span>
+<span class="line del">-</span>
+<span class="line ctx"> === Class ALC: Life-cycle Support</span>
+<span class="line ctx"> </span>
+<span class="line del">-NOTE: The Supporting Document [SD] contains evaluation activities that refine the evaluation activities given in [CEM].</span>
+<span class="line del">-</span>
+<span class="line ctx"> === Class ATE: Tests</span>
+<span class="line ctx"> </span>
+<span class="line del">-NOTE: The Supporting Document [SD] contains evaluation activities that refine the evaluation activities given in [CEM].</span>
+<span class="line del">-</span>
+<span class="line ctx"> === Class AVA: Vulnerability Assessment</span>
+<span class="line ctx"> </span>
+<span class="line del">-NOTE: The Supporting Document [SD] contains evaluation activities that refine the evaluation activities given in [CEM].</span>
+<span class="line del">-</span>
+<span class="line ctx"> [appendix]</span>
+<span class="line ctx"> == Optional Requirements</span>
+<span class="line ctx"> </span>
+<span class="line ctx"> As indicated in the introduction to this cPP, the baseline requirements (those that must be performed by the TOE) are contained in the body of this cPP. Additionally, there is another type of requirements specified in Appendix A</span>
+<span class="line ctx"> </span>
+<span class="line hunk">@@ -985,29 +954,29 @@ ST authors are free to choose none, some or all SFRs defined in this chapter. It</span>
 <span class="line ctx"> [BOILERPLATE]</span>
 <span class="line ctx"> ====</span>
 <span class="line ctx"> *FIA_USB_EXT.2 Enhanced user-subject binding*</span>
@@ -574,7 +608,7 @@
 <span class="line ctx"> |===</span>
 <span class="line ctx"> |Column 1: Security Functional Requirement</span>
 <span class="line ctx"> |Column 2: Auditable Event(s)</span>
-<span class="line hunk">@@ -1032,11 +1013,11 @@ The TSF shall ensure that TSF data is consistent when replicated between parts o</span>
+<span class="line hunk">@@ -1032,11 +1001,11 @@ The TSF shall ensure that TSF data is consistent when replicated between parts o</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> *FPT_TRC.1.2*</span>
 <span class="line ctx"> </span>
@@ -587,7 +621,7 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> ==== TOE access information (FTA_TAH_EXT)</span>
 <span class="line ctx"> </span>
-<span class="line hunk">@@ -1059,11 +1040,11 @@ attempt(s).</span>
+<span class="line hunk">@@ -1059,11 +1028,11 @@ attempt(s).</span>
 <span class="line ctx"> Upon successful session establishment, the TSF shall allow the date and time of</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> * the previous last successful session establishment, and</span>
@@ -600,7 +634,7 @@
 <span class="line ctx"> |===</span>
 <span class="line ctx"> |Column 1: Security Functional Requirement</span>
 <span class="line ctx"> |Column 2: Auditable Event(s)</span>
-<span class="line hunk">@@ -1131,11 +1112,11 @@ The TSF shall enforce the following rules on the initial association of user sec</span>
+<span class="line hunk">@@ -1131,11 +1100,11 @@ The TSF shall enforce the following rules on the initial association of user sec</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> The TSF shall enforce the following rules governing changes to the user security attributes associated with subjects acting on the behalf of users: [assignment: rules for the changing of attributes].</span>
 <span class="line ctx"> </span>
@@ -613,7 +647,7 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> ==== Limitation on multiple concurrent sessions (FTA_MCS_EXT)</span>
 <span class="line ctx"> </span>
-<span class="line hunk">@@ -1143,20 +1124,23 @@ The TSF shall enforce the following rules for the assignment of subject security</span>
+<span class="line hunk">@@ -1143,20 +1112,23 @@ The TSF shall enforce the following rules for the assignment of subject security</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> This family defines requirements to place limits on the number of concurrent sessions.</span>
 <span class="line ctx"> </span>
@@ -643,7 +677,7 @@
 <span class="line ctx"> ===== Management</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> The following actions could be considered for the management functions in FMT:</span>
-<span class="line hunk">@@ -1170,20 +1154,20 @@ The following actions should be auditable if FAU_GEN Security audit data generat</span>
+<span class="line hunk">@@ -1170,20 +1142,20 @@ The following actions should be auditable if FAU_GEN Security audit data generat</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> * rejection of a new session based on the limitation of multiple concurrent sessions</span>
 <span class="line ctx"> </span>
@@ -666,7 +700,7 @@
 <span class="line ctx"> </span>
 <span class="line ctx"> The TSF shall restrict the maximum number of concurrent sessions based on [selection: User session locking as defined by FTA_MCS.1, [assignment: mechanism(s) for session limitation enforced by the TSF]].</span>
 <span class="line ctx"> </span>
-<span class="line hunk">@@ -1452,11 +1436,11 @@ The table below provides a rationale for the environmental security objectives.</span>
+<span class="line hunk">@@ -1452,11 +1424,11 @@ The table below provides a rationale for the environmental security objectives.</span>
 <span class="line ctx"> |OE.IT_I&amp;A supports the assumption implicitly.</span>
 <span class="line ctx"> |A.MANAGE The TOE security functionality is managed by one or more competent, authorized administrators. The system administrative personnel are not careless, willfully negligent, or hostile, and will follow and abide by the instructions provided by the guidance documentation.</span>
 <span class="line ctx"> |OE.ADMIN Those responsible for the TOE are competent and trustworthy individuals, capable of managing the TOE and the security of information it contains.</span>
@@ -679,7 +713,7 @@
 <span class="line ctx"> |OE.NO_GENERAL_PURPOSE There shall be no general-purpose computing capabilities (e.g., compilers or user applications) available on DMBS servers, other than those services necessary for the operation, administration, and support of the DBMS.</span>
 <span class="line ctx"> |OE.NO_GENERAL_PURPOSE The DBMS server must not include any general-purpose computing capabilities. This will protect the TSF data from malicious processes.</span>
 <span class="line ctx"> |A.PEER_FUNC_&amp;_MGT All external trusted IT systems trusted by the TSF to provide TSF data or services to the TOE, or to support the TSF in the enforcement of security policy decisions are assumed to correctly implement the functionality used by the TSF consistent with the assumptions defined for this functionality and to be properly managed and operate under security policy constraints compatible with those of the TOE.</span>
-<span class="line hunk">@@ -1464,14 +1448,14 @@ The table below provides a rationale for the environmental security objectives.</span>
+<span class="line hunk">@@ -1464,14 +1436,14 @@ The table below provides a rationale for the environmental security objectives.</span>
 <span class="line ctx"> |OE.IT_TRUSTED_SYSTEM supports this assumption by ensuring that remote systems supporting the TOE are managed in a manner consistent with the security policies applicable to the TOE.</span>
 <span class="line ctx"> |A.PHYSICAL The operational environment is assumed to provide the TOE with appropriate physical protection such that the TOE is not subject to physical attack that may compromise the security and/or interfere with the platform’s correct operation. This includes protection for the physical infrastructure on which the TOE depends for correct operation and hardware devices on which the TOE is executing.</span>
 <span class="line ctx"> |OE.PHYSICAL Those responsible for the TOE shall ensure that those parts of the TOE critical to enforcement of the security policy are protected from physical attack that might compromise IT security objectives. The protection shall be commensurate with the value of the IT assets protected by the TOE.</span>
@@ -696,7 +730,7 @@
 <span class="line ctx"> |OE.ADMIN Those responsible for the TOE are competent and trustworthy individuals, capable of managing the TOE and the security of information it contains.</span>
 <span class="line ctx"> |OE.ADMIN supports the policy by ensuring that the authorized administrators, responsible for granting authority to users, are trustworthy.</span>
 <span class="line ctx"> |</span>
-<span class="line hunk">@@ -1495,20 +1479,20 @@ The following table provides the rationale for the selection of the security fun</span>
+<span class="line hunk">@@ -1495,20 +1467,20 @@ The following table provides the rationale for the selection of the security fun</span>
 <span class="line ctx"> |O.ADMIN_ROLE The TOE shall provide roles that allow only authorized users to have access to administrative privileges that are specific to the role.</span>
 <span class="line ctx"> |FMT_SMR.1</span>
 <span class="line ctx"> |The TOE will establish, at least, an authorized administrator role and authorized user roles. Additional roles may also be specified.</span>
@@ -720,7 +754,7 @@
 <span class="line ctx"> |FDP_RIP.1 ensures that the contents of resources are not available upon reallocation of the resource.</span>
 <span class="line ctx"> |O.TOE_ACCESS The TOE shall provide mechanisms that control a user's logical access to user data and to the TSF.</span>
 <span class="line ctx"> |FDP_ACC.1 FDP_ACF.1 FIA_ATD.1 FTA_MCS_EXT.1 FTA_MCS.1 (Selection-Based) FTA_TSE.1 FTA_TAH_EXT.1 (Optional) FPT_TRC.1 (Optional)</span>
-<span class="line hunk">@@ -1578,12 +1562,12 @@ The following table provides the rationale for the selection of the security fun</span>
+<span class="line hunk">@@ -1578,12 +1550,12 @@ The following table provides the rationale for the selection of the security fun</span>
 <span class="line ctx"> |This requirement is satisfied by FIA_UID.2 which is hierarchical to FIA_UID.1.</span>
 <span class="line ctx"> |FPT_TRC.1</span>
 <span class="line ctx"> |FPT_ITT.1</span>
@@ -735,7 +769,7 @@
 <span class="line ctx"> |When FTA_MCS.1 is selected through FTA_MCS_EXT.1, this requirement is satisfied by FIA_UID.2 which is hierarchical to FIA_UID.1.</span>
 <span class="line ctx"> |FTA_TSE.1</span>
 <span class="line ctx"> |None</span>
-<span class="line hunk">@@ -1644,11 +1628,11 @@ The TSF shall restrict the maximum number of concurrent sessions that belong to</span>
+<span class="line hunk">@@ -1644,11 +1616,11 @@ The TSF shall restrict the maximum number of concurrent sessions that belong to</span>
 <span class="line ctx"> </span>
 <span class="line ctx"> *FTA_MCS.1.2*</span>
 <span class="line ctx"> </span>

@@ -7,7 +7,7 @@
 :icons: font
 :doctype: book
 :revnumber: 2.0
-:revdate: 2026-04-27
+:revdate: 2026-06-26
 :front-cover-image: images/dbms-cpp-cover.pdf
 :pdf-themesdir: {docdir}/themes
 :pdf-theme: dbms-cpp-theme.yml
@@ -928,27 +928,15 @@ The TOE security assurance requirements are identified in Table 5.
 
 === Class ASE: Security Target
 
-NOTE: The Supporting Document [SD] contains evaluation activities that refine the evaluation activities given in [CEM].
-
 === Class ADV: Development
-
-NOTE: The Supporting Document [SD] contains evaluation activities that refine the evaluation activities given in [CEM].
 
 === Class AGD: Guidance Documentation
 
-NOTE: The Supporting Document [SD] contains evaluation activities that refine the evaluation activities given in [CEM].
-
 === Class ALC: Life-cycle Support
-
-NOTE: The Supporting Document [SD] contains evaluation activities that refine the evaluation activities given in [CEM].
 
 === Class ATE: Tests
 
-NOTE: The Supporting Document [SD] contains evaluation activities that refine the evaluation activities given in [CEM].
-
 === Class AVA: Vulnerability Assessment
-
-NOTE: The Supporting Document [SD] contains evaluation activities that refine the evaluation activities given in [CEM].
 
 [appendix]
 == Optional Requirements
