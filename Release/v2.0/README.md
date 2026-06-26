@@ -25,3 +25,12 @@ PDF renderer: Asciidoctor PDF via WSL
 ## Review support
 
 * comment_resolution_table.md
+
+## Official baseline tracked-change files
+
+* cPP_DBMS_V2.0_tracked_changes_from_v1.3.patch
+* cPP_DBMS_V2.0_tracked_changes_from_v1.3.html
+* cPP_DBMS_V2.0_tracked_changes_from_v1.3.pdf
+* SD_DBMS_V2.0_tracked_changes_from_v1.1.patch
+* SD_DBMS_V2.0_tracked_changes_from_v1.1.html
+* SD_DBMS_V2.0_tracked_changes_from_v1.1.pdf
