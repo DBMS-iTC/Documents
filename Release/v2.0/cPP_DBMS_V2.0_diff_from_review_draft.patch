@@ -1,8 +1,28 @@
 diff --git a/cPP/DBMS_cPP-working_copy.adoc b/cPP/DBMS_cPP-working_copy.adoc
-index 2190b2a..ef22938 100644
+index 2190b2a..bc0b764 100644
 --- a/cPP/DBMS_cPP-working_copy.adoc
 +++ b/cPP/DBMS_cPP-working_copy.adoc
-@@ -74,39 +74,39 @@ Although the cPPs and SDs may contain minor editorial errors, cPPs are recognize
+@@ -1,16 +1,18 @@
+ = collaborative Protection Profile for Database Management Systems
+-:showtitle:
+ :toc: macro
+ :toclevels: 7
+ :sectnums:
+ :sectnumlevels: 7
+ :imagesdir: images
+ :icons: font
+ :doctype: book
+ :revnumber: 2.0
+ :revdate: 2026-04-27
++:front-cover-image: images/dbms-cpp-cover.pdf
++:pdf-themesdir: {docdir}/themes
++:pdf-theme: dbms-cpp-theme.yml
+ 
+ :iTC-longname: Database Management Systems
+ :iTC-shortname: DBMS-iTC
+ :iTC-email: cm-itc-mailing-list@gmail.com
+ :iTC-website: https://github.com/DBMS-iTC
+@@ -74,39 +76,39 @@ Although the cPPs and SDs may contain minor editorial errors, cPPs are recognize
  
  The following documents are available from the CC Portal at https://www.commoncriteriaportal.org/
  
@@ -53,7 +73,7 @@ index 2190b2a..ef22938 100644
  |DBMS iTC Status https://www.commoncriteriaportal.org/files/communities/Status.DBMS.pdf
  |[TD_DBMS_B_001]
  |Technical Decision TD_DBMS_B_001: Update to Role Definitions and Security Attribute Management for Consistency, published 29 July 2025
-@@ -118,25 +118,25 @@ Other Documents
+@@ -118,25 +120,25 @@ Other Documents
  
  Except for replacing United Kingdom spelling with American spelling, the notation, formatting, and conventions used in this cPP are consistent with CC:2022. Selected presentation choices are discussed here to aid the cPP reader.
  
@@ -84,7 +104,7 @@ index 2190b2a..ef22938 100644
  
  [%header,cols="1,1,1"]
  |===
-@@ -187,10 +187,12 @@ _This is an application note._
+@@ -187,10 +189,12 @@ _This is an application note._
  |Updated conformance target to CC:2022.
  |===
  
@@ -97,7 +117,7 @@ index 2190b2a..ef22938 100644
  === cPP Reference Identification
  
  cPP Reference: collaborative Protection Profile for Database Management Systems
-@@ -241,13 +243,13 @@ A DBMS supports two user types:
+@@ -241,13 +245,13 @@ A DBMS supports two user types:
  * The authorized administrators who implement and manage the various information-related policies of an organization (e.g., access, integrity, consistency, availability) for the databases that they install, configure, manage, and/or own.
  
  A DBMS stores and controls access to two types of data:
@@ -114,7 +134,7 @@ index 2190b2a..ef22938 100644
  DBMS specifications identify the detailed requirements for the DBMS server functions given in the above list.
  
  ==== Security Functionality Provided by the TOE
-@@ -269,15 +271,13 @@ The TOE consists of at least one instance of the security functions of the DBMS
+@@ -269,15 +273,13 @@ The TOE consists of at least one instance of the security functions of the DBMS
  
  This cPP does not dictate a specific architecture. The ST writer will need to identify and describe the TOE architecture to be evaluated. Architectures are described in section 1.4.2.
  
@@ -133,7 +153,7 @@ index 2190b2a..ef22938 100644
  
  The DBMS must specify the host OS on which it must reside to provide the desired degree of security feature integration as well as the configuration of those OS(es) required to support the DBMS functions. In all cases, the TOE must be installed and administered in accordance with the TOE installation and administration instructions.
  
-@@ -311,11 +311,11 @@ Authorized administrators of the TOE will have capabilities that are commensurat
+@@ -311,11 +313,11 @@ Authorized administrators of the TOE will have capabilities that are commensurat
  
  == Conformance Claims
  
@@ -146,7 +166,7 @@ index 2190b2a..ef22938 100644
  
  This cPP satisfies the following Assurance Families: APE_CCL.1, APE_ECD.1, APE_INT.1, APE_OBJ.2, APE_REQ.2 and APE_SPD.1.
  
-@@ -523,22 +523,21 @@ The individual security functional requirements are specified in the sections be
+@@ -523,22 +525,21 @@ The individual security functional requirements are specified in the sections be
  *FAU_GEN.1.1*
  
  The TSF shall be able to generate audit data of the following auditable events:
@@ -173,7 +193,7 @@ index 2190b2a..ef22938 100644
  [%header,cols="1,1,1"]
  |===
  |Column 1: Security Functional Requirement
-@@ -611,11 +610,11 @@ _In column 3 of the table below, “Additional Audit Data Contents” is used to
+@@ -611,11 +612,11 @@ _In column 3 of the table below, “Additional Audit Data Contents” is used to
  *FAU_GEN.2 User identity association*
  ====
  
@@ -186,7 +206,7 @@ index 2190b2a..ef22938 100644
  
  [BOILERPLATE]
  ====
-@@ -624,17 +623,17 @@ For audit events resulting from actions of identified users, the TSF shall be ab
+@@ -624,17 +625,17 @@ For audit events resulting from actions of identified users, the TSF shall be ab
  
  *FAU_SEL.1.1*
  
@@ -208,7 +228,7 @@ index 2190b2a..ef22938 100644
  
  ==== Access control policy (FDP_ACC)
  
-@@ -643,26 +642,26 @@ _The intent of this requirement is to capture sufficient audit data to allow the
+@@ -643,26 +644,26 @@ _The intent of this requirement is to capture sufficient audit data to allow the
  *FDP_ACC.1 Subset access control*
  ====
  
@@ -239,7 +259,7 @@ index 2190b2a..ef22938 100644
  
  The TSF shall enforce the following rules to determine if an operation among controlled subjects and controlled objects is allowed: [assignment: rules governing access among controlled subjects and controlled objects using controlled operations on controlled objects].
  
-@@ -681,15 +680,15 @@ The TSF shall explicitly deny access of subjects to objects based on the followi
+@@ -681,15 +682,15 @@ The TSF shall explicitly deny access of subjects to objects based on the followi
  *FDP_RIP.1 Subset residual information protection*
  ====
  
@@ -257,7 +277,7 @@ index 2190b2a..ef22938 100644
  
  [BOILERPLATE]
  ====
-@@ -713,11 +712,11 @@ The TSF shall maintain the following list of security attributes belonging to in
+@@ -713,11 +714,11 @@ The TSF shall maintain the following list of security attributes belonging to in
  
  * Database user identifier and any associated group memberships;
  * Security-relevant database roles; and
@@ -270,7 +290,7 @@ index 2190b2a..ef22938 100644
  
  [BOILERPLATE]
  ====
-@@ -737,70 +736,70 @@ The TSF shall require each user to be successfully identified before allowing an
+@@ -737,70 +738,70 @@ The TSF shall require each user to be successfully identified before allowing an
  *FMT_MSA.1(1) Management of security attributes (Users)*
  ====
  
@@ -351,7 +371,7 @@ index 2190b2a..ef22938 100644
  
  The TSF shall enforce the rules [assignment: specification of revocation rules].
  
-@@ -811,52 +810,32 @@ The TSF shall enforce the rules [assignment: specification of revocation rules].
+@@ -811,52 +812,32 @@ The TSF shall enforce the rules [assignment: specification of revocation rules].
  *FMT_SMF.1 Specification of Management Functions*
  ====
  
@@ -409,7 +429,7 @@ index 2190b2a..ef22938 100644
  
  ==== Configurable Session Limiting Mechanisms (FTA_MCS_EXT)
  
-@@ -871,11 +850,11 @@ The TSF shall restrict the maximum number of concurrent sessions based on [selec
+@@ -871,11 +852,11 @@ The TSF shall restrict the maximum number of concurrent sessions based on [selec
  
  *FTA_MCS_EXT.1.2*
  
@@ -422,7 +442,7 @@ index 2190b2a..ef22938 100644
  
  [BOILERPLATE]
  ====
-@@ -985,29 +964,29 @@ ST authors are free to choose none, some or all SFRs defined in this chapter. It
+@@ -985,29 +966,29 @@ ST authors are free to choose none, some or all SFRs defined in this chapter. It
  [BOILERPLATE]
  ====
  *FIA_USB_EXT.2 Enhanced user-subject binding*
@@ -459,7 +479,7 @@ index 2190b2a..ef22938 100644
  |===
  |Column 1: Security Functional Requirement
  |Column 2: Auditable Event(s)
-@@ -1032,11 +1011,11 @@ The TSF shall ensure that TSF data is consistent when replicated between parts o
+@@ -1032,11 +1013,11 @@ The TSF shall ensure that TSF data is consistent when replicated between parts o
  
  *FPT_TRC.1.2*
  
@@ -472,7 +492,7 @@ index 2190b2a..ef22938 100644
  
  ==== TOE access information (FTA_TAH_EXT)
  
-@@ -1059,11 +1038,11 @@ attempt(s).
+@@ -1059,11 +1040,11 @@ attempt(s).
  Upon successful session establishment, the TSF shall allow the date and time of
  
  * the previous last successful session establishment, and
@@ -485,7 +505,7 @@ index 2190b2a..ef22938 100644
  |===
  |Column 1: Security Functional Requirement
  |Column 2: Auditable Event(s)
-@@ -1131,11 +1110,11 @@ The TSF shall enforce the following rules on the initial association of user sec
+@@ -1131,11 +1112,11 @@ The TSF shall enforce the following rules on the initial association of user sec
  
  The TSF shall enforce the following rules governing changes to the user security attributes associated with subjects acting on the behalf of users: [assignment: rules for the changing of attributes].
  
@@ -498,7 +518,7 @@ index 2190b2a..ef22938 100644
  
  ==== Limitation on multiple concurrent sessions (FTA_MCS_EXT)
  
-@@ -1143,20 +1122,23 @@ The TSF shall enforce the following rules for the assignment of subject security
+@@ -1143,20 +1124,23 @@ The TSF shall enforce the following rules for the assignment of subject security
  
  This family defines requirements to place limits on the number of concurrent sessions.
  
@@ -528,7 +548,7 @@ index 2190b2a..ef22938 100644
  ===== Management
  
  The following actions could be considered for the management functions in FMT:
-@@ -1170,20 +1152,20 @@ The following actions should be auditable if FAU_GEN Security audit data generat
+@@ -1170,20 +1154,20 @@ The following actions should be auditable if FAU_GEN Security audit data generat
  
  * rejection of a new session based on the limitation of multiple concurrent sessions
  
@@ -551,7 +571,7 @@ index 2190b2a..ef22938 100644
  
  The TSF shall restrict the maximum number of concurrent sessions based on [selection: User session locking as defined by FTA_MCS.1, [assignment: mechanism(s) for session limitation enforced by the TSF]].
  
-@@ -1452,11 +1434,11 @@ The table below provides a rationale for the environmental security objectives.
+@@ -1452,11 +1436,11 @@ The table below provides a rationale for the environmental security objectives.
  |OE.IT_I&A supports the assumption implicitly.
  |A.MANAGE The TOE security functionality is managed by one or more competent, authorized administrators. The system administrative personnel are not careless, willfully negligent, or hostile, and will follow and abide by the instructions provided by the guidance documentation.
  |OE.ADMIN Those responsible for the TOE are competent and trustworthy individuals, capable of managing the TOE and the security of information it contains.
@@ -564,7 +584,7 @@ index 2190b2a..ef22938 100644
  |OE.NO_GENERAL_PURPOSE There shall be no general-purpose computing capabilities (e.g., compilers or user applications) available on DMBS servers, other than those services necessary for the operation, administration, and support of the DBMS.
  |OE.NO_GENERAL_PURPOSE The DBMS server must not include any general-purpose computing capabilities. This will protect the TSF data from malicious processes.
  |A.PEER_FUNC_&_MGT All external trusted IT systems trusted by the TSF to provide TSF data or services to the TOE, or to support the TSF in the enforcement of security policy decisions are assumed to correctly implement the functionality used by the TSF consistent with the assumptions defined for this functionality and to be properly managed and operate under security policy constraints compatible with those of the TOE.
-@@ -1464,14 +1446,14 @@ The table below provides a rationale for the environmental security objectives.
+@@ -1464,14 +1448,14 @@ The table below provides a rationale for the environmental security objectives.
  |OE.IT_TRUSTED_SYSTEM supports this assumption by ensuring that remote systems supporting the TOE are managed in a manner consistent with the security policies applicable to the TOE.
  |A.PHYSICAL The operational environment is assumed to provide the TOE with appropriate physical protection such that the TOE is not subject to physical attack that may compromise the security and/or interfere with the platform’s correct operation. This includes protection for the physical infrastructure on which the TOE depends for correct operation and hardware devices on which the TOE is executing.
  |OE.PHYSICAL Those responsible for the TOE shall ensure that those parts of the TOE critical to enforcement of the security policy are protected from physical attack that might compromise IT security objectives. The protection shall be commensurate with the value of the IT assets protected by the TOE.
@@ -581,7 +601,7 @@ index 2190b2a..ef22938 100644
  |OE.ADMIN Those responsible for the TOE are competent and trustworthy individuals, capable of managing the TOE and the security of information it contains.
  |OE.ADMIN supports the policy by ensuring that the authorized administrators, responsible for granting authority to users, are trustworthy.
  |
-@@ -1495,20 +1477,20 @@ The following table provides the rationale for the selection of the security fun
+@@ -1495,20 +1479,20 @@ The following table provides the rationale for the selection of the security fun
  |O.ADMIN_ROLE The TOE shall provide roles that allow only authorized users to have access to administrative privileges that are specific to the role.
  |FMT_SMR.1
  |The TOE will establish, at least, an authorized administrator role and authorized user roles. Additional roles may also be specified.
@@ -605,7 +625,7 @@ index 2190b2a..ef22938 100644
  |FDP_RIP.1 ensures that the contents of resources are not available upon reallocation of the resource.
  |O.TOE_ACCESS The TOE shall provide mechanisms that control a user's logical access to user data and to the TSF.
  |FDP_ACC.1 FDP_ACF.1 FIA_ATD.1 FTA_MCS_EXT.1 FTA_MCS.1 (Selection-Based) FTA_TSE.1 FTA_TAH_EXT.1 (Optional) FPT_TRC.1 (Optional)
-@@ -1578,12 +1560,12 @@ The following table provides the rationale for the selection of the security fun
+@@ -1578,12 +1562,12 @@ The following table provides the rationale for the selection of the security fun
  |This requirement is satisfied by FIA_UID.2 which is hierarchical to FIA_UID.1.
  |FPT_TRC.1
  |FPT_ITT.1
@@ -620,7 +640,7 @@ index 2190b2a..ef22938 100644
  |When FTA_MCS.1 is selected through FTA_MCS_EXT.1, this requirement is satisfied by FIA_UID.2 which is hierarchical to FIA_UID.1.
  |FTA_TSE.1
  |None
-@@ -1644,11 +1626,11 @@ The TSF shall restrict the maximum number of concurrent sessions that belong to
+@@ -1644,11 +1628,11 @@ The TSF shall restrict the maximum number of concurrent sessions that belong to
  
  *FTA_MCS.1.2*
  
