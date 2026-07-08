@@ -1,0 +1,405 @@
+= Supporting Document: Evaluation Activities for DBaaS Module
+:showtitle:
+:toc: macro
+:toclevels: 7
+:sectnums:
+:sectnumlevels: 7
+:revnumber: 0.2
+:revdate: 2026-05-14
+
+:iTC-longname: Database Management Systems
+:iTC-shortname: DBMS-iTC
+:base-pp: collaborative Protection Profile for Database Management Systems
+:pp-module: collaborative PP-Module for Database-as-a-Service
+:pp-module-short: DBMS_MOD_DBAAS
+
+toc::[]
+
+== Introduction
+
+=== Technology Area and Scope of Supporting Document
+
+This Supporting Document (SD) defines Evaluation Activities (EAs) for the *{pp-module}* ({pp-module-short}).
+
+=== Managed-Service Evaluation Constraint
+
+Unlike a lift-and-shift cloud deployment, the DBaaS TOE is a managed service. The evaluator typically does not have access to:
+
+* the underlying operating system;
+* the hypervisor or physical hardware;
+* raw process memory;
+* provider operational tooling; or
+* Service Provider administrative accounts.
+
+Evaluation Activities in this SD are therefore designed to be performed through:
+
+. *Tenant interfaces*: standard SQL clients, tenant-facing web consoles, APIs, audit views, and management interfaces accessible to the customer.
+. *Documentation review*: analysis of the ST, TSS, operational guidance, and provider architecture descriptions.
+. *Scheme-accepted evidence*: cloud authorization, certification, scheme policy, or other evidence accepted by the applicable evaluation scheme for Trusted Platform assumptions and operational environment objectives.
+
+=== Relationship to Other Documents
+
+This SD is used in conjunction with:
+
+* *cPP_DBMS SD*: Base requirements.
+* *DBMS Cryptographic Functions Module SD*: cryptographic testing and algorithm validation.
+* *DBaaS PP-Module*: requirements definition.
+
+== General Guidance for Evaluators
+
+=== Verifying the Trusted Platform
+
+The evaluator shall review the ST and operational guidance to identify the Trusted Platform relied upon by the TOE. The evaluator shall verify that the ST identifies the cloud authorization, certification, scheme policy, or other evidence used to support the Trusted Platform assumptions and operational environment objectives. The evaluator shall verify that the evidence is within scope for the trusted platform services relied upon by the TOE. The evaluator shall document this reliance in the ETR in accordance with scheme policy.
+
+The evaluator does not treat cloud authorization evidence as satisfying TOE SFRs unless the PP-Module, Base PP, or Security Target explicitly permits the relevant function to be provided by the TOE Platform or operational environment.
+
+=== Evaluator Access Strategy
+
+The evaluator shall identify the interfaces available in the evaluated configuration and map each test to one or more tenant-accessible or provider-supported evaluation interfaces. When a direct test is not feasible because the function is outside the TOE boundary or requires provider-only access, the evaluator shall determine whether the SD permits reliance on TSS review, operational guidance, scheme-accepted evidence, or a provider-supported demonstration.
+
+=== Tenant Isolation Testing Strategy
+
+Testing for logical isolation requires the evaluator to provision at least two distinct tenant contexts, such as separate tenants, databases, pluggable databases, schemas, namespaces, or accounts, depending on the ST claim. The evaluator shall attempt cross-tenant access through the same interfaces available to the tenant in the evaluated configuration.
+
+The evaluator shall avoid relying on undocumented provider privileges as primary test mechanisms unless those privileges are part of the evaluated configuration or are used only to set up or observe the test under controlled conditions.
+
+=== External Service Dependencies
+
+When the TOE relies on external key management, identity provider, logging, object storage, backup, management, or trusted time services, the evaluator shall verify that the ST identifies:
+
+* whether the service is part of the TOE, TOE Platform, Trusted Platform, or operational environment;
+* which SFRs, assumptions, and operational environment objectives depend on the service;
+* what evidence supports the service's claimed security properties; and
+* which operational guidance configures the service for the evaluated configuration.
+
+== FCS Class: Cryptographic Support
+
+=== FCS_CKM_DBAAS_EXT.1 Customer-Controlled Keys
+
+==== Evaluation Activities
+
+===== TSS Activities
+
+The evaluator shall verify the TSS describes:
+
+* the customer-controlled key management architecture;
+* the supported customer-controlled key models, such as BYOK, HYOK, external KMS integration, key references, or key handles;
+* the boundary between TOE key-management logic and external key management services;
+* the protocols and authentication mechanisms used for external key management service access;
+* whether plaintext customer-controlled master key material is imported into, stored by, cached by, wrapped by, transformed by, or re-exported by the TOE;
+* how the TOE prevents service provider administrators from viewing, exporting, recovering, or otherwise obtaining plaintext customer-controlled master key material through TOE interfaces;
+* the applicable DBMS Cryptographic Functions Module and Crypto Catalogue claims for key import, trusted channels, key wrapping, key destruction, and data-at-rest encryption; and
+* the TOE behavior when authorization to use the applicable customer-controlled master key is revoked, unavailable, or denied.
+
+If the TOE caches key material, key handles, or derived keys after successful KMS authorization, the evaluator shall verify that the TSS identifies the cache duration, protection mechanism, revocation behavior, and conditions under which cached material is invalidated.
+
+===== Guidance Activities
+
+The evaluator shall verify the operational guidance describes:
+
+* how a customer configures customer-controlled keys for the TOE;
+* how a customer revokes or disables the TOE's authorization to use an external key;
+* expected TOE behavior after key authorization is revoked, unavailable, or denied;
+* any documented recovery mechanism that permits protected data access after revocation; and
+* any customer-visible audit or status information related to key use, key failures, or key authorization.
+
+===== Test Activities
+
+*Test 1: Provider Inaccessibility Verification*
+
+. Configure the TOE to use a customer-controlled master key or external key reference as described in the operational guidance.
+. Access protected database data as an authorized tenant user or tenant administrator.
+. Verify that access succeeds.
+. Attempt to export, view, recover, or display the plaintext master key material through each tenant-facing DBMS interface and management interface available in the evaluated configuration.
+. Verify that each attempt is denied or that the interface exposes only non-sensitive key identifiers, references, status, or metadata.
+
+*Test 2: Key Revocation Behavior*
+
+. Configure the TOE to use an external customer-controlled key or key authorization mechanism.
+. Access protected database data as an authorized tenant user or tenant administrator.
+. Revoke, disable, or deny the TOE's authorization to use the external key according to the operational guidance.
+. Attempt to access protected database data in the TOE.
+. Verify that access is denied, except for data available through an explicitly documented and evaluated recovery mechanism.
+
+If the TOE caches key material, key handles, or derived keys after successful KMS authorization, the evaluator shall test that revocation of the TOE's authorization to use the external key prevents access to protected data no later than the expiration of the documented cache interval.
+
+*Test 3: Key Material Handling Evidence*
+
+. Review audit records, status views, error messages, diagnostic outputs, backup metadata, and management outputs that are tenant-accessible in the evaluated configuration.
+. Verify that plaintext customer-controlled master key material is not disclosed.
+. If provider-supported observation is used for non-tenant-accessible diagnostics, verify that the observation method and results are documented in the ETR.
+
+== FDP Class: User Data Protection
+
+=== FDP_RIP.1 Residual Information Protection
+
+==== Evaluation Activities
+
+===== TSS Activities
+
+The evaluator shall review the TSS to determine whether tenant data can be present in shared DBMS memory, buffer cache, temporary storage, query work areas, diagnostic structures, or other shared DBMS resources. The evaluator shall verify that the TSS describes how such resources are cleared, reinitialized, or access-controlled before allocation to another tenant.
+
+The evaluator shall verify that the TSS identifies which residual information protections are implemented by the TOE and which are provided by the TOE Platform, Trusted Platform, or operational environment.
+
+===== Test Activities
+
+*Test 1: Tenant-Interface Residual Data Test*
+
+. Provision two tenant contexts in the evaluated configuration.
+. As Tenant A, create data with a unique pattern unlikely to appear elsewhere in the system.
+. Exercise TOE functionality that places the data into the claimed shared resource, such as queries that use buffer cache, temporary storage, sort areas, or query work areas.
+. Release the resource using documented tenant operations, such as dropping temporary objects, closing sessions, purging objects, or completing the workload.
+. As Tenant B, use documented tenant interfaces to allocate comparable resources and attempt to observe Tenant A's unique pattern.
+. Verify that Tenant B cannot observe Tenant A's data through tenant-accessible interfaces.
+
+Where tenant-accessible interfaces permit repeatable testing, the evaluator shall perform the test through those interfaces. The evaluator is not required to inspect raw process memory unless such access is available in the evaluated configuration and permitted by the test environment.
+
+=== FDP_ACC.2/DBaaS Tenant Isolation Policy
+
+==== Evaluation Activities
+
+===== TSS Activities
+
+The evaluator shall verify the TSS identifies the subjects, objects, and operations covered by the Tenant Isolation SFP. The evaluator shall verify that the TSS identifies the tenant boundary used by the TOE, such as tenants, databases, pluggable databases, schemas, namespaces, accounts, tablespaces, tenant identifiers, or other DBMS constructs.
+
+===== Test Activities
+
+The test activities for `FDP_ACC.2/DBaaS` are performed with the `FDP_ACF.1/DBaaS` tenant isolation policy rule tests.
+
+=== FDP_ACF.1/DBaaS Tenant Isolation Policy Rules
+
+==== Evaluation Activities
+
+===== TSS Activities
+
+The evaluator shall verify the TSS describes:
+
+* the security attributes used to enforce the Tenant Isolation SFP, including tenant identifier, user identifier, service role, object owner, object tenant identifier, object type, and operation;
+* how tenant subjects are bound to tenant identifiers;
+* how tenant data objects, tenant metadata objects, and tenant audit records are labeled, scoped, or otherwise associated with tenant identifiers;
+* the treatment of global system metadata visible to multiple tenants;
+* any evaluated cross-tenant sharing mechanism and the authorization model for that mechanism; and
+* how service provider administrative subjects are restricted from tenant data access except through interfaces and roles explicitly identified in the ST.
+
+===== Guidance Activities
+
+The evaluator shall verify the operational guidance describes how tenant boundaries are provisioned, how tenant users and service accounts are associated with tenant identifiers, and how any evaluated cross-tenant sharing mechanism is configured and revoked.
+
+===== Test Activities
+
+*Test 1: Data Cross-Access Prevention*
+
+. Provision Tenant A and Tenant B in the evaluated configuration.
+. Create tenant data objects in Tenant A with names and values known to the evaluator.
+. As Tenant B, attempt to access Tenant A's objects through documented SQL, API, management, import/export, backup, restore, and tenant administration interfaces available in the evaluated configuration.
+. Verify that all unauthorized attempts fail.
+
+*Test 2: Metadata Isolation*
+
+. As Tenant A, create objects with distinct names.
+. As Tenant B, query system catalogs, metadata views, information schema views, management APIs, search interfaces, and monitoring views available to tenants.
+. Verify that Tenant B sees only Tenant B metadata and metadata explicitly defined as global system metadata.
+
+*Test 3: Tenant Audit Record Isolation*
+
+. Generate audit events in Tenant A and Tenant B.
+. As Tenant A, query tenant-accessible audit records.
+. Verify that only Tenant A audit records are returned unless an evaluated provider, cross-tenant, or compliance function explicitly authorizes broader access.
+. Verify that Tenant B-specific usernames, object names, query text, or tenant data are not visible to Tenant A through tenant audit interfaces.
+
+*Test 4: Evaluated Cross-Tenant Sharing*
+
+If the ST claims an evaluated cross-tenant sharing mechanism:
+
+. Configure sharing between Tenant A and Tenant B according to the operational guidance.
+. Verify that Tenant B can access only the shared objects, metadata, or records authorized by Tenant A or by the evaluated sharing policy.
+. Revoke the sharing authorization.
+. Verify that Tenant B can no longer access the previously shared objects, metadata, or records.
+
+=== FDP_RSG_EXT.1 Resource Governance
+
+==== Evaluation Activities
+
+===== TSS Activities
+
+The evaluator shall verify the TSS describes:
+
+* the DBMS-managed resources subject to tenant quotas or limits;
+* the resource governance mechanism, such as resource managers, quotas, workload queues, throttling, session limits, or query governors;
+* the authorized roles that can configure resource governance;
+* how resource governance is applied to tenants, users, service accounts, and workloads; and
+* the enforcement behavior when configured limits are exceeded.
+
+===== Guidance Activities
+
+The evaluator shall verify the operational guidance describes how to configure tenant resource limits and how to monitor quota enforcement.
+
+===== Test Activities
+
+*Test 1: Resource Limit Enforcement*
+
+. Configure a resource quota for a tenant according to the operational guidance.
+. Initiate a workload that exceeds the configured limit.
+. Verify that the TOE performs the claimed enforcement action, such as queueing, throttling, rejection, termination, or reduced priority.
+. Verify that the TOE remains available for other tenant operations that do not exceed their configured limits.
+
+*Test 2: Unauthorized Resource Governance Modification*
+
+. Authenticate as a role that is not authorized to modify resource governance settings.
+. Attempt to increase or disable the tenant resource quota.
+. Verify that the operation is denied.
+
+== FIA Class: Identification and Authentication
+
+=== FIA_USB.2 User-Subject Binding
+
+==== Evaluation Activities
+
+===== TSS Activities
+
+The evaluator shall verify the TSS describes how tenant identifier, user identifier, and service role attributes are associated with subjects acting on behalf of users or service accounts.
+
+===== Test Activities
+
+*Test 1: Tenant ID Binding Verification*
+
+. Authenticate as a tenant user.
+. Execute a documented query or API call that returns the current tenant context, session attributes, or equivalent DBMS context.
+. Verify that the returned tenant identifier matches the authenticated tenant.
+. Attempt to change the tenant identifier by using user-controlled session parameters, connection attributes, request headers, or SQL variables that are available to the tenant.
+. Verify that unauthorized tenant identifier changes are denied or ignored.
+
+*Test 2: Audit Correlation*
+
+. Perform an auditable action as Tenant A.
+. Query the audit trail through tenant-accessible interfaces.
+. Verify that the audit record is stamped with the correct tenant identifier and user identifier.
+. Authenticate as Tenant B.
+. Attempt to access the Tenant A audit record.
+. Verify that Tenant B cannot access the Tenant A audit record unless an evaluated sharing or compliance function explicitly permits access.
+
+== FMT Class: Security Management
+
+=== FMT_MOF.1 Management of Security Functions Behavior
+
+==== Evaluation Activities
+
+===== TSS Activities
+
+The evaluator shall verify the TSS identifies the security functions that cannot be disabled in the evaluated configuration and the roles authorized to modify DBaaS security functions such as resource governance, patching and updates, audit export, and encryption configuration.
+
+===== Guidance Activities
+
+The evaluator shall verify the operational guidance describes the roles authorized to modify each claimed DBaaS security function and the expected behavior when unauthorized roles attempt modification.
+
+===== Test Activities
+
+*Test 1: Audit Immutability Control*
+
+. Authenticate as a tenant administrator.
+. Attempt to disable audit generation for TOE-required audit events.
+. Verify that the operation is denied.
+
+*Test 2: Encryption Immutability Control*
+
+. Authenticate as a tenant administrator.
+. Attempt to disable data-at-rest encryption for protected tenant data.
+. Verify that the operation is denied.
+
+*Test 3: Role Restriction Verification*
+
+. Authenticate as a tenant administrator or other role not authorized to manage provider or root-level functions.
+. Attempt to grant provider, root, or equivalent administrative privileges to a standard tenant user.
+. Verify that the operation is denied.
+
+== FAU Class: Security Audit
+
+=== FAU_SEL.1 Selective Audit
+
+==== Evaluation Activities
+
+===== TSS Activities
+
+The evaluator shall verify the TSS describes how audit event selection and audit record access are scoped by tenant identifier, user identifier, service role, object identifier, and event type.
+
+===== Test Activities
+
+*Test 1: Audit Scope Leakage*
+
+. Generate audit events in Tenant A and Tenant B.
+. As Tenant A administrator, query the audit logs.
+. Verify that only Tenant A records are returned unless an evaluated provider, cross-tenant, or compliance function explicitly authorizes broader access.
+. Analyze the query results to ensure no Tenant B data, usernames, object names, query text, or tenant identifiers are visible to Tenant A unless explicitly authorized by the evaluated configuration.
+
+=== FAU_STG_EXT.2 Immutable Audit Stream
+
+==== Evaluation Activities
+
+===== TSS Activities
+
+The evaluator shall verify the TSS describes how the TOE protects stored audit records from unauthorized modification and deletion. If audit records are exported to an external sink, the evaluator shall verify the TSS identifies whether the export mechanism, external sink, or both are part of the TOE or operational environment.
+
+===== Guidance Activities
+
+The evaluator shall verify the operational guidance describes audit retention, audit export configuration, authorized audit query roles, and any recovery or archival mechanism for audit records.
+
+===== Test Activities
+
+*Test 1: Deletion and Modification Prevention*
+
+. As a tenant administrator, identify an audit record generated by the TOE.
+. Attempt to delete or modify that record through documented tenant interfaces, such as SQL DELETE or UPDATE commands, management APIs, or tenant audit tools.
+. Verify that the operation is denied.
+
+*Test 2: Audit Export Verification*
+
+. Configure audit export to an external sink according to the operational guidance.
+. Generate audit events.
+. Verify that the external sink receives the expected events.
+. Attempt to stop, redirect, or weaken the audit export pipeline as a tenant administrator.
+. Verify that the unauthorized operation is denied.
+
+== FPT Class: Protection of the TSF
+
+=== FPT_TUD_EXT.2 Autonomous Trusted Update
+
+==== Evaluation Activities
+
+===== TSS Activities
+
+The evaluator shall verify the TSS describes:
+
+* the autonomous or provider-managed update mechanism;
+* how the update source is authenticated;
+* how update package authenticity and integrity are verified before installation;
+* whether updates are applied automatically, through provider-managed orchestration, or according to a documented maintenance schedule; and
+* whether update orchestration is included in the TOE or provided by the TOE Platform, Trusted Platform, or operational environment.
+
+===== Guidance Activities
+
+The evaluator shall verify the operational guidance describes customer-visible update status, update windows or deferral options if supported, and any tenant-visible configuration related to updates.
+
+===== Test Activities
+
+*Note:* Testing live patching in a production DBaaS environment can be disruptive. Testing should be conducted on a non-production instance when possible, or verified through provider-supported demonstration, audit logs, and documentation when live update execution is not appropriate for the evaluated configuration.
+
+*Test 1: Update Provenance*
+
+. Review audit logs, system event logs, update status views, or provider-supported evidence for a recent patch application.
+. Verify that the evidence identifies the update source.
+. Verify that the evidence indicates authenticity and integrity verification of the update package, if such logging is claimed in the TSS.
+
+*Test 2: Tenant Non-Interference*
+
+. Authenticate as a tenant administrator.
+. Attempt to block, bypass, or indefinitely delay security patches using tenant-accessible configuration settings.
+. Verify that security patches are applied according to the evaluated provider or TOE update policy, not unauthorized tenant policy.
+
+[appendix]
+== Document References
+
+[bibliography]
+* [#PP_MOD]#[PP_MOD]# collaborative PP-Module for Database-as-a-Service.
+* [#Crypto_Catalog]#[Crypto_Catalog]# Common Criteria Cryptographic Catalogue.
+* [#cPP_DBMS]#[cPP_DBMS]# collaborative Protection Profile for Database Management Systems.
+* [#DBMS_MOD_CRYPTO]#[DBMS_MOD_CRYPTO]# PP-Module for DBMS Cryptographic Functions.

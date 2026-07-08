@@ -4,26 +4,69 @@
 :toclevels: 7
 :sectnums:
 :sectnumlevels: 7
+:table-caption: Table
 :imagesdir: images
 :icons: font
 :doctype: book
-:revnumber: 0.2
-:revdate: 2026-01-25
+:revnumber: 0.4
+:revdate: 2026-06-30
+:xrefstyle: full
 
 :iTC-shortname: DBMS-iTC
 :iTC-longname: Database Management Systems
 :pp-module-name: collaborative PP-Module for DBMS in the Cloud
-:pp-module-version: 0.2
+:pp-module-version: 0.4
+:base-pp-version: Version 2.0
+:base-pp-date: 27 April 2026
+
+== Revision History
+
+.Revision history
+[%header,cols=".^1,.^2,.^4"]
+|===
+|Version |Date |Description
+
+|0.1
+|2025-03-12
+|Initial Evaluation Activities for the DBMS in the Cloud PP-Module.
+
+|0.2
+|2026-01-25
+|CC:2022 alignment: updated Evaluation Activities for the reformatted SFRs and CC:2022 conformance claims.
+
+|0.3
+|2026-06-26
+|Aligned with the v0.3 PP-Module: deferred cryptographic SFR evaluation, including FDP_DIT_EXT.1, to the DBMS Cryptographic Functions Module SD; aligned Base PP references with cPP_DBMS Version 2.0; and adopted the shared AsciiDoc rendering assets.
+
+|0.4
+|2026-06-30
+|Version aligned with the v0.4 module and SD set following the relocation of FDP_DIT_EXT.1 to the DBMS Cryptographic Functions Module. Core cryptographic evaluation of FDP_DIT_EXT.1 is performed under the Crypto Module SD; this Cloud SD retains cloud-specific mapping, configuration, and integration checks.
+
+|0.4
+|2026-07-07
+|Technology area and TOE characterization broadened to tenant-operated deployments of cloud-native or lift-and-shift DBMS products, matching the PP-Module scope clarification.
+
+|0.4
+|2026-07-07
+|Renamed the FAU_GEN.1 and FAU_STG.1 sections to FAU_GEN.1/Cloud and FAU_STG.2/Cloud following the module's iteration changes; noted the Base PP SD's continuing coverage of the Base PP's FAU_GEN.1; aligned the audit modification-protection activities with the completed "prevent" selection.
+
+|0.4
+|2026-07-08
+|Added Evaluation Activities for the new FPT_FLS.1 SFR. The activities are driven by the ST's completions (claimed failure types and TSS-defined secure state) rather than a prescribed failure list, with simulation or provider-supported demonstration permitted where a failure type cannot practically be induced.
+
+|===
+
+toc::[]
 
 == Introduction
 
 === Technology Area and Scope of Supporting Document
 
-This Supporting Document (SD) defines Evaluation Activities (EAs) for the *{pp-module}* (DBMS_Cloud_MOD), version {revnumber}. The technology area addressed is Database Management Systems (DBMS) deployed in cloud Infrastructure-as-a-Service (IaaS) or Platform-as-a-Service (PaaS) environments using a "lift-and-shift" deployment model.
+This Supporting Document (SD) defines Evaluation Activities (EAs) for the *{pp-module-name}* (DBMS_Cloud_MOD), version {revnumber}. The technology area addressed is Database Management Systems (DBMS) deployed in tenant-operated cloud Infrastructure-as-a-Service (IaaS) or Platform-as-a-Service (PaaS) environments. This covers both cloud-native DBMS products designed for cloud deployment and traditional DBMS products deployed using a "lift-and-shift" model.
 
 In this deployment model, the DBMS product (the Target of Evaluation, or TOE) is:
 
-* Functionally equivalent to its on-premises version
+* A cloud-native DBMS, or a traditional DBMS functionally equivalent to its on-premises version
 * Deployed by the customer or tenant, not by the cloud service provider
 * Hosted on cloud infrastructure that provides compute, storage, network, and supporting services
 * Integrated with cloud-native identity, audit, and configuration management services
@@ -50,13 +93,13 @@ This Supporting Document is organized to mirror the structure of the PP-Module a
 * Cloud-specific assurance activities
 * Documentation requirements for cloud deployments
 
-*Subsequent sections* (to be provided in companion SD sections) define Evaluation Activities organized by SFR class:
+*Subsequent sections* define Evaluation Activities organized by SFR class:
 
 * FAU: Security Audit
 * FIA: Identification and Authentication
 * FMT: Security Management
 * FPT: Protection of the TSF
-* FDP: User Data Protection (selection-based)
+* FDP: User Data Protection and Crypto Module coordination
 
 Within each class section, Evaluation Activities are specified for each SFR, organized into:
 
@@ -109,7 +152,7 @@ This SD provides Evaluation Activities for the SFRs defined in the PP-Module. Ev
 
 * *collaborative Protection Profile for Database Management Systems (cPP_DBMS)*
 +
-The Base PP that must be claimed in conjunction with this PP-Module. All SFRs and SARs from the cPP_DBMS apply to TOEs claiming conformance to the DBMS Cloud PP-Module.
+The Base PP, Version 2.0 dated 27 April 2026, must be claimed in conjunction with this PP-Module. All SFRs and SARs from the cPP_DBMS apply to TOEs claiming conformance to the DBMS Cloud PP-Module.
 
 * *Supporting Document for cPP_DBMS (cPP_DBMS SD)*
 +
@@ -119,11 +162,13 @@ The Base PP SD provides Evaluation Activities for SFRs inherited from the cPP_DB
 
 * *PP-Module for DBMS Cryptographic Functions (DBMS_MOD_CRYPTO)*
 +
-The DBMS Crypto Module is a mandatory component of any PP-Configuration claiming this PP-Module. Evaluators shall verify that the ST includes the DBMS Crypto Module regardless of which implementation path is selected for FDP_DAR_EXT.1 or FDP_DIT_EXT.1.
+The DBMS Crypto Module is a mandatory component of any PP-Configuration claiming this PP-Module. Evaluators shall verify that the ST includes the DBMS Crypto Module for every evaluation claiming this PP-Module. The Crypto Module provides the data-at-rest and data-in-transit cryptographic requirements used by the Cloud PP-Configuration.
 
 * *Supporting Document for DBMS Cryptographic Module (DBMS_MOD_CRYPTO SD)*
 +
-Evaluators shall apply the DBMS_MOD_CRYPTO SD for all cryptographic SFRs in every evaluation claiming this PP-Module. This SD does not duplicate cryptographic Evaluation Activities; it defers to the Crypto Module SD for FCS-class requirements.
+Evaluators shall apply the DBMS_MOD_CRYPTO SD for DBMS-specific cryptographic integration activities in every evaluation claiming this PP-Module, and shall apply the applicable Catalogue and Functional Package Evaluation Activities for algorithm and protocol behavior. This SD adds Cloud-specific mapping, configuration, and integration checks where cloud deployment introduces additional evidence needs.
+
+Selection of the Cloud Module does not automatically select the Crypto Module's Enterprise Enhanced use case. When the ST claims Enterprise Enhanced, the evaluator performs the use-case selection-conformance check defined in the Crypto Module SD; this Cloud SD adds no alternative algorithm selections or algorithm Evaluation Activities.
 
 ==== CC Standards
 
@@ -134,7 +179,7 @@ Evaluators shall apply the DBMS_MOD_CRYPTO SD for all cryptographic SFRs in ever
 
 Supporting Documents layer in the same manner as PP-Modules:
 
-[source]
+[ditaa, cloud-sd-layering, png]
 ----
 +---------------------------+
 |  cPP_DBMS SD              |  Base PP Evaluation Activities
@@ -144,7 +189,7 @@ Supporting Documents layer in the same manner as PP-Modules:
               | Supplements/Extends
               v
 +---------------------------+
-|  DBMS Cloud SD            |  Cloud-specific Evaluation Activities
+|  DBMS Cloud SD            |  Cloud Evaluation Activities
 |  (This Document)          |
 +-------------+-------------+
               |
@@ -158,8 +203,8 @@ Supporting Documents layer in the same manner as PP-Modules:
 
 Evaluators shall apply all three SDs for every evaluation of the DBMS Cloud Module.
 
-* Data-in-Transit: The DBMS Crypto SD is applied for all TLS/HTTPS testing (required for cloud management interfaces).
-* Data-at-Rest: The evaluator applies the activities in Section 2.5 (Handling "Leverage Platform Encryption") to determine the scope of testing.
+* Data-in-Transit: The DBMS Crypto SD is applied for TLS testing required for cloud management interfaces and other external service channels, including HTTPS interfaces implemented over TLS.
+* Data-at-Rest: The DBMS Crypto SD is applied for the selected Crypto Module `FDP_DAR_EXT.1` strategy. This Cloud SD verifies cloud-deployment integration and documentation consistency only.
 
 == General Guidance for Evaluators
 
@@ -169,9 +214,9 @@ This section provides guidance applicable across multiple Evaluation Activities 
 
 ==== Determining the TOE Boundary
 
-In cloud deployment contexts, establishing the correct TOE boundary is critical for a valid evaluation. The evaluator shall verify that the Security Target clearly delineates:
+In cloud deployment contexts, establishing the correct TOE boundary is critical for a valid evaluation. The PP-Module does not prescribe one allocation for every database architecture. The evaluator shall verify that the Security Target clearly delineates the allocation used by the evaluated configuration.
 
-*What is included in the TOE:*
+Components that may be included in the TOE include:
 
 * The DBMS application software and any tightly integrated subsystems
 * Interfaces used to configure and manage security-relevant behavior
@@ -179,23 +224,26 @@ In cloud deployment contexts, establishing the correct TOE boundary is critical 
 * Any embedded runtime used to bootstrap or orchestrate the DBMS (e.g., sidecar containers, initialization scripts)
 * Management interfaces exposed to administrators and cloud services
 
-*What is excluded from the TOE (Trusted Platform):*
+Components that are typically outside the TOE, but may be included when the ST defines and evaluates them as part of the TOE, include:
 
 * The hypervisor or container runtime environment
 * The cloud control plane and management APIs
 * Cloud-native IAM services (though the TOE integrates with them)
 * Cloud-native logging, monitoring, and key management services
 * The underlying hardware, network infrastructure, and storage systems
-* Orchestration systems (e.g., Kubernetes, Terraform) except for TOE-specific components
+* Orchestration systems (e.g., Kubernetes, Terraform), except for TOE-specific components included in the TOE
+
+The evaluator shall classify components according to the ST boundary and their security behavior in the evaluated configuration, rather than according to provider ownership or the general service category alone.
 
 ==== Distinction Between TOE and Trusted Platform
 
 The evaluator shall understand the CCiTC Trusted Platform model:
 
-* The *Trusted Platform* is the set of cloud infrastructure and services that the TOE relies upon but that are outside the evaluation scope
+* The *Trusted Platform* is the set of cloud infrastructure and services that the TOE relies upon but that are outside the TOE boundary
 * The TOE *assumes* the Trusted Platform operates correctly per the assumptions in the PP-Module (A.TRUSTED_PLATFORM, A.CLOUD_SERVICE_INTEGRITY)
-* The evaluator does *not* evaluate the Trusted Platform itself
-* The evaluator *does* evaluate that the TOE correctly integrates with and relies upon the Trusted Platform
+* The evaluator does *not* evaluate Trusted Platform properties as TOE functionality
+* The evaluator *does* evaluate the TOE behavior at the boundary, including its integration with and stated reliance upon the Trusted Platform, as required by the applicable SFRs and Evaluation Activities
+* The evaluation authority determines whether the evidence offered for Trusted Platform assumptions and Operational Environment objectives is acceptable under scheme policy
 
 This distinction has direct implications for how certain SFR test
 activities are scoped. In particular, identity assertion validation
@@ -213,7 +261,9 @@ The evaluator shall:
 . Verify that the ST correctly identifies components within vs. outside the TOE
 . Verify that the TOE description addresses all deployment configurations claimed (VMs, containers, clusters)
 . Verify that interfaces between the TOE and Trusted Platform are clearly identified
-. Confirm that the ST does not claim functionality provided by the Trusted Platform as TOE functionality
+. Verify that the TSS identifies, for each claimed SFR, the security behavior performed by the TOE and any supporting property relied upon from the TOE Platform, Trusted Platform, or another operational environment component
+. Confirm that Trusted Platform evidence is not used to satisfy a claimed TOE SFR unless the applicable requirement expressly permits use of a platform-provided mechanism
+. Confirm that each external reliance is linked to an assumption or Operational Environment objective and to evidence submitted for acceptance under the applicable scheme policy
 
 === Handling Selections and Assignments
 
@@ -230,8 +280,8 @@ When an SFR includes a selection operation, the evaluator shall:
 When the ST author selects options that invoke additional requirements:
 
 * Verify that the DBMS Crypto Module is included in the PP-Configuration. This is required for all evaluations claiming this PP-Module and is not contingent on any specific selection.
-* Verify that the ST identifies which implementation path was selected in FDP_DAR_EXT.1 (TOE-implemented encryption or Leverage Platform Encryption) and that the TSS description is consistent with that selection.
-* Verify that the ST identifies which protocol was selected in FDP_DIT_EXT.1 (TLS or HTTPS) and that the corresponding Crypto Module SFRs are claimed.
+* Verify that the ST identifies which Crypto Module `FDP_DAR_EXT.1` strategy was selected (Storage-Scope Encryption or Granular Data Encryption) and that the TSS description is consistent with that selection.
+* Verify that the ST identifies which protocol was selected in FDP_DIT_EXT.1 and includes the corresponding Functional Package components. HTTPS is treated as HTTP over the selected TLS channel rather than as a separate cryptographic SFR.
 * If "integrity failure via self-test" is selected in FPT_ARS_EXT.1, verify that FPT_TST.1 is included in the ST.
 
 ==== Evaluating SFRs with Assignments
@@ -339,15 +389,9 @@ When the TOE integrates with cloud-native services, the evaluator shall:
 * Test that secrets are retrieved securely from cloud services
 * Test that the TOE handles secret rotation appropriately
 
-==== Handling "Leverage Platform Encryption"
+==== Coordinating Data-at-Rest Evaluation
 
-If the ST author selects "Leverage Platform Encryption" in FDP_DAR_EXT.1 (instead of "Full Volume" or "Granular"), the evaluator shall verify:
-
-* The DBMS Crypto Module is **NOT** included in the claimed PP-Configuration.
-* The TSS explicitly describes how the TOE relies on the Operational Environment (OE) for storage encryption (e.g., references to encrypted EBS volumes, Azure Disk Encryption, or other platform-managed encryption).
-* The guidance documentation instructs the administrator to enable encryption at the platform level during deployment.
-
-In this scenario, the evaluator does not perform independent cryptographic testing for data-at-rest, as this functionality is outside the TOE boundary.
+The Cloud PP-Configuration always includes the DBMS Crypto Module. The evaluator shall verify that data-at-rest protection is claimed through the Crypto Module's `FDP_DAR_EXT.1` requirement and that the selected strategy is either "Storage-Scope Encryption" or "Granular Data Encryption." Platform storage encryption may be described as operational-environment support, but it is not an alternate Cloud Module selection and does not replace the mandatory Crypto Module claim or its evaluation activities.
 
 === Trusted Platform Assumptions
 
@@ -387,7 +431,7 @@ For each assumption in the PP-Module, the evaluator shall:
 
 * Verify the ST includes this assumption or an equivalent statement
 * Verify preparative guidance describes secure deployment procedures
-* Verify the TOE provides mechanisms to verify deployment integrity (FPT_TUD_EXT.1)
+* Verify the TOE provides mechanisms to verify trusted updates (FPT_TUD_EXT.1), and verify TOE-side startup or deployment artifact integrity only when FPT_SBT_EXT.1 is claimed
 
 *A.CLOUD_SERVICE_INTEGRITY:*
 
@@ -409,15 +453,15 @@ The DBMS Cloud Module requires the inclusion of the DBMS Crypto Module. The eval
 
 *Coordinate Evaluation Activities:*
 
-* Apply this SD (Cloud SD) for cloud-specific SFRs (FAU, FIA, FMT, FPT classes).
-* Apply the DBMS Crypto Module SD for all cryptographic SFRs (FCS class, FDP_DIT_EXT.1 TLS/HTTPS).
+* Apply this SD (Cloud SD) for cloud-specific SFRs (FAU, FIA, FMT, FPT classes) and for Cloud-specific mapping, configuration, and integration checks associated with Crypto Module requirements.
+* Apply the DBMS Crypto Module SD for DBMS-specific cryptographic integration behavior, the Catalogue evaluation methods for consumed FCS components, and the TLS/X.509 Functional Package Evaluation Activities for protocol and certificate behavior.
 * Apply the cPP_DBMS SD for SFRs inherited from the Base PP.
 
 *Verify Mandatory TLS Usage:*
-Because the TOE is deployed in the cloud, the evaluator shall verify that `FDP_DIT_EXT.1` (Data-in-Transit) in the Crypto Module claims TLS or HTTPS. The selection of "other cryptographic protocols" or "none" is generally not acceptable for cloud deployments where management interfaces are exposed to untrusted networks.
+Because the TOE is deployed in the cloud, the evaluator shall verify that `FDP_DIT_EXT.1` identifies the protocol used for each external service channel and that the corresponding Functional Package components are included. TLS components are expected for cloud management interfaces exposed to untrusted networks, including web interfaces that provide HTTPS over TLS. The Cloud SD verifies that these components are mapped to deployed cloud interfaces and integration paths; the Crypto SD verifies the DBMS-specific cryptographic integration behavior, and the Functional Package SD verifies the protocol behavior.
 
 *Handling Data-at-Rest Selections:*
-While the Crypto Module is mandatory, the implementation of Data-at-Rest (D@RE) encryption allows flexibility. The evaluator must apply the guidance in the following section (<<Handling "Leverage Platform Encryption">>) to determine the testing scope for D@RE.
+The evaluator shall apply the DBMS Crypto Module SD for `FDP_DAR_EXT.1` testing and use this Cloud SD only for cloud-deployment integration checks, such as storage coverage, key-management integration, and guidance consistency.
 
 ==== Evaluation Activity Precedence
 
@@ -442,7 +486,7 @@ The following SAR families from the cPP_DBMS apply unchanged:
 | SAR Family | Components | Primary SD Coverage
 
 | ADV (Development)
-| ADV_FSP.1
+| ADV_ARC.1, ADV_FSP.2, ADV_TDS.1
 | cPP_DBMS SD
 
 | AGD (Guidance Documents)
@@ -450,19 +494,19 @@ The following SAR families from the cPP_DBMS apply unchanged:
 | cPP_DBMS SD + Cloud-specific activities in this SD
 
 | ALC (Life-cycle Support)
-| ALC_CMC.1, ALC_CMS.1, etc.
+| ALC_CMC.2, ALC_CMS.2, ALC_DEL.1, ALC_FLR.3
 | cPP_DBMS SD
 
 | ASE (Security Target Evaluation)
-| ASE_INT.1, ASE_CCL.1, ASE_SPD.1, ASE_OBJ.2, ASE_REQ.2, ASE_TSS.1
+| ASE_CCL.1, ASE_ECD.1, ASE_INT.1, ASE_OBJ.2, ASE_REQ.2, ASE_SPD.1, ASE_TSS.1
 | cPP_DBMS SD + PP-Module conformance verification in this SD
 
 | ATE (Tests)
-| ATE_IND.1
+| ATE_COV.1, ATE_FUN.1, ATE_IND.2
 | cPP_DBMS SD + Cloud-specific test activities in this SD
 
 | AVA (Vulnerability Assessment)
-| AVA_VAN.1
+| AVA_VAN.2
 | cPP_DBMS SD + Cloud-specific considerations in this SD
 |===
 
@@ -616,97 +660,13 @@ The preparative procedures shall include:
 
 The evaluator shall verify that these cloud-specific guidance elements are present and accurate by applying the documented procedures during evaluation.
 
-[appendix]
-== Acronyms and Abbreviations
-
-[cols="1,3",options="header"]
-|===
-| Acronym | Full Term
-
-| AD | Active Directory
-| API | Application Programming Interface
-| CAP | Composed Assurance Package
-| CC | Common Criteria
-| CCiTC | Common Criteria in the Cloud Technical Community
-| CEM | Common Methodology for Information Technology Security Evaluation
-| DBMS | Database Management System
-| EA | Evaluation Activity
-| EAL | Evaluation Assurance Level
-| ETR | Evaluation Technical Report
-| IAM | Identity and Access Management
-| IaaS | Infrastructure as a Service
-| LDAP | Lightweight Directory Access Protocol
-| NTP | Network Time Protocol
-| OCI | Oracle Cloud Infrastructure
-| OE | Operational Environment
-| OIDC | OpenID Connect
-| OSP | Organizational Security Policy
-| PaaS | Platform as a Service
-| PP | Protection Profile
-| SAR | Security Assurance Requirement
-| SD | Supporting Document
-| SFR | Security Functional Requirement
-| SIEM | Security Information and Event Management
-| SPD | Security Problem Definition
-| ST | Security Target
-| TLS | Transport Layer Security
-| TOE | Target of Evaluation
-| TSF | TOE Security Functionality
-| TSS | TOE Summary Specification
-| VPC | Virtual Private Cloud
-|===
-
-[appendix]
-== Document References
-
-[bibliography]
-* [#CC1]#[CC1]# Common Criteria for Information Technology Security Evaluation, Part 1: Introduction and General Model, CC:2022, Version 2022, Revision 1.
-* [#CC2]#[CC2]# Common Criteria for Information Technology Security Evaluation, Part 2: Security Functional Components, CC:2022, Version 2022, Revision 1.
-* [#CC3]#[CC3]# Common Criteria for Information Technology Security Evaluation, Part 3: Security Assurance Components, CC:2022, Version 2022, Revision 1.
-* [#CC4]#[CC4]# Common Criteria for Information Technology Security Evaluation, Part 4: Framework for the Specification of Evaluation Methods and Activities, CC:2022.
-* [#CC5]#[CC5]# Common Criteria for Information Technology Security Evaluation, Part 5: Pre-defined Packages of Security Requirements, CC:2022.
-* [#CEM]#[CEM]# Common Methodology for Information Technology Security Evaluation, CEM:2022.
-* [#PP_MOD]#[PP_MOD]# collaborative PP-Module for DBMS in the Cloud (DBMS_Cloud_MOD), Version 0.2.
-* [#cPP_DBMS]#[cPP_DBMS]# collaborative Protection Profile for Database Management Systems.
-* [#cPP_DBMS_SD]#[cPP_DBMS_SD]# Supporting Document for collaborative Protection Profile for Database Management Systems.
-* [#DBMS_MOD_CRYPTO]#[DBMS_MOD_CRYPTO]# PP-Module for DBMS Cryptographic Functions.
-* [#DBMS_MOD_CRYPTO_SD]#[DBMS_MOD_CRYPTO_SD]# Supporting Document for DBMS Cryptographic Module.
-
-
-== Evaluation Activities for SFRs
-
-This section provides the Evaluation Activities for each Security Functional Requirement defined in the DBMS Cloud PP-Module.
-
-= Supporting Document: Evaluation Activities for FAU and FIA Classes
-:showtitle:
-:toc: macro
-:toclevels: 4
-:sectnums:
-:sectnumlevels: 4
-:icons: font
-:doctype: book
-:revnumber: 0.1
-:revdate: 2026-01-25
-
-== Introduction
-
-This Supporting Document provides Evaluation Activities (EAs) for the Security Functional Requirements (SFRs) defined in the FAU (Security Audit) and FIA (Identification and Authentication) classes of the collaborative PP-Module for DBMS in the Cloud.
-
-The Evaluation Activities are derived from CC:2022 Part 4 (Framework for Evaluation Methods and Activities) and align with CEM:2022 work units for ASE_TSS, AGD_OPE, and ATE_IND. Each activity specifies what the evaluator shall verify in the TSS, guidance documentation, and through independent testing.
-
-=== Document Conventions
-
-* *TSS Activities* correspond to CEM work unit ASE_TSS.1 and verify the TOE Summary Specification describes how the TSF implements each SFR.
-* *Guidance Activities* correspond to CEM work units AGD_OPE.1 and AGD_PRE.1 and verify operational and preparative guidance adequately describes the security functionality.
-* *Test Activities* correspond to CEM work unit ATE_IND and specify independent tests the evaluator shall perform to verify the TSF operates as claimed.
-
-toc::[]
-
 == FAU Class: Security Audit
 
-=== FAU_GEN.1 Audit Data Generation
+=== FAU_GEN.1/Cloud Audit Data Generation (Cloud Events)
 
-==== FAU_GEN.1 Evaluation Activities
+This SFR is an iteration of the Base PP's FAU_GEN.1. The Base PP SD's FAU_GEN.1 Evaluation Activities remain applicable to the Base PP's FAU_GEN.1; the activities below address the cloud-specific events and record content added by the iteration.
+
+==== FAU_GEN.1/Cloud Evaluation Activities
 
 ===== TSS Activities
 
@@ -716,12 +676,12 @@ The evaluator shall verify the TSS describes:
 
 * The complete list of auditable events, including:
 ** Start-up and shutdown of the audit functions
-** All events specified for the selected audit level (minimum, basic, detailed, or not specified)
-** All cloud-specific auditable events assigned by the ST author
+** The cloud-specific auditable events specified in FAU_GEN.1.1/Cloud
+** Any additional cloud-specific auditable events assigned by the ST author
 
 * For each auditable event, the specific conditions under which the event is recorded and any event-specific parameters captured.
 
-* The format and structure of audit records, demonstrating compliance with FAU_GEN.1.2 content requirements (date/time, event type, subject identity, outcome).
+* The format and structure of audit records, demonstrating compliance with FAU_GEN.1.2/Cloud content requirements (date/time, event type, subject identity, outcome, and the cloud-specific values where applicable).
 
 * How cloud-specific audit information is captured, including:
 ** Tenant identifier capture mechanism
@@ -798,7 +758,7 @@ For a sample of at least five different event types, the evaluator shall:
 
 . Trigger the auditable event.
 . Examine the resulting audit record.
-. Verify the record contains all mandatory fields per FAU_GEN.1.2:
+. Verify the record contains all mandatory fields per FAU_GEN.1.2/Cloud:
 ** Date and time of the event
 ** Type of event
 ** Subject identity (if applicable)
@@ -963,9 +923,9 @@ Expected result: The TSF handles conflicting rules according to documented prece
 
 ---
 
-=== FAU_STG.1 Protected Audit Trail Storage
+=== FAU_STG.2/Cloud Protected Audit Trail Storage
 
-==== FAU_STG.1 Evaluation Activities
+==== FAU_STG.2/Cloud Evaluation Activities
 
 ===== TSS Activities
 
@@ -979,13 +939,13 @@ The evaluator shall verify the TSS describes:
 ** The maximum storage capacity and behavior when capacity is reached
 
 * If audit records are transmitted to an external entity:
-** The trusted channel mechanism used (referencing FTP_ITC.1 if applicable)
+** The data-in-transit protection mechanism used, referencing `FDP_DIT_EXT.1` and the applicable TLS Functional Package components
 ** The reliability mechanisms (buffering, retry, acknowledgment)
 ** Behavior when the external entity is unavailable
 
 * The mechanisms that protect stored audit records from unauthorized deletion.
 
-* The mechanisms that prevent or detect unauthorized modifications to stored audit records, including:
+* The mechanisms that prevent unauthorized modifications to stored audit records (the module completes the FAU_STG.2.2/Cloud selection as "prevent"), including:
 ** Access control mechanisms
 ** Integrity protection mechanisms (checksums, signatures, append-only storage)
 
@@ -1033,19 +993,14 @@ The evaluator shall:
 
 Expected result: Unauthorized deletion attempts are prevented.
 
-*Test 3: Unauthorized Modification Prevention/Detection*
+*Test 3: Unauthorized Modification Prevention*
 
-If the TSF prevents unauthorized modifications:
+The evaluator shall:
 
-. As an unprivileged user, attempt to modify stored audit records.
-. Verify the modification attempt is denied.
+. As an unprivileged user, attempt to modify stored audit records through each TSF interface that exposes audit data.
+. Verify each modification attempt is denied.
 
-If the TSF detects unauthorized modifications:
-
-. Using direct storage access (bypassing the TSF if possible in the test environment), modify an audit record.
-. Query the audit trail and verify the modification is detected.
-
-Expected result: Unauthorized modifications are either prevented or detected as configured.
+Expected result: Unauthorized modifications are prevented (the module completes the FAU_STG.2.2/Cloud selection as "prevent").
 
 *Test 4: Authorized Deletion Verification (Positive Test)*
 
@@ -1082,7 +1037,7 @@ Expected result: The TSF handles external entity unavailability according to doc
 
 ---
 
-=== FAU_STG_EXT.1 Audit Export (Selection-Based)
+=== FAU_STG_EXT.1 Audit Export
 
 ==== FAU_STG_EXT.1 Evaluation Activities
 
@@ -1093,11 +1048,11 @@ The evaluator shall verify the TSS describes:
 * The cloud-native logging or SIEM services to which the TSF can export audit data (as assigned by the ST author).
 
 * The export mechanism for each supported service, including:
-** Protocol used for export (e.g., HTTP/HTTPS, syslog, proprietary API)
+** Protocol used for export (e.g., HTTPS over TLS, syslog over TLS, proprietary API over TLS)
 ** Authentication mechanism for connecting to the external service
 ** Data format of exported records (e.g., JSON, CEF, syslog format)
 
-* The secure export mechanism used, referencing FTP_ITC.1 if a trusted channel is specified.
+* The secure export mechanism used, referencing `FDP_DIT_EXT.1` and the applicable TLS Functional Package components.
 
 * The frequency and triggering conditions for audit export (real-time streaming, batch, threshold-based).
 
@@ -1202,119 +1157,9 @@ Expected result: Export authentication is validated and failures are handled app
 
 == FIA Class: Identification and Authentication
 
-=== FIA_UAU.1 Timing of Authentication
+=== Base PP Identification and Authentication Coordination
 
-==== FIA_UAU.1 Evaluation Activities
-
-===== TSS Activities
-
-The evaluator shall verify the TSS describes:
-
-* The complete list of TSF-mediated actions that can be performed before the user is authenticated, explicitly enumerating each permitted action.
-
-* For each pre-authentication action, the rationale for why it does not require authentication (e.g., does not access protected data or administrative functions).
-
-* The authentication enforcement point where the TSF transitions from allowing pre-authentication actions to requiring authentication.
-
-* How the TSF identifies the boundary between pre-authentication and post-authentication actions.
-
-* The authentication mechanisms supported by the TOE (referencing FIA_UID_EXT.1 for cloud-specific mechanisms).
-
-* How authentication results from external identity providers are validated and enforced by the TSF.
-
-* How the TSF handles authentication failures, including any lockout or delay mechanisms.
-
-===== Guidance Activities
-
-The evaluator shall verify the guidance describes:
-
-* The complete list of actions permitted before authentication.
-
-* How users initiate the authentication process.
-
-* How to configure supported authentication mechanisms.
-
-* How to configure authentication failure handling (lockout thresholds, delay periods).
-
-* Security warnings about the risks of expanding pre-authentication actions.
-
-* How authentication integrates with external cloud IAM systems.
-
-===== Test Activities
-
-*Test 1: Pre-Authentication Actions Verification*
-
-The evaluator shall, without authenticating:
-
-. Attempt each action listed as permitted before authentication.
-. Verify each listed action succeeds without requiring authentication.
-
-Expected result: All documented pre-authentication actions are permitted.
-
-*Test 2: Authentication Enforcement - Positive Test*
-
-The evaluator shall:
-
-. Authenticate successfully using valid credentials.
-. Verify access to TSF-mediated actions is granted after successful authentication.
-. Perform operations requiring authentication and verify they succeed.
-
-Expected result: Authenticated users can perform TSF-mediated actions.
-
-*Test 3: Authentication Enforcement - Negative Test*
-
-The evaluator shall, without authenticating:
-
-. Attempt to access protected data.
-. Attempt to perform administrative functions.
-. Attempt any action not listed as permitted before authentication.
-. Verify all such attempts are denied with appropriate error messages.
-
-Expected result: Unauthenticated users cannot perform protected actions.
-
-*Test 4: Authentication with Multiple Mechanisms*
-
-For each supported authentication mechanism:
-
-. Attempt authentication using valid credentials.
-. Verify authentication succeeds.
-. Verify subsequent TSF-mediated actions are permitted.
-
-Expected result: All supported authentication mechanisms function correctly.
-
-*Test 5: Authentication Failure Handling*
-
-The evaluator shall:
-
-. Attempt authentication with invalid credentials.
-. Verify the authentication attempt fails.
-. Verify the failure is communicated to the user without revealing which credential component was incorrect (password vs. username).
-. Verify the failure is audited (per FAU_GEN.1).
-. If lockout is configured, verify repeated failures trigger the lockout mechanism.
-
-Expected result: Authentication failures are handled securely and audited.
-
-*Test 6: Session Continuity*
-
-The evaluator shall:
-
-. Authenticate successfully.
-. Perform a series of TSF-mediated actions.
-. Verify the authenticated session persists across multiple actions without requiring re-authentication (unless session timeout is configured).
-
-Expected result: Authenticated sessions persist appropriately.
-
-*Test 7: External Identity Provider Authentication (Cloud-Specific)*
-
-When external identity providers are used:
-
-. Authenticate via the external identity provider (cloud IAM, federated directory).
-. Verify the TOE accepts the authentication assertion.
-. Verify appropriate access is granted based on the identity assertion.
-
-Expected result: Authentication via external identity providers functions correctly.
-
----
+The Base PP supplies `FIA_UID.2` and `FIA_UAU.2`, and the Base PP SD provides the corresponding Evaluation Activities for identification and authentication before any TSF-mediated action. This Cloud SD does not duplicate those activities. The activities below supplement the Base PP by verifying that external identity assertions used in cloud deployments are validated and mapped before the TOE relies on them for access-control decisions.
 
 === FIA_UID_EXT.1 External Identity Integration
 
@@ -1505,113 +1350,12 @@ The evaluator shall:
 . Configure the TOE to use an external identity provider (e.g., Azure AD, AWS IAM).
 . Initiate an authentication attempt.
 . Capture network traffic between the TOE and the identity provider endpoint.
-. Verify that the traffic is protected (e.g., encrypted using TLS/HTTPS).
+. Verify that the traffic is protected (e.g., encrypted using TLS, including HTTPS over TLS).
 . Attempt to establish a connection to the identity provider using an invalid or expired certificate on the TOE side (if client auth is used) or present a server certificate that the TOE should not trust. Verify the connection is rejected.
 
 Expected result: The connection to the identity provider is protected against disclosure and modification. The TOE rejects invalid certificates.
 
-*Application Note:* Because the Crypto Module is mandatory, the TOE must use TLS/HTTPS for external identity provider connections. This test verifies that the TLS implementation claimed in the Crypto Module is correctly utilized for this cloud integration.
-
-== Appendix A: Evaluation Activity Summary Table
-
-.FAU Class Evaluation Activities Summary
-[cols="2,1,1,1",options="header"]
-|===
-| SFR | TSS Activities | Guidance Activities | Test Activities
-
-| FAU_GEN.1 Audit Data Generation
-| Verify audit mechanism, auditable events, record format, cloud-specific capture, timestamp source
-| Configure audit level, cloud events, verify operation
-| 6 tests: Startup/shutdown, admin actions, auth events, record content, cloud events, negative test
-
-| FAU_SEL.1/Cloud Selective Audit
-| Verify selection mechanism, supported attributes, inclusion/exclusion rules
-| Configure selection criteria, tenant/IAM/API/region selection
-| 7 tests: Object, user, tenant, IAM, API selection, combined criteria, precedence
-
-| FAU_STG.1 Protected Audit Trail Storage
-| Verify storage location, deletion protection, modification prevention/detection
-| Configure storage, verify integrity, backup procedures
-| 6 tests: Storage verification, unauthorized deletion, modification prevention, authorized deletion, external transmission, unavailability handling
-
-| FAU_STG_EXT.1 Audit Export
-| Verify export services, mechanisms, formats, buffering, state handling
-| Configure export destinations, secure transport, troubleshooting
-| 6 tests: Cloud export, format verification, secure mechanism, reliability, multiple destinations, credential authentication
-|===
-
-.FIA Class Evaluation Activities Summary
-[cols="2,1,1,1",options="header"]
-|===
-| SFR | TSS Activities | Guidance Activities | Test Activities
-
-| FIA_UAU.1 Timing of Authentication
-| Verify pre-auth actions, enforcement point, mechanisms, external provider validation
-| Configure authentication, failure handling, cloud IAM integration
-| 7 tests: Pre-auth actions, positive auth, negative auth, multiple mechanisms, failure handling, session continuity, external provider
-
-| FIA_UID_EXT.1 External Identity Integration
-| Verify pre-id actions, identity provider integration, assertion validation, identity mapping
-| Configure cloud IAM, federated directory, service principals, identity mapping
-| 11 tests: Pre-id actions, IAM integration, IAM rejection, directory integration, directory rejection, service principal integration, service principal rejection, assertion validation, identity mapping, unavailability handling, multiple sources
-|===
-
-== Appendix B: Cloud-Specific Test Environment Considerations
-
-When conducting evaluation activities for cloud-deployed DBMS, the evaluator should consider:
-
-=== Test Environment Setup
-
-* Deploy the TOE in a representative cloud environment (AWS, Azure, GCP, or as specified in the ST).
-* Configure cloud IAM roles and policies for test users with varying privilege levels.
-* Set up federated identity providers (LDAP/AD or SAML IdP) for federated authentication testing.
-* Configure cloud logging services (CloudWatch, Azure Monitor, etc.) for audit export testing.
-* Establish network monitoring capabilities to verify secure transport mechanisms.
-
-=== Multi-Tenancy Considerations
-
-* For tenant-based audit selection testing, configure multiple tenant contexts or simulate multi-tenant scenarios.
-* Verify tenant isolation in audit records and identity handling.
-
-=== Ephemeral Instance Considerations
-
-* Test audit persistence across instance restarts and replacements.
-* Verify audit export reliability when instances are terminated unexpectedly.
-* Test identity caching and session handling during instance lifecycle events.
-
-=== Service Availability Testing
-
-* Simulate identity provider unavailability to test fail-secure behavior.
-* Simulate audit destination unavailability to test buffering and recovery.
-* Document behavior under various failure scenarios.
-
-== Appendix C: References
-
-[bibliography]
-* [#CC1]#[CC1]# Common Criteria for Information Technology Security Evaluation, Part 1: Introduction and General Model, CC:2022.
-* [#CC2]#[CC2]# Common Criteria for Information Technology Security Evaluation, Part 2: Security Functional Components, CC:2022.
-* [#CC3]#[CC3]# Common Criteria for Information Technology Security Evaluation, Part 3: Security Assurance Components, CC:2022.
-* [#CC4]#[CC4]# Common Criteria for Information Technology Security Evaluation, Part 4: Framework for Evaluation Methods and Activities, CC:2022.
-* [#CEM]#[CEM]# Common Methodology for Information Technology Security Evaluation, CEM:2022.
-* [#DBMS_Cloud_MOD]#[DBMS_Cloud_MOD]# collaborative PP-Module for DBMS in the Cloud, Version 0.2.
-= Supporting Document: Evaluation Activities for FMT and FPT Class SFRs
-:showtitle:
-:toc: macro
-:toclevels: 4
-:sectnums:
-:sectnumlevels: 4
-:icons: font
-:doctype: book
-:revnumber: 0.1
-:revdate: 2026-01-25
-
-== Introduction
-
-This document specifies the Evaluation Activities (EAs) for the Security Management (FMT) and Protection of the TSF (FPT) class Security Functional Requirements defined in the collaborative PP-Module for DBMS in the Cloud. These EAs provide detailed guidance for evaluators to assess TOE conformance with each SFR.
-
-The EAs are aligned with CC:2022 and CEM:2022 work units, with specific consideration for cloud deployment scenarios including containerized deployments, distributed/clustered DBMS configurations, and integration with cloud-native services.
-
-toc::[]
+*Application Note:* Because the Crypto Module is mandatory, the TOE must use TLS for external identity provider connections, including HTTPS over TLS where applicable. This test verifies that the TLS implementation claimed in the Crypto Module is correctly utilized for this cloud integration.
 
 == FMT Class: Security Management
 
@@ -1842,13 +1586,13 @@ If HashiCorp Vault is supported:
 For each supported cloud secret management system:
 
 . Configure the TOE to retrieve a secret (e.g., database connection string or master key) from the cloud service.
-. Verify the retrieval request is made over a secure channel (HTTPS/TLS).
+. Verify the retrieval request is made over a secure channel (for example, HTTPS over TLS).
 . Verify the secret is not logged in plaintext by the TOE upon retrieval.
-. If the retrieved secret is a cryptographic key (and the ST claims `FCS_CKM_EXT.1` in the Crypto Module), verify that the TOE handles the key material according to `FCS_CKM.4` (Destruction) and does not persist it to non-volatile storage in plaintext.
+. If the retrieved secret is a cryptographic key (and the ST claims `FCS_CKM_EXT.1` in the Crypto Module), verify that the TOE handles the key material according to the Crypto Module's `FCS_CKM.6` key destruction claims and does not persist it to non-volatile storage in plaintext.
 
-Expected result: Secrets are retrieved securely and handled appropriately in memory. 
+Expected result: Secrets are retrieved securely and handled appropriately in memory.
 
-*Application Note:* If the Master Key is imported from a Cloud Secret Manager (covered by the Cloud Module's FMT_MTD_EXT.1), the evaluator shall verify the connection is secured per FDP_ITC_EXT.1.
+*Application Note:* General retrieval of configuration values, credentials, or non-key secrets from a cloud secret management service is evaluated as Cloud Module `FMT_MTD_EXT.1` behavior with the retrieval channel protected by `FDP_DIT_EXT.1`. If the retrieved value is a Master Key imported from an external entity under the Crypto Module BYOK path, `FCS_CKM_EXT.1.1` selects "Imported from External Entity", which triggers `FDP_ITC_EXT.1` and mandatory mutual TLS. HTTPS/TLS secret retrieval under `FDP_DIT_EXT.1` does not by itself satisfy the Crypto Module Master Key import requirement.
 
 === FMT_SMF.1/Cloud Specification of Management Functions (Cloud)
 
@@ -1863,17 +1607,17 @@ The evaluator shall verify that the TSS describes each management function liste
 .. The criteria available for selection (object identity, user identity, tenant identifier, etc.)
 .. How selections are persisted across TOE restart
 
-. **Configuration of audit export destinations (FAU_STG_EXT.1, when selected):**
+. **Configuration of audit export destinations (FAU_STG_EXT.1):**
 .. Supported audit export destinations (CloudWatch, Azure Monitor, Splunk, etc.)
 .. Configuration parameters for each destination
 .. How export credentials are protected
 
-. **Configuration of secure external communications (FDP_DIT_EXT.1, when selected):**
-.. TLS/HTTPS configuration parameters
+. **Configuration of secure external communications (FDP_DIT_EXT.1):**
+.. TLS configuration parameters, including HTTPS over TLS where applicable
 .. Certificate management interfaces
 .. Supported cipher suites and protocol versions
 
-. **Configuration of data-at-rest encryption (FDP_DAR_EXT.1, when selected):**
+. **Configuration of data-at-rest encryption (Crypto Module FDP_DAR_EXT.1):**
 .. Encryption configuration options
 .. Key management interfaces
 .. Supported encryption algorithms
@@ -1883,9 +1627,9 @@ The evaluator shall verify that the TSS describes each management function liste
 .. How identity mappings to internal roles are configured
 .. Testing and validation of identity provider configurations
 
-. **Monitoring and querying deployment integrity status:**
-.. Interfaces for querying integrity status
-.. Information provided in integrity status reports
+. **Monitoring and querying trusted update status and claimed integrity status:**
+.. Interfaces for querying trusted update status and any claimed runtime, startup, or deployment artifact integrity status
+.. Information provided in status reports
 .. Actions available when integrity issues are detected
 
 . **Rotation of cloud-managed credentials or secrets:**
@@ -1930,8 +1674,6 @@ The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
 
 *Test 2: Audit Export Configuration*
 
-If FAU_STG_EXT.1 is selected:
-
 . Step: Configure audit export to each supported destination.
 . Step: Generate auditable events.
 . Step: Verify events are exported to the configured destination.
@@ -1948,10 +1690,10 @@ If FAU_STG_EXT.1 is selected:
 . Step: Remove the identity provider configuration.
 . Step: Verify authentication via that provider is no longer possible.
 
-*Test 4: Deployment Integrity Status Querying*
+*Test 4: Trusted Update and Integrity Status Querying*
 
-. Step: Query the deployment integrity status using available interfaces.
-. Step: Verify the status report includes relevant information (image digests, configuration hashes, etc.).
+. Step: Query trusted update status using available interfaces.
+. Step: Verify the status report includes relevant update information.
 . Step: If FPT_TST.1 or FPT_SBT_EXT.1 is implemented, trigger an integrity check and verify the status is updated.
 
 *Test 5: Credential Rotation*
@@ -2211,6 +1953,38 @@ If cloud-native monitoring integration is supported:
 
 ---
 
+=== FPT_FLS.1 Failure with Preservation of Secure State
+
+The PP-Module deliberately leaves the FPT_FLS.1.1 failure-type assignment to the ST author, because failure modes and secure-state semantics differ across DBMS implementations and cloud architectures. The Evaluation Activities below are therefore driven by the ST's completions: the evaluator assesses the failure types the ST claims, not a fixed list.
+
+==== FPT_FLS.1 Evaluation Activities
+
+===== TSS Activities
+
+The evaluator shall verify the TSS:
+
+* identifies each failure type claimed in the FPT_FLS.1.1 assignment;
+* defines what constitutes a secure state for the TOE (for example, refusing new connections, denying access to protected data, or controlled shutdown), including whether the secure state differs by failure type;
+* describes, for each claimed failure type, how the TOE detects or is informed of the failure and how it transitions to the secure state; and
+* where a claimed failure type overlaps a condition monitored under FPT_ARS_EXT.1, describes the relationship between the notification behavior and the secure-state transition.
+
+===== Guidance Activities
+
+The evaluator shall verify the operational guidance describes any configuration that affects failure-handling behavior, and the procedures for recovering the TOE to normal operation from the secure state.
+
+===== Test Activities
+
+*Test 1: Secure State Preservation*
+
+For each failure type claimed in the ST (or, where a failure type cannot practically be induced in the test environment, for a representative subset with the remainder verified through simulation or provider-supported demonstration recorded in the ETR):
+
+. Induce or simulate the failure according to the TSS description (for example, revoking connectivity to a required cloud service, detaching storage, or terminating an instance through the orchestrator).
+. Verify the TOE enters the secure state defined in the TSS.
+. While the TOE is in the secure state, attempt to access protected data or perform a security-relevant operation, and verify the attempt is refused consistent with the TSS definition of the secure state.
+. Recover the TOE per the operational guidance and verify normal operation resumes.
+
+Expected result: For each claimed failure type, the TOE preserves the TSS-defined secure state and protected data is not exposed during the failure condition.
+
 === FPT_ITT.1 Internal TSF Data Transfer Protection
 
 ==== FPT_ITT.1 Evaluation Activities
@@ -2335,7 +2109,7 @@ The evaluator shall verify that the TSS describes:
 . The update mechanisms supported:
 .. Cloud-native deployment services (AWS Systems Manager, Azure Update Management)
 .. Trusted image registries (container registries with signing)
-.. Secure boot mechanisms (if FPT_SBT_EXT.1 is selected)
+.. Secure boot or image verification mechanisms (if FPT_SBT_EXT.1 is selected)
 .. Package management systems
 .. Manual update procedures
 
@@ -2435,7 +2209,7 @@ For cloud-managed update services:
 
 ==== FPT_SBT_EXT.1 Evaluation Activities
 
-This SFR is selection-based and applies when "secure boot mechanisms as defined in FPT_SBT_EXT.1" is selected in FPT_TUD_EXT.1.
+This SFR is selection-based and applies when "secure boot or image verification mechanisms as defined in FPT_SBT_EXT.1" is selected in `FPT_TUD_EXT.1.2`.
 
 ===== TSS Activities
 
@@ -2628,103 +2402,15 @@ If cryptographic self-tests are implemented:
 . Step: Verify known-answer tests or algorithm validation tests are performed.
 . Step: Verify cryptographic operations are blocked until self-tests pass.
 
----
+== FDP Class: User Data Protection Coordination
 
-== Appendix A: Test Environment Requirements
-
-=== Cloud Provider Test Environments
-
-Evaluators should have access to the following cloud environments for testing:
-
-. **AWS Environment**: For testing AWS Secrets Manager integration, IAM role integration, CloudWatch integration
-. **Azure Environment**: For testing Azure Key Vault, Azure AD, Azure Monitor integration
-. **Container Platform**: Kubernetes cluster for testing containerized deployments, admission controllers, and network policies
-
-=== Distributed Deployment Requirements
-
-For testing distributed DBMS scenarios:
-
-. Multi-node cluster deployment (minimum 3 nodes recommended)
-. Separate management and data plane access points (if applicable)
-. Network capture capabilities for inter-node traffic analysis
-. Ability to simulate network partitions and node failures
-
-=== Security Testing Tools
-
-. Network packet capture (Wireshark, tcpdump)
-. Certificate and signature validation tools
-. Container image scanning and verification tools
-. Cloud IAM simulation or test accounts
-
----
-
-== Appendix B: Test Evidence Requirements
-
-For each test activity, the evaluator shall record:
-
-. Test date and environment configuration
-. Test steps executed
-. Actual results observed
-. Pass/fail determination with rationale
-. Any deviations from documented procedures
-
-Evidence should include:
-
-. Screenshots or command output demonstrating test execution
-. Audit log excerpts showing generated records
-. Network captures (where applicable)
-. Configuration files used during testing
-
----
-
-== Appendix C: Acronyms and Abbreviations
-
-[cols="1,3"]
-|===
-| Acronym | Definition
-
-| AGD | Guidance Documents (SAR class)
-| API | Application Programming Interface
-| AWS | Amazon Web Services
-| CLI | Command Line Interface
-| CEM | Common Evaluation Methodology
-| EA | Evaluation Activity
-| IAM | Identity and Access Management
-| mTLS | Mutual Transport Layer Security
-| OE | Operational Environment
-| OIDC | OpenID Connect
-| PP | Protection Profile
-| SAR | Security Assurance Requirement
-| SD | Supporting Document
-| SFR | Security Functional Requirement
-| SIEM | Security Information and Event Management
-| ST | Security Target
-| TLS | Transport Layer Security
-| TOE | Target of Evaluation
-| TSF | TOE Security Functionality
-| TSS | TOE Summary Specification
-| VPC | Virtual Private Cloud
-|===
-= Supporting Document: Evaluation Activities for FDP Class and Cloud-Specific SAR Activities
-:showtitle:
-:toc: macro
-:toclevels: 4
-:sectnums:
-:sectnumlevels: 4
-:icons: font
-:doctype: book
-:revnumber: 0.1
-:revdate: 2026-01-25
-
-== Document Overview
-
-This Supporting Document (SD) provides Evaluation Activities for the FDP (User Data Protection) class Security Functional Requirements (SFRs) defined in the collaborative PP-Module for DBMS in the Cloud, as well as cloud-specific Security Assurance Requirement (SAR) activities that supplement the base PP's assurance requirements.
+This Supporting Document (SD) provides Cloud-specific coordination activities for FDP requirements inherited from the mandatory DBMS Crypto Module, as well as cloud-specific Security Assurance Requirement (SAR) activities that supplement the base PP's assurance requirements.
 
 === Scope
 
 This document covers:
 
-* **Part 1**: Evaluation Activities for FDP_DAR_EXT.1 (Data-at-Rest Protection) and FDP_DIT_EXT.1 (Data-in-Transit Protection)
+* **Part 1**: Cloud-specific coordination activities for Crypto Module `FDP_DAR_EXT.1` (Data-at-Rest Protection) and `FDP_DIT_EXT.1` (Data-in-Transit Protection)
 * **Part 2**: Cloud-specific Assurance Activities for ADV, AGD, ALC, ATE, and AVA classes
 
 === Relationship to Other Documents
@@ -2733,150 +2419,39 @@ This document covers:
 * **Base PP SD**: Supporting Document - Evaluation Activities for cPP_DBMS
 * **Crypto Module SD**: Supporting Document - Evaluation Activities for DBMS Cryptographic Module
 
-NOTE: The cryptographic testing activities for encryption algorithms, TLS protocol implementation, and key management are defined in the DBMS Crypto Module SD. This document addresses selection verification and module coordination only.
+NOTE: The cryptographic testing activities for encryption algorithms, TLS protocol implementation, X.509 validation, and key management are defined in the DBMS Crypto Module SD. This document addresses selection verification, cloud interface mapping, deployment integration, and module coordination.
 
-== Part 1: FDP Class Evaluation Activities
+The FDP activities in this SD coordinate Cloud Module evaluation with the mandatory DBMS Crypto Module. Data-at-rest cryptographic behavior and core data-in-transit cryptographic protocol behavior are evaluated under the Crypto Module SD; this Cloud SD verifies cloud-deployment mapping and integration.
 
-=== Introduction
+The evaluator shall:
 
-=== Introduction
+1. Verify the ST includes the mandatory DBMS Crypto Module.
+2. Confirm the TSS maps cloud storage and external interfaces to the applicable Crypto Module SFRs.
+3. Validate that guidance documentation addresses cloud deployment considerations.
+4. Coordinate cloud-specific integration testing with Crypto Module cryptographic testing.
 
-The FDP class SFRs in this PP-Module are selection-based requirements that coordinate data protection functionality between the DBMS Cloud Module and the DBMS Crypto Module.
+=== Data-at-Rest Coordination with DBMS Crypto Module
 
-NOTE: The DBMS Crypto Module is mandatory. The Evaluation Activities in this section focus on verifying the specific *selection* made within the Crypto Module (specifically whether the TOE implements encryption or relies on the Platform).
+==== Crypto Module Requirement Reference
 
-1. Verifying the ST author has made appropriate selections
-2. Confirming the PP-Configuration includes required modules
-3. Validating the TSS describes protection mechanisms correctly
-4. Ensuring guidance documentation addresses deployment considerations
-5. Coordinating with Crypto Module EAs for cryptographic testing
+The Cloud PP-Module does not define a Cloud-local `FDP_DAR_EXT.1` requirement. Data-at-rest encryption is evaluated through `FDP_DAR_EXT.1` in the mandatory DBMS Crypto Module. The ST author selects the applicable strategy ("Storage-Scope Encryption" or "Granular Data Encryption") and includes the corresponding Catalogue-derived components consumed in the Crypto Module.
 
-=== FDP_DAR_EXT.1 Data-at-Rest Protection
-
-==== SFR Definition
-
-*FDP_DAR_EXT.1.1* The TSF shall protect persistent storage of [assignment: _sensitive data types_] using [selection: encryption as defined in FCS_COP.1 and FCS_CKM.1 of the DBMS Crypto Module, disk encryption managed externally by the operational environment, none].
-
-==== EA-FDP_DAR_EXT.1: Evaluation Activities
+==== EA-FDP_DAR_EXT.1: Cloud Coordination Evaluation Activities
 
 ===== EA-FDP_DAR_EXT.1.1: TSS Evaluation
-
-====== General TSS Requirements
 
 [cols="1,4",options="header"]
 |===
 | Work Unit | Activity
 
 | EA-FDP_DAR_EXT.1.1-1
-| The evaluator shall examine the TSS to verify it identifies all sensitive data types protected by the TOE. The TSS shall provide a complete enumeration of data categories subject to protection, including but not limited to:
-
-* Database files (data files, transaction logs, redo logs)
-* Configuration files containing security parameters
-* Credential storage (password hashes, key material)
-* Temporary files and swap space containing user data
-* Backup files and archive data
-* Index files that may expose data patterns
-
-*Platform Encryption Verification (Conditional)*
-
-If "Leverage Platform Encryption" is selected:
-
-. The evaluator shall verify the TSS describes the reliance on the Trusted Platform for storage encryption.
-. The evaluator shall verify the TSS identifies the specific platform services used (e.g., AWS EBS encryption, Azure Disk Encryption).
-. The evaluator shall confirm that the TSS does not claim any cryptographic functionality inside the TOE boundary for this purpose.
-
-*TOE-Implemented Encryption Verification (Conditional)*
-
-If "Full Volume Encryption" or "Granular Data Encryption" is selected:
-
-. The evaluator shall proceed to the evaluation activities defined in the DBMS Crypto Module SD.
+| The evaluator shall verify the ST includes the DBMS Crypto Module in the PP-Configuration claim and identifies the selected Crypto Module `FDP_DAR_EXT.1` strategy.
 
 | EA-FDP_DAR_EXT.1.1-2
-| The evaluator shall verify the TSS clearly identifies which selection was made in FDP_DAR_EXT.1.1 and provides justification for the selection based on the TOE's cloud deployment context.
-
-|===
-
-*Platform Encryption Verification (Conditional)*
-
-If "Leverage Platform Encryption" is selected:
-
-. The evaluator shall verify the TSS describes the reliance on the Trusted Platform for storage encryption.
-. The evaluator shall verify the TSS identifies the specific platform services used (e.g., AWS EBS encryption, Azure Disk Encryption).
-. The evaluator shall confirm that the TSS does not claim any cryptographic functionality inside the TOE boundary for this purpose.
-
-*TOE-Implemented Encryption Verification (Conditional)*
-
-If "Full Volume Encryption" or "Granular Data Encryption" is selected:
-
-. The evaluator shall proceed to the evaluation activities defined in the DBMS Crypto Module SD.
-====== Selection-Specific TSS Activities
-
-*When "encryption as defined in FCS_COP.1 and FCS_CKM.1 of the DBMS Crypto Module" is selected:*
-
-[cols="1,4",options="header"]
-|===
-| Work Unit | Activity
+| The evaluator shall examine the TSS to verify it maps cloud-deployed persistent storage objects to the data-at-rest protection described for the selected Crypto Module strategy, including database files, transaction or redo logs, temporary files, backup or archive data, configuration data containing security parameters, and credential or key material where applicable.
 
 | EA-FDP_DAR_EXT.1.1-3
-| The evaluator shall verify the ST includes the DBMS Crypto Module in the PP-Configuration claim. (This is a mandatory requirement of the Cloud Module).
-
-| EA-FDP_DAR_EXT.1.1-4
-| The evaluator shall verify the TSS describes:
-
-a) The encryption algorithm(s) used (referencing FCS_COP.1 from the Crypto Module)
-b) The key generation mechanism (referencing FCS_CKM.1 from the Crypto Module)
-c) The key hierarchy (DEK/KEK if applicable)
-d) The integration between the TOE and the cryptographic module
-e) The storage location of encrypted data within cloud environments
-
-| EA-FDP_DAR_EXT.1.1-5
-| The evaluator shall verify the TSS describes how the TOE protects cryptographic keys when deployed in cloud environments, including:
-
-a) Key storage mechanisms (e.g., integration with cloud HSM, key vault services)
-b) Key access controls
-c) Key lifecycle management (generation, rotation, destruction)
-
-NOTE: Detailed cryptographic key management testing is performed under the DBMS Crypto Module EAs. This activity verifies the TSS description is complete and consistent.
-
-| EA-FDP_DAR_EXT.1.1-6
-| The evaluator shall verify the TSS identifies which TOE interfaces or components implement the encryption functionality and how they interact with the data storage layer in cloud deployment scenarios.
-
-|===
-
-*When "disk encryption managed externally by the operational environment" is selected:*
-
-[cols="1,4",options="header"]
-|===
-| Work Unit | Activity
-
-| EA-FDP_DAR_EXT.1.1-7
-| The evaluator shall verify the TSS describes:
-
-a) The reliance on external disk encryption (e.g., AWS EBS encryption, Azure Disk Encryption, cloud provider storage encryption)
-b) How the TOE ensures data is written to encrypted storage volumes
-c) Any configuration requirements the TOE imposes on the operational environment
-d) How the TOE detects or handles deployment on unencrypted storage (if applicable)
-
-| EA-FDP_DAR_EXT.1.1-8
-| The evaluator shall verify the ST identifies specific operational environment requirements for disk encryption in OE objectives or assumptions, ensuring the encryption responsibility is clearly documented.
-
-|===
-
-*When "none" is selected:*
-
-[cols="1,4",options="header"]
-|===
-| Work Unit | Activity
-
-| EA-FDP_DAR_EXT.1.1-9
-| The evaluator shall verify the TSS provides explicit justification for not implementing data-at-rest protection. Acceptable justifications include:
-
-a) The TOE does not persist sensitive data (with explanation of what data is persisted and why it is not considered sensitive)
-b) The TOE operates in an evaluated operational environment where data-at-rest protection is provided by other means (with specific identification of those means)
-c) The TOE's use case does not involve storage of regulated or confidential data (with risk acknowledgment)
-
-| EA-FDP_DAR_EXT.1.1-10
-| The evaluator shall verify the ST clearly communicates to consumers that the TOE does not provide data-at-rest protection, and shall ensure this limitation is reflected in the guidance documentation.
+| The evaluator shall verify the TSS describes any cloud-specific integration used to support data-at-rest protection, such as cloud HSMs, key vault services, storage classes, volume types, object storage, deployment automation, or secret retrieval. Detailed cryptographic key management and algorithm testing remains governed by the DBMS Crypto Module SD.
 
 |===
 
@@ -2887,26 +2462,10 @@ c) The TOE's use case does not involve storage of regulated or confidential data
 | Work Unit | Activity
 
 | EA-FDP_DAR_EXT.1.2-1
-| The evaluator shall examine the operational guidance to verify it describes how to configure data-at-rest protection in cloud deployment environments, including:
-
-a) Prerequisites for enabling encryption (e.g., Crypto Module availability, key management setup)
-b) Configuration procedures for enabling/disabling encryption
-c) Key management procedures relevant to cloud environments
-d) Recovery procedures in case of key loss or corruption
+| The evaluator shall examine the operational guidance to verify it describes how to configure data-at-rest protection in cloud deployment environments, including prerequisites, key-management setup, storage configuration, recovery procedures, and any cloud-native service integration used by the TOE.
 
 | EA-FDP_DAR_EXT.1.2-2
-| *For "encryption" selection:* The evaluator shall verify the guidance describes integration with cloud-native key management services (e.g., AWS KMS, Azure Key Vault, Google Cloud KMS, HashiCorp Vault) where applicable.
-
-| EA-FDP_DAR_EXT.1.2-3
-| *For "external disk encryption" selection:* The evaluator shall verify the guidance clearly documents:
-
-a) The specific cloud provider disk encryption mechanisms supported
-b) Configuration requirements for ensuring storage volumes are encrypted
-c) Verification procedures to confirm encryption is active
-d) Any TOE-specific considerations when using external encryption
-
-| EA-FDP_DAR_EXT.1.2-4
-| *For "none" selection:* The evaluator shall verify the guidance includes prominent warnings about the lack of data-at-rest protection and recommends compensating controls in the operational environment.
+| The evaluator shall verify the guidance does not present platform storage encryption or an unencrypted storage mode as an alternate way to satisfy the mandatory DBMS Crypto Module `FDP_DAR_EXT.1` requirement.
 
 |===
 
@@ -2917,26 +2476,10 @@ d) Any TOE-specific considerations when using external encryption
 | Work Unit | Activity
 
 | EA-FDP_DAR_EXT.1.3-1
-| *For "encryption" selection:* The evaluator shall verify that cryptographic testing is performed under the DBMS Crypto Module evaluation. The evaluator shall confirm:
-
-a) FCS_COP.1 testing covers the encryption algorithms used for data-at-rest
-b) FCS_CKM.1 testing covers key generation for data-at-rest encryption keys
-c) Test results are documented in the Crypto Module ETR
-
-NOTE: The evaluator is not required to duplicate cryptographic testing. Coordination with the Crypto Module evaluation team is sufficient.
+| The evaluator shall verify that cryptographic testing for data-at-rest encryption is performed under the DBMS Crypto Module evaluation and that the Cloud Module ETR references the applicable Crypto Module test results.
 
 | EA-FDP_DAR_EXT.1.3-2
-| *For "encryption" selection:* The evaluator shall independently verify:
-
-a) Enabling data-at-rest encryption causes data to be written in encrypted form (verify by examining raw storage or using forensic tools)
-b) Disabling data-at-rest encryption (if permitted) removes protection as expected
-c) Data written before encryption is not retroactively encrypted unless explicitly configured
-
-| EA-FDP_DAR_EXT.1.3-3
-| *For "external disk encryption" selection:* The evaluator shall verify the TOE operates correctly when deployed on encrypted storage and that there are no TOE-specific behaviors that circumvent or undermine the external encryption.
-
-| EA-FDP_DAR_EXT.1.3-4
-| *For "none" selection:* No cryptographic testing is required. The evaluator shall verify that the TSS description accurately reflects the TOE's behavior (i.e., data is stored unencrypted).
+| The evaluator shall independently verify cloud-deployment integration for data-at-rest protection, including that encrypted storage coverage remains consistent across deployment automation, scaling, restart, migration, backup, and restore scenarios claimed by the TOE.
 
 |===
 
@@ -2964,13 +2507,13 @@ d) Cloud object storage (if used for backups or data export)
 
 |===
 
-=== FDP_DIT_EXT.1 Data-in-Transit Protection
+=== FDP_DIT_EXT.1 Data-in-Transit Protection Cloud Coordination
 
-==== SFR Definition
+==== Crypto Module Requirement Reference
 
-*FDP_DIT_EXT.1.1* The TSF shall protect data in transit between the TOE and external entities using [selection: TLS as defined in FCS_TLSC_EXT.1 and FCS_TLSS_EXT.1 of the DBMS Crypto Module, HTTPS as defined in FCS_HTTPS_EXT.1 of the DBMS Crypto Module, [assignment: _other cryptographic protocols_]].
+The Cloud PP-Module does not define a Cloud-local `FDP_DIT_EXT.1` requirement. Data-in-transit protection is defined and evaluated through mandatory `FDP_DIT_EXT.1` in the DBMS Crypto Module. The Cloud Module identifies the cloud deployment channels to which that requirement applies and verifies that those channels are configured and exercised in representative cloud deployments.
 
-==== EA-FDP_DIT_EXT.1: Evaluation Activities
+==== EA-FDP_DIT_EXT.1: Cloud Coordination Evaluation Activities
 
 ===== EA-FDP_DIT_EXT.1.1: TSS Evaluation
 
@@ -2990,40 +2533,38 @@ d) Cloud object storage (if used for backups or data export)
 * Inter-node communication (for distributed deployments, addressed separately by FPT_ITT.1)
 
 | EA-FDP_DIT_EXT.1.1-2
-| The evaluator shall verify the TSS clearly identifies which selection was made in FDP_DIT_EXT.1.1 and specifies which interfaces use which protection mechanism.
+| The evaluator shall verify the TSS clearly identifies which selection was made in the Crypto Module `FDP_DIT_EXT.1.1` and specifies which cloud-facing interfaces use which protection mechanism. For HTTPS interfaces, the TSS shall describe the interface as HTTP over the selected TLS channel.
 
 | EA-FDP_DIT_EXT.1.1-3
-| The evaluator shall verify the TSS describes the TOE's behavior when a protected connection cannot be established (e.g., certificate validation failure, protocol mismatch). The TOE shall fail securely by refusing the connection.
+| The evaluator shall verify the TSS describes the TOE's cloud-deployment behavior when a protected connection cannot be established, such as external identity provider, audit export, secret retrieval, or management API connection failure. The detailed certificate validation and protocol mismatch behavior is evaluated under the Crypto Module SD; this activity verifies that the cloud integration fails securely and does not fall back to an unprotected path.
 
 |===
 
 ====== Selection-Specific TSS Activities
 
-*When "TLS as defined in FCS_TLSC_EXT.1 and FCS_TLSS_EXT.1 of the DBMS Crypto Module" is selected:*
+*When TLS, including HTTPS over TLS where applicable, is selected:*
 
 [cols="1,4",options="header"]
 |===
 | Work Unit | Activity
 
 | EA-FDP_DIT_EXT.1.1-4
-| If the ST author selects “Leverage Platform Encryption,” the evaluator shall verify that the TOE does not claim to implement Data-at-Rest encryption functionality. In this case, D@RE is provided entirely by the Operational Environment.
-
-This selection does not remove or alter the requirement to include the DBMS Crypto Module in the PP-Configuration. Only the scope of testing for FDP_DAR_EXT.1 changes.
+| The evaluator shall verify the ST includes the applicable requirements from the TLS Functional Package for each TLS-protected cloud-facing interface, including `FCS_TLSC_EXT.1`, `FCS_TLSS_EXT.1`, or both as applicable to the TOE role. The evaluator shall verify the TSS maps each interface to its TLS client or server behavior without duplicating TLS protocol evaluation.
 
 | EA-FDP_DIT_EXT.1.1-5
-| The evaluator shall verify the TSS describes:
+| The evaluator shall verify the TSS describes the cloud deployment parameters that select or constrain the Crypto Module protected channel behavior, including:
 
-a) TLS versions supported (referencing Crypto Module requirements)
-b) Cipher suites supported (referencing Crypto Module requirements)
-c) Certificate validation behavior
-d) Whether mutual TLS (mTLS) is supported or required
-e) Integration with cloud certificate management services (if applicable)
+a) TLS versions and cipher suites as references to the applicable TLS Functional Package components and the Catalogue-derived primitives consumed in the Crypto Module
+b) Which deployment interfaces are TLS clients, TLS servers, or both
+c) Whether mutual TLS (mTLS) is supported or required for any cloud integration
+d) Integration with cloud certificate management or secrets management services
+e) Behavior when cloud routing, load balancer, proxy, or service mesh configuration affects channel termination or re-encryption
 
 | EA-FDP_DIT_EXT.1.1-6
 | The evaluator shall verify the TSS identifies which TOE interfaces act as:
 
-a) TLS clients (covered by FCS_TLSC_EXT.1)
-b) TLS servers (covered by FCS_TLSS_EXT.1)
+a) TLS clients (covered by `FCS_TLSC_EXT.1`)
+b) TLS servers (covered by `FCS_TLSS_EXT.1`)
 c) Both client and server (requiring both SFRs)
 
 | EA-FDP_DIT_EXT.1.1-7
@@ -3036,16 +2577,14 @@ d) Integration with cloud secrets management for private keys
 
 |===
 
-*When "HTTPS as defined in FCS_HTTPS_EXT.1 of the DBMS Crypto Module" is selected:*
+*For interfaces that provide HTTPS over the selected TLS channel:*
 
 [cols="1,4",options="header"]
 |===
 | Work Unit | Activity
 
 | EA-FDP_DIT_EXT.1.1-8
-| When “Leverage Platform Encryption” is selected, the evaluator shall confirm that encryption of persistent storage is provided entirely by the Operational Environment and that the TOE performs no Data-at-Rest cryptographic operations.
-
-The DBMS Crypto Module remains part of the evaluated PP-Configuration; however, no cryptographic testing related to Data-at-Rest encryption is required for the TOE.
+| The evaluator shall verify HTTPS use is mapped to the corresponding TLS client or server requirements. No separate HTTPS cryptographic component claim is required.
 
 | EA-FDP_DIT_EXT.1.1-9
 | The evaluator shall verify the TSS describes:
@@ -3067,19 +2606,19 @@ d) Behavior when HTTP (non-secure) connections are attempted
 | Work Unit | Activity
 
 | EA-FDP_DIT_EXT.1.1-11
-| The evaluator shall verify the TSS provides complete specification of the alternative protocol, including:
+| The evaluator shall verify the TSS identifies any non-TLS protocol assigned in the Crypto Module `FDP_DIT_EXT.1.1` and maps it to specific cloud-facing interfaces, including:
 
 a) Protocol identification and version
-b) Cryptographic algorithms used
-c) Key exchange mechanism
-d) Authentication mechanism
-e) Reference to applicable standards or specifications
+b) The Functional Package components that specify and evaluate the protocol
+c) Authentication mechanism
+d) Reference to applicable standards or specifications
+e) The cloud interfaces and deployment paths where the protocol is used
 
 | EA-FDP_DIT_EXT.1.1-12
-| The evaluator shall verify that the alternative protocol provides equivalent protection to TLS (confidentiality, integrity, and authentication). If the protocol does not provide equivalent protection, the evaluator shall document this limitation in the ETR.
+| The evaluator shall verify that the alternative protocol is covered by scheme-acceptable evaluation activities through the Crypto Module claim. The Cloud SD does not create a new cryptographic protocol evaluation method for the alternative protocol.
 
 | EA-FDP_DIT_EXT.1.1-13
-| The evaluator shall determine whether the alternative protocol has defined evaluation activities. If not, the evaluator shall develop appropriate testing in coordination with the evaluation scheme.
+| The evaluator shall verify the cloud deployment does not use the alternative protocol on any interface not mapped to the corresponding Crypto Module claim.
 
 |===
 
@@ -3092,7 +2631,7 @@ e) Reference to applicable standards or specifications
 | EA-FDP_DIT_EXT.1.2-1
 | The evaluator shall examine the operational guidance to verify it describes how to configure data-in-transit protection in cloud environments, including:
 
-a) Enabling TLS/HTTPS on all applicable interfaces
+a) Enabling TLS on all applicable interfaces, including HTTPS over TLS where applicable
 b) Certificate installation and configuration procedures
 c) Cipher suite configuration (if configurable)
 d) Client certificate requirements (for mTLS deployments)
@@ -3109,7 +2648,7 @@ e) Kubernetes secrets integration (for containerized deployments)
 | EA-FDP_DIT_EXT.1.2-3
 | The evaluator shall verify the guidance describes:
 
-a) How to verify TLS/HTTPS is correctly configured
+a) How to verify TLS, including HTTPS over TLS, is correctly configured
 b) How to test connectivity using protected channels
 c) How to diagnose connection failures related to TLS/certificate issues
 d) Certificate renewal and rotation procedures
@@ -3126,30 +2665,30 @@ d) Certificate renewal and rotation procedures
 | Work Unit | Activity
 
 | EA-FDP_DIT_EXT.1.3-1
-| *For TLS/HTTPS selections:* The evaluator shall verify that protocol testing is performed under the DBMS Crypto Module evaluation. The evaluator shall confirm:
+| *For TLS selections, including HTTPS over TLS:* The evaluator shall verify that protocol testing is performed under the applicable TLS Functional Package evaluation and coordinated with the DBMS Crypto Module integration evaluation. The evaluator shall confirm:
 
-a) FCS_TLSC_EXT.1 testing covers TLS client behavior for all client interfaces
-b) FCS_TLSS_EXT.1 testing covers TLS server behavior for all server interfaces
-c) FCS_HTTPS_EXT.1 testing covers HTTPS-specific behavior (if selected)
+a) `FCS_TLSC_EXT.1` testing covers TLS client behavior for all client interfaces
+b) `FCS_TLSS_EXT.1` testing covers TLS server behavior for all server interfaces
+c) HTTPS interfaces are mapped to the underlying TLS client or server testing, with HTTP-specific enforcement checked by this Cloud SD
 d) Test results are documented in the Crypto Module ETR
 
-NOTE: The evaluator is not required to duplicate TLS/HTTPS protocol testing. Coordination with the Crypto Module evaluation team is sufficient.
+NOTE: The evaluator is not required to duplicate TLS protocol testing. Coordination with the Crypto Module evaluation team is sufficient.
 
 | EA-FDP_DIT_EXT.1.3-2
-| The evaluator shall independently verify:
+| The evaluator shall independently verify cloud deployment enforcement for representative protected interfaces:
 
-a) Connections to protected interfaces without TLS/HTTPS are rejected
-b) Connections with invalid certificates are rejected
-c) Connections with expired certificates are rejected
-d) Connections using disallowed cipher suites are rejected (if configurable)
+a) Unprotected access paths, such as plaintext HTTP for an HTTPS management interface, are disabled, rejected, or redirected exactly as described in the ST and guidance
+b) The deployed cloud route, load balancer, proxy, or service mesh preserves the protected channel properties claimed for the interface, including re-encryption where TLS is terminated before the TOE
+c) Certificate or trust-store misconfiguration for a cloud integration prevents the integration from being used rather than causing fallback to an unprotected channel
+d) Evidence from the Crypto Module evaluation covers detailed TLS, X.509, and cipher-suite behavior for the same TOE roles used by the cloud-facing interfaces
 
 | EA-FDP_DIT_EXT.1.3-3
-| *For alternative protocols:* The evaluator shall develop and execute protocol-specific tests to verify:
+| *For alternative protocols:* The evaluator shall coordinate with the Crypto Module evaluation and execute only Cloud-specific integration tests needed to verify:
 
-a) The protocol provides confidentiality protection (data cannot be read in transit)
-b) The protocol provides integrity protection (data cannot be modified in transit)
-c) The protocol provides authentication (endpoints can be verified)
-d) The protocol operates as described in the TSS
+a) The protocol is used only on the cloud-facing interfaces identified in the ST
+b) The deployment does not expose an unprotected fallback path for those interfaces
+c) The protocol operates as described in the cloud deployment guidance
+d) The Crypto Module evaluation covers the cryptographic behavior of the protocol
 
 |===
 
@@ -3190,7 +2729,7 @@ c) The TOE is restarted or recovered
 
 |===
 
-== Part 2: Cloud-Specific SAR Assurance Activities
+== Cloud-Specific SAR Assurance Activities
 
 === Introduction
 
@@ -3198,9 +2737,9 @@ This section provides cloud-specific assurance activities that supplement the ba
 
 === ADV: Development
 
-==== ADV_FSP: Functional Specification - Cloud Considerations
+==== ADV_FSP.2: Functional Specification - Cloud Considerations
 
-The following activities supplement ADV_FSP requirements from the base PP to address cloud integration points.
+The following activities supplement ADV_FSP.2 requirements from the base PP to address cloud integration points.
 
 [cols="1,4",options="header"]
 |===
@@ -3287,7 +2826,7 @@ d) Handling secret retrieval failures
 e) Auditing secret access
 
 | EA-AGD_OPE.Cloud-5
-| The evaluator shall verify the operational guidance covers deployment artifact verification, including:
+| The evaluator shall verify the operational guidance covers environmental deployment artifact controls, and TOE-side deployment artifact verification when FPT_SBT_EXT.1 is claimed, including:
 
 a) Verifying image signatures before deployment
 b) Checking image digests/hashes
@@ -3324,13 +2863,15 @@ d) Creating and configuring secrets in cloud key vaults
 e) Preparing deployment artifacts (images, manifests)
 
 | EA-AGD_PRE.Cloud-2
-| The evaluator shall verify the preparative procedures cover Trusted Platform verification, including:
+| The evaluator shall verify the preparative procedures identify the Trusted Platform reliance for the evaluated configuration, including:
 
-a) Verifying the cloud provider meets platform requirements (A.TRUSTED_PLATFORM)
-b) Verifying tenant isolation is enforced
-c) Verifying required cloud services are available and operational
-d) Documenting the cloud region/zone for deployment
-e) Verifying compliance certifications of the cloud platform (if required by the organization)
+a) Identifying the cloud provider, Cloud Service Offering, region or zone, and relied-upon services
+b) Identifying the assumptions and Operational Environment objectives supported by each relied-upon service
+c) Identifying the cloud authorization, certification, scheme policy, or other evidence submitted for the Trusted Platform
+d) Confirming that the stated scope of the evidence covers the identified offering, region, services, and evaluated configuration
+e) Providing the configuration steps needed to use the relied-upon services as described in the ST
+
+Acceptance criteria for the submitted evidence, including recognized authorization programs, assurance levels, currency, and exceptions, are determined by the evaluation authority under the applicable scheme policy. This Evaluation Activity does not require the evaluator to assess the Trusted Platform as part of the TOE or independently establish the sufficiency of its controls.
 
 | EA-AGD_PRE.Cloud-3
 | The evaluator shall verify the preparative procedures cover secure image/container deployment, including:
@@ -3404,7 +2945,7 @@ c) The verification process described in guidance can be followed successfully
 
 === ATE: Tests
 
-==== ATE_IND: Cloud Independent Testing Guidance
+==== ATE_IND.2: Cloud Independent Testing Guidance
 
 The following activities provide guidance for evaluator independent testing in cloud environments.
 
@@ -3473,7 +3014,7 @@ d) Container isolation properties
 
 === AVA: Vulnerability Assessment
 
-==== AVA_VAN: Cloud Vulnerability Considerations
+==== AVA_VAN.2: Cloud Vulnerability Considerations
 
 The following activities supplement AVA_VAN requirements from the base PP to address cloud-specific vulnerabilities.
 
@@ -3545,7 +3086,8 @@ d) Vulnerabilities dependent on specific cloud misconfigurations
 
 |===
 
-== Appendix A: Cross-Reference to CEM Work Units
+[appendix]
+== Cross-Reference to CEM Work Units
 
 This appendix maps the evaluation activities in this document to CEM:2022 work units.
 
@@ -3555,29 +3097,33 @@ This appendix maps the evaluation activities in this document to CEM:2022 work u
 |===
 | EA Identifier | CEM Work Unit(s) | Notes
 
-| EA-FDP_DAR_EXT.1.1-1 to 1.1-10
+| EA-FDP_DAR_EXT.1.1-1 to 1.1-3
 | ASE_TSS.1-1
-| TSS examination activities
+| TSS examination and Crypto Module coordination activities
 
-| EA-FDP_DAR_EXT.1.2-1 to 1.2-4
+| EA-FDP_DAR_EXT.1.2-1 to 1.2-2
 | AGD_OPE.1-1, AGD_OPE.1-4
 | Guidance examination activities
 
-| EA-FDP_DAR_EXT.1.3-1 to 1.3-4
+| EA-FDP_DAR_EXT.1.3-1 to 1.3-2
 | ATE_IND.2-3, ATE_IND.2-4
-| Independent testing activities
+| Independent testing and Crypto Module result coordination activities
+
+| EA-FDP_DAR_EXT.1.4-1 to 1.4-2
+| ATE_IND.2-3, ATE_IND.2-4
+| Cloud-specific integration testing activities
 
 | EA-FDP_DIT_EXT.1.1-1 to 1.1-13
 | ASE_TSS.1-1
-| TSS examination activities
+| Cloud interface mapping and TSS coordination activities
 
 | EA-FDP_DIT_EXT.1.2-1 to 1.2-4
 | AGD_OPE.1-1, AGD_OPE.1-4
-| Guidance examination activities
+| Cloud deployment guidance examination activities
 
 | EA-FDP_DIT_EXT.1.3-1 to 1.3-3
 | ATE_IND.2-3, ATE_IND.2-4
-| Independent testing activities (coordinates with Crypto Module)
+| Cloud-specific integration testing activities coordinated with Crypto Module results
 
 |===
 
@@ -3588,7 +3134,7 @@ This appendix maps the evaluation activities in this document to CEM:2022 work u
 | EA Identifier | CEM Work Unit(s) | Notes
 
 | EA-ADV_FSP.Cloud-1 to Cloud-4
-| ADV_FSP.*.1, ADV_FSP.*.2
+| ADV_FSP.2
 | Supplements base PP ADV_FSP activities
 
 | EA-AGD_OPE.Cloud-1 to Cloud-6
@@ -3604,16 +3150,17 @@ This appendix maps the evaluation activities in this document to CEM:2022 work u
 | Supplements base PP ALC_DEL activities
 
 | EA-ATE_IND.Cloud-1 to Cloud-7
-| ATE_IND.*.3, ATE_IND.*.4
+| ATE_IND.2
 | Cloud-specific independent testing guidance
 
 | EA-AVA_VAN.Cloud-1 to Cloud-7
-| AVA_VAN.*.3, AVA_VAN.*.4, AVA_VAN.*.5
+| AVA_VAN.2
 | Cloud-specific vulnerability analysis activities
 
 |===
 
-== Appendix B: Relationship to DBMS Crypto Module SD
+[appendix]
+== Relationship to DBMS Crypto Module SD
 
 === Cryptographic Testing Coordination
 
@@ -3624,8 +3171,8 @@ The FDP_DAR_EXT.1 and FDP_DIT_EXT.1 evaluation activities reference cryptographi
 | Aspect | DBMS Cloud Module SD (This Document) | DBMS Crypto Module SD
 
 | Selection Verification
-| Verify correct selection made, PP-Configuration includes Crypto Module
-| N/A
+| Verify the PP-Configuration includes the mandatory Crypto Module and identifies the selected Crypto Module strategy or protocol for cloud interfaces
+| Verify selected cryptographic options are valid and tested
 
 | TSS Description
 | Verify TSS describes integration with crypto functions
@@ -3635,9 +3182,9 @@ The FDP_DAR_EXT.1 and FDP_DIT_EXT.1 evaluation activities reference cryptographi
 | Confirm Crypto Module tests cover algorithms used
 | Execute CAVP/algorithm testing
 
-| Protocol Testing (TLS/HTTPS)
-| Confirm Crypto Module tests cover protocol behavior
-| Execute TLS/HTTPS protocol testing per RFC requirements
+| Protocol Testing (TLS, including HTTPS over TLS)
+| Confirm applicable TLS package or Crypto Module tests cover protocol behavior and verify HTTPS interfaces are mapped to the underlying TLS role
+| Coordinate TLS package evaluation activities for included TLS components and execute DBMS-specific cryptographic integration testing
 
 | Key Management Testing
 | Verify cloud integration for key storage/retrieval
@@ -3658,7 +3205,7 @@ When a TOE claims both the DBMS Cloud Module and the DBMS Crypto Module:
    - FCS_CKM.1 testing (key generation)
    - FCS_TLSC_EXT.1 testing (TLS client)
    - FCS_TLSS_EXT.1 testing (TLS server)
-   - FCS_HTTPS_EXT.1 testing (HTTPS)
+   - Mapping of HTTPS interfaces to the applicable TLS client or server tests
 
 2. The Crypto Module evaluation team shall confirm:
    - Testing covers the algorithms/protocols used by the TOE for data-at-rest and data-in-transit protection
@@ -3666,7 +3213,8 @@ When a TOE claims both the DBMS Cloud Module and the DBMS Crypto Module:
 
 3. The Cloud Module ETR shall reference the Crypto Module ETR and confirm that cryptographic testing obligations have been met through module coordination.
 
-== Appendix C: Test Environment Guidance for Cloud Evaluators
+[appendix]
+== Test Environment Guidance for Cloud Evaluators
 
 === Recommended Cloud Test Configurations
 
@@ -3702,3 +3250,62 @@ The following configurations are recommended for independent testing:
 * Enable cloud audit logging for evaluation activities
 * Restrict access to evaluation resources
 * Delete evaluation resources after completion
+
+[appendix]
+== Acronyms and Abbreviations
+
+[cols="1,3",options="header"]
+|===
+| Acronym | Full Term
+
+| AD | Active Directory
+| API | Application Programming Interface
+| CAP | Composed Assurance Package
+| CC | Common Criteria
+| CCiTC | Common Criteria in the Cloud Technical Community
+| CEM | Common Methodology for Information Technology Security Evaluation
+| DBMS | Database Management System
+| EA | Evaluation Activity
+| EAL | Evaluation Assurance Level
+| ETR | Evaluation Technical Report
+| IAM | Identity and Access Management
+| IaaS | Infrastructure as a Service
+| LDAP | Lightweight Directory Access Protocol
+| mTLS | Mutual Transport Layer Security
+| NTP | Network Time Protocol
+| OCI | Oracle Cloud Infrastructure
+| OE | Operational Environment
+| OIDC | OpenID Connect
+| OSP | Organizational Security Policy
+| PaaS | Platform as a Service
+| PP | Protection Profile
+| SAR | Security Assurance Requirement
+| SD | Supporting Document
+| SFR | Security Functional Requirement
+| SIEM | Security Information and Event Management
+| SPD | Security Problem Definition
+| ST | Security Target
+| TLS | Transport Layer Security
+| TOE | Target of Evaluation
+| TSF | TOE Security Functionality
+| TSS | TOE Summary Specification
+| VPC | Virtual Private Cloud
+|===
+
+[appendix]
+[[document-references]]
+== Document References
+
+[bibliography]
+* [#CC1]#[CC1]# Common Criteria for Information Technology Security Evaluation, Part 1: Introduction and general model, CCMB-2022-11-001, CC:2022 Revision 1, November 2022.
+* [#CC2]#[CC2]# Common Criteria for Information Technology Security Evaluation, Part 2: Security functional requirements, CCMB-2022-11-002, CC:2022 Revision 1, November 2022.
+* [#CC3]#[CC3]# Common Criteria for Information Technology Security Evaluation, Part 3: Security assurance requirements, CCMB-2022-11-003, CC:2022 Revision 1, November 2022.
+* [#CC4]#[CC4]# Common Criteria for Information Technology Security Evaluation, Part 4: Framework for the specification of evaluation methods and activities, CCMB-2022-11-004, CC:2022 Revision 1, November 2022.
+* [#CC5]#[CC5]# Common Criteria for Information Technology Security Evaluation, Part 5: Pre-defined packages of security requirements, CCMB-2022-11-005, CC:2022 Revision 1, November 2022.
+* [#CCE]#[CCE]# Common Criteria for Information Technology Security Evaluation, Errata and interpretation for CC:2022 (Release 1) and CEM:2022 (Release 1), CCMB-002, Version 1.1, July 22, 2024.
+* [#CEM]#[CEM]# Common Methodology for Information Technology Security Evaluation, Evaluation methodology, CCMB-2022-11-006, CEM:2022 Revision 1, November 2022.
+* [#DBMS_Cloud_MOD]#[DBMS_Cloud_MOD]# collaborative PP-Module for DBMS in the Cloud (DBMS_Cloud_MOD), Version 0.4, 2026-06-30.
+* [#cPP_DBMS]#[cPP_DBMS]# collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.
+* [#cPP_DBMS_SD]#[cPP_DBMS_SD]# Supporting Document Mandatory Technical Document Evaluation Activities for the collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.
+* [#DBMS_MOD_CRYPTO]#[DBMS_MOD_CRYPTO]# collaborative PP-Module for DBMS Cryptographic Functions, Version 0.4, 2026-06-30.
+* [#DBMS_MOD_CRYPTO_SD]#[DBMS_MOD_CRYPTO_SD]# Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.4, 2026-06-30.

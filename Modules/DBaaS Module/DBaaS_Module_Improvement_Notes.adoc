@@ -1,0 +1,246 @@
+= DBaaS Module Improvement Notes
+:toc:
+:toclevels: 3
+
+== Purpose
+
+These notes provide targeted improvements for the early DBaaS PP-Module and Supporting Document drafts. The goal is to align the DBaaS module more closely with the CC in the Cloud Technical Community (CCiTC) guidance while preserving the DBMS-specific security value of the module, especially customer-controlled database key management.
+
+== Recommended Conceptual Refactor
+
+The DBaaS module should be framed as a DBMS-specific instantiation of the CCiTC Software as a Service (SaaS) topology.
+
+Suggested positioning text:
+
+....
+This PP-Module applies the CC in the Cloud Technical Community (CCiTC) SaaS evaluation model to Database-as-a-Service deployments of a DBMS TOE. The module extends the cPP_DBMS for cases where the DBMS is offered as a managed cloud service and is accessed by customers through tenant-facing database, administrative, and programmatic interfaces.
+
+The module does not evaluate the complete cloud service provider infrastructure or cloud authorization scheme. Instead, it identifies the DBMS TOE, the TOE platform, the trusted platform, and the operational environment dependencies that support the evaluated configuration. Security functionality implemented by the TOE is evaluated through this module and the cPP_DBMS. Security properties provided by the trusted platform are addressed through assumptions, operational environment objectives, and scheme-accepted evidence for the trusted platform.
+....
+
+== TOE, TOE Platform, And Trusted Platform
+
+The draft should explicitly adopt the CCiTC separation between TOE, TOE Platform, and Trusted Platform.
+
+=== Candidate TOE Boundary Text
+
+....
+For this module, the TOE is the DBMS service instance and the DBMS service components that enforce the SFRs claimed in the Security Target. The TOE may include the database engine, tenant-facing database interfaces, DBMS security management logic, DBMS audit logic, DBMS tenant-isolation mechanisms, DBMS key-management integration logic, and autonomous DBMS management logic when those components enforce claimed SFRs.
+
+The TOE does not include the complete cloud service provider infrastructure merely because the TOE is delivered as a managed service. Unless explicitly included in the TOE boundary, the cloud control plane, hypervisor, physical infrastructure, cloud networking, cloud storage substrate, provider operational tooling, provider personnel processes, and general cloud authorization controls are part of the operational environment or trusted platform.
+....
+
+=== Candidate TOE Platform Text
+
+....
+The TOE Platform is the immediate software, firmware, or hardware environment on which the DBMS TOE executes and from which the TOE obtains services that support TOE operation. Depending on the evaluated architecture, this may include an operating system, container runtime, database runtime environment, or other execution environment. The ST shall identify each TOE Platform service relied upon by the TOE to satisfy or support claimed SFRs.
+....
+
+=== Candidate Trusted Platform Text
+
+....
+The Trusted Platform is the cloud hosting environment that provides infrastructure services to the TOE and TOE Platform, including physical security, virtualization or hardware isolation, cloud networking, storage infrastructure, and provider-operated infrastructure services. The Trusted Platform is relied upon to satisfy operational environment assumptions and security objectives identified by this module and accepted by the applicable evaluation scheme.
+....
+
+== Refine The "Trust No One" Language
+
+The draft's "Trust No One" concept is strongest when scoped to DBMS key management. Avoid using it as a general claim that the TOE resists arbitrary malicious action by the cloud provider or trusted platform administrator.
+
+=== Recommended Replacement
+
+....
+This module adopts a zero-trust key-management posture for customer-controlled database encryption keys. This posture does not imply that the TOE resists arbitrary compromise by the trusted platform, cloud control plane, or cloud service provider infrastructure. Rather, it means that the TOE shall not provide service provider administrators with access to customer-controlled master key material through DBMS or service interfaces, and shall support cryptographic separation such that protected tenant data cannot be decrypted except through authorized use of the customer-controlled key.
+....
+
+== Threat Refactor
+
+=== Replace Broad Provider-Admin Threat
+
+Current concept:
+
+....
+T.MALICIOUS_SERVICE_ADMIN
+A Service Provider administrator may attempt to access or modify customer data...
+....
+
+Recommended narrower threat:
+
+....
+T.KEY_DISCLOSURE_TO_PROVIDER_ADMIN
+A service provider administrator, service account, or provider-operated management function may attempt to access customer-controlled master key material or cause the TOE to disclose plaintext key material through DBMS interfaces, provider administration interfaces, local DBMS storage, DBMS logs, backups, diagnostic outputs, or key-management integration functions.
+....
+
+Rationale:
+
+* This keeps the important "provider cannot see customer keys" claim.
+* It avoids overclaiming that the DBMS TOE can resist arbitrary trusted-platform compromise.
+* It maps directly to customer-managed keys, external KMS integration, BYOK, and key export restrictions.
+
+=== Add A Trusted Platform Bypass Assumption
+
+....
+A.TRUSTED_PLATFORM_ADMIN
+Trusted Platform administrators are trusted to follow the controls, procedures, and restrictions associated with the trusted platform and any scheme-recognized cloud authorization evidence. The TOE is not expected to defend against a trusted platform administrator who actively modifies the TOE, TOE Platform, cloud infrastructure, memory, storage substrate, or control plane to bypass TOE security functions.
+....
+
+=== Add A Cloud Authorization Assumption
+
+....
+A.TRUSTED_PLATFORM_CONTROLS
+The Trusted Platform provides and is configured to provide sufficient physical, logical, operational, and administrative controls to protect the TOE and TOE Platform from infrastructure-level compromise, cross-tenant infrastructure access, unauthorized physical access, and unauthorized administrative access outside the TOE boundary.
+....
+
+== Objectives Refactor
+
+=== Revised O.CUSTOMER_CONTROLLED_KEYS
+
+....
+O.CUSTOMER_CONTROLLED_KEYS
+The TOE shall support customer-controlled key management such that customer-controlled master key material is not disclosed to service provider administrators through TOE interfaces, and protected database data cannot be decrypted except through authorized use of the customer-controlled key or an approved key-management integration.
+....
+
+=== Add OE.TRUSTED_PLATFORM
+
+....
+OE.TRUSTED_PLATFORM
+The operational environment shall provide a Trusted Platform that satisfies the physical, logical, administrative, and operational controls needed to host the TOE and TOE Platform in accordance with the evaluated configuration.
+....
+
+=== Add OE.TRUSTED_PLATFORM_ADMIN
+
+....
+OE.TRUSTED_PLATFORM_ADMIN
+Trusted Platform administrators shall manage the Trusted Platform in accordance with accepted cloud authorization controls, provider procedures, and scheme-accepted operational evidence, and shall not act to bypass or compromise the TOE.
+....
+
+== SFR Refinement Recommendations
+
+=== FCS_CKM_DBAAS_EXT.1 Customer-Controlled Keys
+
+The current SFR is conceptually useful. It should be tied more explicitly to the DBMS Crypto Module and Crypto Catalogue claims.
+
+Candidate revision:
+
+....
+FCS_CKM_DBAAS_EXT.1.1
+The TSF shall support customer-controlled master encryption keys using one or more of the following mechanisms:
+
+[selection:
+  - customer-generated master keys imported into the TOE through a trusted channel specified by the DBMS Cryptographic Functions Module;
+  - externally managed master keys accessed through a key management service interface where plaintext master key material is not exported to the TOE;
+  - customer-controlled key references or key handles that permit the TOE to perform authorized cryptographic operations without exposing plaintext master key material to service provider administrators.
+]
+
+FCS_CKM_DBAAS_EXT.1.2
+The TSF shall not provide an interface by which a service provider administrator can view, export, or recover plaintext customer-controlled master key material.
+
+FCS_CKM_DBAAS_EXT.1.3
+The TSF shall prevent access to protected database data when authorized use of the applicable customer-controlled master key is revoked, unavailable, or denied, except for data that remains available through an explicitly documented and evaluated recovery mechanism.
+....
+
+=== Application Note
+
+....
+Application Note: This requirement is intended to address DBaaS customer-controlled key models such as BYOK, HYOK, external KMS integration, or equivalent key-reference mechanisms. It does not require the TOE to protect against arbitrary modification of the trusted platform or cloud control plane. If the TOE stores, caches, wraps, transforms, or re-exports key material after receipt, the ST shall identify that behavior and the applicable key protection requirements from the DBMS Cryptographic Functions Module and Crypto Catalogue.
+....
+
+=== FDP_ACC/FDP_ACF For Tenant Isolation
+
+The draft currently uses `FDP_ACC.2` but embeds access-control rules directly in `FDP_ACC.2.2`. In CC structure, `FDP_ACC` defines the policy scope and `FDP_ACF` defines the rules. Consider using:
+
+* `FDP_ACC.2/DBaaS` to define complete access control for the Tenant Isolation SFP.
+* `FDP_ACF.1/DBaaS` to define data, metadata, audit, and tenant-scope rules.
+
+Candidate policy split:
+
+....
+FDP_ACC.2.1/DBaaS
+The TSF shall enforce the Tenant Isolation SFP on tenant subjects, tenant data objects, tenant metadata objects, tenant audit records, and operations among those subjects and objects.
+
+FDP_ACC.2.2/DBaaS
+The TSF shall ensure that all operations between subjects and objects covered by the Tenant Isolation SFP are covered by an access control SFP.
+
+FDP_ACF.1.1/DBaaS
+The TSF shall enforce the Tenant Isolation SFP based on the following security attributes: tenant identifier, user identifier, service role, object owner, object tenant identifier, object type, and operation.
+
+FDP_ACF.1.2/DBaaS
+The TSF shall enforce the following rules:
+  - a tenant subject shall access only tenant data objects associated with the same tenant identifier unless explicitly authorized by an evaluated cross-tenant sharing mechanism;
+  - a tenant subject shall access only metadata associated with the same tenant identifier or metadata explicitly defined as global system metadata;
+  - a tenant subject shall access only audit records associated with the same tenant identifier unless explicitly authorized by an evaluated provider or compliance function;
+  - service provider administrative subjects shall be restricted from tenant data access except through interfaces and roles explicitly identified in the ST.
+....
+
+== SD Improvements
+
+=== Trusted Platform Evidence
+
+Current SD text suggests FedRAMP, ISO 27001, or similar evidence may satisfy platform assumptions. Refine this so the evaluator verifies consistency and scheme acceptance rather than independently deciding sufficiency.
+
+Candidate text:
+
+....
+The evaluator shall review the ST and operational guidance to identify the Trusted Platform relied upon by the TOE. The evaluator shall verify that the ST identifies the cloud authorization, certification, scheme policy, or other evidence used to support the Trusted Platform assumptions and operational environment objectives. The evaluator shall verify that the evidence is within scope for the trusted platform services relied upon by the TOE. The evaluator shall document this reliance in the ETR in accordance with scheme policy.
+
+The evaluator does not treat cloud authorization evidence as satisfying TOE SFRs unless the PP-Module, Base PP, or Security Target explicitly permits the relevant function to be provided by the TOE Platform or operational environment.
+....
+
+=== Key Revocation Test
+
+The current key revocation test is strong. Add a caveat for documented key caching.
+
+....
+If the TOE caches key material, key handles, or derived keys after successful KMS authorization, the evaluator shall verify that the TSS identifies the cache duration, protection mechanism, revocation behavior, and conditions under which cached material is invalidated. The evaluator shall test that revocation of the TOE's authorization to use the external key prevents access to protected data no later than the expiration of the documented cache interval.
+....
+
+=== Avoid Best-Effort Memory Tests As Primary Evidence
+
+The residual memory test is useful but may be hard to make repeatable in DBaaS. Make architecture review primary and tenant-interface testing supplementary.
+
+Candidate refactor:
+
+....
+The evaluator shall review the TSS to determine whether tenant data can be present in shared DBMS memory, buffer cache, temporary storage, query work areas, or diagnostic structures. The evaluator shall verify that the TSS describes how such resources are cleared, reinitialized, or access-controlled before allocation to another tenant.
+
+Where tenant-accessible interfaces permit repeatable testing, the evaluator shall provision two tenant contexts and attempt to observe residual tenant data through documented tenant interfaces after resource release and reallocation. The evaluator is not required to inspect raw process memory unless such access is available in the evaluated configuration and permitted by the test environment.
+....
+
+== DBaaS vs Generic SaaS Split
+
+For future reuse, separate SaaS-generic material from DBaaS-specific material.
+
+=== SaaS-Generic
+
+* TOE boundary for managed service application.
+* TOE Platform and Trusted Platform reliance.
+* shared responsibility model.
+* tenant identity binding.
+* tenant configuration isolation.
+* tenant audit scoping and audit export.
+* provider/developer update responsibility.
+* evaluator access through tenant interfaces.
+* external IdP, KMS, logging, object storage dependencies.
+
+=== DBaaS-Specific
+
+* database engine tenant isolation.
+* schemas/PDBs/databases/tablespaces/metadata isolation.
+* customer-controlled database master keys.
+* data-at-rest encryption and key hierarchy.
+* SQL/system catalog isolation.
+* query/session/resource governance.
+* backup/restore behavior for encrypted databases.
+* database audit stream immutability and tenant audit separation.
+
+== Immediate Cleanup Checklist
+
+* Replace broad "Trust No One" language with zero-trust key-management posture.
+* Add explicit TOE / TOE Platform / Trusted Platform definitions.
+* Move cloud authorization references into OE/trusted-platform evidence handling.
+* Narrow provider-admin threats to key disclosure or evaluated DBMS interfaces.
+* Add assumptions for trusted platform administrators and platform controls.
+* Split tenant isolation into `FDP_ACC` plus `FDP_ACF` if using standard access-control families.
+* Tie customer-controlled keys to the DBMS Crypto Module and Crypto Catalogue components.
+* Clarify when external KMS, IdP, logging, or storage services are OE dependencies.
+* Make SD tests repeatable through tenant interfaces wherever possible.
+* Avoid claiming resistance to arbitrary CSP infrastructure compromise unless the TOE includes technical controls and evidence to support that claim.

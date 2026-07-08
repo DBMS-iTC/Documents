@@ -1,0 +1,542 @@
+= collaborative PP-Module for Database-as-a-Service (DBaaS)
+:showtitle:
+:toc: macro
+:toclevels: 7
+:sectnums:
+:sectnumlevels: 7
+:imagesdir: images
+:icons: font
+:doctype: book
+:revnumber: 0.2
+:revdate: 2026-05-14
+
+:iTC-longname: Database Management Systems
+:iTC-shortname: DBMS-iTC
+:iTC-email: cm-itc-mailing-list@gmail.com
+:iTC-website: https://github.com/DBMS-iTC
+:iTC-GitHub: https://github.com/DBMS-iTC/DBMS-iTC.github.io
+:base-pp: collaborative Protection Profile for Database Management Systems
+
+:sectnums!:
+
+== Acknowledgements
+
+This collaborative Protection Profile Module (PP-Module) was developed by the {iTC-longname} international Technical Community (iTC) also known as {iTC-shortname}.
+
+*INDUSTRY*
+
+_Vendors_
+
+*COMMON CRITERIA TESTING LABORATORIES*
+
+_ITSEF Name_
+
+*GOVERNMENT AGENCIES*
+
+_Government Agency Names_
+
+=== Revision History
+
+.Revision history
+[%header,cols=".^1,.^2,.^4"]
+|===
+
+|Version
+|Date
+|Description
+
+|0.1
+|2026-01-25
+|Initial draft for DBaaS deployments.
+
+|0.2
+|2026-05-14
+|Incorporated DBaaS improvement notes: aligned module with the CCiTC SaaS evaluation model, clarified TOE and platform boundaries, narrowed provider-administrator threats to customer-controlled key disclosure, added trusted-platform assumptions and objectives, refined customer-controlled key SFRs, and split tenant isolation into FDP_ACC and FDP_ACF.
+
+|===
+
+toc::[]
+
+== Preface
+
+This PP-Module, the *Database-as-a-Service (DBaaS) Module*, extends the collaborative Protection Profile for Database Management Systems (cPP_DBMS). It applies to database services where a DBMS TOE is offered as a managed cloud service and is accessed by customers through tenant-facing database, administrative, and programmatic interfaces.
+
+This PP-Module applies the CC in the Cloud Technical Community (CCiTC) Software as a Service (SaaS) evaluation model to Database-as-a-Service deployments of a DBMS TOE. The module does not evaluate the complete cloud service provider infrastructure or the provider's complete cloud authorization scheme. Instead, it identifies the DBMS TOE, the TOE Platform, the Trusted Platform, and the operational environment dependencies that support the evaluated configuration.
+
+Security functionality implemented by the TOE is evaluated through this module and the cPP_DBMS. Security properties provided by the Trusted Platform are addressed through assumptions, operational environment objectives, and scheme-accepted evidence for the Trusted Platform.
+
+This module adopts a zero-trust key-management posture for customer-controlled database encryption keys. This posture does not imply that the TOE resists arbitrary compromise by the Trusted Platform, cloud control plane, or cloud service provider infrastructure. Rather, it means that the TOE shall not provide service provider administrators with access to customer-controlled master key material through DBMS or service interfaces, and shall support cryptographic separation such that protected tenant data cannot be decrypted except through authorized use of the customer-controlled key.
+
+=== Objectives of Document
+
+This document expresses the security functional requirements for DBaaS deployments, focusing on logical tenant isolation, resource governance, tenant-scoped audit behavior, and customer-controlled cryptographic controls for database data.
+
+=== Related Documents
+
+[bibliography]
+* [#CC1]#[CC1]# Common Criteria for Information Technology Security Evaluation, Part 1: Introduction and General Model, CC:2022.
+* [#Crypto_Catalog]#[Crypto_Catalog]# Common Criteria Cryptographic Catalogue.
+* [#cPP_DBMS]#[cPP_DBMS]# collaborative Protection Profile for Database Management Systems.
+* [#DBMS_MOD_CRYPTO]#[DBMS_MOD_CRYPTO]# PP-Module for DBMS Cryptographic Functions.
+
+:sectnums:
+== PP-Module Introduction
+
+=== PP-Module Reference Identification
+
+.PP-Module Identification
+[cols="1,3"]
+|===
+|Attribute |Value
+
+|PP-Module Title
+|collaborative PP-Module for Database-as-a-Service (DBaaS)
+
+|PP-Module Short Name
+|DBMS_MOD_DBAAS
+
+|PP-Module Version
+|{revnumber}
+
+|PP-Module Publication Date
+|{revdate}
+
+|PP-Module Sponsor
+|{iTC-longname} international Technical Community ({iTC-shortname})
+
+|CC Version
+|CC:2022
+
+|PP-Module Keywords
+|Database, DBaaS, Cloud, SaaS, Managed Service, Multi-Tenant, Isolation, Customer-Controlled Keys
+|===
+
+== PP-Module Base
+
+This PP-Module requires the *{base-pp}*.
+
+=== Required Modules
+
+This PP-Module must be claimed in conjunction with:
+
+* *PP-Module for DBMS Cryptographic Functions (DBMS_MOD_CRYPTO)* [<<DBMS_MOD_CRYPTO>>]
+
+In a DBaaS model, the customer does not control the physical infrastructure. Customer-controlled database key management is therefore mandatory for the module's DBMS-specific security value. The DBMS Cryptographic Functions Module and the applicable Crypto Catalogue claims define the cryptographic algorithm, key lifecycle, key destruction, and trusted channel requirements that support this module.
+
+== TOE Overview
+
+=== TOE
+
+For this module, the TOE is the DBMS service instance and the DBMS service components that enforce the SFRs claimed in the Security Target. The TOE may include the database engine, tenant-facing database interfaces, DBMS security management logic, DBMS audit logic, DBMS tenant-isolation mechanisms, DBMS key-management integration logic, and autonomous DBMS management logic when those components enforce claimed SFRs.
+
+The TOE does not include the complete cloud service provider infrastructure merely because the TOE is delivered as a managed service. Unless explicitly included in the TOE boundary, the cloud control plane, hypervisor, physical infrastructure, cloud networking, cloud storage substrate, provider operational tooling, provider personnel processes, and general cloud authorization controls are part of the operational environment or Trusted Platform.
+
+=== TOE Platform
+
+The TOE Platform is the immediate software, firmware, or hardware environment on which the DBMS TOE executes and from which the TOE obtains services that support TOE operation. Depending on the evaluated architecture, this may include an operating system, container runtime, database runtime environment, or other execution environment. The ST shall identify each TOE Platform service relied upon by the TOE to satisfy or support claimed SFRs.
+
+=== Trusted Platform
+
+The Trusted Platform is the cloud hosting environment that provides infrastructure services to the TOE and TOE Platform, including physical security, virtualization or hardware isolation, cloud networking, storage infrastructure, and provider-operated infrastructure services. The Trusted Platform is relied upon to satisfy operational environment assumptions and security objectives identified by this module and accepted by the applicable evaluation scheme.
+
+=== Operational Environment Dependencies
+
+The ST shall identify operational environment services relied upon by the TOE, including external key management services, identity providers, logging or SIEM services, object storage services, backup services, management consoles, cloud authorization evidence, and trusted time services when those services support the evaluated configuration.
+
+The ST shall identify whether each dependency is part of the TOE, TOE Platform, Trusted Platform, or operational environment. Security functionality implemented by the TOE shall be evaluated as TOE functionality. Security properties provided by trusted external services shall be addressed through assumptions, operational environment objectives, and scheme-accepted evidence unless this PP-Module, the Base PP, or the ST explicitly permits the relevant function to be provided outside the TOE.
+
+== Security Problem Definition
+
+=== Threats
+
+T.KEY_DISCLOSURE_TO_PROVIDER_ADMIN::
+A service provider administrator, service account, or provider-operated management function may attempt to access customer-controlled master key material or cause the TOE to disclose plaintext key material through DBMS interfaces, provider administration interfaces, local DBMS storage, DBMS logs, backups, diagnostic outputs, or key-management integration functions.
+
+T.TENANT_ISOLATION_FAILURE::
+A malicious tenant may attempt to access the data, metadata, memory resources, temporary storage, or audit records of another tenant sharing the same DBMS service infrastructure.
+
+T.NOISY_NEIGHBOR::
+A tenant may consume excessive shared resources such as CPU, I/O, memory, sessions, query slots, storage throughput, or other DBMS-managed resources, causing denial of service or performance degradation for other tenants on the shared platform.
+
+T.AUDIT_TAMPERING::
+A malicious tenant, tenant administrator, or compromised service account may attempt to delete, modify, suppress, or disable audit records to conceal unauthorized activities.
+
+=== Assumptions
+
+A.TRUSTED_PLATFORM_ADMIN::
+Trusted Platform administrators are trusted to follow the controls, procedures, and restrictions associated with the Trusted Platform and any scheme-recognized cloud authorization evidence. The TOE is not expected to defend against a Trusted Platform administrator who actively modifies the TOE, TOE Platform, cloud infrastructure, memory, storage substrate, or control plane to bypass TOE security functions.
+
+A.TRUSTED_PLATFORM_CONTROLS::
+The Trusted Platform provides and is configured to provide sufficient physical, logical, operational, and administrative controls to protect the TOE and TOE Platform from infrastructure-level compromise, cross-tenant infrastructure access, unauthorized physical access, and unauthorized administrative access outside the TOE boundary.
+
+A.SERVICE_AVAILABILITY::
+The Service Provider ensures the availability of the infrastructure hosting the TOE in accordance with the evaluated configuration and any service-level commitments relied upon by the ST.
+
+A.EXTERNAL_SERVICES::
+External key management, identity provider, logging, object storage, backup, and management services relied upon by the TOE are correctly configured, protected, and operated in accordance with the assumptions and operational guidance for the evaluated configuration.
+
+== Security Objectives
+
+=== Security Objectives for the TOE
+
+O.CUSTOMER_CONTROLLED_KEYS::
+The TOE shall support customer-controlled key management such that customer-controlled master key material is not disclosed to service provider administrators through TOE interfaces, and protected database data cannot be decrypted except through authorized use of the customer-controlled key or an approved key-management integration.
+
+O.LOGICAL_ISOLATION::
+The TOE shall enforce logical isolation between tenants, ensuring that one tenant cannot access another tenant's data, metadata, audit records, or tenant-scoped DBMS resources unless explicitly authorized by an evaluated cross-tenant sharing mechanism.
+
+O.RESOURCE_GOVERNANCE::
+The TOE shall enforce resource governance on a per-tenant basis to prevent any single tenant from consuming DBMS-managed resources in a manner that denies service to other tenants.
+
+O.IMMUTABLE_AUDIT::
+The TOE shall ensure that audit records, once generated, are protected from unauthorized modification and deletion by tenant administrators, ordinary tenant users, and other roles not authorized by the evaluated configuration.
+
+=== Security Objectives for the Operational Environment
+
+OE.TRUSTED_PLATFORM::
+The operational environment shall provide a Trusted Platform that satisfies the physical, logical, administrative, and operational controls needed to host the TOE and TOE Platform in accordance with the evaluated configuration.
+
+OE.TRUSTED_PLATFORM_ADMIN::
+Trusted Platform administrators shall manage the Trusted Platform in accordance with accepted cloud authorization controls, provider procedures, and scheme-accepted operational evidence, and shall not act to bypass or compromise the TOE.
+
+OE.SERVICE_AVAILABILITY::
+The operational environment shall provide the infrastructure availability, recovery, and continuity services needed to support the DBaaS TOE in accordance with the evaluated configuration.
+
+OE.EXTERNAL_SERVICES::
+External services relied upon by the TOE, including key management services, identity providers, logging services, object storage services, backup services, management interfaces, and trusted time services, shall provide the security properties and operational behavior described in the ST and operational guidance.
+
+== Security Rationale
+
+=== Threats to Objectives Mapping
+
+[cols="1,2,3",options="header"]
+|===
+|Threat
+|Security Objectives Addressing the Threat
+|Rationale
+
+|T.KEY_DISCLOSURE_TO_PROVIDER_ADMIN
+|O.CUSTOMER_CONTROLLED_KEYS, OE.TRUSTED_PLATFORM_ADMIN
+|O.CUSTOMER_CONTROLLED_KEYS requires TOE behavior that prevents service provider administrators from using TOE interfaces to view, export, or recover plaintext customer-controlled master key material. OE.TRUSTED_PLATFORM_ADMIN states the operational trust placed in administrators of infrastructure outside the TOE boundary.
+
+|T.TENANT_ISOLATION_FAILURE
+|O.LOGICAL_ISOLATION, OE.TRUSTED_PLATFORM
+|O.LOGICAL_ISOLATION requires the TOE to enforce tenant separation within DBMS-controlled data, metadata, audit, and tenant-scoped resources. OE.TRUSTED_PLATFORM addresses infrastructure-level isolation relied upon outside the TOE boundary.
+
+|T.NOISY_NEIGHBOR
+|O.RESOURCE_GOVERNANCE, OE.SERVICE_AVAILABILITY
+|O.RESOURCE_GOVERNANCE requires TOE controls over DBMS-managed tenant resource consumption. OE.SERVICE_AVAILABILITY addresses provider-operated availability and infrastructure continuity outside the TOE boundary.
+
+|T.AUDIT_TAMPERING
+|O.IMMUTABLE_AUDIT, OE.EXTERNAL_SERVICES
+|O.IMMUTABLE_AUDIT requires the TOE to protect TOE-generated audit records from unauthorized modification or deletion. OE.EXTERNAL_SERVICES addresses external audit export, logging, or storage services when such services are relied upon by the evaluated configuration.
+|===
+
+=== Assumptions to Objectives Mapping
+
+[cols="1,2,3",options="header"]
+|===
+|Assumption
+|Security Objectives Addressing the Assumption
+|Rationale
+
+|A.TRUSTED_PLATFORM_ADMIN
+|OE.TRUSTED_PLATFORM_ADMIN
+|OE.TRUSTED_PLATFORM_ADMIN directly requires Trusted Platform administrators to operate the platform according to accepted controls and not act to bypass or compromise the TOE.
+
+|A.TRUSTED_PLATFORM_CONTROLS
+|OE.TRUSTED_PLATFORM
+|OE.TRUSTED_PLATFORM directly requires the operational environment to provide the physical, logical, administrative, and operational controls needed for the TOE and TOE Platform.
+
+|A.SERVICE_AVAILABILITY
+|OE.SERVICE_AVAILABILITY
+|OE.SERVICE_AVAILABILITY directly states the operational environment availability and continuity support relied upon by the DBaaS TOE.
+
+|A.EXTERNAL_SERVICES
+|OE.EXTERNAL_SERVICES
+|OE.EXTERNAL_SERVICES directly states the expected security properties and operational behavior for external services relied upon by the TOE.
+|===
+
+=== Objectives to SFRs Mapping
+
+[cols="1,3,4",options="header"]
+|===
+|Objective
+|SFRs
+|Rationale
+
+|O.CUSTOMER_CONTROLLED_KEYS
+|FCS_CKM_DBAAS_EXT.1 and DBMS Cryptographic Functions Module requirements
+|FCS_CKM_DBAAS_EXT.1 requires the TOE to support customer-controlled master keys, prevents service provider administrator access to plaintext key material, and defines behavior when authorization to use a customer-controlled key is revoked, unavailable, or denied.
+
+|O.LOGICAL_ISOLATION
+|FDP_ACC.2/DBaaS, FDP_ACF.1/DBaaS, FDP_RIP.1, FIA_USB.2, FAU_SEL.1
+|The tenant isolation access control policy, residual information protection, user-subject binding, and tenant-aware audit selection together prevent unauthorized cross-tenant access to data, metadata, audit records, and tenant-scoped resources.
+
+|O.RESOURCE_GOVERNANCE
+|FDP_RSG_EXT.1
+|FDP_RSG_EXT.1 requires the TOE to enforce tenant resource quotas and throttle or terminate operations that exceed configured limits.
+
+|O.IMMUTABLE_AUDIT
+|FAU_STG_EXT.2, FMT_MOF.1
+|FAU_STG_EXT.2 protects stored audit records from unauthorized modification and deletion. FMT_MOF.1 prevents unauthorized roles from disabling audit generation or changing protected security functions.
+|===
+
+== Security Functional Requirements
+
+=== Conventions
+
+* [text within square brackets] indicates the completion of a selection or assignment.
+* *Bold text* indicates a refinement.
+
+== Security Functional Requirements (Mandatory)
+
+=== FCS: Cryptographic Support
+
+==== FCS_CKM_DBAAS_EXT.1 Customer-Controlled Keys
+
+*FCS_CKM_DBAAS_EXT.1.1* The TSF shall support customer-controlled master encryption keys using one or more of the following mechanisms: [selection: customer-generated master keys imported into the TOE through a trusted channel specified by the DBMS Cryptographic Functions Module; externally managed master keys accessed through a key management service interface where plaintext master key material is not exported to the TOE; customer-controlled key references or key handles that permit the TOE to perform authorized cryptographic operations without exposing plaintext master key material to service provider administrators].
+
+*FCS_CKM_DBAAS_EXT.1.2* The TSF shall not provide an interface by which a service provider administrator can view, export, or recover plaintext customer-controlled master key material.
+
+*FCS_CKM_DBAAS_EXT.1.3* The TSF shall prevent access to protected database data when authorized use of the applicable customer-controlled master key is revoked, unavailable, or denied, except for data that remains available through an explicitly documented and evaluated recovery mechanism.
+
+*Application Note:* This requirement is intended to address DBaaS customer-controlled key models such as BYOK, HYOK, external KMS integration, or equivalent key-reference mechanisms. It does not require the TOE to protect against arbitrary modification of the Trusted Platform or cloud control plane. If the TOE stores, caches, wraps, transforms, or re-exports key material after receipt, the ST shall identify that behavior and the applicable key protection requirements from the DBMS Cryptographic Functions Module and Crypto Catalogue.
+
+=== FDP: User Data Protection
+
+==== FDP_RIP.1 Residual Information Protection (Memory and Temporary Resources)
+
+*FDP_RIP.1.1* The TSF shall ensure that any previous information content of a resource is made unavailable upon the allocation of the resource to a different tenant for the following resources: [selection: memory, buffer cache, temporary storage, query work areas, diagnostic structures, [assignment: other shared DBMS resources]].
+
+*Application Note:* In shared DBaaS architectures, this requirement addresses residual tenant data in DBMS-managed resources that may be reallocated across tenant contexts. The ST should describe whether tenant data can be present in shared memory, buffer cache, temporary storage, query work areas, diagnostic structures, or other shared DBMS resources, and how such resources are cleared, reinitialized, or access-controlled before reuse.
+
+==== FDP_ACC.2/DBaaS Tenant Isolation Policy
+
+*FDP_ACC.2.1/DBaaS* The TSF shall enforce the Tenant Isolation SFP on tenant subjects, tenant data objects, tenant metadata objects, tenant audit records, and operations among those subjects and objects.
+
+*FDP_ACC.2.2/DBaaS* The TSF shall ensure that all operations between subjects and objects covered by the Tenant Isolation SFP are covered by an access control SFP.
+
+==== FDP_ACF.1/DBaaS Tenant Isolation Policy Rules
+
+*FDP_ACF.1.1/DBaaS* The TSF shall enforce the Tenant Isolation SFP based on the following security attributes: tenant identifier, user identifier, service role, object owner, object tenant identifier, object type, and operation.
+
+*FDP_ACF.1.2/DBaaS* The TSF shall enforce the following rules:
+
+* a tenant subject shall access only tenant data objects associated with the same tenant identifier unless explicitly authorized by an evaluated cross-tenant sharing mechanism;
+* a tenant subject shall access only metadata associated with the same tenant identifier or metadata explicitly defined as global system metadata;
+* a tenant subject shall access only audit records associated with the same tenant identifier unless explicitly authorized by an evaluated provider or compliance function;
+* service provider administrative subjects shall be restricted from tenant data access except through interfaces and roles explicitly identified in the ST.
+
+*FDP_ACF.1.3/DBaaS* The TSF shall explicitly authorize access of subjects to objects based on the following additional rules: [assignment: rules, based on security attributes, that explicitly authorize access of subjects to objects].
+
+*FDP_ACF.1.4/DBaaS* The TSF shall explicitly deny access of subjects to objects based on the following additional rules: [assignment: rules, based on security attributes, that explicitly deny access of subjects to objects].
+
+*Application Note:* The ST should identify the tenant boundary used by the TOE, such as databases, pluggable databases, schemas, namespaces, tablespaces, tenant identifiers, accounts, or other DBMS constructs. If an evaluated cross-tenant sharing mechanism is claimed, the ST shall describe the authorization model, audit behavior, and limits of that mechanism.
+
+==== FDP_RSG_EXT.1 Resource Governance
+
+*FDP_RSG_EXT.1.1* The TSF shall enforce resource quotas limiting the consumption of [selection: CPU, memory, I/O bandwidth, storage, sessions, query concurrency, workload queues, [assignment: other DBMS-managed resources]] by individual tenants.
+
+*FDP_RSG_EXT.1.2* The TSF shall [selection: terminate, throttle, queue, reject, [assignment: other enforcement action]] operations that exceed the defined resource quotas.
+
+*Application Note:* This requirement addresses tenant resource contention for DBMS-managed resources. It does not require the TOE to enforce all infrastructure-level resource controls provided solely by the Trusted Platform unless those controls are included in the TOE boundary and claimed in the ST.
+
+=== FIA: Identification and Authentication
+
+==== FIA_USB.2 User-Subject Binding (Tenant Context)
+
+*FIA_USB.2.1* The TSF shall associate the following user security attributes with subjects acting on behalf of that user: tenant identifier, user identifier, and service role.
+
+*FIA_USB.2.2* The TSF shall enforce the following rules on the initial association of user security attributes with subjects: a subject shall bind to the tenant identifier of the authenticating user or service account before the subject performs tenant-scoped operations.
+
+*Application Note:* This binding is critical for the database engine to enforce the logical isolation policies defined in `FDP_ACC.2/DBaaS` and `FDP_ACF.1/DBaaS`.
+
+=== FMT: Security Management
+
+==== FMT_MOF.1 Management of Security Functions Behavior (Tenant Admin Restriction)
+
+*FMT_MOF.1.1* The TSF shall restrict the ability to disable the following functions to no role in the evaluated configuration: audit generation and data-at-rest encryption for protected tenant data.
+
+*FMT_MOF.1.2* The TSF shall restrict the ability to modify the following functions to [selection: Service Provider Administrator, automated autonomous management logic, [assignment: other authorized role]]: resource governor policies, patching and updates, audit export configuration, and [assignment: other DBaaS security functions].
+
+*Application Note:* The Tenant Administrator is excluded from disabling security-critical functions identified in this requirement. Tenant administrators may manage tenant data and tenant-level configuration only to the extent permitted by the evaluated configuration and the ST.
+
+=== FAU: Security Audit
+
+==== FAU_SEL.1 Selective Audit (Tenant Separation)
+
+*FAU_SEL.1.1* The TSF shall be able to select the set of events to be audited based on the following attributes: tenant identifier, user identifier, service role, object identifier, and event type.
+
+*FAU_SEL.1.2* The TSF shall enforce the following rule: a tenant administrator can query audit records generated by their own tenant only, unless explicitly authorized by an evaluated provider, cross-tenant, or compliance function.
+
+==== FAU_STG_EXT.2 Immutable Audit Stream
+
+*FAU_STG_EXT.2.1* The TSF shall protect stored audit records from unauthorized modification and deletion.
+
+*FAU_STG_EXT.2.2* The TSF shall not provide an interface for a tenant administrator to delete or modify audit records generated by the TOE.
+
+*Application Note:* If audit records are exported to an external logging or storage service, the ST shall identify whether the export mechanism, external service, or both are included in the TOE. External services relied upon for storage immutability are addressed by OE.EXTERNAL_SERVICES unless claimed as TOE functionality.
+
+=== FPT: Protection of the TSF
+
+==== FPT_TUD_EXT.2 Autonomous Trusted Update
+
+*FPT_TUD_EXT.2.1* The TSF shall provide a mechanism to apply updates automatically or through provider-managed orchestration using trusted sources verified via digital signatures.
+
+*FPT_TUD_EXT.2.2* The TSF shall validate the authenticity and integrity of update packages before installation without requiring tenant administrator intervention.
+
+*Application Note:* This requirement applies when the TOE includes autonomous or provider-managed DBMS update logic. If update orchestration is wholly outside the TOE boundary, the ST shall identify the responsible operational environment component and the applicable trusted-platform evidence.
+
+[appendix]
+== Extended Component Definitions
+
+=== FCS_CKM_DBAAS_EXT Customer-Controlled Keys
+
+==== Family Behaviour
+
+This family defines DBaaS-specific requirements for customer-controlled database master keys. It complements the DBMS Cryptographic Functions Module by addressing the managed-service separation requirement that service provider administrators cannot access customer-controlled master key material through TOE interfaces.
+
+==== Component Levelling
+
+FCS_CKM_DBAAS_EXT.1 requires the TOE to support customer-controlled master keys, prevent service provider administrator access to plaintext key material, and prevent access to protected data when authorized key use is revoked, unavailable, or denied.
+
+==== Management
+
+The following actions could be considered for the management functions in FMT: configuration of customer-controlled key references, key import, external KMS integration, key revocation behavior, recovery mechanisms, and key-use auditing.
+
+==== Audit
+
+The following actions should be auditable if FAU_GEN Security Audit Data Generation is included in the PP/ST: key import, key reference configuration, KMS authorization failure, key revocation detection, protected-data access denial due to unavailable key authorization, and attempted key export or recovery.
+
+=== FDP_RSG_EXT Resource Governance
+
+==== Family Behaviour
+
+This family defines requirements for the TOE to limit resource consumption to prevent denial of service or material degradation caused by excessive tenant use of shared DBMS-managed resources.
+
+==== Component Levelling
+
+FDP_RSG_EXT.1 requires the TOE to enforce hard or soft limits on resource usage and to take defined enforcement actions when configured limits are exceeded.
+
+==== Management
+
+The following actions could be considered for the management functions in FMT: configuration of tenant resource quotas, resource pools, workload queues, throttling behavior, enforcement thresholds, and authorized roles for resource governance management.
+
+==== Audit
+
+The following actions should be auditable if FAU_GEN Security Audit Data Generation is included in the PP/ST: resource quota configuration changes, quota violations, throttling, queueing, rejection, and termination of tenant operations due to resource governance.
+
+=== FAU_STG_EXT Immutable Audit Stream
+
+==== Family Behaviour
+
+This family defines requirements for audit storage behavior in managed DBaaS environments where tenant administrators must not be able to modify or delete TOE-generated audit records.
+
+==== Component Levelling
+
+FAU_STG_EXT.2 requires protection of stored audit records from unauthorized modification and deletion and prohibits tenant administrator interfaces for audit record deletion or modification.
+
+==== Management
+
+The following actions could be considered for the management functions in FMT: configuration of audit retention, audit export, audit storage destinations, authorized audit query roles, and provider or compliance functions allowed to access tenant audit records.
+
+==== Audit
+
+The following actions should be auditable if FAU_GEN Security Audit Data Generation is included in the PP/ST: attempted audit deletion, attempted audit modification, audit export configuration changes, failed audit export, and audit retention changes.
+
+=== FPT_TUD_EXT Autonomous Trusted Update
+
+==== Family Behaviour
+
+This family defines requirements for autonomous or provider-managed trusted update behavior when update logic is included in the TOE.
+
+==== Component Levelling
+
+FPT_TUD_EXT.2 requires the TOE to apply updates automatically or through provider-managed orchestration and to validate update authenticity and integrity before installation without tenant administrator intervention.
+
+==== Management
+
+The following actions could be considered for the management functions in FMT: update channel configuration, update scheduling, update deferral policy when permitted by the ST, update source trust anchors, and update audit settings.
+
+==== Audit
+
+The following actions should be auditable if FAU_GEN Security Audit Data Generation is included in the PP/ST: update availability, update initiation, signature validation success or failure, update completion, update failure, and unauthorized attempts to block or delay updates.
+
+[appendix]
+== SFR List
+
+.Security Functional Requirements
+[%header,cols=".^3,.^6,.^2"]
+|===
+
+|Requirement Class
+|Requirement Component
+|Type
+
+.2+|Cryptographic Support (FCS)
+|FCS_CKM_DBAAS_EXT.1 Customer-Controlled Keys
+|Mandatory
+
+|DBMS Cryptographic Functions Module and Crypto Catalogue key-management requirements, including key destruction and trusted channel requirements as applicable
+|Mandatory dependency
+
+.4+|User Data Protection (FDP)
+|FDP_RIP.1 Residual Information Protection
+|Mandatory
+
+|FDP_ACC.2/DBaaS Tenant Isolation Policy
+|Mandatory
+
+|FDP_ACF.1/DBaaS Tenant Isolation Policy Rules
+|Mandatory
+
+|FDP_RSG_EXT.1 Resource Governance
+|Mandatory
+
+.1+|Identification and Authentication (FIA)
+|FIA_USB.2 User-Subject Binding
+|Mandatory
+
+.1+|Security Management (FMT)
+|FMT_MOF.1 Management of Security Functions Behavior
+|Mandatory
+
+.2+|Security Audit (FAU)
+|FAU_SEL.1 Selective Audit
+|Mandatory
+
+|FAU_STG_EXT.2 Immutable Audit Stream
+|Mandatory
+
+.1+|Protection of the TSF (FPT)
+|FPT_TUD_EXT.2 Autonomous Trusted Update
+|Mandatory
+
+|===
+
+[appendix]
+== Future SaaS and DBaaS Split Guidance
+
+The following topics are candidates for a future SaaS-generic module or shared cloud-service guidance:
+
+* TOE boundary for managed service applications.
+* TOE Platform and Trusted Platform reliance.
+* Shared responsibility model.
+* Tenant identity binding.
+* Tenant configuration isolation.
+* Tenant audit scoping and audit export.
+* Provider or developer update responsibility.
+* Evaluator access through tenant interfaces.
+* External identity provider, key management, logging, and object storage dependencies.
+
+The following topics are DBaaS-specific and should remain in this module or DBMS-specific companion material:
+
+* Database engine tenant isolation.
+* Schemas, pluggable databases, databases, tablespaces, and metadata isolation.
+* Customer-controlled database master keys.
+* Data-at-rest encryption and DBMS key hierarchy.
+* SQL and system catalog isolation.
+* Query, session, and resource governance.
+* Backup and restore behavior for encrypted databases.
+* Database audit stream immutability and tenant audit separation.
