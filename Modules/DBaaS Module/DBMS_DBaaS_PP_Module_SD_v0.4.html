@@ -453,7 +453,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_structure_of_the_document">2.2. Structure of the Document</a></li>
 <li><a href="#_terminology">2.3. Terminology</a></li>
 <li><a href="#_managed_service_evaluation_constraint">2.4. Managed-Service Evaluation Constraint</a></li>
-<li><a href="#_relationship_to_other_documents">2.5. Relationship to Other Documents</a></li>
+<li><a href="#_evidence_vantages">2.5. Evidence Vantages</a></li>
+<li><a href="#_relationship_to_other_documents">2.6. Relationship to Other Documents</a></li>
 </ul>
 </li>
 <li><a href="#_general_guidance_for_evaluators">3. General Guidance for Evaluators</a>
@@ -667,14 +668,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_sar_considerations_to_cem_mapping">A.2. SAR Considerations to CEM Mapping</a></li>
 </ul>
 </li>
-<li><a href="#_test_environment_guidance_for_dbaas_evaluators">Appendix B: Test Environment Guidance for DBaaS Evaluators</a>
+<li><a href="#_evidence_vantage_mapping">Appendix B: Evidence Vantage Mapping</a></li>
+<li><a href="#_test_environment_guidance_for_dbaas_evaluators">Appendix C: Test Environment Guidance for DBaaS Evaluators</a>
 <ul class="sectlevel2">
-<li><a href="#_recommended_test_configuration">B.1. Recommended Test Configuration</a></li>
-<li><a href="#_production_safety_constraints">B.2. Production-Safety Constraints</a></li>
-<li><a href="#_test_data_handling">B.3. Test Data Handling</a></li>
+<li><a href="#_recommended_test_configuration">C.1. Recommended Test Configuration</a></li>
+<li><a href="#_production_safety_constraints">C.2. Production-Safety Constraints</a></li>
+<li><a href="#_test_data_handling">C.3. Test Data Handling</a></li>
 </ul>
 </li>
-<li><a href="#_document_references">Appendix C: Document References</a></li>
+<li><a href="#_document_references">Appendix D: Document References</a></li>
 </ul>
 </div>
 </div>
@@ -750,6 +752,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Defined the four evidence vantages for managed-service evaluation (V1 tenant data plane, V2 tenant service control plane, V3 evaluator-controlled external services, V4 provider-internal operations) and added the informative Evidence Vantage Mapping appendix assigning vantages to every test activity, with scoping notes on where provider participation is required. The Evaluator Access Strategy now starts from this mapping and records deviations in the ETR. Relationship to Other Documents states the composition rule for the DBaaS PP-Configuration: Base PP and Crypto Module SD activities are executed from these vantages, with the Evaluator Access Strategy applied where they assume access the managed-service model does not provide. Provider-supported demonstration added to the managed-service evidence methods list.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Aligned with the module&#8217;s role-label clarification. Terminology states the global interpretation rule: role names in Evaluation Activities are the module&#8217;s role labels, and the evaluator uses the TOE roles the ST maps to them. FMT_SMR.1/DBaaS TSS activities verify the mapping is present, unambiguous, and preserves the provider/tenant authority boundaries; Test 1 verifies the mapped TOE roles under their TOE names; ASE_TSS checks the mapping is provided.</p></td>
 </tr>
 <tr>
@@ -785,7 +792,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Introduction</strong>: scope, the managed-service evaluation constraint, terminology, and document relationships;</p>
+<p><strong>Introduction</strong>: scope, the managed-service evaluation constraint, the evidence vantages (V1–V4) from which test evidence is collected, terminology, and document relationships;</p>
 </li>
 <li>
 <p><strong>General Guidance for Evaluators</strong>: Trusted Platform verification (including provider role separation), boundary enumeration, the Evaluator Access Strategy, tenant isolation testing strategy, external service dependencies, and the handling of selections and assignments;</p>
@@ -797,7 +804,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><strong>Per-SFR Evaluation Activities</strong> (FCS, FDP, FRU, FIA, FMT, FAU, FPT classes): TSS, Guidance, and Test activities for each SFR of the PP-Module;</p>
 </li>
 <li>
-<p><strong>Appendices</strong>: cross-reference to CEM work units, test environment guidance, and document references.</p>
+<p><strong>Appendices</strong>: cross-reference to CEM work units, the evidence vantage mapping for every test activity, test environment guidance, and document references.</p>
 </li>
 </ul>
 </div>
@@ -865,11 +872,43 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p><strong>Scheme-accepted evidence</strong>: cloud authorization, certification, scheme policy, or other evidence accepted by the applicable evaluation scheme for Trusted Platform assumptions and operational environment objectives.</p>
 </li>
+<li>
+<p><strong>Provider-supported demonstration</strong>: exercise of provider-restricted functionality directed and observed by the evaluator under the Evaluator Access Strategy, recorded in the ETR.</p>
+</li>
 </ol>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_relationship_to_other_documents">2.5. Relationship to Other Documents</h3>
+<h3 id="_evidence_vantages">2.5. Evidence Vantages</h3>
+<div class="paragraph">
+<p>Test evidence for this SD — and, when the DBaaS PP-Configuration is evaluated, for Base PP and Crypto Module activities executed against the managed service (see <a href="#_relationship_to_other_documents">Section 2.6, &#8220;Relationship to Other Documents&#8221;</a>) — is collected from four vantages. The vantage identifiers V1 through V4 are used throughout this SD, and the Evidence Vantage Mapping appendix assigns them to every test activity.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">V1 — Tenant data plane</dt>
+<dd>
+<p>The database interfaces of an evaluator-provisioned tenant context — SQL clients, drivers, and database-level APIs — exercised as the TOE roles mapped to the Tenant User and Tenant Administrator labels. This is the vantage of the Base PP&#8217;s ordinary user and administrator activities.</p>
+</dd>
+<dt class="hdlist1">V2 — Tenant service control plane</dt>
+<dd>
+<p>The tenant-facing management surface of the cloud service — service consoles, management APIs, and command-line tools available to the evaluation tenancy — used to provision tenant contexts, configure customer-controlled keys, initiate backup and restore, configure resource quotas and audit export where tenant-visible, and query the service software revision. This vantage is evaluator-driven and requires no provider involvement beyond the evaluation tenancy itself. Which functions appear at V2 rather than V4 varies by TOE and is settled by the ST&#8217;s interface identification and role-label mapping.</p>
+</dd>
+<dt class="hdlist1">V3 — Evaluator-controlled external services</dt>
+<dd>
+<p>Services outside the TOE but under evaluator control, on which tests depend as instruments: the external key management service holding the revocable test key (through which key revocation and key-provider unreachability are induced) and the external audit sink (at which audit export is observed).</p>
+</dd>
+<dt class="hdlist1">V4 — Provider-internal operations</dt>
+<dd>
+<p>Functions exercisable only by the service provider: provider administrative roles, the update deployment pipeline, restore paths not exposed at V2, and fleet operations. This vantage is never directly accessible to the evaluator; its evidence is obtained through provider-supported demonstration, provider test evidence, or provider documentation under the Evaluator Access Strategy, with every such reliance recorded in the ETR.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>A test whose primary vantage is V1–V3 is executed by the evaluator without provider involvement; a test with a V4 leg requires provider participation that the laboratory and provider should schedule when scoping the evaluation.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_relationship_to_other_documents">2.6. Relationship to Other Documents</h3>
 <div class="paragraph">
 <p>This SD is used in conjunction with:</p>
 </div>
@@ -888,6 +927,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="paragraph">
 <p>Where SFRs are iterated by the PP-Module as <code>/DBaaS</code>, the Evaluation Activities in this SD supplement those in the Base PP SD for the tenant-scoped refinements.</p>
+</div>
+<div class="paragraph">
+<p>When the DBaaS PP-Configuration is evaluated, the Base PP SD and Crypto Module SD activities are executed against the same provider-operated managed service as the activities of this SD. Those documents were written for TOEs where the evaluator holds full administrative access; under this PP-Configuration their activities are executed from the vantages defined in <a href="#_evidence_vantages">Section 2.5, &#8220;Evidence Vantages&#8221;</a>. A Base PP or Crypto Module activity exercisable through the tenant data plane (V1) or tenant service control plane (V2) is performed there unchanged. Where such an activity assumes host-level, operating-system, or full-DBA access that the managed-service model does not provide to tenants, the evaluator shall apply the Evaluator Access Strategy (<a href="#_evaluator_access_strategy">Section 3.3, &#8220;Evaluator Access Strategy&#8221;</a>) — determining whether the SD in question permits reliance on TSS review, operational guidance, scheme-accepted evidence, or a provider-supported demonstration (V4) — and shall record each such reliance in the ETR.</p>
 </div>
 </div>
 </div>
@@ -938,7 +980,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_evaluator_access_strategy">3.3. Evaluator Access Strategy</h3>
 <div class="paragraph">
-<p>The evaluator shall identify the interfaces available in the evaluated configuration and map each test to one or more tenant-accessible or provider-supported evaluation interfaces. When a direct test is not feasible because the function is outside the TOE boundary or requires provider-only access, the evaluator shall determine whether the SD permits reliance on TSS review, operational guidance, scheme-accepted evidence, or a provider-supported demonstration.</p>
+<p>The evaluator shall identify the interfaces available in the evaluated configuration and map each test to one or more tenant-accessible or provider-supported evaluation interfaces. The Evidence Vantage Mapping appendix (<a href="#_evidence_vantage_mapping">Appendix B, <em>Evidence Vantage Mapping</em></a>) provides the expected vantage assignment for every test activity of this SD; the evaluator shall use it as the starting point for this mapping and shall record in the ETR any deviation driven by the evaluated configuration — in particular, functions the mapping places at the tenant service control plane (V2) that the evaluated TOE exposes only to provider roles (V4), or the reverse. When a direct test is not feasible because the function is outside the TOE boundary or requires provider-only access, the evaluator shall determine whether the SD permits reliance on TSS review, operational guidance, scheme-accepted evidence, or a provider-supported demonstration.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1302,7 +1344,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>focus on the TOE&#8217;s tenant-facing attack surface; the Trusted Platform itself is not the subject of penetration testing, but the evaluator shall attempt to reach Trusted Platform assumptions through TOE interfaces (for example, attempting to obtain platform credentials, metadata-service access, or provider-role capabilities from a tenant context) and verify that such attempts fail;</p>
 </li>
 <li>
-<p>respect the production-safety constraints of <a href="#_test_environment_guidance_for_dbaas_evaluators">Appendix B, <em>Test Environment Guidance for DBaaS Evaluators</em></a>, coordinating resource-exhaustion and update-path testing with the provider and preferring a non-production instance at the same service software revision.</p>
+<p>respect the production-safety constraints of <a href="#_test_environment_guidance_for_dbaas_evaluators">Appendix C, <em>Test Environment Guidance for DBaaS Evaluators</em></a>, coordinating resource-exhaustion and update-path testing with the provider and preferring a non-production instance at the same service software revision.</p>
 </li>
 </ul>
 </div>
@@ -2551,10 +2593,141 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_test_environment_guidance_for_dbaas_evaluators">Appendix B: Test Environment Guidance for DBaaS Evaluators</h2>
+<h2 id="_evidence_vantage_mapping">Appendix B: Evidence Vantage Mapping</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The table below assigns each test activity of this SD to the evidence vantages defined in <a href="#_evidence_vantages">Section 2.5, &#8220;Evidence Vantages&#8221;</a>. The assignment is informative: it states where evidence is <strong>expected</strong> to be collected for a typical provider-operated DBaaS TOE, so that laboratories can plan tenancy provisioning, external-service setup, and provider participation when scoping the evaluation. The evaluated TOE&#8217;s interface exposure governs — the ST&#8217;s interface identification and role-label mapping determine which functions sit at V2 rather than V4 for a given TOE, and the evaluator records deviations from this table in the ETR under the Evaluator Access Strategy.</p>
+</div>
+<div class="paragraph">
+<p>TSS and Guidance Activities are documentation review and are not listed; only Test Activities appear.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Evidence vantages by test activity</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 22.2222%;">
+<col style="width: 44.4445%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Test Activity</th>
+<th class="tableblock halign-left valign-top">Vantage(s)</th>
+<th class="tableblock halign-left valign-top">Evidence collected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM_DBAAS_EXT.1 Test 1 (Provider Inaccessibility)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V1, V2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Key-export and key-display attempts through every tenant-facing database and management interface; denial or metadata-only responses.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM_DBAAS_EXT.1 Test 2 (Key Revocation)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V3 → V1, V2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Revocation induced at the evaluator&#8217;s external KMS (V3); denial of data access observed at the database interfaces (V1); enforcement-state transition and its audit record observed at the service console or audit views (V2).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM_DBAAS_EXT.1 Test 2a (Key Provider Unreachability)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V3 → V1, V2; V4 fallback</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">KMS connectivity interrupted (V3); grace-period behavior, enforcement-state transition, and resumption observed at V1/V2. Where connectivity cannot be interrupted, provider-supported demonstration or provider test evidence (V4).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM_DBAAS_EXT.1 Test 3 (Key Material Handling Evidence)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V1, V2; V4 for non-tenant diagnostics</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tenant-accessible audit records, status views, error messages, and backup metadata reviewed for key-material disclosure; provider-supported observation for diagnostics not exposed to tenants.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FDP_RIP.1/DBaaS Test 1 (Residual Data)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V1 (V2 to provision)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Two tenant contexts provisioned at V2; unique-pattern write, resource release, and cross-tenant observation attempts all at V1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FDP_ACF.1/DBaaS Tests 1–4 (Tenant Isolation)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V1 (V2 to provision and configure sharing)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cross-tenant data, metadata, and audit access attempts at V1; tenant provisioning and any evaluated sharing configuration at V2.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FDP_BKP_EXT.1 Test 1 (Provider Plaintext Restore Prevention)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V4 (V2 where a closest-available role exists)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provider-supported demonstration of a plaintext restore/export attempt without the customer-controlled key; ciphertext pass criterion verified in the demonstration output.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FDP_BKP_EXT.1 Test 2 (Restore Tenant Binding)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V2 → V1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Restore initiated from the tenant service control plane; tenant-binding of restored data verified through cross-tenant access attempts at V1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FRU_RSA.1/DBaaS and FRU_RSG_EXT.1 Test 1 (Resource Limit Enforcement)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V2 → V1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quota configured at V2; over-limit workload driven and enforcement action observed at V1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FRU_RSA.1/DBaaS and FRU_RSG_EXT.1 Test 2 (Unauthorized Quota Modification)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V1, V2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quota-modification attempt by an unauthorized role, at whichever plane exposes the setting; denial observed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FIA_USB.1/DBaaS Tests 1–2 (Tenant Binding, Audit Correlation)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tenant-context queries, binding-manipulation attempts, and audit-record correlation through database interfaces.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FMT_SMR.1/DBaaS Test 1 (Role Maintenance)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V1, V2; V4 for provider roles</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enumeration of mapped TOE roles and privilege verification at tenant vantages; provider-role presence and boundaries by provider-supported demonstration or provider role documentation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FMT_SMF.1/DBaaS Test 1 (Management Functions)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V2 (V1 for database-level functions); V4 for the authorized leg of provider-restricted functions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Each claimed management function exercised as an authorized role; denial leg always tested directly from tenant vantages.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FMT_MOF.1/DBaaS Tests 1–3 (Immutability and Role Restriction)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V1, V2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tenant-administrator attempts to disable audit, disable encryption, and escalate privileges; denial observed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAU_SEL.1/DBaaS Test 1 (Audit Scope Leakage)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cross-tenant audit queries and result analysis through tenant audit interfaces.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAU_STG.2/DBaaS Test 1 (Deletion/Modification Prevention)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Audit-record tamper attempts through documented tenant interfaces; denial observed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAU_STG.2/DBaaS Test 2 (Audit Export)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V2 (V4 where provider-restricted) → V3; tamper leg V1, V2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Export configured at V2 or by provider-supported demonstration; delivery verified at the evaluator&#8217;s external sink (V3); pipeline-tamper attempts from tenant vantages.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FPT_TUD_DBAAS_EXT.1 Test 1 (Update Verification and Provenance)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provider-supported demonstration of the update path on a revision-parity non-production instance, including signature verification and, where feasible, an invalid-signature artifact.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FPT_TUD_DBAAS_EXT.1 Test 2 (Tenant Non-Interference)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tenant-accessible update-configuration settings exercised against the evaluated update policy and deferral bound.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FPT_TUD_DBAAS_EXT.1 Test 3 (Tenant Version Visibility)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V1, V2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service revision identifier queried through the documented tenant interface and matched against deployment evidence.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Laboratories scoping an evaluation against the DBaaS PP-Configuration should note the V4 concentrations: FDP_BKP_EXT.1 Test 1 and FPT_TUD_DBAAS_EXT.1 Test 1 require provider participation in substantially all evaluations, and FMT_SMR.1/DBaaS, FMT_SMF.1/DBaaS, FAU_STG.2/DBaaS Test 2, and the FCS_CKM_DBAAS_EXT.1 Test 2a fallback require it whenever the evaluated TOE restricts the relevant function to provider roles. All remaining test activities are executable from the evaluation tenancy and evaluator-controlled external services without provider involvement.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_test_environment_guidance_for_dbaas_evaluators">Appendix C: Test Environment Guidance for DBaaS Evaluators</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_recommended_test_configuration">B.1. Recommended Test Configuration</h3>
+<h3 id="_recommended_test_configuration">C.1. Recommended Test Configuration</h3>
 <div class="paragraph">
 <p>The following configuration is recommended for independent testing of a provider-operated DBaaS TOE:</p>
 </div>
@@ -2579,7 +2752,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_production_safety_constraints">B.2. Production-Safety Constraints</h3>
+<h3 id="_production_safety_constraints">C.2. Production-Safety Constraints</h3>
 <div class="paragraph">
 <p>Because the TOE is a live, shared, provider-operated service:</p>
 </div>
@@ -2601,7 +2774,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_test_data_handling">B.3. Test Data Handling</h3>
+<h3 id="_test_data_handling">C.3. Test Data Handling</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2619,7 +2792,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_document_references">Appendix C: Document References</h2>
+<h2 id="_document_references">Appendix D: Document References</h2>
 <div class="sectionbody">
 <div class="ulist bibliography">
 <ul class="bibliography">
@@ -2679,7 +2852,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 0.4<br>
-Last updated 2026-07-15 15:11:09 -0500
+Last updated 2026-07-15 15:25:06 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
