@@ -753,6 +753,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Follow-on fixes from the audit-channel and vantage analysis. FIA_USB.1/DBaaS TSS activities verify tenant binding of subjects acting for automated autonomous management logic; FMT_SMF.1/DBaaS Test 1 gains a conditional step verifying an autonomous-action record identifies the autonomous subject with tenant attribution and tenant visibility. Audit Channel Identification verifies the per-channel retention and export treatment under P.AUDIT_RETENTION. FCS_CKM_DBAAS_EXT.1 recovery step may be performed jointly with FDP_BKP_EXT.1 Test 2, verifying restore tenant binding in the same run. Relationship to Other Documents names the two Base PP areas whose realization splits across planes: FIA (database authentication is TSF at V1; control-plane authentication via a cloud identity provider is verified under OE.EXTERNAL_SERVICES) and time (Base PP time activities do not apply to service event stream timestamps).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Aligned with the module&#8217;s service event stream audit channel. New Audit Channel Identification section in General Guidance: the evaluator verifies the ST&#8217;s per-event channel assignment, the stream&#8217;s implementing mechanism and boundary allocation, its tenant retrieval interface, and tenant visibility of provider-initiated records, before performing any audit-record check; channel substitution in either direction is not permitted. FCS_CKM_DBAAS_EXT.1 Test 2/2a and the recovery step now verify the enforcement-transition and recovery records in the ST-identified service event stream, retrievable while the database is not serving connections. FAU_STG.2/DBaaS scoped to the DBMS audit trail. ASE_TSS checks the channel identification is provided.</p></td>
 </tr>
 <tr>
@@ -937,6 +942,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>When the DBaaS PP-Configuration is evaluated, the Base PP SD and Crypto Module SD activities are executed against the same provider-operated managed service as the activities of this SD. Those documents were written for TOEs where the evaluator holds full administrative access; under this PP-Configuration their activities are executed from the vantages defined in <a href="#_evidence_vantages">Section 2.5, &#8220;Evidence Vantages&#8221;</a>. A Base PP or Crypto Module activity exercisable through the tenant data plane (V1) or tenant service control plane (V2) is performed there unchanged. Where such an activity assumes host-level, operating-system, or full-DBA access that the managed-service model does not provide to tenants, the evaluator shall apply the Evaluator Access Strategy (<a href="#_evaluator_access_strategy">Section 3.3, &#8220;Evaluator Access Strategy&#8221;</a>) — determining whether the SD in question permits reliance on TSS review, operational guidance, scheme-accepted evidence, or a provider-supported demonstration (V4) — and shall record each such reliance in the ETR.</p>
 </div>
+<div class="paragraph">
+<p>Two Base PP areas warrant naming, because their realization splits across planes in a managed service. Identification and authentication: the Base PP&#8217;s FIA activities apply to the database authentication interfaces of the TOE (V1); authentication to the tenant service control plane (V2) is typically performed by a cloud identity provider, which is an external service under OE.EXTERNAL_SERVICES and is verified as an external service dependency rather than under the Base PP FIA activities — the ST&#8217;s boundary enumeration identifies which authentication surfaces are TSF. Time: audit timestamps for DBMS audit trail records derive from the time source the Base PP activities verify, while service event stream records derive from the Trusted Platform&#8217;s time service under OE.EXTERNAL_SERVICES; the evaluator relies on the ST&#8217;s identification of each and does not apply the Base PP time activities to the stream.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1003,7 +1011,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>the mechanism that implements the service event stream, its allocation to the TOE, TOE Platform, or Trusted Platform, and the tenant interface through which its records are retrieved (typically at the tenant service control plane, V2);</p>
 </li>
 <li>
-<p>how service event stream records concerning a tenant&#8217;s service instance, customer-controlled keys, or backups are made visible to that tenant regardless of the acting subject, including provider-initiated and service-initiated actions; and</p>
+<p>how service event stream records concerning a tenant&#8217;s service instance, customer-controlled keys, or backups are made visible to that tenant regardless of the acting subject, including provider-initiated and service-initiated actions;</p>
+</li>
+<li>
+<p>the retention and export treatment of each channel under P.AUDIT_RETENTION: which DBMS audit trail records and which service event stream records are exportable to tenants, and whether any claimed audit export function covers service event stream records; and</p>
 </li>
 <li>
 <p>where the service event stream is delivered by the Trusted Platform, the reliance on OE.TRUSTED_PLATFORM and OE.EXTERNAL_SERVICES for its integrity and availability, recorded in the ETR with the Trusted Platform verification.</p>
@@ -1628,7 +1639,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Verify that the transition to the key-unavailable enforcement state generates the audit record required by the module&#8217;s auditable-events table, in the service event stream identified in the ST (<a href="#_audit_channel_identification">Section 3.4, &#8220;Audit Channel Identification&#8221;</a>) — the record must be retrievable by the tenant while the database is not serving connections.</p>
 </li>
 <li>
-<p>If a recovery mechanism is claimed, exercise it: verify that it cannot be completed without authorization by the tenant or an agent under the tenant&#8217;s control, and that its use generates the audit record required by the module&#8217;s auditable-events table in the ST-identified service event stream.</p>
+<p>If a recovery mechanism is claimed, exercise it: verify that it cannot be completed without authorization by the tenant or an agent under the tenant&#8217;s control, and that its use generates the audit record required by the module&#8217;s auditable-events table in the ST-identified service event stream. Where the recovery mechanism is a restore from backup, this step may be performed jointly with FDP_BKP_EXT.1 Test 2, and the evaluator shall verify the restore tenant binding required there in the same run.</p>
 </li>
 </ol>
 </div>
@@ -2046,7 +2057,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect4">
 <h5 id="_tss_activities_7">8.1.1.1. TSS Activities</h5>
 <div class="paragraph">
-<p>The evaluator shall verify the TSS describes how tenant identifier, user identifier, and service role attributes are associated with subjects acting on behalf of users or service accounts, and how the TOE prevents tenant-controlled inputs from changing the bound tenant identifier except through an evaluated mechanism.</p>
+<p>The evaluator shall verify the TSS describes how tenant identifier, user identifier, and service role attributes are associated with subjects acting on behalf of users or service accounts, and how the TOE prevents tenant-controlled inputs from changing the bound tenant identifier except through an evaluated mechanism. Where automated autonomous management logic is selected in <code>FMT_SMR.1/DBaaS</code>, the evaluator shall verify the TSS describes how subjects acting on its behalf within a tenant context bind the affected tenant&#8217;s identifier, as required by the module&#8217;s application note.</p>
 </div>
 </div>
 <div class="sect4">
@@ -2186,6 +2197,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li>
 <p>For management functions restricted to provider roles that are not available to the evaluator, perform the authorized-role leg through a provider-supported demonstration under the Evaluator Access Strategy (<a href="#_evaluator_access_strategy">Section 3.3, &#8220;Evaluator Access Strategy&#8221;</a>), recorded in the ETR; the unauthorized-role denial leg shall still be tested directly through tenant interfaces.</p>
+</li>
+<li>
+<p>Where automated autonomous management logic is selected in <code>FMT_SMR.1/DBaaS</code>, identify at least one record of an autonomous management action in the ST-identified audit channel and verify that it identifies the autonomous subject as the actor and, where the action affected a tenant context, carries the affected tenant&#8217;s identifier and is visible to that tenant.</p>
 </li>
 </ol>
 </div>
@@ -2889,7 +2903,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 0.4<br>
-Last updated 2026-07-15 15:38:24 -0500
+Last updated 2026-07-15 16:08:02 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

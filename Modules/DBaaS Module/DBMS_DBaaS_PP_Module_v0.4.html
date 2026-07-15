@@ -753,6 +753,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Closed three follow-on gaps from the audit-channel and vantage analysis. Autonomous subjects: automated autonomous management logic is stated to be a subject class, its in-tenant-context actions carry tenant attribution under FIA_USB.1/DBaaS and tenant-visible service event stream records, and the FMT audit data contents now identify the acting subject rather than presupposing a human user. Retention: P.AUDIT_RETENTION now applies per audit channel, with the ST identifying retention treatment and tenant exportability for the DBMS audit trail and the service event stream separately. Recovery/restore coupling: FCS_CKM_DBAAS_EXT.1 and FDP_BKP_EXT.1 application notes state that a recovery mechanism implemented as a restore from backup is a single mechanism satisfying both components' constraints. Tenant lifecycle termination (offboarding, backup disposition, key destruction on deprovisioning) is deferred and tracked in OPEN-ITEMS.md.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Introduced the service event stream as a second audit channel alongside the DBMS audit trail, resolving the observability inversion in the auditable-events refinement: the module&#8217;s lifecycle and key-state events (key-unavailable enforcement transition, recovery-mechanism use, update deployment) are generated while or because the database is not serving connections and cannot be required of an audit trail that becomes unreachable at that moment. The auditable-events table gains an Audit Channel column assigning every event; the ST identifies the stream&#8217;s implementing mechanism, boundary allocation, and tenant retrieval interface, with Trusted-Platform-delivered streams relying on OE.TRUSTED_PLATFORM and OE.EXTERNAL_SERVICES. Service event stream records concerning a tenant&#8217;s instance, keys, or backups are tenant-visible regardless of acting subject, including provider-initiated actions; audit data contents for FCS_CKM_DBAAS_EXT.1 and FDP_BKP_EXT.1 now identify the acting subject rather than presupposing a tenant context. Glossary entry added.</p></td>
 </tr>
 <tr>
@@ -1342,7 +1347,7 @@ In a DBaaS model the customer does not control the physical infrastructure, and 
 <li>
 <p>Requirements for audit record availability during incident investigations or compliance audits.</p>
 <div class="paragraph">
-<p>The TOE must support the export of tenant-scoped audit records so that tenants can implement their retention policies using external audit storage solutions, and must protect retained audit records from unauthorized modification and deletion while under TOE control. In a provider-operated service, retention obligations apply to both the provider (service-level audit) and the tenant (tenant-scoped audit); the evaluated configuration identifies which audit records are exportable to tenants.</p>
+<p>The TOE must support the export of tenant-scoped audit records so that tenants can implement their retention policies using external audit storage solutions, and must protect retained audit records from unauthorized modification and deletion while under TOE control. In a provider-operated service, retention obligations apply to both the provider (service-level audit) and the tenant (tenant-scoped audit), and to both audit channels defined by this module&#8217;s auditable-events refinement: the ST identifies, for the DBMS audit trail and the service event stream separately, the retention treatment applicable to each and which records are exportable to tenants.</p>
 </div>
 </li>
 </ul>
@@ -1674,7 +1679,7 @@ In a DBaaS model the customer does not control the physical infrastructure, and 
 <p><strong>FCS_CKM_DBAAS_EXT.1.3</strong> The TSF shall prevent access to protected database data no later than [assignment: key-state enforcement interval] after authorized use of the applicable customer-controlled master key is revoked, unavailable, or denied, except for data that remains available through an explicitly documented and evaluated recovery mechanism whose use requires authorization by the tenant or an agent under the tenant&#8217;s control.</p>
 </div>
 <div class="paragraph">
-<p><strong>Application Note:</strong> This requirement is intended to address DBaaS customer-controlled key models such as BYOK, HYOK, external KMS integration, or equivalent key-reference mechanisms. The recovery-mechanism exception in FCS_CKM_DBAAS_EXT.1.3 cannot be completed by provider-held escrow or any mechanism the service provider can exercise unilaterally: a recovery path usable without tenant authorization would reintroduce exactly the disclosure this component excludes (T.KEY_DISCLOSURE_TO_PROVIDER_ADMIN). Use of a recovery mechanism is an auditable event (see the auditable-events table). This requirement does not require the TOE to protect against arbitrary modification of the Trusted Platform or cloud control plane. If the TOE stores, caches, wraps, transforms, or re-exports key material after receipt, the ST shall identify that behavior and the applicable DBMS-specific and Catalogue-derived key protection components in the DBMS Cryptographic Functions Module.</p>
+<p><strong>Application Note:</strong> This requirement is intended to address DBaaS customer-controlled key models such as BYOK, HYOK, external KMS integration, or equivalent key-reference mechanisms. The recovery-mechanism exception in FCS_CKM_DBAAS_EXT.1.3 cannot be completed by provider-held escrow or any mechanism the service provider can exercise unilaterally: a recovery path usable without tenant authorization would reintroduce exactly the disclosure this component excludes (T.KEY_DISCLOSURE_TO_PROVIDER_ADMIN). Use of a recovery mechanism is an auditable event (see the auditable-events table). Where the documented recovery mechanism is implemented as a restore from backup — the common case, using a retained older key version — it is the same operation addressed by <code>FDP_BKP_EXT.1</code>: a single use of the mechanism shall satisfy both the tenant-authorization constraint of this component and the restore authorization and tenant binding of <code>FDP_BKP_EXT.1</code>. This requirement does not require the TOE to protect against arbitrary modification of the Trusted Platform or cloud control plane. If the TOE stores, caches, wraps, transforms, or re-exports key material after receipt, the ST shall identify that behavior and the applicable DBMS-specific and Catalogue-derived key protection components in the DBMS Cryptographic Functions Module.</p>
 </div>
 <div class="paragraph">
 <p>+
@@ -1897,7 +1902,7 @@ The mechanisms selected in FCS_CKM_DBAAS_EXT.1.1 couple to the Key Origin select
 <p><strong>FDP_BKP_EXT.1.2</strong> The TSF shall bind restored tenant data to the originating tenant identifier such that a restore operation does not place tenant data outside the Tenant Isolation SFP.</p>
 </div>
 <div class="paragraph">
-<p><strong>Application Note:</strong> This requirement addresses backup and restore as a disclosure vector specific to provider-operated DBaaS, where backups are commonly created, stored, and restored by provider tooling. Backups of protected tenant data inherit data-at-rest protection from <code>FDP_DAR_EXT.1</code> of the mandatory DBMS Cryptographic Functions Module: because protected data is encrypted at rest under the customer-controlled key hierarchy, its backup is encrypted under the same hierarchy, and this SFR does not restate that protection. This SFR instead specifies the requirements particular to the backup and restore path: that the TOE provides no interface for a service provider administrator to obtain plaintext tenant data through restore or export without authorized key use, and that restore preserves tenant isolation. If the TOE delegates backup storage to an external object storage or backup service, the ST shall identify whether the restore authorization and tenant binding are provided by the TOE or by an external service addressed through OE.EXTERNAL_SERVICES; the data-at-rest protection of externally stored backups is addressed by <code>FDP_DAR_EXT.1</code>.</p>
+<p><strong>Application Note:</strong> This requirement addresses backup and restore as a disclosure vector specific to provider-operated DBaaS, where backups are commonly created, stored, and restored by provider tooling. Backups of protected tenant data inherit data-at-rest protection from <code>FDP_DAR_EXT.1</code> of the mandatory DBMS Cryptographic Functions Module: because protected data is encrypted at rest under the customer-controlled key hierarchy, its backup is encrypted under the same hierarchy, and this SFR does not restate that protection. This SFR instead specifies the requirements particular to the backup and restore path: that the TOE provides no interface for a service provider administrator to obtain plaintext tenant data through restore or export without authorized key use, and that restore preserves tenant isolation. If the TOE delegates backup storage to an external object storage or backup service, the ST shall identify whether the restore authorization and tenant binding are provided by the TOE or by an external service addressed through OE.EXTERNAL_SERVICES; the data-at-rest protection of externally stored backups is addressed by <code>FDP_DAR_EXT.1</code>. A restore that serves as the documented recovery mechanism of <code>FCS_CKM_DBAAS_EXT.1.3</code> is additionally subject to that component&#8217;s tenant-authorization constraint; where the two coincide, the ST shall describe them as a single mechanism.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 9. FDP_BKP_EXT.1 Dependencies</caption>
@@ -1944,6 +1949,10 @@ The mechanisms selected in FCS_CKM_DBAAS_EXT.1.1 couple to the Key Origin select
 <div class="paragraph">
 <p><strong>Application Note:</strong> This SFR is an iteration of CC:2022 Part 2 FIA_USB.1, completed for tenant-context binding in a multi-tenant managed service. This binding is critical for the database engine to enforce the logical isolation policies defined in <code>FDP_ACC.1/DBaaS</code> and <code>FDP_ACF.1/DBaaS</code>. It is independent of the Base PP&#8217;s optional extended component <code>FIA_USB_EXT.2</code>; if the ST also claims <code>FIA_USB_EXT.2</code>, the tenant attributes defined here apply to that component&#8217;s binding rules as well.</p>
 </div>
+<div class="paragraph">
+<p>+
+Subjects need not act on behalf of a human user. Where the automated autonomous management logic role is selected in <code>FMT_SMR.1/DBaaS</code>, a subject acting on its behalf within a tenant context binds the tenant identifier of the affected tenant under the same rules, so that autonomous actions remain inside the Tenant Isolation SFP and their audit records remain tenant-attributable.</p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 10. FIA_USB.1/DBaaS Dependencies</caption>
 <colgroup>
@@ -1977,6 +1986,10 @@ The mechanisms selected in FCS_CKM_DBAAS_EXT.1.1 couple to the Key Origin select
 </div>
 <div class="paragraph">
 <p><strong>Application Note:</strong> This iteration defines the DBaaS-specific role model on which the management restrictions in the <code>FMT_MOF.1/DBaaS</code> iterations and the access-control rules in <code>FDP_ACF.1/DBaaS</code> depend. The Tenant Administrator manages tenant data and tenant-level configuration only to the extent permitted by the evaluated configuration; the Service Provider Administrator operates the managed service but is excluded from the customer-controlled key and tenant-data access paths constrained by this module.</p>
+</div>
+<div class="paragraph">
+<p>+
+Automated autonomous management logic, where selected, is a subject class rather than a human role: its actions within a tenant context carry tenant attribution under <code>FIA_USB.1/DBaaS</code>, its audit records identify it as the acting subject (see the auditable-events table), and where it acts on a tenant&#8217;s service instance those records are visible to the affected tenant in the service event stream.</p>
 </div>
 <div class="paragraph">
 <p>+
@@ -2323,19 +2336,19 @@ Update pipeline mechanics may reside partly in the operational environment, but 
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FMT_SMF.1/DBaaS</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Use of the management functions defined by this module</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Function invoked and role of the invoking user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Function invoked; identity and role of the invoking subject, including automated autonomous management logic where selected; and the tenant identifier where the function acts on a tenant context</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">DBMS audit trail or service event stream, as identified in the ST</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FMT_MOF.1/DBaaS-Disable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Attempted disabling of audit generation or of data-at-rest encryption for protected tenant data</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Role and identity of the attempting user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Role and identity of the attempting subject</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">DBMS audit trail or service event stream, as identified in the ST</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FMT_MOF.1/DBaaS-Modify</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Modifications to the behaviour of provider-managed functions (resource governance policies, patching and updates, audit export configuration)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Function modified and role of the invoking user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Function modified; identity and role of the invoking subject, including automated autonomous management logic where selected</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Service event stream</p></td>
 </tr>
 <tr>
@@ -2959,7 +2972,7 @@ Update pipeline mechanics may reside partly in the operational environment, but 
 <div id="footer">
 <div id="footer-text">
 Version 0.4<br>
-Last updated 2026-07-15 15:37:20 -0500
+Last updated 2026-07-15 16:07:14 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
