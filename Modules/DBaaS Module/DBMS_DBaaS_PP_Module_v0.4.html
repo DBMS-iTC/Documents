@@ -752,6 +752,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Added a key-state enforcement interval assignment to FCS_CKM_DBAAS_EXT.1.3, replacing the implicit immediate-enforcement reading. The interval bounds the latency between a key-state change at the external key provider and TSF denial of access to protected data, accommodating the polling-based key-state detection and bounded unreachability grace periods documented by production DBaaS offerings; the completed interval must be a fixed documented bound covering worst-case detection latency, any unreachability grace period, and cached-key lifetime, and must not be indefinite or extensible by provider action. FCS_CKM_DBAAS_EXT.1.2 is unaffected and admits no such interval. Auditable events extended with the transition to the key-unavailable enforcement state; extended component definition and SFR rationale aligned.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-14</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Maturity pass toward the Cloud/Crypto structural baseline. FPT_TUD_DBAAS_EXT.1 redesigned as Trusted Service Update: the deployment model (rolling, tenant-deferral, or maintenance-window) is declared by selection, signature verification of service software before it is placed into service is the mandatory floor (envelope format unconstrained; algorithms per FCS_COP.1/SigVer), and a tenant-visible version or revision identifier is required; the conditional out-of-boundary escape was removed. Security Problem Definition extended with T.MALICIOUS_TENANT_ADMIN, T.SECRETS_EXPOSURE, T.UNAUTHORIZED_UPDATE, organizational security policies P.AUDIT_RETENTION and P.ACCESS_CONTROL_POLICY, O.TRUSTED_UPDATE, and OE.PROVIDER_ROLE_SEPARATION (DBaaS service and Trusted Platform administration through logically distinct roles, accounts, and control planes). Added TOE boundary diagram, TOE use cases, an auditable-events refinement of the Base PP&#8217;s Table 4 for all module SFRs, and complete objective tracing for FMT_SMR.1/DBaaS and FMT_SMF.1/DBaaS. Editorial: operation-completion typesetting normalized, X.509 Functional Package bibliography entry added, JISEC acknowledged, A.CONNECT consistency analysis split into external-entity and inter-TSF legs.</p></td>
 </tr>
@@ -1577,7 +1582,7 @@ In a DBaaS model the customer does not control the physical infrastructure, and 
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">O.CUSTOMER_CONTROLLED_KEYS</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM_DBAAS_EXT.1, and DBMS Cryptographic Functions Module requirements</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM_DBAAS_EXT.1 requires the TOE to support customer-controlled master keys, prevents service provider administrator access to plaintext key material, and defines behavior when authorization to use a customer-controlled key is revoked, unavailable, or denied. The cryptographic mechanisms, key destruction, and trusted channel for key import are provided by the mandatory DBMS Cryptographic Functions Module.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM_DBAAS_EXT.1 requires the TOE to support customer-controlled master keys, prevents service provider administrator access to plaintext key material, and requires denial of access to protected data within a bounded key-state enforcement interval when authorization to use a customer-controlled key is revoked, unavailable, or denied. The cryptographic mechanisms, key destruction, and trusted channel for key import are provided by the mandatory DBMS Cryptographic Functions Module.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">O.LOGICAL_ISOLATION</p></td>
@@ -1656,10 +1661,14 @@ In a DBaaS model the customer does not control the physical infrastructure, and 
 <p><strong>FCS_CKM_DBAAS_EXT.1.2</strong> The TSF shall not provide an interface by which a service provider administrator can view, export, or recover plaintext customer-controlled master key material.</p>
 </div>
 <div class="paragraph">
-<p><strong>FCS_CKM_DBAAS_EXT.1.3</strong> The TSF shall prevent access to protected database data when authorized use of the applicable customer-controlled master key is revoked, unavailable, or denied, except for data that remains available through an explicitly documented and evaluated recovery mechanism whose use requires authorization by the tenant or an agent under the tenant&#8217;s control.</p>
+<p><strong>FCS_CKM_DBAAS_EXT.1.3</strong> The TSF shall prevent access to protected database data no later than [assignment: key-state enforcement interval] after authorized use of the applicable customer-controlled master key is revoked, unavailable, or denied, except for data that remains available through an explicitly documented and evaluated recovery mechanism whose use requires authorization by the tenant or an agent under the tenant&#8217;s control.</p>
 </div>
 <div class="paragraph">
 <p><strong>Application Note:</strong> This requirement is intended to address DBaaS customer-controlled key models such as BYOK, HYOK, external KMS integration, or equivalent key-reference mechanisms. The recovery-mechanism exception in FCS_CKM_DBAAS_EXT.1.3 cannot be completed by provider-held escrow or any mechanism the service provider can exercise unilaterally: a recovery path usable without tenant authorization would reintroduce exactly the disclosure this component excludes (T.KEY_DISCLOSURE_TO_PROVIDER_ADMIN). Use of a recovery mechanism is an auditable event (see the auditable-events table). This requirement does not require the TOE to protect against arbitrary modification of the Trusted Platform or cloud control plane. If the TOE stores, caches, wraps, transforms, or re-exports key material after receipt, the ST shall identify that behavior and the applicable DBMS-specific and Catalogue-derived key protection components in the DBMS Cryptographic Functions Module.</p>
+</div>
+<div class="paragraph">
+<p>+
+The key-state enforcement interval assignment in FCS_CKM_DBAAS_EXT.1.3 accommodates the key-state detection and availability behavior of production managed database services: external key-provider state is typically detected by periodic polling rather than synchronous notification, and services commonly document a bounded grace period during which cached key material remains in use when the external key provider is unreachable, so that a transient key-service or network fault does not immediately take down the database. Production DBaaS offerings document detection intervals on the order of minutes and unreachability grace periods on the order of hours. The ST author shall complete the assignment with the maximum interval between a key-state change at the external key provider and TSF denial of access to protected database data, covering both worst-case detection latency and any documented unreachability grace period, and covering the lifetime of any cached key material identified under the caching disclosure above. The completed interval shall be a fixed, documented bound: an interval that is indefinite, that is extensible by service provider action, or that resets on continued data access does not satisfy the requirement. Expiration of the interval and the resulting transition to the key-unavailable enforcement state are auditable events (see the auditable-events table). The interval bounds enforcement latency only; it does not weaken FCS_CKM_DBAAS_EXT.1.2, which admits no interval during which plaintext customer-controlled master key material may be exposed to a service provider administrator.</p>
 </div>
 <div class="paragraph">
 <p>+
@@ -2227,8 +2236,8 @@ Update pipeline mechanics may reside partly in the operational environment, but 
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM_DBAAS_EXT.1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Key import; key-reference configuration; key-management service authorization failure; key revocation detection; denial of access to protected data due to revoked, unavailable, or denied key authorization; use of a documented recovery mechanism; attempted export or recovery of customer-controlled key material</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tenant identifier and key reference or key identifier; for recovery-mechanism use, the identity of the authorizing tenant agent. Plaintext key material shall not be included in audit records.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Key import; key-reference configuration; key-management service authorization failure; key revocation detection; transition to the key-unavailable enforcement state upon expiration of the key-state enforcement interval; denial of access to protected data due to revoked, unavailable, or denied key authorization; use of a documented recovery mechanism; attempted export or recovery of customer-controlled key material</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tenant identifier and key reference or key identifier; for enforcement-state transitions, the key-state change that triggered the transition; for recovery-mechanism use, the identity of the authorizing tenant agent. Plaintext key material shall not be included in audit records.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FDP_RIP.1/DBaaS</p></td>
@@ -2338,7 +2347,7 @@ Update pipeline mechanics may reside partly in the operational environment, but 
 <div class="sect4">
 <h5 id="_component_levelling">A.1.1.2. Component levelling</h5>
 <div class="paragraph">
-<p>FCS_CKM_DBAAS_EXT.1 requires the TOE to support customer-controlled master keys, prevent service provider administrator access to plaintext key material, and prevent access to protected data when authorized key use is revoked, unavailable, or denied.</p>
+<p>FCS_CKM_DBAAS_EXT.1 requires the TOE to support customer-controlled master keys, prevent service provider administrator access to plaintext key material, and prevent access to protected data, within a defined key-state enforcement interval, when authorized key use is revoked, unavailable, or denied.</p>
 </div>
 </div>
 <div class="sect4">
@@ -2350,7 +2359,7 @@ Update pipeline mechanics may reside partly in the operational environment, but 
 <div class="sect4">
 <h5 id="_audit_fcs_ckm_dbaas_ext_1">A.1.1.4. Audit: FCS_CKM_DBAAS_EXT.1</h5>
 <div class="paragraph">
-<p>The following actions should be auditable if FAU_GEN Security Audit Data Generation is included in the PP/ST: key import, key reference configuration, KMS authorization failure, key revocation detection, protected-data access denial due to unavailable key authorization, use of a documented recovery mechanism, and attempted key export or recovery.</p>
+<p>The following actions should be auditable if FAU_GEN Security Audit Data Generation is included in the PP/ST: key import, key reference configuration, KMS authorization failure, key revocation detection, transition to the key-unavailable enforcement state, protected-data access denial due to unavailable key authorization, use of a documented recovery mechanism, and attempted key export or recovery.</p>
 </div>
 </div>
 <div class="sect4">
@@ -2368,7 +2377,7 @@ Update pipeline mechanics may reside partly in the operational environment, but 
 <p>FCS_CKM_DBAAS_EXT.1.2 The TSF shall not provide an interface by which a service provider administrator can view, export, or recover plaintext customer-controlled master key material.</p>
 </div>
 <div class="paragraph">
-<p>FCS_CKM_DBAAS_EXT.1.3 The TSF shall prevent access to protected database data when authorized use of the applicable customer-controlled master key is revoked, unavailable, or denied, except for data that remains available through an explicitly documented and evaluated recovery mechanism whose use requires authorization by the tenant or an agent under the tenant&#8217;s control.</p>
+<p>FCS_CKM_DBAAS_EXT.1.3 The TSF shall prevent access to protected database data no later than [assignment: key-state enforcement interval] after authorized use of the applicable customer-controlled master key is revoked, unavailable, or denied, except for data that remains available through an explicitly documented and evaluated recovery mechanism whose use requires authorization by the tenant or an agent under the tenant&#8217;s control.</p>
 </div>
 </div>
 </div>
@@ -2895,7 +2904,7 @@ Update pipeline mechanics may reside partly in the operational environment, but 
 <div id="footer">
 <div id="footer-text">
 Version 0.4<br>
-Last updated 2026-07-14 20:52:57 -0500
+Last updated 2026-07-15 14:55:03 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

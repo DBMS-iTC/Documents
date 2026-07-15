@@ -67,6 +67,10 @@
 |0.4
 |2026-07-14
 |Aligned with the module's two design corrections. FCS_CKM_DBAAS_EXT.1 activities now verify the tenant-authorization constraint on any claimed recovery mechanism (TSS and Guidance coverage; new Test 2 step exercising the mechanism and its audit record). FDP_ACC.2/DBaaS section renamed to FDP_ACC.1/DBaaS with a TSS check that the Tenant Isolation SFP is scoped as subset access control.
+
+|0.4
+|2026-07-15
+|Aligned with the module's key-state enforcement interval assignment in FCS_CKM_DBAAS_EXT.1.3. Handling Selections and Assignments now lists the interval with its permitted-completion constraints. TSS activities require the key-state detection mechanism, any unreachability grace period, and the derivation of the completed interval from detection latency, grace period, and cached-key lifetime; Guidance activities require the interval and post-expiration service state to be documented. Test 2 rewritten to verify denial no later than interval expiration with the enforcement-state transition audit record; new Test 2a exercises key-provider unreachability against the documented grace behavior, with a provider-evidence fallback where connectivity cannot be interrupted.
 |===
 
 toc::[]
@@ -177,6 +181,7 @@ When the TOE relies on external key management, identity provider, logging, obje
 The PP-Module leaves the following operations open for completion by the ST author. For each, the evaluator shall verify that the ST completes the operation with permitted content, that the completion is consistent with the TSS, and that the corresponding test activities of this SD exercise the completed value rather than the generic placeholder:
 
 * `FCS_CKM_DBAAS_EXT.1.1` — the customer-controlled key mechanism selection, which shall couple to the Crypto Module's Key Origin selection as required by the module's application note;
+* `FCS_CKM_DBAAS_EXT.1.3` — the assigned key-state enforcement interval, which shall be a fixed documented bound covering worst-case key-state detection latency, any unreachability grace period, and the lifetime of any cached key material, as required by the module's application note (an indefinite interval, or one extensible by service provider action, is not a permitted completion);
 * `FDP_RIP.1.1/DBaaS` — the shared-resource selection and any assigned additional resources;
 * `FDP_ACF.1.3/DBaaS` and `FDP_ACF.1.4/DBaaS` — the assigned explicit-authorization and explicit-denial rules (an assignment completed as "none" is acceptable);
 * `FRU_RSA.1.1/DBaaS` — the controlled-resource selection, any assigned additional resources, and the simultaneity selection;
@@ -389,10 +394,11 @@ The evaluator shall verify the TSS describes:
 * whether plaintext customer-controlled master key material is imported into, stored by, cached by, wrapped by, transformed by, or re-exported by the TOE;
 * how the TOE prevents service provider administrators from viewing, exporting, recovering, or otherwise obtaining plaintext customer-controlled master key material through TOE interfaces;
 * the applicable DBMS-specific and Catalogue-derived components included through the DBMS Cryptographic Functions Module for key import, key wrapping, key destruction, and data-at-rest encryption, together with Functional Package components for trusted channels; and
-* the TOE behavior when authorization to use the applicable customer-controlled master key is revoked, unavailable, or denied; and
+* the TOE behavior when authorization to use the applicable customer-controlled master key is revoked, unavailable, or denied;
+* the mechanism by which the TOE detects key-state changes at the external key provider (for example, a polling interval or an event notification channel), any grace period during which the TOE continues operating on cached key material while the external key provider is unreachable, and how the completed key-state enforcement interval of FCS_CKM_DBAAS_EXT.1.3 covers the sum of worst-case detection latency, any such grace period, and the lifetime of cached key material; and
 * where a recovery mechanism is claimed under FCS_CKM_DBAAS_EXT.1.3, how its use requires authorization by the tenant or an agent under the tenant's control, and how that use is audited. A recovery mechanism exercisable by the service provider without tenant authorization does not satisfy the requirement.
 
-If the TOE caches key material, key handles, or derived keys after successful KMS authorization, the evaluator shall verify that the TSS identifies the cache duration, protection mechanism, revocation behavior, and conditions under which cached material is invalidated.
+If the TOE caches key material, key handles, or derived keys after successful KMS authorization, the evaluator shall verify that the TSS identifies the cache duration, protection mechanism, revocation behavior, and conditions under which cached material is invalidated, and that the cache duration is consistent with the completed key-state enforcement interval.
 
 ===== Guidance Activities
 
@@ -400,7 +406,7 @@ The evaluator shall verify the operational guidance describes:
 
 * how a customer configures customer-controlled keys for the TOE;
 * how a customer revokes or disables the TOE's authorization to use an external key;
-* expected TOE behavior after key authorization is revoked, unavailable, or denied;
+* expected TOE behavior after key authorization is revoked, unavailable, or denied, including the documented key-state enforcement interval, any unreachability grace period within it, and the service state the TOE enters when the interval expires;
 * any documented recovery mechanism that permits protected data access after revocation, including the tenant authorization its use requires; and
 * any customer-visible audit or status information related to key use, key failures, or key authorization.
 
@@ -419,11 +425,25 @@ The evaluator shall verify the operational guidance describes:
 . Configure the TOE to use an external customer-controlled key or key authorization mechanism.
 . Access protected database data as an authorized tenant user or tenant administrator.
 . Revoke, disable, or deny the TOE's authorization to use the external key according to the operational guidance.
-. Attempt to access protected database data in the TOE.
-. Verify that access is denied, except for data available through an explicitly documented and evaluated recovery mechanism.
+. Attempt to access protected database data in the TOE, repeating the attempt until the completed key-state enforcement interval of FCS_CKM_DBAAS_EXT.1.3 has elapsed.
+. Verify that access is denied no later than the expiration of the completed key-state enforcement interval, except for data available through an explicitly documented and evaluated recovery mechanism.
+. Verify that the transition to the key-unavailable enforcement state generates the audit record required by the module's auditable-events table.
 . If a recovery mechanism is claimed, exercise it: verify that it cannot be completed without authorization by the tenant or an agent under the tenant's control, and that its use generates the audit record required by the module's auditable-events table.
 
-If the TOE caches key material, key handles, or derived keys after successful KMS authorization, the evaluator shall test that revocation of the TOE's authorization to use the external key prevents access to protected data no later than the expiration of the documented cache interval.
+Continued access to protected data during the completed key-state enforcement interval is not a test failure; access continuing beyond its expiration is.
+
+*Test 2a: Key Provider Unreachability Behavior*
+
+Where the TSS documents a grace period during which the TOE continues operating on cached key material while the external key provider is unreachable, the evaluator shall, where the test environment permits interrupting the TOE's connectivity to the external key management service:
+
+. Access protected database data as an authorized tenant user or tenant administrator.
+. Make the external key management service unreachable to the TOE without revoking key authorization.
+. Verify that any continued access to protected data does not extend beyond the completed key-state enforcement interval, and that the TOE transitions to the key-unavailable enforcement state with the required audit record.
+. Restore connectivity and verify that data access resumes only through the documented resumption behavior described in the TSS or operational guidance.
+
+Where the test environment does not permit interrupting connectivity, the evaluator shall verify the unreachability behavior through provider-supported demonstration or provider test evidence, recorded in the ETR.
+
+If the TOE caches key material, key handles, or derived keys after successful KMS authorization, the evaluator shall confirm during Test 2 and Test 2a that no cached material extends access to protected data beyond the completed key-state enforcement interval.
 
 *Test 3: Key Material Handling Evidence*
 
