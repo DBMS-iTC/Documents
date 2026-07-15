@@ -103,6 +103,10 @@ JISEC - Japan IT Security Evaluation and Certification Scheme
 
 |0.4
 |2026-07-15
+|Stated that Tenant User, Tenant Administrator, and Service Provider Administrator are module-level role labels, not required TOE role names: the FMT_SMR.1/DBaaS application note now requires the ST to map each label to the TOE's own role terminology, permits one-to-many and many-to-one mappings, and constrains the mapping to preserve the provider/tenant authority boundaries; glossary entries marked as labels and a Tenant User entry added.
+
+|0.4
+|2026-07-15
 |Added a key-state enforcement interval assignment to FCS_CKM_DBAAS_EXT.1.3, replacing the implicit immediate-enforcement reading. The interval bounds the latency between a key-state change at the external key provider and TSF denial of access to protected data, accommodating the polling-based key-state detection and bounded unreachability grace periods documented by production DBaaS offerings; the completed interval must be a fixed documented bound covering worst-case detection latency, any unreachability grace period, and cached-key lifetime, and must not be indefinite or extensible by provider action. FCS_CKM_DBAAS_EXT.1.2 is unaffected and admits no such interval. Auditable events extended with the transition to the key-unavailable enforcement state; extended component definition and SFR rationale aligned.
 
 |0.4
@@ -802,6 +806,8 @@ The mechanisms selected in FCS_CKM_DBAAS_EXT.1.1 couple to the Key Origin select
 *FMT_SMR.1.2/DBaaS* The TSF shall be able to associate users with roles.
 
 *Application Note:* This iteration defines the DBaaS-specific role model on which the management restrictions in the `FMT_MOF.1/DBaaS` iterations and the access-control rules in `FDP_ACF.1/DBaaS` depend. The Tenant Administrator manages tenant data and tenant-level configuration only to the extent permitted by the evaluated configuration; the Service Provider Administrator operates the managed service but is excluded from the customer-controlled key and tenant-data access paths constrained by this module.
++
+The role names Tenant User, Tenant Administrator, and Service Provider Administrator are module-level labels for scopes of authority, not required TOE role names. The TSF is not required to maintain roles under these names. The ST shall map each label to the TOE role, privilege set, group, or account class that realizes it in the TOE's own terminology; one label may be realized by several TOE roles, and several TOE roles may share a label. The mapping shall preserve the authority boundaries the labels denote: no mapping may assign a single TOE role both Service Provider Administrator authority and tenant-scoped authority in a way that vacates the separation enforced by the `FMT_MOF.1/DBaaS` iterations, `FDP_ACF.1/DBaaS`, or `FCS_CKM_DBAAS_EXT.1`. Throughout this module and its Supporting Document, a reference to one of these role names means the TOE role or roles the ST maps to that label.
 
 .FMT_SMR.1/DBaaS Dependencies
 [cols="1,2",options="header"]
@@ -1299,13 +1305,16 @@ All CC Part 2 components reused in this PP-Module are iterated with a `/DBaaS` l
 |A master encryption key whose use is controlled by the customer (tenant), such that the service provider cannot obtain plaintext key material through TOE interfaces. Includes BYOK, HYOK, external KMS-managed keys, and key-reference or key-handle models.
 
 |Service Provider Administrator
-|An administrator who operates the managed DBMS service on behalf of the provider. Constrained by this module from accessing customer-controlled key material and tenant data except through interfaces and roles explicitly identified in the ST.
+|Module-level role label for an administrator who operates the managed DBMS service on behalf of the provider. Constrained by this module from accessing customer-controlled key material and tenant data except through interfaces and roles explicitly identified in the ST. The ST maps this label to the TOE's own role terminology (see the FMT_SMR.1/DBaaS application note).
 
 |Tenant
 |A customer of the managed service whose data, metadata, and resources are logically isolated from those of other customers sharing the DBMS service infrastructure.
 
 |Tenant Administrator
-|A customer role that manages tenant data and tenant-level configuration to the extent permitted by the evaluated configuration. Excluded from disabling security-critical functions identified in this module.
+|Module-level role label for a customer role that manages tenant data and tenant-level configuration to the extent permitted by the evaluated configuration. Excluded from disabling security-critical functions identified in this module. The ST maps this label to the TOE's own role terminology (see the FMT_SMR.1/DBaaS application note).
+
+|Tenant User
+|Module-level role label for a customer role that accesses tenant data through the tenant-facing database interfaces without tenant-level administrative authority. The ST maps this label to the TOE's own role terminology (see the FMT_SMR.1/DBaaS application note).
 
 |Trusted Platform
 |The cloud hosting environment that provides infrastructure services to the TOE and TOE Platform, relied upon to satisfy operational environment assumptions and objectives and accepted by the applicable evaluation scheme.

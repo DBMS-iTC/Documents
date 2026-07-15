@@ -70,6 +70,10 @@
 
 |0.4
 |2026-07-15
+|Aligned with the module's role-label clarification. Terminology states the global interpretation rule: role names in Evaluation Activities are the module's role labels, and the evaluator uses the TOE roles the ST maps to them. FMT_SMR.1/DBaaS TSS activities verify the mapping is present, unambiguous, and preserves the provider/tenant authority boundaries; Test 1 verifies the mapped TOE roles under their TOE names; ASE_TSS checks the mapping is provided.
+
+|0.4
+|2026-07-15
 |Aligned with the module's key-state enforcement interval assignment in FCS_CKM_DBAAS_EXT.1.3. Handling Selections and Assignments now lists the interval with its permitted-completion constraints. TSS activities require the key-state detection mechanism, any unreachability grace period, and the derivation of the completed interval from detection latency, grace period, and cached-key lifetime; Guidance activities require the interval and post-expiration service state to be documented. Test 2 rewritten to verify denial no later than interval expiration with the enforcement-state transition audit record; new Test 2a exercises key-provider unreachability against the documented grace behavior, with a provider-evidence fallback where connectivity cannot be interrupted.
 |===
 
@@ -97,7 +101,7 @@ This SD is organized as follows:
 
 === Terminology
 
-Terms defined in the Glossary of the DBaaS PP-Module [<<DBMS_MOD_DBAAS>>] (Customer-Controlled Key, Service Provider Administrator, Tenant, Tenant Administrator, Trusted Platform, TOE Platform) are used in this SD with the same meanings. The following evaluator-facing terms are additionally used:
+Terms defined in the Glossary of the DBaaS PP-Module [<<DBMS_MOD_DBAAS>>] (Customer-Controlled Key, Service Provider Administrator, Tenant, Tenant Administrator, Tenant User, Trusted Platform, TOE Platform) are used in this SD with the same meanings. The following evaluator-facing terms are additionally used:
 
 Tenant context::
 An evaluator-provisioned tenant of the service, together with its users, roles, data, and tenant-scoped resources, used as a test subject. The Tenant Isolation Testing Strategy requires at least two distinct tenant contexts.
@@ -107,6 +111,8 @@ An evaluation activity performed by or with the service provider under the Evalu
 
 Service software revision::
 The state of the deployed DBMS service software identified by the version or revision identifier of FPT_TUD_DBAAS_EXT.1.3. For continuously deployed services this identifier takes the place of a traditional version number for CM identification, testing parity, and flaw-remediation verification.
+
+Role names in the Evaluation Activities of this SD — Tenant User, Tenant Administrator, Service Provider Administrator — are the module-level role labels of `FMT_SMR.1/DBaaS`. Per that component's application note, the TOE is not required to name its roles verbatim; the ST maps each label to the TOE's own role terminology. Wherever an activity directs the evaluator to act as, provision, or observe one of these roles, the evaluator shall use the TOE role or roles the ST maps to that label.
 
 === Managed-Service Evaluation Constraint
 
@@ -269,6 +275,7 @@ In addition to the Base PP ST evaluation activities, the evaluator shall verify:
 *ASE_TSS (TOE Summary Specification):*
 
 * The TSS provides the per-SFR TOE/environment enumeration required by <<_toe_toe_platform_and_trusted_platform_boundary_enumeration>>;
+* The TSS provides the role-label mapping required by the module's FMT_SMR.1/DBaaS application note, on which the role references throughout this SD's activities depend;
 * The TSS describes the end-to-end update process and the customer-controlled key architecture at the level of detail required by the per-SFR activities of this SD.
 
 ==== ADV: Development
@@ -656,7 +663,7 @@ The evaluator shall verify the operational guidance describes how tenant users a
 
 ===== TSS Activities
 
-The evaluator shall verify the TSS identifies the roles maintained by the TOE, including Tenant User, Tenant Administrator, Service Provider Administrator, and any automated autonomous management logic or other roles claimed in the ST. The evaluator shall verify the TSS describes how users and service accounts are associated with these roles and how the roles map to the management restrictions in the `FMT_MOF.1/DBaaS` iterations and the access-control rules in `FDP_ACF.1/DBaaS`.
+The evaluator shall verify the TSS identifies the roles maintained by the TOE and provides the mapping required by the module's FMT_SMR.1/DBaaS application note from each module role label — Tenant User, Tenant Administrator, Service Provider Administrator — to the TOE role, privilege set, group, or account class that realizes it, together with any automated autonomous management logic or other roles claimed in the ST. The TOE is not required to name its roles verbatim; the evaluator shall instead verify that every label is mapped, that the mapping is unambiguous, and that no single TOE role combines Service Provider Administrator authority with tenant-scoped authority in a way that vacates the separation enforced by the `FMT_MOF.1/DBaaS` iterations, `FDP_ACF.1/DBaaS`, or `FCS_CKM_DBAAS_EXT.1`. The evaluator shall verify the TSS describes how users and service accounts are associated with these roles and how the roles map to the management restrictions in the `FMT_MOF.1/DBaaS` iterations and the access-control rules in `FDP_ACF.1/DBaaS`.
 
 ===== Guidance Activities
 
@@ -667,7 +674,7 @@ The evaluator shall verify the operational guidance describes how each role is a
 *Test 1: Role Maintenance and Association*
 
 . Using the interfaces available in the evaluated configuration, enumerate the roles recognized by the TOE.
-. Verify that the roles claimed in the ST are present.
+. Verify that the TOE roles to which the ST maps the module's role labels are present under their TOE names.
 . Associate a test user with a tenant role and verify that the user receives the privileges defined for that role and no others.
 . For roles that are not tenant-visible (Service Provider Administrator, automated autonomous management logic), verify their presence and privilege boundaries through a provider-supported demonstration or provider role documentation under the Evaluator Access Strategy (<<_evaluator_access_strategy>>), recorded in the ETR.
 

@@ -753,6 +753,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Stated that Tenant User, Tenant Administrator, and Service Provider Administrator are module-level role labels, not required TOE role names: the FMT_SMR.1/DBaaS application note now requires the ST to map each label to the TOE&#8217;s own role terminology, permits one-to-many and many-to-one mappings, and constrains the mapping to preserve the provider/tenant authority boundaries; glossary entries marked as labels and a Tenant User entry added.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Added a key-state enforcement interval assignment to FCS_CKM_DBAAS_EXT.1.3, replacing the implicit immediate-enforcement reading. The interval bounds the latency between a key-state change at the external key provider and TSF denial of access to protected data, accommodating the polling-based key-state detection and bounded unreachability grace periods documented by production DBaaS offerings; the completed interval must be a fixed documented bound covering worst-case detection latency, any unreachability grace period, and cached-key lifetime, and must not be indefinite or extensible by provider action. FCS_CKM_DBAAS_EXT.1.2 is unaffected and admits no such interval. Auditable events extended with the transition to the key-unavailable enforcement state; extended component definition and SFR rationale aligned.</p></td>
 </tr>
 <tr>
@@ -1968,6 +1973,10 @@ The mechanisms selected in FCS_CKM_DBAAS_EXT.1.1 couple to the Key Origin select
 <div class="paragraph">
 <p><strong>Application Note:</strong> This iteration defines the DBaaS-specific role model on which the management restrictions in the <code>FMT_MOF.1/DBaaS</code> iterations and the access-control rules in <code>FDP_ACF.1/DBaaS</code> depend. The Tenant Administrator manages tenant data and tenant-level configuration only to the extent permitted by the evaluated configuration; the Service Provider Administrator operates the managed service but is excluded from the customer-controlled key and tenant-data access paths constrained by this module.</p>
 </div>
+<div class="paragraph">
+<p>+
+The role names Tenant User, Tenant Administrator, and Service Provider Administrator are module-level labels for scopes of authority, not required TOE role names. The TSF is not required to maintain roles under these names. The ST shall map each label to the TOE role, privilege set, group, or account class that realizes it in the TOE&#8217;s own terminology; one label may be realized by several TOE roles, and several TOE roles may share a label. The mapping shall preserve the authority boundaries the labels denote: no mapping may assign a single TOE role both Service Provider Administrator authority and tenant-scoped authority in a way that vacates the separation enforced by the <code>FMT_MOF.1/DBaaS</code> iterations, <code>FDP_ACF.1/DBaaS</code>, or <code>FCS_CKM_DBAAS_EXT.1</code>. Throughout this module and its Supporting Document, a reference to one of these role names means the TOE role or roles the ST maps to that label.</p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 11. FMT_SMR.1/DBaaS Dependencies</caption>
 <colgroup>
@@ -2778,7 +2787,7 @@ Update pipeline mechanics may reside partly in the operational environment, but 
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Service Provider Administrator</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An administrator who operates the managed DBMS service on behalf of the provider. Constrained by this module from accessing customer-controlled key material and tenant data except through interfaces and roles explicitly identified in the ST.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Module-level role label for an administrator who operates the managed DBMS service on behalf of the provider. Constrained by this module from accessing customer-controlled key material and tenant data except through interfaces and roles explicitly identified in the ST. The ST maps this label to the TOE&#8217;s own role terminology (see the FMT_SMR.1/DBaaS application note).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Tenant</p></td>
@@ -2786,7 +2795,11 @@ Update pipeline mechanics may reside partly in the operational environment, but 
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Tenant Administrator</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A customer role that manages tenant data and tenant-level configuration to the extent permitted by the evaluated configuration. Excluded from disabling security-critical functions identified in this module.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Module-level role label for a customer role that manages tenant data and tenant-level configuration to the extent permitted by the evaluated configuration. Excluded from disabling security-critical functions identified in this module. The ST maps this label to the TOE&#8217;s own role terminology (see the FMT_SMR.1/DBaaS application note).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tenant User</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Module-level role label for a customer role that accesses tenant data through the tenant-facing database interfaces without tenant-level administrative authority. The ST maps this label to the TOE&#8217;s own role terminology (see the FMT_SMR.1/DBaaS application note).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Trusted Platform</p></td>
@@ -2904,7 +2917,7 @@ Update pipeline mechanics may reside partly in the operational environment, but 
 <div id="footer">
 <div id="footer-text">
 Version 0.4<br>
-Last updated 2026-07-15 14:55:03 -0500
+Last updated 2026-07-15 15:10:24 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
