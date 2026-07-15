@@ -103,6 +103,10 @@ JISEC - Japan IT Security Evaluation and Certification Scheme
 
 |0.4
 |2026-07-15
+|Introduced the service event stream as a second audit channel alongside the DBMS audit trail, resolving the observability inversion in the auditable-events refinement: the module's lifecycle and key-state events (key-unavailable enforcement transition, recovery-mechanism use, update deployment) are generated while or because the database is not serving connections and cannot be required of an audit trail that becomes unreachable at that moment. The auditable-events table gains an Audit Channel column assigning every event; the ST identifies the stream's implementing mechanism, boundary allocation, and tenant retrieval interface, with Trusted-Platform-delivered streams relying on OE.TRUSTED_PLATFORM and OE.EXTERNAL_SERVICES. Service event stream records concerning a tenant's instance, keys, or backups are tenant-visible regardless of acting subject, including provider-initiated actions; audit data contents for FCS_CKM_DBAAS_EXT.1 and FDP_BKP_EXT.1 now identify the acting subject rather than presupposing a tenant context. Glossary entry added.
+
+|0.4
+|2026-07-15
 |Stated that Tenant User, Tenant Administrator, and Service Provider Administrator are module-level role labels, not required TOE role names: the FMT_SMR.1/DBaaS application note now requires the ST to map each label to the TOE's own role terminology, permits one-to-many and many-to-one mappings, and constrains the mapping to preserve the provider/tenant authority boundaries; glossary entries marked as labels and a Tenant User entry added.
 
 |0.4
@@ -919,74 +923,97 @@ Update pipeline mechanics may reside partly in the operational environment, but 
 
 === Auditable Events for the SFRs of this PP-Module
 
-When this PP-Module is claimed, Table 4: Auditable Events of the Base PP is refined to add the following entries. The events are generated under the Base PP's `FAU_GEN.1`, which is claimed unchanged; this refinement makes the audit records on which this module's Evaluation Activities rely normatively required.
+When this PP-Module is claimed, Table 4: Auditable Events of the Base PP is refined to add the following entries; this refinement makes the audit records on which this module's Evaluation Activities rely normatively required.
+
+A provider-operated managed service records security-relevant events in two channels, and the table assigns each event to its channel:
+
+* The *DBMS audit trail* is the audit trail of the Base PP. Events assigned to it are generated under the Base PP's `FAU_GEN.1`, which is claimed unchanged, and are protected by `FAU_STG.2/DBaaS`.
+* The *service event stream* is the tenant-visible service-level audit channel in which lifecycle and control-plane events concerning a tenant's service instance are recorded. It is distinct from the DBMS audit trail and remains available when the database is not serving connections — which is precisely when several of this module's events are generated: the transition to the key-unavailable enforcement state, use of a recovery mechanism, and update deployment all occur while or because the database is not serving tenants. Generation of these events is TSF behavior; the stream itself may be implemented by the TSF or delivered through an audit or event service of the Trusted Platform. The ST shall identify the mechanism that implements the service event stream, its allocation to the TOE, TOE Platform, or Trusted Platform, and the tenant interface through which its records are retrieved. Where the stream is delivered by the Trusted Platform, its integrity and availability are operational environment properties under OE.TRUSTED_PLATFORM and OE.EXTERNAL_SERVICES.
+
+Service event stream records concerning a tenant's service instance, customer-controlled keys, or backups shall be visible to that tenant regardless of the acting subject, including provider-initiated and service-initiated actions. Not every event in the table has a tenant subject: an attempted export of customer-controlled key material or an attempted plaintext restore is most security-relevant when the acting subject is a service provider administrator, and the audit data for such events identifies the acting subject rather than presupposing a tenant context. Attempts made directly against an external key management service under tenant control are recorded by that service and are outside the TOE's audit generation; the module's events cover attempts made through TOE interfaces.
 
 .Auditable Events for DBaaS Module SFRs
-[%header,cols="1,1,1"]
+[%header,cols="2,4,4,2"]
 |===
 |Column 1: Security Functional Requirement
 |Column 2: Auditable Event(s)
 |Column 3: Additional Audit Data Contents
+|Column 4: Audit Channel
 
 |FCS_CKM_DBAAS_EXT.1
 |Key import; key-reference configuration; key-management service authorization failure; key revocation detection; transition to the key-unavailable enforcement state upon expiration of the key-state enforcement interval; denial of access to protected data due to revoked, unavailable, or denied key authorization; use of a documented recovery mechanism; attempted export or recovery of customer-controlled key material
-|Tenant identifier and key reference or key identifier; for enforcement-state transitions, the key-state change that triggered the transition; for recovery-mechanism use, the identity of the authorizing tenant agent. Plaintext key material shall not be included in audit records.
+|Key reference or key identifier; the identity and role of the acting subject, with the tenant identifier where the subject acts in a tenant context; for enforcement-state transitions, the key-state change that triggered the transition; for recovery-mechanism use, the identity of the authorizing tenant agent. Plaintext key material shall not be included in audit records.
+|Service event stream. Key import and key-reference configuration performed through database interfaces may instead appear in the DBMS audit trail, as identified in the ST.
 
 |FDP_RIP.1/DBaaS
 |None
 |None
+|—
 
 |FDP_ACC.1/DBaaS
 |None
 |None
+|—
 
 |FDP_ACF.1/DBaaS
 |All denied accesses under the Tenant Isolation SFP; use of an evaluated cross-tenant sharing mechanism, where claimed
 |Subject tenant identifier, object tenant identifier, and operation
+|DBMS audit trail
 
 |FRU_RSA.1/DBaaS
 |Tenant resource quota violation
 |Tenant identifier and affected resource
+|DBMS audit trail
 
 |FRU_RSG_EXT.1
 |Enforcement action taken on quota exhaustion (termination, throttling, queueing, or rejection)
 |Tenant identifier, affected resource, and enforcement action
+|DBMS audit trail
 
 |FDP_BKP_EXT.1
 |Backup creation; restore initiation and completion; restore authorization failure; attempted plaintext restore or export of protected tenant data
-|Tenant identifier and backup identifier
+|Tenant identifier of the affected data and backup identifier; for restore, restore-failure, and attempted-restore events, the identity and role of the acting subject
+|Service event stream
 
 |FIA_USB.1/DBaaS
 |Unsuccessful binding of tenant security attributes to a subject
 |Attempted tenant identifier, user identifier, and service role
+|DBMS audit trail
 
 |FMT_SMR.1/DBaaS
 |Modifications to the users associated with a role
 |Role and user identity
+|DBMS audit trail or service event stream, as identified in the ST
 
 |FMT_SMF.1/DBaaS
 |Use of the management functions defined by this module
 |Function invoked and role of the invoking user
+|DBMS audit trail or service event stream, as identified in the ST
 
 |FMT_MOF.1/DBaaS-Disable
 |Attempted disabling of audit generation or of data-at-rest encryption for protected tenant data
 |Role and identity of the attempting user
+|DBMS audit trail or service event stream, as identified in the ST
 
 |FMT_MOF.1/DBaaS-Modify
 |Modifications to the behaviour of provider-managed functions (resource governance policies, patching and updates, audit export configuration)
 |Function modified and role of the invoking user
+|Service event stream
 
 |FAU_SEL.1/DBaaS
 |All modifications to the audit configuration that occur while the audit collection functions are operating, including tenant-scoped selection changes
 |The identity of the authorized administrator that made the change, and the tenant identifier where the change is tenant-scoped
+|DBMS audit trail or service event stream, as identified in the ST
 
 |FAU_STG.2/DBaaS
 |Attempted unauthorized deletion or modification of stored audit records
 |Role and identity of the attempting user, and tenant identifier of the affected records
+|DBMS audit trail
 
 |FPT_TUD_DBAAS_EXT.1
 |Update deployment initiation and completion; signature verification failure; update failure; tenant deferral or maintenance-window events, where selected
 |The service software version or revision identifiers before and after the update
+|Service event stream
 |===
 
 == Security Assurance Requirements (SARs)
@@ -1303,6 +1330,9 @@ All CC Part 2 components reused in this PP-Module are iterated with a `/DBaaS` l
 
 |Customer-Controlled Key
 |A master encryption key whose use is controlled by the customer (tenant), such that the service provider cannot obtain plaintext key material through TOE interfaces. Includes BYOK, HYOK, external KMS-managed keys, and key-reference or key-handle models.
+
+|Service Event Stream
+|The tenant-visible service-level audit channel in which lifecycle and control-plane events concerning a tenant's service instance are recorded. Distinct from the DBMS audit trail and available when the database is not serving connections; may be implemented by the TSF or delivered through an audit or event service of the Trusted Platform, as identified in the ST. See the auditable-events refinement.
 
 |Service Provider Administrator
 |Module-level role label for an administrator who operates the managed DBMS service on behalf of the provider. Constrained by this module from accessing customer-controlled key material and tenant data except through interfaces and roles explicitly identified in the ST. The ST maps this label to the TOE's own role terminology (see the FMT_SMR.1/DBaaS application note).

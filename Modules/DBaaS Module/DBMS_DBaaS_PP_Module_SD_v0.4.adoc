@@ -70,6 +70,10 @@
 
 |0.4
 |2026-07-15
+|Aligned with the module's service event stream audit channel. New Audit Channel Identification section in General Guidance: the evaluator verifies the ST's per-event channel assignment, the stream's implementing mechanism and boundary allocation, its tenant retrieval interface, and tenant visibility of provider-initiated records, before performing any audit-record check; channel substitution in either direction is not permitted. FCS_CKM_DBAAS_EXT.1 Test 2/2a and the recovery step now verify the enforcement-transition and recovery records in the ST-identified service event stream, retrievable while the database is not serving connections. FAU_STG.2/DBaaS scoped to the DBMS audit trail. ASE_TSS checks the channel identification is provided.
+
+|0.4
+|2026-07-15
 |Defined the four evidence vantages for managed-service evaluation (V1 tenant data plane, V2 tenant service control plane, V3 evaluator-controlled external services, V4 provider-internal operations) and added the informative Evidence Vantage Mapping appendix assigning vantages to every test activity, with scoping notes on where provider participation is required. The Evaluator Access Strategy now starts from this mapping and records deviations in the ETR. Relationship to Other Documents states the composition rule for the DBaaS PP-Configuration: Base PP and Crypto Module SD activities are executed from these vantages, with the Evaluator Access Strategy applied where they assume access the managed-service model does not provide. Provider-supported demonstration added to the managed-service evidence methods list.
 
 |0.4
@@ -98,7 +102,7 @@ The Evaluation Activities in this SD are derived from the Common Evaluation Meth
 This SD is organized as follows:
 
 * *Introduction*: scope, the managed-service evaluation constraint, the evidence vantages (V1–V4) from which test evidence is collected, terminology, and document relationships;
-* *General Guidance for Evaluators*: Trusted Platform verification (including provider role separation), boundary enumeration, the Evaluator Access Strategy, tenant isolation testing strategy, external service dependencies, and the handling of selections and assignments;
+* *General Guidance for Evaluators*: Trusted Platform verification (including provider role separation), boundary enumeration, the Evaluator Access Strategy, audit channel identification, tenant isolation testing strategy, external service dependencies, and the handling of selections and assignments;
 * *Assurance Activities Overview*: the inherited SAR families and the DBaaS-specific considerations for ASE, ADV, ALC, ATE, and AVA, together with the DBaaS documentation requirements for AGD_OPE and AGD_PRE;
 * *Per-SFR Evaluation Activities* (FCS, FDP, FRU, FIA, FMT, FAU, FPT classes): TSS, Guidance, and Test activities for each SFR of the PP-Module;
 * *Appendices*: cross-reference to CEM work units, the evidence vantage mapping for every test activity, test environment guidance, and document references.
@@ -191,6 +195,17 @@ This enumeration is the primary mechanism by which the TOE/Trusted-Platform boun
 === Evaluator Access Strategy
 
 The evaluator shall identify the interfaces available in the evaluated configuration and map each test to one or more tenant-accessible or provider-supported evaluation interfaces. The Evidence Vantage Mapping appendix (<<_evidence_vantage_mapping>>) provides the expected vantage assignment for every test activity of this SD; the evaluator shall use it as the starting point for this mapping and shall record in the ETR any deviation driven by the evaluated configuration — in particular, functions the mapping places at the tenant service control plane (V2) that the evaluated TOE exposes only to provider roles (V4), or the reverse. When a direct test is not feasible because the function is outside the TOE boundary or requires provider-only access, the evaluator shall determine whether the SD permits reliance on TSS review, operational guidance, scheme-accepted evidence, or a provider-supported demonstration.
+
+=== Audit Channel Identification
+
+The module's auditable-events refinement assigns each auditable event to the DBMS audit trail or to the service event stream (or, for events whose plane varies by TOE, to either as identified in the ST). Before performing any test activity that verifies an audit record, the evaluator shall verify that the ST identifies:
+
+* for each module auditable event, the channel that carries it, consistent with the Audit Channel column of the module's auditable-events table;
+* the mechanism that implements the service event stream, its allocation to the TOE, TOE Platform, or Trusted Platform, and the tenant interface through which its records are retrieved (typically at the tenant service control plane, V2);
+* how service event stream records concerning a tenant's service instance, customer-controlled keys, or backups are made visible to that tenant regardless of the acting subject, including provider-initiated and service-initiated actions; and
+* where the service event stream is delivered by the Trusted Platform, the reliance on OE.TRUSTED_PLATFORM and OE.EXTERNAL_SERVICES for its integrity and availability, recorded in the ETR with the Trusted Platform verification.
+
+Each per-SFR test activity of this SD that checks for an audit record is performed against the channel the ST identifies for that event. An audit record required in the service event stream is not satisfied by a record in the DBMS audit trail that becomes unreadable when the database stops serving connections, and the reverse substitution is likewise not permitted.
 
 === Tenant Isolation Testing Strategy
 
@@ -301,6 +316,7 @@ In addition to the Base PP ST evaluation activities, the evaluator shall verify:
 
 * The TSS provides the per-SFR TOE/environment enumeration required by <<_toe_toe_platform_and_trusted_platform_boundary_enumeration>>;
 * The TSS provides the role-label mapping required by the module's FMT_SMR.1/DBaaS application note, on which the role references throughout this SD's activities depend;
+* The ST provides the audit channel identification required by <<_audit_channel_identification>>, including the service event stream mechanism, its boundary allocation, and its tenant retrieval interface;
 * The TSS describes the end-to-end update process and the customer-controlled key architecture at the level of detail required by the per-SFR activities of this SD.
 
 ==== ADV: Development
@@ -459,8 +475,8 @@ The evaluator shall verify the operational guidance describes:
 . Revoke, disable, or deny the TOE's authorization to use the external key according to the operational guidance.
 . Attempt to access protected database data in the TOE, repeating the attempt until the completed key-state enforcement interval of FCS_CKM_DBAAS_EXT.1.3 has elapsed.
 . Verify that access is denied no later than the expiration of the completed key-state enforcement interval, except for data available through an explicitly documented and evaluated recovery mechanism.
-. Verify that the transition to the key-unavailable enforcement state generates the audit record required by the module's auditable-events table.
-. If a recovery mechanism is claimed, exercise it: verify that it cannot be completed without authorization by the tenant or an agent under the tenant's control, and that its use generates the audit record required by the module's auditable-events table.
+. Verify that the transition to the key-unavailable enforcement state generates the audit record required by the module's auditable-events table, in the service event stream identified in the ST (<<_audit_channel_identification>>) — the record must be retrievable by the tenant while the database is not serving connections.
+. If a recovery mechanism is claimed, exercise it: verify that it cannot be completed without authorization by the tenant or an agent under the tenant's control, and that its use generates the audit record required by the module's auditable-events table in the ST-identified service event stream.
 
 Continued access to protected data during the completed key-state enforcement interval is not a test failure; access continuing beyond its expiration is.
 
@@ -470,7 +486,7 @@ Where the TSS documents a grace period during which the TOE continues operating 
 
 . Access protected database data as an authorized tenant user or tenant administrator.
 . Make the external key management service unreachable to the TOE without revoking key authorization.
-. Verify that any continued access to protected data does not extend beyond the completed key-state enforcement interval, and that the TOE transitions to the key-unavailable enforcement state with the required audit record.
+. Verify that any continued access to protected data does not extend beyond the completed key-state enforcement interval, and that the TOE transitions to the key-unavailable enforcement state with the required audit record in the ST-identified service event stream.
 . Restore connectivity and verify that data access resumes only through the documented resumption behavior described in the TSS or operational guidance.
 
 Where the test environment does not permit interrupting connectivity, the evaluator shall verify the unreachability behavior through provider-supported demonstration or provider test evidence, recorded in the ETR.
@@ -787,6 +803,8 @@ The evaluator shall verify the operational guidance describes how audit selectio
 
 The evaluator shall verify the TSS describes how the TOE prevents unauthorised modification and deletion of stored audit records, including that no tenant-facing interface provides audit modification or deletion functions. If audit records are exported to an external sink, the evaluator shall verify the TSS identifies whether the export mechanism, external sink, or both are part of the TOE or operational environment.
 
+`FAU_STG.2/DBaaS` applies to the DBMS audit trail. Protection, tenant visibility, and retrieval of service event stream records are defined by the module's auditable-events refinement and verified under <<_audit_channel_identification>>; they are not retested here.
+
 ===== Guidance Activities
 
 The evaluator shall verify the operational guidance describes audit retention, audit export configuration, authorized audit query roles, and any recovery or archival mechanism for audit records.
@@ -970,7 +988,7 @@ TSS and Guidance Activities are documentation review and are not listed; only Te
 
 | FCS_CKM_DBAAS_EXT.1 Test 2 (Key Revocation)
 | V3 → V1, V2
-| Revocation induced at the evaluator's external KMS (V3); denial of data access observed at the database interfaces (V1); enforcement-state transition and its audit record observed at the service console or audit views (V2).
+| Revocation induced at the evaluator's external KMS (V3); denial of data access observed at the database interfaces (V1); enforcement-state transition and its record verified in the ST-identified service event stream, retrieved through its tenant interface (V2).
 
 | FCS_CKM_DBAAS_EXT.1 Test 2a (Key Provider Unreachability)
 | V3 → V1, V2; V4 fallback

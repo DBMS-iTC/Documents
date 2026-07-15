@@ -753,6 +753,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Introduced the service event stream as a second audit channel alongside the DBMS audit trail, resolving the observability inversion in the auditable-events refinement: the module&#8217;s lifecycle and key-state events (key-unavailable enforcement transition, recovery-mechanism use, update deployment) are generated while or because the database is not serving connections and cannot be required of an audit trail that becomes unreachable at that moment. The auditable-events table gains an Audit Channel column assigning every event; the ST identifies the stream&#8217;s implementing mechanism, boundary allocation, and tenant retrieval interface, with Trusted-Platform-delivered streams relying on OE.TRUSTED_PLATFORM and OE.EXTERNAL_SERVICES. Service event stream records concerning a tenant&#8217;s instance, keys, or backups are tenant-visible regardless of acting subject, including provider-initiated actions; audit data contents for FCS_CKM_DBAAS_EXT.1 and FDP_BKP_EXT.1 now identify the acting subject rather than presupposing a tenant context. Glossary entry added.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Stated that Tenant User, Tenant Administrator, and Service Provider Administrator are module-level role labels, not required TOE role names: the FMT_SMR.1/DBaaS application note now requires the ST to map each label to the TOE&#8217;s own role terminology, permits one-to-many and many-to-one mappings, and constrains the mapping to preserve the provider/tenant authority boundaries; glossary entries marked as labels and a Tenant User entry added.</p></td>
 </tr>
 <tr>
@@ -2226,97 +2231,130 @@ Update pipeline mechanics may reside partly in the operational environment, but 
 <div class="sect2">
 <h3 id="_auditable_events_for_the_sfrs_of_this_pp_module">10.7. Auditable Events for the SFRs of this PP-Module</h3>
 <div class="paragraph">
-<p>When this PP-Module is claimed, Table 4: Auditable Events of the Base PP is refined to add the following entries. The events are generated under the Base PP&#8217;s <code>FAU_GEN.1</code>, which is claimed unchanged; this refinement makes the audit records on which this module&#8217;s Evaluation Activities rely normatively required.</p>
+<p>When this PP-Module is claimed, Table 4: Auditable Events of the Base PP is refined to add the following entries; this refinement makes the audit records on which this module&#8217;s Evaluation Activities rely normatively required.</p>
+</div>
+<div class="paragraph">
+<p>A provider-operated managed service records security-relevant events in two channels, and the table assigns each event to its channel:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <strong>DBMS audit trail</strong> is the audit trail of the Base PP. Events assigned to it are generated under the Base PP&#8217;s <code>FAU_GEN.1</code>, which is claimed unchanged, and are protected by <code>FAU_STG.2/DBaaS</code>.</p>
+</li>
+<li>
+<p>The <strong>service event stream</strong> is the tenant-visible service-level audit channel in which lifecycle and control-plane events concerning a tenant&#8217;s service instance are recorded. It is distinct from the DBMS audit trail and remains available when the database is not serving connections — which is precisely when several of this module&#8217;s events are generated: the transition to the key-unavailable enforcement state, use of a recovery mechanism, and update deployment all occur while or because the database is not serving tenants. Generation of these events is TSF behavior; the stream itself may be implemented by the TSF or delivered through an audit or event service of the Trusted Platform. The ST shall identify the mechanism that implements the service event stream, its allocation to the TOE, TOE Platform, or Trusted Platform, and the tenant interface through which its records are retrieved. Where the stream is delivered by the Trusted Platform, its integrity and availability are operational environment properties under OE.TRUSTED_PLATFORM and OE.EXTERNAL_SERVICES.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Service event stream records concerning a tenant&#8217;s service instance, customer-controlled keys, or backups shall be visible to that tenant regardless of the acting subject, including provider-initiated and service-initiated actions. Not every event in the table has a tenant subject: an attempted export of customer-controlled key material or an attempted plaintext restore is most security-relevant when the acting subject is a service provider administrator, and the audit data for such events identifies the acting subject rather than presupposing a tenant context. Attempts made directly against an external key management service under tenant control are recorded by that service and are outside the TOE&#8217;s audit generation; the module&#8217;s events cover attempts made through TOE interfaces.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 18. Auditable Events for DBaaS Module SFRs</caption>
 <colgroup>
+<col style="width: 16.6666%;">
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 16.6668%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Column 1: Security Functional Requirement</th>
 <th class="tableblock halign-left valign-top">Column 2: Auditable Event(s)</th>
 <th class="tableblock halign-left valign-top">Column 3: Additional Audit Data Contents</th>
+<th class="tableblock halign-left valign-top">Column 4: Audit Channel</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM_DBAAS_EXT.1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Key import; key-reference configuration; key-management service authorization failure; key revocation detection; transition to the key-unavailable enforcement state upon expiration of the key-state enforcement interval; denial of access to protected data due to revoked, unavailable, or denied key authorization; use of a documented recovery mechanism; attempted export or recovery of customer-controlled key material</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tenant identifier and key reference or key identifier; for enforcement-state transitions, the key-state change that triggered the transition; for recovery-mechanism use, the identity of the authorizing tenant agent. Plaintext key material shall not be included in audit records.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Key reference or key identifier; the identity and role of the acting subject, with the tenant identifier where the subject acts in a tenant context; for enforcement-state transitions, the key-state change that triggered the transition; for recovery-mechanism use, the identity of the authorizing tenant agent. Plaintext key material shall not be included in audit records.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service event stream. Key import and key-reference configuration performed through database interfaces may instead appear in the DBMS audit trail, as identified in the ST.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FDP_RIP.1/DBaaS</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">—</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FDP_ACC.1/DBaaS</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">—</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FDP_ACF.1/DBaaS</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">All denied accesses under the Tenant Isolation SFP; use of an evaluated cross-tenant sharing mechanism, where claimed</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Subject tenant identifier, object tenant identifier, and operation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DBMS audit trail</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FRU_RSA.1/DBaaS</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Tenant resource quota violation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Tenant identifier and affected resource</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DBMS audit trail</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FRU_RSG_EXT.1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Enforcement action taken on quota exhaustion (termination, throttling, queueing, or rejection)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Tenant identifier, affected resource, and enforcement action</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DBMS audit trail</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FDP_BKP_EXT.1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Backup creation; restore initiation and completion; restore authorization failure; attempted plaintext restore or export of protected tenant data</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tenant identifier and backup identifier</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tenant identifier of the affected data and backup identifier; for restore, restore-failure, and attempted-restore events, the identity and role of the acting subject</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service event stream</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FIA_USB.1/DBaaS</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Unsuccessful binding of tenant security attributes to a subject</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Attempted tenant identifier, user identifier, and service role</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DBMS audit trail</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FMT_SMR.1/DBaaS</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Modifications to the users associated with a role</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Role and user identity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DBMS audit trail or service event stream, as identified in the ST</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FMT_SMF.1/DBaaS</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Use of the management functions defined by this module</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Function invoked and role of the invoking user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DBMS audit trail or service event stream, as identified in the ST</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FMT_MOF.1/DBaaS-Disable</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Attempted disabling of audit generation or of data-at-rest encryption for protected tenant data</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Role and identity of the attempting user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DBMS audit trail or service event stream, as identified in the ST</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FMT_MOF.1/DBaaS-Modify</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Modifications to the behaviour of provider-managed functions (resource governance policies, patching and updates, audit export configuration)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Function modified and role of the invoking user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service event stream</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FAU_SEL.1/DBaaS</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">All modifications to the audit configuration that occur while the audit collection functions are operating, including tenant-scoped selection changes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The identity of the authorized administrator that made the change, and the tenant identifier where the change is tenant-scoped</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DBMS audit trail or service event stream, as identified in the ST</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FAU_STG.2/DBaaS</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Attempted unauthorized deletion or modification of stored audit records</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Role and identity of the attempting user, and tenant identifier of the affected records</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DBMS audit trail</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FPT_TUD_DBAAS_EXT.1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Update deployment initiation and completion; signature verification failure; update failure; tenant deferral or maintenance-window events, where selected</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The service software version or revision identifiers before and after the update</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service event stream</p></td>
 </tr>
 </tbody>
 </table>
@@ -2786,6 +2824,10 @@ Update pipeline mechanics may reside partly in the operational environment, but 
 <td class="tableblock halign-left valign-top"><p class="tableblock">A master encryption key whose use is controlled by the customer (tenant), such that the service provider cannot obtain plaintext key material through TOE interfaces. Includes BYOK, HYOK, external KMS-managed keys, and key-reference or key-handle models.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service Event Stream</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The tenant-visible service-level audit channel in which lifecycle and control-plane events concerning a tenant&#8217;s service instance are recorded. Distinct from the DBMS audit trail and available when the database is not serving connections; may be implemented by the TSF or delivered through an audit or event service of the Trusted Platform, as identified in the ST. See the auditable-events refinement.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Service Provider Administrator</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Module-level role label for an administrator who operates the managed DBMS service on behalf of the provider. Constrained by this module from accessing customer-controlled key material and tenant data except through interfaces and roles explicitly identified in the ST. The ST maps this label to the TOE&#8217;s own role terminology (see the FMT_SMR.1/DBaaS application note).</p></td>
 </tr>
@@ -2917,7 +2959,7 @@ Update pipeline mechanics may reside partly in the operational environment, but 
 <div id="footer">
 <div id="footer-text">
 Version 0.4<br>
-Last updated 2026-07-15 15:10:24 -0500
+Last updated 2026-07-15 15:37:20 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
