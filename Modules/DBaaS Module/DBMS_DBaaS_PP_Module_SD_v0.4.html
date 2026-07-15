@@ -470,25 +470,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_assurance_activities_overview">4. Assurance Activities Overview</a>
 <ul class="sectlevel2">
-<li><a href="#_mapping_to_base_pp_sars">4.1. Mapping to Base PP SARs</a>
+<li><a href="#_assurance_approach_rationale">4.1. Assurance Approach Rationale</a></li>
+<li><a href="#_mapping_to_base_pp_sars">4.2. Mapping to Base PP SARs</a>
 <ul class="sectlevel3">
-<li><a href="#_inherited_sar_families">4.1.1. Inherited SAR Families</a></li>
-<li><a href="#_applying_base_pp_sar_activities">4.1.2. Applying Base PP SAR Activities</a></li>
+<li><a href="#_inherited_sar_families">4.2.1. Inherited SAR Families</a></li>
+<li><a href="#_applying_base_pp_sar_activities">4.2.2. Applying Base PP SAR Activities</a></li>
 </ul>
 </li>
-<li><a href="#_dbaas_specific_assurance_activities">4.2. DBaaS-Specific Assurance Activities</a>
+<li><a href="#_dbaas_specific_assurance_activities">4.3. DBaaS-Specific Assurance Activities</a>
 <ul class="sectlevel3">
-<li><a href="#_ase_security_target_evaluation">4.2.1. ASE: Security Target Evaluation</a></li>
-<li><a href="#_adv_development">4.2.2. ADV: Development</a></li>
-<li><a href="#_alc_life_cycle_support">4.2.3. ALC: Life-cycle Support</a></li>
-<li><a href="#_ate_tests">4.2.4. ATE: Tests</a></li>
-<li><a href="#_ava_vulnerability_assessment">4.2.5. AVA: Vulnerability Assessment</a></li>
+<li><a href="#_ase_security_target_evaluation">4.3.1. ASE: Security Target Evaluation</a></li>
+<li><a href="#_adv_development">4.3.2. ADV: Development</a></li>
+<li><a href="#_alc_life_cycle_support">4.3.3. ALC: Life-cycle Support</a></li>
+<li><a href="#_ate_tests">4.3.4. ATE: Tests</a></li>
+<li><a href="#_ava_vulnerability_assessment">4.3.5. AVA: Vulnerability Assessment</a></li>
 </ul>
 </li>
-<li><a href="#_documentation_requirements">4.3. Documentation Requirements</a>
+<li><a href="#_documentation_requirements">4.4. Documentation Requirements</a>
 <ul class="sectlevel3">
-<li><a href="#_agd_ope_operational_user_guidance_dbaas_specific_requirements">4.3.1. AGD_OPE: Operational User Guidance — DBaaS-Specific Requirements</a></li>
-<li><a href="#_agd_pre_preparative_procedures_service_provisioning">4.3.2. AGD_PRE: Preparative Procedures — Service Provisioning</a></li>
+<li><a href="#_agd_ope_operational_user_guidance_dbaas_specific_requirements">4.4.1. AGD_OPE: Operational User Guidance — DBaaS-Specific Requirements</a></li>
+<li><a href="#_agd_pre_preparative_procedures_service_provisioning">4.4.2. AGD_PRE: Preparative Procedures — Service Provisioning</a></li>
 </ul>
 </li>
 </ul>
@@ -759,6 +760,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Aligned with the module&#8217;s service event stream audit channel. New Audit Channel Identification section in General Guidance: the evaluator verifies the ST&#8217;s per-event channel assignment, the stream&#8217;s implementing mechanism and boundary allocation, its tenant retrieval interface, and tenant visibility of provider-initiated records, before performing any audit-record check; channel substitution in either direction is not permitted. FCS_CKM_DBAAS_EXT.1 Test 2/2a and the recovery step now verify the enforcement-transition and recovery records in the ST-identified service event stream, retrievable while the database is not serving connections. FAU_STG.2/DBaaS scoped to the DBMS audit trail. ASE_TSS checks the channel identification is provided.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Added the Assurance Approach Rationale to the Assurance Activities Overview: the package substitutes requirement-bound adversarial testing for design-artifact depth (the SD&#8217;s test legs are predominantly negative); at tenant vantage the reachable attack surface substantially coincides with the tested interface set; the certificate window matches the architectural cadence of the certified properties, with in-window operational change covered by continuously monitored Trusted Platform evidence and TSF change by ALC_FLR.3 plus the revision identifier; and the three assurance layers (algorithm validation, this PP-Configuration, cloud authorization) compose without duplication.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
@@ -1105,12 +1111,27 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_assurance_activities_overview">4. Assurance Activities Overview</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_mapping_to_base_pp_sars">4.1. Mapping to Base PP SARs</h3>
+<h3 id="_assurance_approach_rationale">4.1. Assurance Approach Rationale</h3>
+<div class="paragraph">
+<p>The assurance package is EAL2 augmented by ALC_FLR.3, and the number understates where the assurance comes from. EAL2 bounds the design evidence — interface specification and basic subsystem design, without implementation representation — but confidence in the TOE&#8217;s security behavior is produced by this SD&#8217;s Evaluation Activities, and those are predominantly negative: cross-tenant access is attempted through every documented interface and denied; metadata, audit, and residual-data isolation are probed from a second tenant context; plaintext key export is attempted through every tenant-facing interface and denied; key revocation is enforced within the completed key-state enforcement interval; plaintext restore is attempted against an explicit ciphertext pass criterion; unauthorized quota modification, tenant-binding manipulation, audit tampering, and the disabling of audit or encryption are each attempted and denied; an invalid update signature is presented and rejected. The package substitutes requirement-bound adversarial testing for design-artifact depth.</p>
+</div>
+<div class="paragraph">
+<p>That substitution is unusually effective for this TOE type. Against locally installed software an attacker holds the binary, the file system, and process memory, so interface-level testing exercises a modest fraction of the reachable attack surface — closing the remainder is what implementation-level design assurance exists for. A tenant of a provider-operated DBaaS reaches the TOE only through the documented tenant interfaces: SQL, programmatic APIs, and the tenant service control plane. The tenant-reachable attack surface therefore substantially coincides with the interface set these Evaluation Activities exercise, and AVA_VAN.2 penetration testing probes the same vantage for paths the documentation does not admit.</p>
+</div>
+<div class="paragraph">
+<p>The evaluation is point-in-time, and the certificate window is matched to what is being certified. The properties this PP-Module evaluates — the tenant-isolation architecture, the customer-controlled key hierarchy, the restore path, the update mechanism — are architectural, and change on a cadence no faster than scheme certificate-validity windows. Change that does occur inside a validity window divides into two streams, each with its own assurance: operational change (configuration, platform, personnel) belongs to the Trusted Platform, whose accepted evidence — cloud authorization under frameworks such as FedRAMP, IRAP, or C5 — carries the continuous monitoring, change reporting, and periodic reassessment that CC does not provide; TSF change is governed by ALC_FLR.3 and the trusted service update requirement, whose tenant-queryable revision identifier identifies every deployed change and supplies the CM identification on which assurance continuity depends.</p>
+</div>
+<div class="paragraph">
+<p>The composition is deliberate and non-duplicative. Cloud authorization frameworks assess whether the provider organization operates the service responsibly; they do not functionally test whether a security mechanism is correct — no assessor under those frameworks provisions two tenants and attempts cross-tenant access, revokes a key and times enforcement, or attempts a plaintext restore. Algorithm validation (CAVP, CMVP, and the CCDB-018 catalogue, consumed through the mandatory DBMS Cryptographic Functions Module) assesses cryptographic correctness but not service behavior. This PP-Configuration supplies the layer between them: independent, specification-bound demonstration that the service&#8217;s tenant-facing security mechanisms behave as claimed. Each layer is consumed, not duplicated — algorithm validation enters through the Crypto Module, and cloud authorization enters as scheme-accepted Trusted Platform evidence.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mapping_to_base_pp_sars">4.2. Mapping to Base PP SARs</h3>
 <div class="paragraph">
 <p>The DBaaS PP-Module inherits all Security Assurance Requirements (SARs) from the collaborative Protection Profile for Database Management Systems (cPP_DBMS): EAL2 augmented by ALC_FLR.3. No additional or modified SARs are introduced by this PP-Module. The provider-operated managed-service model does, however, change how several inherited SAR families are exercised; those considerations are defined in this section.</p>
 </div>
 <div class="sect3">
-<h4 id="_inherited_sar_families">4.1.1. Inherited SAR Families</h4>
+<h4 id="_inherited_sar_families">4.2.1. Inherited SAR Families</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16.6666%;">
@@ -1159,7 +1180,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </table>
 </div>
 <div class="sect3">
-<h4 id="_applying_base_pp_sar_activities">4.1.2. Applying Base PP SAR Activities</h4>
+<h4 id="_applying_base_pp_sar_activities">4.2.2. Applying Base PP SAR Activities</h4>
 <div class="paragraph">
 <p>For each SAR inherited from the cPP_DBMS, the evaluator shall:</p>
 </div>
@@ -1179,9 +1200,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_dbaas_specific_assurance_activities">4.2. DBaaS-Specific Assurance Activities</h3>
+<h3 id="_dbaas_specific_assurance_activities">4.3. DBaaS-Specific Assurance Activities</h3>
 <div class="sect3">
-<h4 id="_ase_security_target_evaluation">4.2.1. ASE: Security Target Evaluation</h4>
+<h4 id="_ase_security_target_evaluation">4.3.1. ASE: Security Target Evaluation</h4>
 <div class="paragraph">
 <p>In addition to the Base PP ST evaluation activities, the evaluator shall verify:</p>
 </div>
@@ -1264,7 +1285,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect3">
-<h4 id="_adv_development">4.2.2. ADV: Development</h4>
+<h4 id="_adv_development">4.3.2. ADV: Development</h4>
 <div class="paragraph">
 <p>The Base PP&#8217;s ADV_ARC.1, ADV_FSP.2, and ADV_TDS.1 activities apply to the DBMS service. The evaluator shall additionally verify:</p>
 </div>
@@ -1283,7 +1304,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect3">
-<h4 id="_alc_life_cycle_support">4.2.3. ALC: Life-cycle Support</h4>
+<h4 id="_alc_life_cycle_support">4.3.3. ALC: Life-cycle Support</h4>
 <div class="paragraph">
 <p>The managed-service model changes how the ALC families are exercised. The evaluator shall apply the Base PP ALC activities with the following interpretations:</p>
 </div>
@@ -1325,7 +1346,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ate_tests">4.2.4. ATE: Tests</h4>
+<h4 id="_ate_tests">4.3.4. ATE: Tests</h4>
 <div class="paragraph">
 <p><strong>ATE_COV.1 / ATE_FUN.1 (Developer Testing):</strong></p>
 </div>
@@ -1357,7 +1378,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ava_vulnerability_assessment">4.2.5. AVA: Vulnerability Assessment</h4>
+<h4 id="_ava_vulnerability_assessment">4.3.5. AVA: Vulnerability Assessment</h4>
 <div class="paragraph">
 <p><strong>AVA_VAN.2 (Vulnerability Analysis):</strong></p>
 </div>
@@ -1396,9 +1417,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_documentation_requirements">4.3. Documentation Requirements</h3>
+<h3 id="_documentation_requirements">4.4. Documentation Requirements</h3>
 <div class="sect3">
-<h4 id="_agd_ope_operational_user_guidance_dbaas_specific_requirements">4.3.1. AGD_OPE: Operational User Guidance — DBaaS-Specific Requirements</h4>
+<h4 id="_agd_ope_operational_user_guidance_dbaas_specific_requirements">4.4.1. AGD_OPE: Operational User Guidance — DBaaS-Specific Requirements</h4>
 <div class="paragraph">
 <p>The operational user guidance shall include managed-service sections addressing:</p>
 </div>
@@ -1469,7 +1490,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect3">
-<h4 id="_agd_pre_preparative_procedures_service_provisioning">4.3.2. AGD_PRE: Preparative Procedures — Service Provisioning</h4>
+<h4 id="_agd_pre_preparative_procedures_service_provisioning">4.4.2. AGD_PRE: Preparative Procedures — Service Provisioning</h4>
 <div class="paragraph">
 <p>For a provider-operated service, preparative procedures address how a tenant provisions and configures the service into the evaluated configuration. The preparative procedures shall include:</p>
 </div>
@@ -2903,7 +2924,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 0.4<br>
-Last updated 2026-07-15 16:08:02 -0500
+Last updated 2026-07-15 18:02:34 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
