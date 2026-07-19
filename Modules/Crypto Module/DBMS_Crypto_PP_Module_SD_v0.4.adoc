@@ -66,6 +66,10 @@
 |2026-07-08
 |Added Transitional Coverage for FPT_TST.1/RBG and FPT_FLS.1/RBG: pending the Catalogue Evaluation Methods, Certification Body-approved CMVP (FIPS 140-3 / ISO/IEC 19790) module-validation evidence may cover DRBG self-test execution and module error-state behavior under the same acceptance conditions as algorithm validation evidence, recorded in the Cryptographic Validation Coverage Matrix; the TOE-integration residue (RBG-dependent services refused on self-test failure, per the TSS) remains evaluated. Added both iterations to the Evaluation Activity Summary Table, and aligned the FCS_CKM_EXT.1 and FDP_ITC_EXT.1 summary rows with the Externally Managed Key Origin.
 
+|0.4
+|2026-07-15
+|Aligned with the module's post-quantum additions. The Catalogue-component trigger table notes that pure ML-DSA carries no Hash/XOF dependency and adds a row for the optional FCS_COP.1/KeyEncap (with FCS_RBG.1 and FCS_CKM.6). The transitional CAVP mechanism is stated to apply equally to the anticipated post-Version 1.0 rows (ML-DSA, ML-KEM), both CAVP-validatable under final FIPS PUB 203/204. New ST-verification item for the optional KeyEncap component: RBG and key-destruction inclusion, identification of the DBMS function the KEM serves, and the protocol-KEM exclusion.
+
 |===
 
 toc::[]
@@ -283,6 +287,8 @@ A CAVP or equivalent validation result may replace only algorithm-correctness te
 
 For every uncovered element, the evaluator shall apply a specifically identified method accepted by the responsible Certification Body. Merely stating that a CAVP record exists, or that the Catalogue Evaluation Methods are not yet available, is not sufficient.
 
+The transitional mechanism applies equally to the PP-Module's anticipated post-Version 1.0 rows — ML-DSA in `FCS_COP.1/SigVer` and ML-KEM in the optional `FCS_COP.1/KeyEncap`. FIPS PUB 203 and FIPS PUB 204 are final and CAVP validates implementations of both, so algorithm correctness for those selections is evidenced in the same way as for the published Catalogue rows, pending the corresponding Catalogue entries and Evaluation Methods.
+
 When a scheme-recognized version of [<<Crypto_Eval_Methods>>] becomes available, that document becomes the primary algorithm evaluation method for this SD. Existing validation results may continue to satisfy individual activities only to the extent permitted by that document or by the responsible Certification Body. The DBMS-specific integration activities in this SD remain applicable and are not displaced by publication of the Catalogue methods.
 
 ==== Transitional Coverage for FPT_TST.1/RBG and FPT_FLS.1/RBG
@@ -326,8 +332,12 @@ The evaluator shall examine the ST to confirm it includes, at minimum, the Catal
 | Section 4.4
 
 | Signature verification for an in-scope DBMS function, when used
-| `FCS_COP.1/SigVer` plus `FCS_COP.1/Hash` or `FCS_COP.1/XOF`
-| Section 4.8 and supporting primitive section
+| `FCS_COP.1/SigVer` plus `FCS_COP.1/Hash` or `FCS_COP.1/XOF` (neither for pure ML-DSA)
+| Section 4.8 and supporting primitive section; ML-DSA row anticipates post-Version 1.0 publication
+
+| KEM-based key establishment or transport for an in-scope DBMS function, when used
+| Optional `FCS_COP.1/KeyEncap` plus `FCS_RBG.1` and `FCS_CKM.6`
+| Anticipates the post-Version 1.0 key-encapsulation component (PP-Module Optional Requirements appendix)
 
 | Key Destruction (MEK/DEK lifecycle)
 | `FCS_CKM.6`
@@ -342,6 +352,7 @@ The evaluator shall additionally verify:
 . When `FCS_CKM_EXT.1.2` selects key wrapping for DEK protection, the ST includes `FCS_COP.1/KeyWrap`.
 . When `FCS_CKM_EXT.1.2` selects symmetric key encryption or authenticated encryption for DEK protection, the ST includes `FCS_COP.1/SKC` or `FCS_COP.1/AEAD`, as applicable.
 . When an included operation requires IVs, nonces, tweaks, or other one-time values, the ST includes `FCS_OTV_EXT.1`.
+. When the optional `FCS_COP.1/KeyEncap` component is included, the ST includes `FCS_RBG.1` with its seeding and self-test components, lists the encapsulation and decapsulation keys and derived shared secrets under `FCS_CKM.6`, and identifies the DBMS function the KEM serves; key encapsulation within a protocol is claimed through the applicable Functional Package instead.
 . When certificate-based mutual TLS authentication requires signature generation or verification support, the ST includes the applicable asymmetric components required by the TLS Functional Package.
 . All Catalogue-derived components include the required assignments and selections for key sizes, algorithm parameters, standards references, and dependencies.
 
