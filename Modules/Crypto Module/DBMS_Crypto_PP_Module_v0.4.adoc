@@ -117,11 +117,11 @@ JISEC - Japan IT Security Evaluation and Certification Scheme
 |Added an application note to the FPT_TST.1/RBG and FPT_FLS.1/RBG iterations assigning their evaluation treatment to the Supporting Document: evaluation methods are expected from the Catalogue Evaluation Methods; until a scheme-recognized version is available, Certification Body-approved CMVP (FIPS 140-3) module-validation evidence may cover self-test execution and failure behavior, with the TOE-integration residue evaluated per the SD's transitional coverage.
 
 |0.4
-|2026-07-15
+|2026-07-18
 |Added post-quantum selections ahead of their Catalogue publication, per the CNSA 2.0 trajectory of the Enterprise Enhanced use case. FCS_COP.1/SigVer gains an ML-DSA row (ML-DSA-44/65/87, pure and HashML-DSA, FIPS PUB 204); the application note states the anticipation of the post-Version 1.0 Catalogue, the applicability of the Crypto SD's transitional CAVP evidence mechanism, and the verification-only rationale for the SP 800-208 stateful hash-based schemes (signature generation, including hash-based state management, is a signing-infrastructure function and no signature-generation component is offered). New optional FCS_COP.1/KeyEncap component (ML-KEM-512/768/1024, FIPS PUB 203) for KEM-based establishment or transport of symmetric keying material outside protocol scope, resolving the previously dangling FCS_COP.1/KeyEncap dependency references; protocol KEMs remain Functional Package-governed. Enterprise Enhanced SigVer row now permits ML-DSA-87 alongside the SP 800-208 schemes, and a KeyEncap row requires ML-KEM-1024 when the optional component is claimed. Use-case scope statements updated: post-quantum signature verification and key encapsulation are now in-module; protocol and certificate PQC remain with the Functional Packages.
 
 |0.4
-|2026-07-15
+|2026-07-18
 |FCS_COP.1/KeyEncap converted from Optional to Selection-Based, brought in through new element FDP_ITC_EXT.1.4: keying material transferred over the trusted channel is protected by the channel alone or by supplementary end-to-end key wrapping (FCS_COP.1/KeyWrap) or key encapsulation (FCS_COP.1/KeyEncap), modeling the wrapped-key and encapsulated-key delivery patterns of key-management protocols. The channel-alone selection keeps every current TOE conformant; a supplementary selection triggers the corresponding component through the module's Exact Conformance machinery rather than an out-of-loop optional appendix. ECD mirrored; dependency tables, component inventory, and Enterprise Enhanced row aligned; Optional Requirements appendix again empty.
 
 |===

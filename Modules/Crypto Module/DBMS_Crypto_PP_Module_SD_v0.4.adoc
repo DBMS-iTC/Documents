@@ -67,11 +67,11 @@
 |Added Transitional Coverage for FPT_TST.1/RBG and FPT_FLS.1/RBG: pending the Catalogue Evaluation Methods, Certification Body-approved CMVP (FIPS 140-3 / ISO/IEC 19790) module-validation evidence may cover DRBG self-test execution and module error-state behavior under the same acceptance conditions as algorithm validation evidence, recorded in the Cryptographic Validation Coverage Matrix; the TOE-integration residue (RBG-dependent services refused on self-test failure, per the TSS) remains evaluated. Added both iterations to the Evaluation Activity Summary Table, and aligned the FCS_CKM_EXT.1 and FDP_ITC_EXT.1 summary rows with the Externally Managed Key Origin.
 
 |0.4
-|2026-07-15
+|2026-07-18
 |Aligned with the module's post-quantum additions. The Catalogue-component trigger table notes that pure ML-DSA carries no Hash/XOF dependency and adds a row for the optional FCS_COP.1/KeyEncap (with FCS_RBG.1 and FCS_CKM.6). The transitional CAVP mechanism is stated to apply equally to the anticipated post-Version 1.0 rows (ML-DSA, ML-KEM), both CAVP-validatable under final FIPS PUB 203/204. New ST-verification item for the optional KeyEncap component: RBG and key-destruction inclusion, identification of the DBMS function the KEM serves, and the protocol-KEM exclusion.
 
 |0.4
-|2026-07-15
+|2026-07-18
 |Aligned with the module's conversion of FCS_COP.1/KeyEncap to Selection-Based via FDP_ITC_EXT.1.4. Trigger table and ST-verification item now key off the FDP_ITC_EXT.1.4 selection and cover both the KeyWrap and KeyEncap supplementary-protection options. FDP_ITC_EXT.1 TSS activities gain the .4 coverage: which flows are wrapped or encapsulated, under which component, key establishment and protection for the mechanism, and the location of unwrapping or decapsulation.
 
 |===

@@ -41,7 +41,7 @@ This PP-Configuration was developed by the {iTC-longname} international Technica
 |Component statements corrected: customer-controlled key models are defined by the DBaaS Module's FCS_CKM_DBAAS_EXT.1 and couple to the Crypto Module's Key Origin selections (previously misattributed to the Crypto Module); DBaaS authoritative-scope list updated for the Trusted Service Update design.
 
 |0.4
-|2026-07-15
+|2026-07-18
 |Added the Evaluation Approach for the Composed TOE: the DBaaS Module SD's Managed-Service Evaluation Constraint, Evidence Vantages, and Evaluator Access Strategy govern evidence collection for all component activities under this PP-Configuration, including Base PP and Crypto Module SD activities that assume administrative access the managed-service model does not provide; laboratories directed to the Evidence Vantage Mapping and Test Environment Guidance for scoping.
 
 |===

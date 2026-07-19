@@ -753,32 +753,32 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-18</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Follow-on fixes from the audit-channel and vantage analysis. FIA_USB.1/DBaaS TSS activities verify tenant binding of subjects acting for automated autonomous management logic; FMT_SMF.1/DBaaS Test 1 gains a conditional step verifying an autonomous-action record identifies the autonomous subject with tenant attribution and tenant visibility. Audit Channel Identification verifies the per-channel retention and export treatment under P.AUDIT_RETENTION. FCS_CKM_DBAAS_EXT.1 recovery step may be performed jointly with FDP_BKP_EXT.1 Test 2, verifying restore tenant binding in the same run. Relationship to Other Documents names the two Base PP areas whose realization splits across planes: FIA (database authentication is TSF at V1; control-plane authentication via a cloud identity provider is verified under OE.EXTERNAL_SERVICES) and time (Base PP time activities do not apply to service event stream timestamps).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-18</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Aligned with the module&#8217;s service event stream audit channel. New Audit Channel Identification section in General Guidance: the evaluator verifies the ST&#8217;s per-event channel assignment, the stream&#8217;s implementing mechanism and boundary allocation, its tenant retrieval interface, and tenant visibility of provider-initiated records, before performing any audit-record check; channel substitution in either direction is not permitted. FCS_CKM_DBAAS_EXT.1 Test 2/2a and the recovery step now verify the enforcement-transition and recovery records in the ST-identified service event stream, retrievable while the database is not serving connections. FAU_STG.2/DBaaS scoped to the DBMS audit trail. ASE_TSS checks the channel identification is provided.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-18</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Added the Assurance Approach Rationale to the Assurance Activities Overview: the package substitutes requirement-bound adversarial testing for design-artifact depth (the SD&#8217;s test legs are predominantly negative); at tenant vantage the reachable attack surface substantially coincides with the tested interface set; the certificate window matches the architectural cadence of the certified properties, with in-window operational change covered by continuously monitored Trusted Platform evidence and TSF change by ALC_FLR.3 plus the revision identifier; and the three assurance layers (algorithm validation, this PP-Configuration, cloud authorization) compose without duplication.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-18</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Defined the four evidence vantages for managed-service evaluation (V1 tenant data plane, V2 tenant service control plane, V3 evaluator-controlled external services, V4 provider-internal operations) and added the informative Evidence Vantage Mapping appendix assigning vantages to every test activity, with scoping notes on where provider participation is required. The Evaluator Access Strategy now starts from this mapping and records deviations in the ETR. Relationship to Other Documents states the composition rule for the DBaaS PP-Configuration: Base PP and Crypto Module SD activities are executed from these vantages, with the Evaluator Access Strategy applied where they assume access the managed-service model does not provide. Provider-supported demonstration added to the managed-service evidence methods list.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-18</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Aligned with the module&#8217;s role-label clarification. Terminology states the global interpretation rule: role names in Evaluation Activities are the module&#8217;s role labels, and the evaluator uses the TOE roles the ST maps to them. FMT_SMR.1/DBaaS TSS activities verify the mapping is present, unambiguous, and preserves the provider/tenant authority boundaries; Test 1 verifies the mapped TOE roles under their TOE names; ASE_TSS checks the mapping is provided.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-15</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-18</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Aligned with the module&#8217;s key-state enforcement interval assignment in FCS_CKM_DBAAS_EXT.1.3. Handling Selections and Assignments now lists the interval with its permitted-completion constraints. TSS activities require the key-state detection mechanism, any unreachability grace period, and the derivation of the completed interval from detection latency, grace period, and cached-key lifetime; Guidance activities require the interval and post-expiration service state to be documented. Test 2 rewritten to verify denial no later than interval expiration with the enforcement-state transition audit record; new Test 2a exercises key-provider unreachability against the documented grace behavior, with a provider-evidence fallback where connectivity cannot be interrupted.</p></td>
 </tr>
 </tbody>
@@ -2924,7 +2924,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 0.4<br>
-Last updated 2026-07-18 19:16:43 -0500
+Last updated 2026-07-18 20:02:33 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

@@ -102,19 +102,19 @@ JISEC - Japan IT Security Evaluation and Certification Scheme
 |Exact Conformance now cites its definition in CC:2022 Part 1 directly, replacing the legacy "subset of Strict Conformance" gloss (set-wide alignment).
 
 |0.4
-|2026-07-15
+|2026-07-18
 |Closed three follow-on gaps from the audit-channel and vantage analysis. Autonomous subjects: automated autonomous management logic is stated to be a subject class, its in-tenant-context actions carry tenant attribution under FIA_USB.1/DBaaS and tenant-visible service event stream records, and the FMT audit data contents now identify the acting subject rather than presupposing a human user. Retention: P.AUDIT_RETENTION now applies per audit channel, with the ST identifying retention treatment and tenant exportability for the DBMS audit trail and the service event stream separately. Recovery/restore coupling: FCS_CKM_DBAAS_EXT.1 and FDP_BKP_EXT.1 application notes state that a recovery mechanism implemented as a restore from backup is a single mechanism satisfying both components' constraints. Tenant lifecycle termination (offboarding, backup disposition, key destruction on deprovisioning) is deferred and tracked in OPEN-ITEMS.md.
 
 |0.4
-|2026-07-15
+|2026-07-18
 |Introduced the service event stream as a second audit channel alongside the DBMS audit trail, resolving the observability inversion in the auditable-events refinement: the module's lifecycle and key-state events (key-unavailable enforcement transition, recovery-mechanism use, update deployment) are generated while or because the database is not serving connections and cannot be required of an audit trail that becomes unreachable at that moment. The auditable-events table gains an Audit Channel column assigning every event; the ST identifies the stream's implementing mechanism, boundary allocation, and tenant retrieval interface, with Trusted-Platform-delivered streams relying on OE.TRUSTED_PLATFORM and OE.EXTERNAL_SERVICES. Service event stream records concerning a tenant's instance, keys, or backups are tenant-visible regardless of acting subject, including provider-initiated actions; audit data contents for FCS_CKM_DBAAS_EXT.1 and FDP_BKP_EXT.1 now identify the acting subject rather than presupposing a tenant context. Glossary entry added.
 
 |0.4
-|2026-07-15
+|2026-07-18
 |Stated that Tenant User, Tenant Administrator, and Service Provider Administrator are module-level role labels, not required TOE role names: the FMT_SMR.1/DBaaS application note now requires the ST to map each label to the TOE's own role terminology, permits one-to-many and many-to-one mappings, and constrains the mapping to preserve the provider/tenant authority boundaries; glossary entries marked as labels and a Tenant User entry added.
 
 |0.4
-|2026-07-15
+|2026-07-18
 |Added a key-state enforcement interval assignment to FCS_CKM_DBAAS_EXT.1.3, replacing the implicit immediate-enforcement reading. The interval bounds the latency between a key-state change at the external key provider and TSF denial of access to protected data, accommodating the polling-based key-state detection and bounded unreachability grace periods documented by production DBaaS offerings; the completed interval must be a fixed documented bound covering worst-case detection latency, any unreachability grace period, and cached-key lifetime, and must not be indefinite or extensible by provider action. FCS_CKM_DBAAS_EXT.1.2 is unaffected and admits no such interval. Auditable events extended with the transition to the key-unavailable enforcement state; extended component definition and SFR rationale aligned.
 
 |0.4
