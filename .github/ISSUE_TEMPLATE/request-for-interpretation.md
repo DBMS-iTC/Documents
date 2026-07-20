@@ -7,13 +7,13 @@ assignees: ''
 
 ---
 
-**Before submitting your request, please check https://dsc-itc.github.io/TD/tech-dec.html for the current set of Technical Decisions.**
+**Before submitting your request, please check https://dbms-itc.github.io/TD/tech-dec.html for the current set of Technical Decisions.**
 
 **Requesting Organization:**
-Provide contact information regarding the request.
+Provide the requesting organization and the GitHub username to contact regarding the request.
 
 **Status:**
-If your issue arises from a currently active CC evaluation then please tick the ‘On-going certification’ box, submit the completed request through your Certification/Validation Body (CB), and update the 'Certification deadline dates' field. 
+If your issue arises from a currently active CC evaluation, tick the 'On-going certification' box, submit the completed request through your Certification/Validation Body (CB), and update the 'Certification deadline dates' field.
 
 [ ] On-going certification
 [ ] Preparatory/Other
