@@ -6,15 +6,15 @@
 :imagesdir: images
 :icons: font
 :doctype: book
-:revnumber: 0.4
-:revdate: 2026-06-30
+:revnumber: 0.5
+:revdate: 2026-07-20
 :front-cover-image: images/dbms-cpp-cover.pdf
 :pdf-themesdir: {docdir}/themes
 :pdf-theme: dbms-cpp-theme.yml
 
 :iTC-longname: Database Management Systems
 :iTC-shortname: DBMS-iTC
-:iTC-email: cm-itc-mailing-list@gmail.com
+:iTC-email: dbms.itc@gmail.com
 :iTC-website: https://github.com/DBMS-iTC
 :iTC-GitHub: https://github.com/DBMS-iTC/DBMS-iTC.github.io
 :base-pp: collaborative Protection Profile for Database Management Systems
@@ -125,6 +125,14 @@ JISEC - Japan IT Security Evaluation and Certification Scheme
 |2026-07-14
 |Two design corrections from self-review. FCS_CKM_DBAAS_EXT.1.3's recovery-mechanism exception now requires that recovery be authorized by the tenant or an agent under the tenant's control (provider-held escrow or any unilaterally exercisable provider recovery path cannot complete the exception), with recovery-mechanism use added to the auditable events. FDP_ACC.2/DBaaS replaced by FDP_ACC.1/DBaaS (Subset access control): the Tenant Isolation SFP governs tenant-scoped subjects, objects, and operations, and the complete-access-control claim is not made because completeness across all TSF-controlled subjects and objects is a property of the composed ST rather than of this module.
 
+|0.4
+|2026-07-20
+|Aligned customer-controlled key models with the Crypto Module's role-specific ML-KEM design. Added an optional customer-authorized KEM-establishment mechanism and mapped it to the "Established through Key Encapsulation" Key Origin. Clarified that the TOE claims only ML-KEM operations inside its boundary, that the KEM shared secret is passed through `FCS_CKM.5` to derive the Master Key, and that customer revocation or denial remains subject to the bounded key-state enforcement requirement.
+
+|0.5
+|2026-07-20
+|Rolled the completed managed-service security architecture, normative audit model, provider-role separation, trusted service update, and customer-authorized ML-KEM integration into the coordinated Version 0.5 review set.
+
 |===
 
 toc::[]
@@ -165,9 +173,9 @@ The target audiences of this PP-Module are DBMS service developers and providers
 * [#CCE]#[CCE]# Common Criteria for Information Technology Security Evaluation, Errata and interpretation for CC:2022 (Release 1) and CEM:2022 (Release 1), CCMB-002, Version 1.1, July 22, 2024.
 * [#cPP_DBMS]#[cPP_DBMS]# collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.
 * [#cPP_DBMS_SD]#[cPP_DBMS_SD]# Supporting Document Mandatory Technical Document Evaluation Activities for the collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.
-* [#DBMS_MOD_CRYPTO]#[DBMS_MOD_CRYPTO]# collaborative PP-Module for DBMS Cryptographic Functions, Version 0.4.
-* [#DBMS_MOD_CRYPTO_SD]#[DBMS_MOD_CRYPTO_SD]# Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.4.
-* [#DBMS_MOD_DBAAS_SD]#[DBMS_MOD_DBAAS_SD]# Supporting Document - Evaluation Activities for DBaaS Module, Version 0.4.
+* [#DBMS_MOD_CRYPTO]#[DBMS_MOD_CRYPTO]# collaborative PP-Module for DBMS Cryptographic Functions, Version 0.5.
+* [#DBMS_MOD_CRYPTO_SD]#[DBMS_MOD_CRYPTO_SD]# Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.5.
+* [#DBMS_MOD_DBAAS_SD]#[DBMS_MOD_DBAAS_SD]# Supporting Document - Evaluation Activities for DBaaS Module, Version 0.5.
 * [#Crypto_Catalog]#[Crypto_Catalog]# Specification of Functional Requirements for Cryptography (CCDB-018), Version 1.0, January 2025.
 * [#TLS_FP]#[TLS_FP]# Functional Package for Transport Layer Security (TLS), Version 2.1, 2025-08-25.
 * [#X509_FP]#[X509_FP]# Functional Package for X.509 Certificates, Version 1.0. Available at https://commoncriteria.github.io/X509/release-1.0/X509-release.html[commoncriteria.github.io/X509].
@@ -668,7 +676,7 @@ The mandatory SFRs in this PP-Module extend or refine SFRs defined in the cPP_DB
 
 ==== FCS_CKM_DBAAS_EXT.1 Customer-Controlled Keys
 
-*FCS_CKM_DBAAS_EXT.1.1* The TSF shall support customer-controlled master encryption keys using one or more of the following mechanisms: [selection: customer-generated master keys imported into the TOE through a trusted channel specified by the DBMS Cryptographic Functions Module; externally managed master keys accessed through a key management service interface where plaintext master key material is not exported to the TOE; customer-controlled key references or key handles that permit the TOE to perform authorized cryptographic operations without exposing plaintext master key material to service provider administrators].
+*FCS_CKM_DBAAS_EXT.1.1* The TSF shall support customer-controlled master encryption keys using one or more of the following mechanisms: [selection: customer-generated master keys imported into the TOE through a trusted channel specified by the DBMS Cryptographic Functions Module; externally managed master keys accessed through a key management service interface where plaintext master key material is not exported to the TOE; customer-controlled key references or key handles that permit the TOE to perform authorized cryptographic operations without exposing plaintext master key material to service provider administrators; customer-authorized Master Key establishment through ML-KEM with an authenticated external entity, using the role-specific key-encapsulation and key-derivation requirements of the DBMS Cryptographic Functions Module].
 
 *FCS_CKM_DBAAS_EXT.1.2* The TSF shall not provide an interface by which a service provider administrator can view, export, or recover plaintext customer-controlled master key material.
 
@@ -678,13 +686,15 @@ The mandatory SFRs in this PP-Module extend or refine SFRs defined in the cPP_DB
 +
 The key-state enforcement interval assignment in FCS_CKM_DBAAS_EXT.1.3 accommodates the key-state detection and availability behavior of production managed database services: external key-provider state is typically detected by periodic polling rather than synchronous notification, and services commonly document a bounded grace period during which cached key material remains in use when the external key provider is unreachable, so that a transient key-service or network fault does not immediately take down the database. Production DBaaS offerings document detection intervals on the order of minutes and unreachability grace periods on the order of hours. The ST author shall complete the assignment with the maximum interval between a key-state change at the external key provider and TSF denial of access to protected database data, covering both worst-case detection latency and any documented unreachability grace period, and covering the lifetime of any cached key material identified under the caching disclosure above. The completed interval shall be a fixed, documented bound: an interval that is indefinite, that is extensible by service provider action, or that resets on continued data access does not satisfy the requirement. Expiration of the interval and the resulting transition to the key-unavailable enforcement state are auditable events (see the auditable-events table). The interval bounds enforcement latency only; it does not weaken FCS_CKM_DBAAS_EXT.1.2, which admits no interval during which plaintext customer-controlled master key material may be exposed to a service provider administrator.
 +
-The mechanisms selected in FCS_CKM_DBAAS_EXT.1.1 couple to the Key Origin selection in the Crypto Module's `FCS_CKM_EXT.1.1`: customer-generated master keys imported into the TOE correspond to "Imported from External Entity"; externally managed master keys and customer-controlled key references correspond to "Externally Managed". The ST shall complete `FCS_CKM_EXT.1.1` with the corresponding selection, which includes `FDP_ITC_EXT.1` (Trusted Channel for Key Import and External Key Management) in either case.
+The mechanisms selected in FCS_CKM_DBAAS_EXT.1.1 couple to the Key Origin selection in the Crypto Module's `FCS_CKM_EXT.1.1`: customer-generated master keys imported into the TOE correspond to "Imported from External Entity"; externally managed master keys and customer-controlled key references correspond to "Externally Managed"; and customer-authorized ML-KEM establishment corresponds to "Established through Key Encapsulation". The ST shall complete `FCS_CKM_EXT.1.1` with the corresponding selection, and every external origin includes `FDP_ITC_EXT.1` (Trusted Channel for Key Import, External Key Management, and Key Establishment).
++
+For the KEM-established model, the ST shall identify whether the TOE performs encapsulation, decapsulation, or both; shall include `FCS_CKM.1/KEM` only for TOE-performed ML-KEM.KeyGen; and shall identify any operation performed by an external KMS or customer-controlled service as outside the TOE boundary. The ML-KEM shared secret is not itself the customer-controlled Master Key: the Crypto Module's `FCS_CKM.5` derives the Master Key with a context that binds the customer, service instance, key purpose, and applicable establishment transaction. Selection of this mechanism is permitted only where the customer or its authorized external entity retains a control whose revocation, unavailability, or denial causes the TSF to enforce FCS_CKM_DBAAS_EXT.1.3 within the assigned interval. A one-time KEM exchange after which the provider can use the derived Master Key indefinitely without customer authorization does not satisfy this customer-controlled model.
 
 .FCS_CKM_DBAAS_EXT.1 Dependencies
 [cols="1,2",options="header"]
 |===
 |Dependency |Resolution
-|Key management trusted channel, key destruction, data-at-rest encryption |Satisfied by the mandatory DBMS Cryptographic Functions Module: `FDP_ITC_EXT.1` is included through the coupled "Imported from External Entity" or "Externally Managed" selection in that module's `FCS_CKM_EXT.1.1` (see the Application Note), together with `FCS_CKM.6`, `FDP_DAR_EXT.1`, and the applicable Catalogue-derived components consumed there.
+|Key management trusted channel, key destruction, data-at-rest encryption |Satisfied by the mandatory DBMS Cryptographic Functions Module: `FDP_ITC_EXT.1` is included through the coupled "Imported from External Entity", "Externally Managed", or "Established through Key Encapsulation" selection in that module's `FCS_CKM_EXT.1.1` (see the Application Note), together with `FCS_CKM.6`, `FDP_DAR_EXT.1`, and the applicable Catalogue-derived or anticipated role-specific ML-KEM components consumed there.
 |FMT_SMF.1 |Satisfied by `FMT_SMF.1/DBaaS` (configuration of customer-controlled key references and key-management integration).
 |===
 

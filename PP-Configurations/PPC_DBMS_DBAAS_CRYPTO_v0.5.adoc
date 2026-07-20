@@ -6,13 +6,13 @@
 :imagesdir: images
 :icons: font
 :doctype: book
-:revnumber: 0.4
-:revdate: 2026-06-30
+:revnumber: 0.5
+:revdate: 2026-07-20
 :xrefstyle: full
 
 :iTC-longname: Database Management Systems
 :iTC-shortname: DBMS-iTC
-:iTC-email: cm-itc-mailing-list@gmail.com
+:iTC-email: dbms.itc@gmail.com
 :iTC-website: https://github.com/DBMS-iTC
 :iTC-GitHub: https://github.com/DBMS-iTC/DBMS-iTC.github.io
 :base-pp: collaborative Protection Profile for Database Management Systems
@@ -44,6 +44,14 @@ This PP-Configuration was developed by the {iTC-longname} international Technica
 |2026-07-18
 |Added the Evaluation Approach for the Composed TOE: the DBaaS Module SD's Managed-Service Evaluation Constraint, Evidence Vantages, and Evaluator Access Strategy govern evidence collection for all component activities under this PP-Configuration, including Base PP and Crypto Module SD activities that assume administrative access the managed-service model does not provide; laboratories directed to the Evidence Vantage Mapping and Test Environment Guidance for scoping.
 
+|0.4
+|2026-07-20
+|Aligned the composition with the Crypto Module's role-specific ML-KEM design. Customer-authorized KEM establishment is an optional DBaaS key model mapped to the "Established through Key Encapsulation" origin; the Crypto Module remains authoritative for TOE-boundary KeyGen, encapsulation or decapsulation, derivation, destruction, and transferred-key protection, while external KMS operations remain environmental allocations.
+
+|0.5
+|2026-07-20
+|Updated the composition to the Version 0.5 DBaaS and Cryptographic Functions Modules and SDs, including the completed managed-service assurance model, normative audit coverage, and explicit Master Key protection selection.
+
 |===
 
 toc::[]
@@ -54,7 +62,7 @@ toc::[]
 
 === PP-Configuration Overview
 
-This PP-Configuration combines the {base-pp} ({base-pp-version}), the collaborative PP-Module for Database-as-a-Service (DBaaS), Version 0.4, and the collaborative PP-Module for DBMS Cryptographic Functions, Version 0.4.
+This PP-Configuration combines the {base-pp} ({base-pp-version}), the collaborative PP-Module for Database-as-a-Service (DBaaS), Version 0.5, and the collaborative PP-Module for DBMS Cryptographic Functions, Version 0.5.
 
 The configuration is intended for provider-operated managed database services where the cloud service provider operates and manages the DBMS on behalf of tenants. The DBMS DBaaS Module defines managed-service requirements for tenant isolation, resource governance, backup and restore, immutable audit behavior, and provider-administrator restrictions. The DBMS Cryptographic Functions Module defines the mandatory DBMS cryptographic requirements used by the DBaaS deployment.
 
@@ -102,12 +110,12 @@ This PP-Configuration is included in the module public review package. It remain
 
 |PP-Module
 |collaborative PP-Module for DBMS Cryptographic Functions
-|Version 0.4, 2026-06-30
+|Version 0.5, 2026-07-20
 |Provides mandatory DBMS cryptographic requirements for data-at-rest encryption, data-in-transit protection, and key management.
 
 |PP-Module
 |collaborative PP-Module for Database-as-a-Service (DBaaS)
-|Version 0.4, 2026-06-30
+|Version 0.5, 2026-07-20
 |Adds managed-service requirements for provider-operated DBMS services.
 |===
 
@@ -131,10 +139,10 @@ The Crypto Module is authoritative for:
 
 * DBMS data-at-rest encryption, including protected tenant data and protected backups where applicable
 * DBMS data-in-transit protection for tenant-facing, administrative, and programmatic interfaces
-* DBMS cryptographic key management, including the Key Origin selections and trusted channels on which the DBaaS Module's customer-controlled key mechanisms rely
+* DBMS cryptographic key management, including the Key Origin selections and trusted channels on which the DBaaS Module's customer-controlled key mechanisms rely; where ML-KEM is selected, this includes role-specific TOE operations, optional TOE KeyGen, KDF-based Master Key or KEK derivation, and destruction of secret intermediate values
 * Catalogue-derived components consumed in the Crypto Module and applicable Functional Package components
 
-The customer-controlled key models themselves (BYOK, external KMS integration, and key-reference mechanisms, with the provider-inaccessibility and revocation requirements) are defined by the DBaaS Module's `FCS_CKM_DBAAS_EXT.1`, which couples to the Crypto Module's Key Origin selections as described in that module.
+The customer-controlled key models themselves (BYOK, external KMS integration, key-reference mechanisms, and optional customer-authorized ML-KEM establishment, with the provider-inaccessibility and revocation requirements) are defined by the DBaaS Module's `FCS_CKM_DBAAS_EXT.1`, which couples to the Crypto Module's Key Origin selections as described in that module. An ML-KEM claim does not imply that KMIP implements ML-KEM: the ST identifies each operation performed by the TOE and each operation allocated to an external KMS or other customer-controlled service. Protocol-level ML-KEM, including hybrid TLS, remains governed by the applicable Functional Package.
 
 === Crypto Module Use Case Statement
 
@@ -151,7 +159,7 @@ The DBaaS Module is authoritative for managed-service controls, including:
 * Resource governance
 * Tenant-scoped and immutable audit behavior
 * Protected backup and restore path requirements
-* Customer-controlled key models (`FCS_CKM_DBAAS_EXT.1`), coupled to the Crypto Module's Key Origin selections
+* Customer-controlled key models (`FCS_CKM_DBAAS_EXT.1`), coupled to the Crypto Module's Key Origin selections, including the optional KEM-established origin when the customer retains enforceable authorization control
 * Trusted service update (declared deployment model, signature-verified service software, tenant version visibility)
 
 == Conformance Claims
@@ -240,10 +248,10 @@ Technical Decisions applicable to the DBMS Base PP, DBMS Cryptographic Functions
 * [#CEM]#[CEM]# Common Methodology for Information Technology Security Evaluation, Evaluation methodology, CCMB-2022-11-006, CEM:2022 Revision 1, November 2022.
 * [#cPP_DBMS]#[cPP_DBMS]# collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.
 * [#cPP_DBMS_SD]#[cPP_DBMS_SD]# Supporting Document Mandatory Technical Document Evaluation Activities for the collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.
-* [#DBMS_MOD_CRYPTO]#[DBMS_MOD_CRYPTO]# collaborative PP-Module for DBMS Cryptographic Functions, Version 0.4, 2026-06-30.
-* [#DBMS_MOD_CRYPTO_SD]#[DBMS_MOD_CRYPTO_SD]# Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.4, 2026-06-30.
-* [#DBMS_MOD_DBAAS]#[DBMS_MOD_DBAAS]# collaborative PP-Module for Database-as-a-Service (DBaaS), Version 0.4, 2026-06-30.
-* [#DBMS_MOD_DBAAS_SD]#[DBMS_MOD_DBAAS_SD]# Supporting Document - Evaluation Activities for DBaaS Module, Version 0.4, 2026-06-30.
+* [#DBMS_MOD_CRYPTO]#[DBMS_MOD_CRYPTO]# collaborative PP-Module for DBMS Cryptographic Functions, Version 0.5, 2026-07-20.
+* [#DBMS_MOD_CRYPTO_SD]#[DBMS_MOD_CRYPTO_SD]# Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.5, 2026-07-20.
+* [#DBMS_MOD_DBAAS]#[DBMS_MOD_DBAAS]# collaborative PP-Module for Database-as-a-Service (DBaaS), Version 0.5, 2026-07-20.
+* [#DBMS_MOD_DBAAS_SD]#[DBMS_MOD_DBAAS_SD]# Supporting Document - Evaluation Activities for DBaaS Module, Version 0.5, 2026-07-20.
 
 [appendix]
 == Acronyms

@@ -6,13 +6,13 @@
 :imagesdir: images
 :icons: font
 :doctype: book
-:revnumber: 0.4
-:revdate: 2026-06-30
+:revnumber: 0.5
+:revdate: 2026-07-20
 :xrefstyle: full
 
 :iTC-longname: Database Management Systems
 :iTC-shortname: DBMS-iTC
-:iTC-email: cm-itc-mailing-list@gmail.com
+:iTC-email: dbms.itc@gmail.com
 :iTC-website: https://github.com/DBMS-iTC
 :iTC-GitHub: https://github.com/DBMS-iTC/DBMS-iTC.github.io
 :base-pp: collaborative Protection Profile for Database Management Systems
@@ -36,6 +36,14 @@ This PP-Configuration was developed by the {iTC-longname} international Technica
 |2026-06-30
 |Initial public review draft. Defines the PP-Configuration for claiming the DBMS Cryptographic Functions Module with the DBMS Base PP, including formal CCDB-018 consumption and the optional Enterprise Enhanced use case.
 
+|0.4
+|2026-07-20
+|Aligned the standalone Crypto composition with the role-specific ML-KEM design. The ST separates TOE KeyGen, encapsulation, and decapsulation; derives Master Keys or KEKs through `FCS_CKM.5`; uses KeyWrap or AEAD for transferred existing keys; identifies operations allocated outside the TOE; and leaves protocol-level ML-KEM to the applicable Functional Package.
+
+|0.5
+|2026-07-20
+|Updated the composition to the Version 0.5 Cryptographic Functions Module and SD, including the explicit Master Key protection model and normative cryptographic audit-event refinement.
+
 |===
 
 toc::[]
@@ -46,7 +54,7 @@ toc::[]
 
 === PP-Configuration Overview
 
-This PP-Configuration combines the {base-pp} ({base-pp-version}) with the collaborative PP-Module for DBMS Cryptographic Functions, Version 0.4.
+This PP-Configuration combines the {base-pp} ({base-pp-version}) with the collaborative PP-Module for DBMS Cryptographic Functions, Version 0.5.
 
 The configuration is intended for DBMS products that claim DBMS-specific cryptographic support without also claiming a cloud deployment module. The DBMS Cryptographic Functions Module defines the TOE-enforced requirements for DBMS key management, data-at-rest encryption, and data-in-transit protection.
 
@@ -90,7 +98,7 @@ The configuration is intended for DBMS products that claim DBMS-specific cryptog
 
 |PP-Module
 |collaborative PP-Module for DBMS Cryptographic Functions
-|Version 0.4, 2026-06-30
+|Version 0.5, 2026-07-20
 |Adds DBMS-specific cryptographic SFRs and consumes CCDB-018 components for key management and data-at-rest encryption; data-in-transit protocols and certificate behavior are supplied by applicable Functional Packages.
 |===
 
@@ -112,10 +120,12 @@ The DBMS Cryptographic Functions Module is mandatory in this PP-Configuration. T
 
 The module is responsible for:
 
-* DBMS master key and data encryption key lifecycle requirements
+* DBMS master key and data encryption key lifecycle requirements, including the optional "Established through Key Encapsulation" origin
 * Data-at-rest encryption strategy
 * Data-in-transit protection
 * Applicable Catalogue-derived components consumed in the Crypto Module and applicable TLS/X.509 Functional Package components
+
+When non-protocol ML-KEM is selected, the ST shall identify whether the TOE performs KeyGen, encapsulation, decapsulation, or a combination and shall claim only the operations within the TOE boundary. A KEM-established shared secret is input to `FCS_CKM.5` for Master Key or KEK derivation. A transferred pre-existing key remains protected by `FCS_COP.1/KeyWrap` or `FCS_COP.1/AEAD`; it is not described as directly encapsulated by ML-KEM. Protocol-level ML-KEM, including hybrid TLS, remains governed by the applicable Functional Package.
 
 === Crypto Module Use Case Statement
 
@@ -194,8 +204,8 @@ Technical Decisions applicable to the DBMS Base PP or the DBMS Cryptographic Fun
 * [#CEM]#[CEM]# Common Methodology for Information Technology Security Evaluation, Evaluation methodology, CCMB-2022-11-006, CEM:2022 Revision 1, November 2022.
 * [#cPP_DBMS]#[cPP_DBMS]# collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.
 * [#cPP_DBMS_SD]#[cPP_DBMS_SD]# Supporting Document Mandatory Technical Document Evaluation Activities for the collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.
-* [#DBMS_MOD_CRYPTO]#[DBMS_MOD_CRYPTO]# collaborative PP-Module for DBMS Cryptographic Functions, Version 0.4, 2026-06-30.
-* [#DBMS_MOD_CRYPTO_SD]#[DBMS_MOD_CRYPTO_SD]# Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.4, 2026-06-30.
+* [#DBMS_MOD_CRYPTO]#[DBMS_MOD_CRYPTO]# collaborative PP-Module for DBMS Cryptographic Functions, Version 0.5, 2026-07-20.
+* [#DBMS_MOD_CRYPTO_SD]#[DBMS_MOD_CRYPTO_SD]# Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.5, 2026-07-20.
 
 [appendix]
 == Acronyms

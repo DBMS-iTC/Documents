@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.26">
-<title>PP-Configuration for cPP_DBMS, DBMS in the Cloud Module, and DBMS Cryptographic Functions Module</title>
+<title>PP-Configuration for cPP_DBMS, DBMS DBaaS Module, and DBMS Cryptographic Functions Module</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,10 +438,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>PP-Configuration for cPP_DBMS, DBMS in the Cloud Module, and DBMS Cryptographic Functions Module</h1>
+<h1>PP-Configuration for cPP_DBMS, DBMS DBaaS Module, and DBMS Cryptographic Functions Module</h1>
 <div class="details">
-<span id="revnumber">version 0.4,</span>
-<span id="revdate">2026-06-30</span>
+<span id="revnumber">version 0.5,</span>
+<span id="revdate">2026-07-20</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -454,9 +454,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_introduction">1. Introduction</a>
 <ul class="sectlevel2">
 <li><a href="#_pp_configuration_overview">1.1. PP-Configuration Overview</a></li>
-<li><a href="#_pp_configuration_reference">1.2. PP-Configuration Reference</a></li>
-<li><a href="#_pp_configuration_components">1.3. PP-Configuration Components</a></li>
-<li><a href="#_configuration_scope">1.4. Configuration Scope</a></li>
+<li><a href="#_publication_track">1.2. Publication Track</a></li>
+<li><a href="#_pp_configuration_reference">1.3. PP-Configuration Reference</a></li>
+<li><a href="#_pp_configuration_components">1.4. PP-Configuration Components</a></li>
+<li><a href="#_configuration_scope">1.5. Configuration Scope</a></li>
 </ul>
 </li>
 <li><a href="#_component_statements">2. Component Statements</a>
@@ -464,7 +465,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_base_pp_statement">2.1. Base PP Statement</a></li>
 <li><a href="#_dbms_cryptographic_functions_module_statement">2.2. DBMS Cryptographic Functions Module Statement</a></li>
 <li><a href="#_crypto_module_use_case_statement">2.3. Crypto Module Use Case Statement</a></li>
-<li><a href="#_dbms_in_the_cloud_module_statement">2.4. DBMS in the Cloud Module Statement</a></li>
+<li><a href="#_dbms_dbaas_module_statement">2.4. DBMS DBaaS Module Statement</a></li>
 </ul>
 </li>
 <li><a href="#_conformance_claims">3. Conformance Claims</a>
@@ -474,9 +475,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_security_assurance_requirements">4. Security Assurance Requirements</a></li>
-<li><a href="#_sfr_composition">5. SFR Composition</a></li>
-<li><a href="#_consistency_rationale">6. Consistency Rationale</a></li>
-<li><a href="#_technical_decisions">7. Technical Decisions</a></li>
+<li><a href="#_evaluation_approach_for_the_composed_toe">5. Evaluation Approach for the Composed TOE</a></li>
+<li><a href="#_sfr_composition">6. SFR Composition</a></li>
+<li><a href="#_consistency_rationale">7. Consistency Rationale</a></li>
+<li><a href="#_technical_decisions">8. Technical Decisions</a></li>
 <li><a href="#_related_documents">Appendix A: Related Documents</a></li>
 <li><a href="#_acronyms">Appendix B: Acronyms</a></li>
 </ul>
@@ -509,7 +511,27 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2026-06-30</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Initial public review draft. Defines the PP-Configuration for tenant-operated DBMS cloud deployments using the DBMS Base PP, DBMS in the Cloud Module, and DBMS Cryptographic Functions Module, including formal CCDB-018 consumption and the optional Enterprise Enhanced use case.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Initial public review draft. Defines the PP-Configuration for provider-operated DBaaS deployments using the DBMS Base PP, DBMS DBaaS Module, and DBMS Cryptographic Functions Module, including formal CCDB-018 consumption and the optional Enterprise Enhanced use case. This configuration remains on a later publication track than the Cloud and Crypto module set.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-14</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Component statements corrected: customer-controlled key models are defined by the DBaaS Module&#8217;s FCS_CKM_DBAAS_EXT.1 and couple to the Crypto Module&#8217;s Key Origin selections (previously misattributed to the Crypto Module); DBaaS authoritative-scope list updated for the Trusted Service Update design.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-18</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Added the Evaluation Approach for the Composed TOE: the DBaaS Module SD&#8217;s Managed-Service Evaluation Constraint, Evidence Vantages, and Evaluator Access Strategy govern evidence collection for all component activities under this PP-Configuration, including Base PP and Crypto Module SD activities that assume administrative access the managed-service model does not provide; laboratories directed to the Evidence Vantage Mapping and Test Environment Guidance for scoping.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-20</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Aligned the composition with the Crypto Module&#8217;s role-specific ML-KEM design. Customer-authorized KEM establishment is an optional DBaaS key model mapped to the "Established through Key Encapsulation" origin; the Crypto Module remains authoritative for TOE-boundary KeyGen, encapsulation or decapsulation, derivation, destruction, and transferred-key protection, while external KMS operations remain environmental allocations.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-20</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Updated the composition to the Version 0.5 DBaaS and Cryptographic Functions Modules and SDs, including the completed managed-service assurance model, normative audit coverage, and explicit Master Key protection selection.</p></td>
 </tr>
 </tbody>
 </table>
@@ -523,14 +545,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_pp_configuration_overview">1.1. PP-Configuration Overview</h3>
 <div class="paragraph">
-<p>This PP-Configuration combines the collaborative Protection Profile for Database Management Systems (Version 2.0), the collaborative PP-Module for DBMS in the Cloud, Version 0.4, and the collaborative PP-Module for DBMS Cryptographic Functions, Version 0.4.</p>
+<p>This PP-Configuration combines the collaborative Protection Profile for Database Management Systems (Version 2.0), the collaborative PP-Module for Database-as-a-Service (DBaaS), Version 0.5, and the collaborative PP-Module for DBMS Cryptographic Functions, Version 0.5.</p>
 </div>
 <div class="paragraph">
-<p>The configuration is intended for DBMS products deployed by a customer or tenant on cloud infrastructure or platform services. The DBMS in the Cloud Module defines cloud deployment integration requirements, while the DBMS Cryptographic Functions Module defines the mandatory DBMS cryptographic requirements used by the cloud deployment.</p>
+<p>The configuration is intended for provider-operated managed database services where the cloud service provider operates and manages the DBMS on behalf of tenants. The DBMS DBaaS Module defines managed-service requirements for tenant isolation, resource governance, backup and restore, immutable audit behavior, and provider-administrator restrictions. The DBMS Cryptographic Functions Module defines the mandatory DBMS cryptographic requirements used by the DBaaS deployment.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_pp_configuration_reference">1.2. PP-Configuration Reference</h3>
+<h3 id="_publication_track">1.2. Publication Track</h3>
+<div class="paragraph">
+<p>This PP-Configuration is included in the module public review package. It remains on a later publication track than the DBMS Cryptographic Functions Module and DBMS in the Cloud Module.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pp_configuration_reference">1.3. PP-Configuration Reference</h3>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 2. PP-Configuration Identification</caption>
 <colgroup>
@@ -546,19 +574,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PP-Configuration Title</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PP-Configuration for cPP_DBMS, DBMS in the Cloud Module, and DBMS Cryptographic Functions Module</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PP-Configuration for cPP_DBMS, DBMS DBaaS Module, and DBMS Cryptographic Functions Module</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PP-Configuration Short Name</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PPC_DBMS_CLOUD_CRYPTO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PPC_DBMS_DBAAS_CRYPTO</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PP-Configuration Version</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0.4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.5</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PP-Configuration Publication Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2026-06-30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2026-07-20</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Sponsor</p></td>
@@ -572,7 +600,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </table>
 </div>
 <div class="sect2">
-<h3 id="_pp_configuration_components">1.3. PP-Configuration Components</h3>
+<h3 id="_pp_configuration_components">1.4. PP-Configuration Components</h3>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 3. PP-Configuration Components</caption>
 <colgroup>
@@ -599,25 +627,25 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PP-Module</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">collaborative PP-Module for DBMS Cryptographic Functions</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Version 0.4, 2026-06-30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version 0.5, 2026-07-20</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Provides mandatory DBMS cryptographic requirements for data-at-rest encryption, data-in-transit protection, and key management.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PP-Module</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">collaborative PP-Module for DBMS in the Cloud</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Version 0.4, 2026-06-30</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Adds cloud-specific requirements for tenant-operated DBMS deployments on cloud infrastructure or platform services.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">collaborative PP-Module for Database-as-a-Service (DBaaS)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version 0.5, 2026-07-20</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adds managed-service requirements for provider-operated DBMS services.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_configuration_scope">1.4. Configuration Scope</h3>
+<h3 id="_configuration_scope">1.5. Configuration Scope</h3>
 <div class="paragraph">
-<p>This PP-Configuration applies to tenant-operated DBMS deployments in cloud environments. It is not intended for provider-operated Database-as-a-Service offerings where the cloud service provider operates and manages the DBMS on behalf of tenants.</p>
+<p>This PP-Configuration applies to provider-operated managed database services. It is not intended for tenant-operated DBMS deployments on cloud infrastructure or platform services.</p>
 </div>
 <div class="paragraph">
-<p>The DBMS DBaaS Module is mutually exclusive with the DBMS in the Cloud Module. A TOE claiming the DBMS DBaaS Module shall use the DBaaS PP-Configuration rather than this PP-Configuration.</p>
+<p>The DBMS DBaaS Module is mutually exclusive with the DBMS in the Cloud Module. A TOE claiming the DBMS in the Cloud Module shall use the Cloud PP-Configuration rather than this PP-Configuration.</p>
 </div>
 </div>
 </div>
@@ -642,50 +670,59 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>DBMS data-at-rest encryption</p>
+<p>DBMS data-at-rest encryption, including protected tenant data and protected backups where applicable</p>
 </li>
 <li>
-<p>DBMS data-in-transit protection, including TLS and X.509 component claims where applicable</p>
+<p>DBMS data-in-transit protection for tenant-facing, administrative, and programmatic interfaces</p>
 </li>
 <li>
-<p>DBMS cryptographic key management</p>
+<p>DBMS cryptographic key management, including the Key Origin selections and trusted channels on which the DBaaS Module&#8217;s customer-controlled key mechanisms rely; where ML-KEM is selected, this includes role-specific TOE operations, optional TOE KeyGen, KDF-based Master Key or KEK derivation, and destruction of secret intermediate values</p>
 </li>
 <li>
 <p>Catalogue-derived components consumed in the Crypto Module and applicable Functional Package components</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>The customer-controlled key models themselves (BYOK, external KMS integration, key-reference mechanisms, and optional customer-authorized ML-KEM establishment, with the provider-inaccessibility and revocation requirements) are defined by the DBaaS Module&#8217;s <code>FCS_CKM_DBAAS_EXT.1</code>, which couples to the Crypto Module&#8217;s Key Origin selections as described in that module. An ML-KEM claim does not imply that KMIP implements ML-KEM: the ST identifies each operation performed by the TOE and each operation allocated to an external KMS or other customer-controlled service. Protocol-level ML-KEM, including hybrid TLS, remains governed by the applicable Functional Package.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_crypto_module_use_case_statement">2.3. Crypto Module Use Case Statement</h3>
 <div class="paragraph">
-<p>The Security Target shall identify <code>[USE CASE 1] General-Purpose Cryptographic Deployment</code>, <code>[USE CASE 2] Enterprise Enhanced</code>, or both, as applicable. Inclusion of the Cloud Module does not automatically select Enterprise Enhanced. When selected, Enterprise Enhanced constrains only the applicable Catalogue operations according to the Crypto Module template; Cloud-specific <code>FDP_DIT_EXT.1</code> mapping and testing remain in the Cloud Module and SD.</p>
+<p>The Security Target shall identify <code>[USE CASE 1] General-Purpose Cryptographic Deployment</code>, <code>[USE CASE 2] Enterprise Enhanced</code>, or both, as applicable. Inclusion of the DBaaS Module does not automatically select Enterprise Enhanced. When selected, Enterprise Enhanced constrains only the applicable Catalogue operations according to the Crypto Module template; DBaaS-specific tenant, backup, update, and provider-operation requirements remain in the DBaaS Module and SD.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_dbms_in_the_cloud_module_statement">2.4. DBMS in the Cloud Module Statement</h3>
+<h3 id="_dbms_dbaas_module_statement">2.4. DBMS DBaaS Module Statement</h3>
 <div class="paragraph">
-<p>The DBMS in the Cloud Module is mandatory in this PP-Configuration. The Security Target shall include all mandatory SFRs from the Cloud Module and all selection-based SFRs triggered by completed selections.</p>
+<p>The DBMS DBaaS Module is mandatory in this PP-Configuration. The Security Target shall include all mandatory SFRs from the DBaaS Module and all selection-based SFRs triggered by completed selections.</p>
 </div>
 <div class="paragraph">
-<p>The Cloud Module is authoritative for cloud-specific integration and configuration requirements, including:</p>
+<p>The DBaaS Module is authoritative for managed-service controls, including:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Cloud identity integration</p>
+<p>Tenant isolation and tenant-context binding</p>
 </li>
 <li>
-<p>Cloud audit integration and audit export</p>
+<p>Residual information protection for cross-tenant resource reuse</p>
 </li>
 <li>
-<p>Cloud configuration and secret handling while under TOE control</p>
+<p>Resource governance</p>
 </li>
 <li>
-<p>Trusted update, deployment integrity, and cloud resilience signaling requirements</p>
+<p>Tenant-scoped and immutable audit behavior</p>
 </li>
 <li>
-<p>Cloud-specific mapping of inherited <code>FDP_DIT_EXT.1</code> data-in-transit protection to cloud deployment channels</p>
+<p>Protected backup and restore path requirements</p>
+</li>
+<li>
+<p>Customer-controlled key models (<code>FCS_CKM_DBAAS_EXT.1</code>), coupled to the Crypto Module&#8217;s Key Origin selections, including the optional KEM-established origin when the customer retains enforceable authorization control</p>
+</li>
+<li>
+<p>Trusted service update (declared deployment model, signature-verified service software, tenant version visibility)</p>
 </li>
 </ul>
 </div>
@@ -717,7 +754,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_pp_configuration_conformance_statement">3.2. PP-Configuration Conformance Statement</h3>
 <div class="paragraph">
-<p>To be conformant to this PP-Configuration, a Security Target shall demonstrate Exact Conformance to this PP-Configuration and to each component listed in <a href="#_pp_configuration_components">Section 1.3, &#8220;PP-Configuration Components&#8221;</a>.</p>
+<p>To be conformant to this PP-Configuration, a Security Target shall demonstrate Exact Conformance to this PP-Configuration and to each component listed in <a href="#_pp_configuration_components">Section 1.4, &#8220;PP-Configuration Components&#8221;</a>.</p>
 </div>
 <div class="paragraph">
 <p>The Security Target shall include:</p>
@@ -731,10 +768,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>A statement that the claimed PP-Configuration includes the DBMS Cryptographic Functions Module.</p>
 </li>
 <li>
-<p>A statement that the claimed PP-Configuration includes the DBMS in the Cloud Module.</p>
+<p>A statement that the claimed PP-Configuration includes the DBMS DBaaS Module.</p>
 </li>
 <li>
-<p>All mandatory SFRs from the DBMS Base PP, DBMS Cryptographic Functions Module, and DBMS in the Cloud Module.</p>
+<p>All mandatory SFRs from the DBMS Base PP, DBMS Cryptographic Functions Module, and DBMS DBaaS Module.</p>
 </li>
 <li>
 <p>All selection-based SFRs triggered by completed selections in the claimed components.</p>
@@ -765,7 +802,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_sfr_composition">5. SFR Composition</h2>
+<h2 id="_evaluation_approach_for_the_composed_toe">5. Evaluation Approach for the Composed TOE</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A TOE conformant to this PP-Configuration is a provider-operated managed service. The Evaluation Activities of all three components — the Base PP SD, the Crypto Module SD, and the DBaaS Module SD — are executed against that service, and the Base PP and Crypto Module SDs were written for TOEs where the evaluator holds full administrative access. Evidence collection for every component&#8217;s activities is therefore governed by the DBaaS Module SD [<a href="#DBMS_MOD_DBAAS_SD">[DBMS_MOD_DBAAS_SD]</a>]: its Managed-Service Evaluation Constraint, its Evidence Vantages (V1 tenant data plane, V2 tenant service control plane, V3 evaluator-controlled external services, V4 provider-internal operations), and its Evaluator Access Strategy apply to Base PP and Crypto Module activities as well as to the DBaaS Module&#8217;s own.</p>
+</div>
+<div class="paragraph">
+<p>A Base PP or Crypto Module activity exercisable from the tenant vantages (V1, V2) is performed there unchanged. Where such an activity assumes host-level, operating-system, or full-DBA access that the managed-service model does not provide to tenants, the evaluator applies the DBaaS Module SD&#8217;s Evaluator Access Strategy and records each reliance on TSS review, operational guidance, scheme-accepted evidence, or provider-supported demonstration in the ETR.</p>
+</div>
+<div class="paragraph">
+<p>The DBaaS Module SD&#8217;s Evidence Vantage Mapping appendix assigns expected vantages to every DBaaS Module test activity and identifies the activities that require provider participation. Laboratories should use it, together with that SD&#8217;s Test Environment Guidance, when scoping an evaluation against this PP-Configuration: the evaluation requires an evaluation tenancy with at least two tenant contexts, an evaluator-controlled external key management service and audit sink, and scheduled provider participation for the provider-internal (V4) activities.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sfr_composition">6. SFR Composition</h2>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 4. SFR Composition Summary</caption>
@@ -793,16 +844,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">The module provides <code>FDP_DAR_EXT.1</code>, <code>FDP_DIT_EXT.1</code>, key management requirements, consumed Catalogue-derived components, and the relationship to applicable Functional Packages.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DBMS in the Cloud Module</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DBMS DBaaS Module</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">All mandatory requirements apply. Selection-based requirements apply when triggered by module selections.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The module defines cloud-specific requirements and maps inherited cryptographic protections to cloud deployment channels.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The module defines managed-service controls for provider-operated DBMS services and inherits cryptographic protections from the Crypto Module.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_consistency_rationale">6. Consistency Rationale</h2>
+<h2 id="_consistency_rationale">7. Consistency Rationale</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This PP-Configuration is consistent because each component has a distinct scope:</p>
@@ -816,20 +867,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>The DBMS Cryptographic Functions Module defines DBMS-specific cryptographic requirements and integration activities; Catalogue methods evaluate algorithms and Functional Package methods evaluate protocols and certificates.</p>
 </li>
 <li>
-<p>The DBMS in the Cloud Module defines cloud deployment integration requirements for tenant-operated cloud deployments.</p>
+<p>The DBMS DBaaS Module defines managed-service requirements for provider-operated DBMS services.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>The Cloud Module does not redefine the Crypto Module&#8217;s data-at-rest or data-in-transit requirements. Instead, it identifies the cloud deployment channels and integration points to which the inherited Crypto Module requirements apply. This maintains clear ownership of cryptographic SFRs while making those protections mandatory for cloud deployments.</p>
+<p>The DBaaS Module does not redefine the Crypto Module&#8217;s data-at-rest or data-in-transit requirements. Instead, it adds DBaaS-specific controls for tenant isolation, provider-administrator restrictions, protected backup and restore paths, and managed-service operations. This maintains clear ownership of cryptographic SFRs while making those protections mandatory for DBaaS deployments.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_technical_decisions">7. Technical Decisions</h2>
+<h2 id="_technical_decisions">8. Technical Decisions</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Technical Decisions applicable to the DBMS Base PP, DBMS Cryptographic Functions Module, or DBMS in the Cloud Module apply according to the affected component document. This PP-Configuration does not introduce additional Technical Decisions.</p>
+<p>Technical Decisions applicable to the DBMS Base PP, DBMS Cryptographic Functions Module, or DBMS DBaaS Module apply according to the affected component document. This PP-Configuration does not introduce additional Technical Decisions.</p>
 </div>
 </div>
 </div>
@@ -863,16 +914,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><span id="cPP_DBMS_SD">[cPP_DBMS_SD]</span> Supporting Document Mandatory Technical Document Evaluation Activities for the collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.</p>
 </li>
 <li>
-<p><span id="DBMS_MOD_CRYPTO">[DBMS_MOD_CRYPTO]</span> collaborative PP-Module for DBMS Cryptographic Functions, Version 0.4, 2026-06-30.</p>
+<p><span id="DBMS_MOD_CRYPTO">[DBMS_MOD_CRYPTO]</span> collaborative PP-Module for DBMS Cryptographic Functions, Version 0.5, 2026-07-20.</p>
 </li>
 <li>
-<p><span id="DBMS_MOD_CRYPTO_SD">[DBMS_MOD_CRYPTO_SD]</span> Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.4, 2026-06-30.</p>
+<p><span id="DBMS_MOD_CRYPTO_SD">[DBMS_MOD_CRYPTO_SD]</span> Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.5, 2026-07-20.</p>
 </li>
 <li>
-<p><span id="DBMS_Cloud_MOD">[DBMS_Cloud_MOD]</span> collaborative PP-Module for DBMS in the Cloud, Version 0.4, 2026-06-30.</p>
+<p><span id="DBMS_MOD_DBAAS">[DBMS_MOD_DBAAS]</span> collaborative PP-Module for Database-as-a-Service (DBaaS), Version 0.5, 2026-07-20.</p>
 </li>
 <li>
-<p><span id="DBMS_Cloud_SD">[DBMS_Cloud_SD]</span> Supporting Document - Evaluation Activities for DBMS in the Cloud Module, Version 0.4, 2026-06-30.</p>
+<p><span id="DBMS_MOD_DBAAS_SD">[DBMS_MOD_DBAAS_SD]</span> Supporting Document - Evaluation Activities for DBaaS Module, Version 0.5, 2026-07-20.</p>
 </li>
 </ul>
 </div>
@@ -905,6 +956,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">cPP</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">collaborative Protection Profile</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DBaaS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database-as-a-Service</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">DBMS</p></td>
@@ -945,8 +1000,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.4<br>
-Last updated 2026-06-30 17:21:42 -0500
+Version 0.5<br>
+Last updated 2026-07-20 17:03:02 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

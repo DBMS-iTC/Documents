@@ -6,15 +6,15 @@
 :imagesdir: images
 :icons: font
 :doctype: book
-:revnumber: 0.4
-:revdate: 2026-06-30
+:revnumber: 0.5
+:revdate: 2026-07-20
 :front-cover-image: images/dbms-cpp-cover.pdf
 :pdf-themesdir: {docdir}/themes
 :pdf-theme: dbms-cpp-theme.yml
 
 :iTC-longname: Database Management Systems
 :iTC-shortname: DBMS-iTC
-:iTC-email: cm-itc-mailing-list@gmail.com
+:iTC-email: dbms.itc@gmail.com
 :iTC-website: https://github.com/DBMS-iTC
 :iTC-GitHub: https://github.com/DBMS-iTC/DBMS-iTC.github.io
 :base-pp: collaborative Protection Profile for Database Management Systems
@@ -120,6 +120,14 @@ JISEC - Japan IT Security Evaluation and Certification Scheme
 |2026-07-08
 |Editorial sweep: FAU_SEL.1.1/Cloud and FPT_ITT.1.1 restored to CC:2022 Part 2 element text (unmarked deviations removed); iteration element numbering normalized (FMT_SMF.1.1/Cloud, FMT_SMR.1.1/Cloud, FMT_SMR.1.2/Cloud); Exact Conformance cites CC:2022 Part 1 directly and rule 2's selection-based inclusion is bidirectional (shall include when implemented); examples moved from assignment placeholders to application notes (FAU_STG_EXT.1.1, FMT_MTD_EXT.1.1, FPT_SBT_EXT.1.1); added OE.AUTHORIZED_ADMINISTRATORS so A.AUTHORIZED_ADMINISTRATORS is upheld by operational environment objectives only; reconciled the T.SECRETS_EXPOSURE mapping across the rationale copies; A.TIME_SYNCHRONIZATION stated normatively once; unused DEK/KEK glossary and acronym entries removed; SD bibliography reference pinned to Version 0.4; ECD appendix introduction corrected.
 
+|0.4
+|2026-07-20
+|Aligned cloud external-key integration text with the Crypto Module's four Key Origins and role-specific ML-KEM model. Cloud services may provision keys or exchange KEM values, but the ST claims only TOE-boundary KeyGen, encapsulation, or decapsulation operations; KEM-derived Master Keys use `FCS_CKM.5`, and protocol-level ML-KEM remains governed by the applicable Functional Package.
+
+|0.5
+|2026-07-20
+|Rolled the coordinated module set to Version 0.5 after closure of the public-review priority findings. Retains the role-specific ML-KEM allocation and the separation between tenant-operated cloud deployments and provider-operated DBaaS deployments.
+
 |===
 
 toc::[]
@@ -175,11 +183,11 @@ Although the PP-Module and SD may contain minor editorial errors, the PP-Module 
 * [#CC5]#[CC5]# Common Criteria for Information Technology Security Evaluation, Part 5: Pre-defined packages of security requirements, CCMB-2022-11-005, CC:2022 Revision 1, November 2022.
 * [#CCE]#[CCE]# Common Criteria for Information Technology Security Evaluation, Errata and interpretation for CC:2022 (Release 1) and CEM:2022 (Release 1), CCMB-002, Version 1.1, July 22, 2024.
 * [#CEM]#[CEM]# Common Methodology for Information Technology Security Evaluation, Evaluation methodology, CCMB-2022-11-006, CEM:2022 Revision 1, November 2022.
-* [#SD]#[SD]# Supporting Document - Evaluation Activities for DBMS in the Cloud Module, Version 0.4.
+* [#SD]#[SD]# Supporting Document - Evaluation Activities for DBMS in the Cloud Module, Version 0.5.
 * [#cPP_DBMS]#[cPP_DBMS]# collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.
 * [#cPP_DBMS_SD]#[cPP_DBMS_SD]# Supporting Document Mandatory Technical Document Evaluation Activities for the collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.
-* [#DBMS_MOD_CRYPTO]#[DBMS_MOD_CRYPTO]# collaborative PP-Module for DBMS Cryptographic Functions, Version 0.4.
-* [#DBMS_MOD_CRYPTO_SD]#[DBMS_MOD_CRYPTO_SD]# Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.4.
+* [#DBMS_MOD_CRYPTO]#[DBMS_MOD_CRYPTO]# collaborative PP-Module for DBMS Cryptographic Functions, Version 0.5.
+* [#DBMS_MOD_CRYPTO_SD]#[DBMS_MOD_CRYPTO_SD]# Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.5.
 * [#TLS_FP]#[TLS_FP]# Functional Package for Transport Layer Security (TLS), Version 2.1, 2025-08-25. Available at https://commoncriteria.github.io/tls/release-2.1/tls-release.html[commoncriteria.github.io/tls].
 * [#X509_FP]#[X509_FP]# Functional Package for X.509 Certificates, Version 1.0. Available at https://commoncriteria.github.io/X509/release-1.0/X509-release.html[commoncriteria.github.io/X509].
 * [#Crypto_Catalog]#[Crypto_Catalog]# Specification of Functional Requirements for Cryptography (CCDB-018), Version 1.0, January 2025. Available at https://github.com/commoncriteria/crypto-catalog[commoncriteria/crypto-catalog] and https://www.commoncriteriaportal.org/files/ccfiles/CCDB-018-v1.0-2025-Jan-31-Final-Specification_of_Functional_Requirements_for_Cryptography.pdf[commoncriteriaportal.org].
@@ -590,11 +598,11 @@ The operational environment shall provide the external identity providers select
 OE.SECRETS_MANAGEMENT::
 The operational environment shall ensure that secrets provided to the TOE are authentic and protected from unauthorized disclosure while outside the TOE boundary. This includes API tokens, database connection strings, and cryptographic key material made available through external secret management or key management services.
 +
-If the TOE imports Master Keys from an external entity under `FCS_CKM_EXT.1` of the DBMS Crypto Module, the secret management or key management service shall securely provide those keys to the TOE via a trusted channel defined by `FDP_ITC_EXT.1` in the DBMS Crypto Module.
+If the TOE imports, externally manages, or establishes Master Keys with an external entity under `FCS_CKM_EXT.1` of the DBMS Crypto Module, the secret management or key management service shall securely provide the applicable keys, references, encapsulation keys, or KEM ciphertexts to the TOE via the trusted channel defined by `FDP_ITC_EXT.1` in the DBMS Crypto Module.
 +
-*Conditional Trigger:* This objective applies when the TOE integrates with cloud-native secret management systems or when the "Imported from External Entity" key origin is selected in `FCS_CKM_EXT.1` of the DBMS Crypto Module.
+*Conditional Trigger:* This objective applies when the TOE integrates with cloud-native secret management systems or when the "Imported from External Entity", "Externally Managed", or "Established through Key Encapsulation" origin is selected in `FCS_CKM_EXT.1` of the DBMS Crypto Module.
 +
-*Application Note:* This objective distinguishes between environmental protection of secret stores and TOE protection after retrieval. The operational environment protects external secret stores. FMT_MTD_EXT.1 addresses TOE handling of cloud-stored configuration and secrets once retrieved. The lifecycle of Data-at-Rest Master Keys is governed by `FCS_CKM_EXT.1` in the mandatory DBMS Crypto Module.
+*Application Note:* This objective distinguishes between environmental protection of secret stores and TOE protection after retrieval or establishment. The operational environment protects external secret stores and any ML-KEM operation allocated outside the TOE. FMT_MTD_EXT.1 addresses TOE handling of cloud-stored configuration and secrets once retrieved. The lifecycle of Data-at-Rest Master Keys, including derivation from a TOE-established ML-KEM shared secret, is governed by `FCS_CKM_EXT.1` and the related components in the mandatory DBMS Crypto Module. Protocol-level ML-KEM, including hybrid TLS, is governed by the applicable Functional Package.
 
 == Security Rationale
 
@@ -1082,7 +1090,7 @@ This ensures cloud-based management functions remain under strict role-based acc
 
 *FMT_MTD_EXT.1.2* The TSF shall obtain TSF data from, and write TSF data to, cloud-native configuration and secret management systems using a channel protected by FDP_DIT_EXT.1.
 
-*Application Note:* The operational environment protects cloud-native secret stores outside the TOE boundary, as specified by OE.SECRETS_MANAGEMENT. This requirement covers TOE behavior when sensitive data, such as database credentials, configuration parameters, or cryptographic key material, is retrieved, used, cached, or written by the TOE; role-based restriction of operations on this data is covered by FMT_MTD.1/Cloud. Examples of supported systems include AWS Secrets Manager, Azure Key Vault, Oracle Key Vault, HashiCorp Vault, Kubernetes Secrets, and environment variables. FMT_MTD_EXT.1.2 binds the retrieval and write channels to the inherited FDP_DIT_EXT.1. If the retrieved data is a Master Key sourced from an external entity, the ST author shall use the applicable external Key Origin defined by FCS_CKM_EXT.1 and FDP_ITC_EXT.1 in the mandatory DBMS Crypto Module.
+*Application Note:* The operational environment protects cloud-native secret stores outside the TOE boundary, as specified by OE.SECRETS_MANAGEMENT. This requirement covers TOE behavior when sensitive data, such as database credentials, configuration parameters, cryptographic key material, ML-KEM encapsulation keys, or KEM ciphertexts, is retrieved, used, cached, or written by the TOE; role-based restriction of operations on this data is covered by FMT_MTD.1/Cloud. Examples of supported systems include AWS Secrets Manager, Azure Key Vault, Oracle Key Vault, HashiCorp Vault, Kubernetes Secrets, and environment variables. FMT_MTD_EXT.1.2 binds the retrieval and write channels to the inherited FDP_DIT_EXT.1. If a Master Key is sourced, managed, or established with an external entity, the ST author shall use the applicable external Key Origin and `FDP_ITC_EXT.1` defined by the mandatory DBMS Crypto Module. A cloud KMS operation outside the TOE is identified as environmental functionality rather than claimed as a TOE `FCS_CKM.1/KEM` or `FCS_COP.1/KeyEncap` operation.
 
 ===== Dependencies
 

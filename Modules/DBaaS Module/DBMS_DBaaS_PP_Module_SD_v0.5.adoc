@@ -8,15 +8,15 @@
 :imagesdir: images
 :icons: font
 :doctype: book
-:revnumber: 0.4
-:revdate: 2026-06-30
+:revnumber: 0.5
+:revdate: 2026-07-20
 :xrefstyle: full
 
 :iTC-shortname: DBMS-iTC
 :iTC-longname: Database Management Systems
 :pp-module-name: collaborative PP-Module for Database-as-a-Service
 :pp-module-short: DBMS_MOD_DBAAS
-:pp-module-version: 0.4
+:pp-module-version: 0.5
 :base-pp: collaborative Protection Profile for Database Management Systems
 :base-pp-version: Version 2.0
 :base-pp-date: 27 April 2026
@@ -91,6 +91,15 @@
 |0.4
 |2026-07-18
 |Aligned with the module's key-state enforcement interval assignment in FCS_CKM_DBAAS_EXT.1.3. Handling Selections and Assignments now lists the interval with its permitted-completion constraints. TSS activities require the key-state detection mechanism, any unreachability grace period, and the derivation of the completed interval from detection latency, grace period, and cached-key lifetime; Guidance activities require the interval and post-expiration service state to be documented. Test 2 rewritten to verify denial no later than interval expiration with the enforcement-state transition audit record; new Test 2a exercises key-provider unreachability against the documented grace behavior, with a provider-evidence fallback where connectivity cannot be interrupted.
+
+|0.4
+|2026-07-20
+|Aligned customer-controlled key evaluation with the Crypto Module's role-specific ML-KEM design. Added TSS and guidance checks for the "Established through Key Encapsulation" origin, TOE-versus-external operation allocation, KEM-to-Master-Key derivation, and ongoing customer authorization. Added Test 4 and evidence-vantage mapping to verify that a KEM-established Master Key remains subject to the bounded customer revocation requirement; algorithm and integration testing remains in the Crypto Module SD.
+
+|0.5
+|2026-07-20
+|Rolled the completed managed-service Evaluation Activities, evidence-vantage model, provider-supported demonstration paths, and Crypto Module coordination into the Version 0.5 review set.
+
 |===
 
 toc::[]
@@ -170,7 +179,7 @@ A test whose primary vantage is V1–V3 is executed by the evaluator without pro
 This SD is used in conjunction with:
 
 * *cPP_DBMS SD*, {base-pp-version}: Evaluation Activities for SFRs inherited from the Base PP.
-* *DBMS Cryptographic Functions Module SD*, Version 0.4: cryptographic, data-at-rest, data-in-transit, key-management, and algorithm-validation Evaluation Activities.
+* *DBMS Cryptographic Functions Module SD*, Version 0.5: cryptographic, data-at-rest, data-in-transit, key-management, and algorithm-validation Evaluation Activities.
 * *DBaaS PP-Module*, version {revnumber}: requirements definition.
 
 Where SFRs are iterated by the PP-Module as `/DBaaS`, the Evaluation Activities in this SD supplement those in the Base PP SD for the tenant-scoped refinements.
@@ -408,7 +417,7 @@ The operational user guidance shall include managed-service sections addressing:
 
 *Customer-Controlled Key Operations:*
 
-* Configuring customer-controlled keys (import, external KMS integration, or key references) per the coupled Crypto Module Key Origin;
+* Configuring customer-controlled keys (import, external KMS integration, key references, or customer-authorized ML-KEM establishment) per the coupled Crypto Module Key Origin;
 * Key rotation, revocation, and disabling of the TOE's authorization to use a key;
 * Expected TOE behavior on revocation and any documented recovery mechanism, including the tenant authorization its use requires.
 
@@ -457,17 +466,20 @@ The evaluator shall verify these guidance elements are present and accurate by a
 The evaluator shall verify the TSS describes:
 
 * the customer-controlled key management architecture;
-* the supported customer-controlled key models, such as BYOK, HYOK, external KMS integration, key references, or key handles;
+* the supported customer-controlled key models, such as BYOK, HYOK, external KMS integration, key references, key handles, or customer-authorized ML-KEM establishment;
 * the boundary between TOE key-management logic and external key management services;
 * the protocols and authentication mechanisms used for external key management service access, including the trusted channel specified by the DBMS Cryptographic Functions Module and applicable Functional Packages;
 * whether plaintext customer-controlled master key material is imported into, stored by, cached by, wrapped by, transformed by, or re-exported by the TOE;
 * how the TOE prevents service provider administrators from viewing, exporting, recovering, or otherwise obtaining plaintext customer-controlled master key material through TOE interfaces;
-* the applicable DBMS-specific and Catalogue-derived components included through the DBMS Cryptographic Functions Module for key import, key wrapping, key destruction, and data-at-rest encryption, together with Functional Package components for trusted channels; and
+* the applicable DBMS-specific and Catalogue-derived components included through the DBMS Cryptographic Functions Module for key import, key wrapping, key destruction, and data-at-rest encryption, together with Functional Package components for trusted channels;
+* when ML-KEM establishment is selected, the mapping to the Crypto Module's "Established through Key Encapsulation" origin; the TOE role in `FCS_COP.1/KeyEncap`; the optional local-KeyGen claim in `FCS_CKM.1/KEM`; the `FCS_CKM.5` Master Key derivation and context; raw shared-secret destruction; and every operation allocated to an external KMS or customer-controlled service; and
 * the TOE behavior when authorization to use the applicable customer-controlled master key is revoked, unavailable, or denied;
 * the mechanism by which the TOE detects key-state changes at the external key provider (for example, a polling interval or an event notification channel), any grace period during which the TOE continues operating on cached key material while the external key provider is unreachable, and how the completed key-state enforcement interval of FCS_CKM_DBAAS_EXT.1.3 covers the sum of worst-case detection latency, any such grace period, and the lifetime of cached key material; and
 * where a recovery mechanism is claimed under FCS_CKM_DBAAS_EXT.1.3, how its use requires authorization by the tenant or an agent under the tenant's control, and how that use is audited. A recovery mechanism exercisable by the service provider without tenant authorization does not satisfy the requirement.
 
 If the TOE caches key material, key handles, or derived keys after successful KMS authorization, the evaluator shall verify that the TSS identifies the cache duration, protection mechanism, revocation behavior, and conditions under which cached material is invalidated, and that the cache duration is consistent with the completed key-state enforcement interval.
+
+When customer-authorized ML-KEM establishment is selected, the evaluator shall verify that the customer or its authorized external entity retains a control whose revocation, unavailability, or denial is enforced within the assigned key-state enforcement interval. A one-time KEM exchange after which the provider can use the derived Master Key indefinitely without further customer authorization does not satisfy the module's customer-controlled model. Algorithm correctness, KEM role testing, derivation-context testing, and invalid-ciphertext behavior are evaluated under the Crypto Module SD and are not duplicated here.
 
 ===== Guidance Activities
 
@@ -478,6 +490,8 @@ The evaluator shall verify the operational guidance describes:
 * expected TOE behavior after key authorization is revoked, unavailable, or denied, including the documented key-state enforcement interval, any unreachability grace period within it, and the service state the TOE enters when the interval expires;
 * any documented recovery mechanism that permits protected data access after revocation, including the tenant authorization its use requires; and
 * any customer-visible audit or status information related to key use, key failures, or key authorization.
+
+For customer-authorized ML-KEM establishment, the evaluator shall additionally verify that the guidance describes the customer-controlled peer or key configuration, how the customer authorizes establishment, how the customer revokes or denies continued use, the bounded enforcement behavior, and which ML-KEM operations are performed by the TOE versus an external service.
 
 ===== Test Activities
 
@@ -519,6 +533,18 @@ If the TOE caches key material, key handles, or derived keys after successful KM
 . Review audit records, status views, error messages, diagnostic outputs, backup metadata, and management outputs that are tenant-accessible in the evaluated configuration.
 . Verify that plaintext customer-controlled master key material is not disclosed.
 . If provider-supported observation is used for non-tenant-accessible diagnostics, verify that the observation method and results are documented in the ETR.
+
+*Test 4: Customer Control of a KEM-Established Master Key*
+
+Applicable when customer-authorized ML-KEM establishment is selected in `FCS_CKM_DBAAS_EXT.1.1`.
+
+. Configure the evaluator-controlled external entity and cause the TOE to establish and derive the Master Key using the Crypto Module procedure.
+. Verify that the customer can authorize establishment and that protected database data is accessible after successful establishment.
+. Revoke, disable, or deny the customer's authorization, or make the customer-controlled establishment service unavailable, as described in the guidance.
+. Verify that the TOE prevents access to the protected database data no later than the assigned key-state enforcement interval, including expiration of any documented cache or reauthorization interval.
+. Verify through tenant-visible status or service-event-stream evidence that the failed or revoked authorization and key-unavailable enforcement transition are attributable to the affected customer or service instance without exposing the raw ML-KEM shared secret or derived Master Key.
+
+Expected result: The KEM-established model remains customer-controlled after establishment; loss or revocation of customer authorization is enforced within the claimed bound, and neither KEM nor Master Key secret material is disclosed through DBaaS interfaces.
 
 == FDP Class: User Data Protection
 
@@ -910,7 +936,7 @@ The Evaluation Activities of this SD are narrative refinements of CEM:2022 work 
 
 | FCS_CKM_DBAAS_EXT.1
 | ASE_TSS.1-1; AGD_OPE.1-1, AGD_OPE.1-4; ATE_IND.2-3, ATE_IND.2-4
-| Tests 1–3, including provider-inaccessibility and revocation testing; coordinates with the Crypto Module SD for key lifecycle and trusted channel
+| Tests 1–4, including provider-inaccessibility, revocation, and conditional KEM-established customer-control testing; coordinates with the Crypto Module SD for key lifecycle, role-specific ML-KEM, derivation, and trusted channel
 
 | FDP_RIP.1/DBaaS
 | ASE_TSS.1-1; AGD_OPE.1-1; ATE_IND.2-3, ATE_IND.2-4
@@ -1020,6 +1046,10 @@ TSS and Guidance Activities are documentation review and are not listed; only Te
 | V1, V2; V4 for non-tenant diagnostics
 | Tenant-accessible audit records, status views, error messages, and backup metadata reviewed for key-material disclosure; provider-supported observation for diagnostics not exposed to tenants.
 
+| FCS_CKM_DBAAS_EXT.1 Test 4 (KEM-Established Customer Control)
+| V3 → V1, V2
+| ML-KEM peer and authorization controlled at V3; successful establishment and data use observed at V1/V2; revocation or unavailability induced at V3; bounded denial and the service-event-stream transition verified at V1/V2.
+
 | FDP_RIP.1/DBaaS Test 1 (Residual Data)
 | V1 (V2 to provision)
 | Two tenant contexts provisioned at V2; unique-pattern write, resource release, and cross-tenant observation attempts all at V1.
@@ -1095,7 +1125,7 @@ Laboratories scoping an evaluation against the DBaaS PP-Configuration should not
 The following configuration is recommended for independent testing of a provider-operated DBaaS TOE:
 
 * *Tenant contexts*: at least two evaluator-provisioned tenant contexts (Tenant A and Tenant B) in the evaluated configuration; a third tenant context is recommended where an evaluated cross-tenant sharing mechanism is claimed, so that sharing and non-sharing tenants can be distinguished;
-* *Customer-controlled keys*: an external key management service instance under evaluator control, holding a revocable test key, so that FCS_CKM_DBAAS_EXT.1 revocation behavior can be exercised without provider involvement;
+* *Customer-controlled keys*: an external key management service instance under evaluator control, holding a revocable test key, so that FCS_CKM_DBAAS_EXT.1 revocation behavior can be exercised without provider involvement; when ML-KEM establishment is selected, the service or a complementary test harness also supports the claimed parameter set and TOE role without exposing shared-secret material through operational interfaces;
 * *Audit sink*: an evaluator-controlled external audit sink for FAU_STG.2/DBaaS export testing;
 * *Workload tooling*: load-generation tooling sufficient to exceed configured tenant resource quotas for the FRU tests;
 * *Demonstration environment*: for provider-supported demonstrations (update path, provider-role functions, restore testing), a non-production instance of the service verified — via the FPT_TUD_DBAAS_EXT.1.3 identifier or CM evidence — to run the same service software revision as the evaluated configuration.
@@ -1126,11 +1156,11 @@ Because the TOE is a live, shared, provider-operated service:
 * [#CC5]#[CC5]# Common Criteria for Information Technology Security Evaluation, Part 5: Pre-defined packages of security requirements, CCMB-2022-11-005, CC:2022 Revision 1, November 2022.
 * [#CCE]#[CCE]# Common Criteria for Information Technology Security Evaluation, Errata and interpretation for CC:2022 (Release 1) and CEM:2022 (Release 1), CCMB-002, Version 1.1, July 22, 2024.
 * [#CEM]#[CEM]# Common Methodology for Information Technology Security Evaluation, Evaluation methodology, CCMB-2022-11-006, CEM:2022 Revision 1, November 2022.
-* [#DBMS_MOD_DBAAS]#[DBMS_MOD_DBAAS]# collaborative PP-Module for Database-as-a-Service (DBaaS), Version 0.4, 2026-06-30.
+* [#DBMS_MOD_DBAAS]#[DBMS_MOD_DBAAS]# collaborative PP-Module for Database-as-a-Service (DBaaS), Version 0.5, 2026-07-20.
 * [#cPP_DBMS]#[cPP_DBMS]# collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.
 * [#cPP_DBMS_SD]#[cPP_DBMS_SD]# Supporting Document Mandatory Technical Document Evaluation Activities for the collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.
-* [#DBMS_MOD_CRYPTO]#[DBMS_MOD_CRYPTO]# collaborative PP-Module for DBMS Cryptographic Functions, Version 0.4, 2026-06-30.
-* [#DBMS_MOD_CRYPTO_SD]#[DBMS_MOD_CRYPTO_SD]# Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.4, 2026-06-30.
+* [#DBMS_MOD_CRYPTO]#[DBMS_MOD_CRYPTO]# collaborative PP-Module for DBMS Cryptographic Functions, Version 0.5, 2026-07-20.
+* [#DBMS_MOD_CRYPTO_SD]#[DBMS_MOD_CRYPTO_SD]# Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.5, 2026-07-20.
 * [#Crypto_Catalog]#[Crypto_Catalog]# Specification of Functional Requirements for Cryptography (CCDB-018), Version 1.0, January 2025.
 * [#TLS_FP]#[TLS_FP]# Functional Package for Transport Layer Security (TLS), Version 2.1, 2025-08-25.
 * [#X509_FP]#[X509_FP]# Functional Package for X.509 Certificates, Version 1.0. Available at https://commoncriteria.github.io/X509/release-1.0/X509-release.html[commoncriteria.github.io/X509].

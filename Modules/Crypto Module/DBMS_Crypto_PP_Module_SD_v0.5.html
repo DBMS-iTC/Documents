@@ -440,8 +440,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Supporting Document: Evaluation Activities for collaborative PP-Module for DBMS Cryptographic Functions</h1>
 <div class="details">
-<span id="revnumber">version 0.4,</span>
-<span id="revdate">2026-06-30</span>
+<span id="revnumber">version 0.5,</span>
+<span id="revdate">2026-07-20</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -512,9 +512,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
-<li><a href="#FCS_CKM_5_FCS_CKM_EXT_8_Key_Derivation_Conditional_Catalogue_Claims">5.2. FCS_CKM.5 / FCS_CKM_EXT.8 Key Derivation (Consumed Catalogue Components)</a>
+<li><a href="#FCS_CKM_1_KEM">5.2. FCS_CKM.1/KEM Cryptographic Key Generation - ML-KEM Key Pair (Selection-Based)</a>
 <ul class="sectlevel3">
-<li><a href="#_fcs_ckm_5_fcs_ckm_ext_8_evaluation_activities">5.2.1. FCS_CKM.5 / FCS_CKM_EXT.8 Evaluation Activities</a>
+<li><a href="#_fcs_ckm_1kem_evaluation_activities">5.2.1. FCS_CKM.1/KEM Evaluation Activities</a>
 <ul class="sectlevel4">
 <li><a href="#_tss_activities_2">5.2.1.1. TSS Activities</a></li>
 <li><a href="#_guidance_activities_2">5.2.1.2. Guidance Activities</a></li>
@@ -523,9 +523,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
-<li><a href="#_fcs_ckm_ext_1_cryptographic_key_management_master_keys">5.3. FCS_CKM_EXT.1 Cryptographic Key Management (Master Keys)</a>
+<li><a href="#FCS_CKM_5_FCS_CKM_EXT_8_Key_Derivation_Conditional_Catalogue_Claims">5.3. FCS_CKM.5 / FCS_CKM_EXT.8 Key Derivation (Consumed Catalogue Components)</a>
 <ul class="sectlevel3">
-<li><a href="#_fcs_ckm_ext_1_evaluation_activities">5.3.1. FCS_CKM_EXT.1 Evaluation Activities</a>
+<li><a href="#_fcs_ckm_5_fcs_ckm_ext_8_evaluation_activities">5.3.1. FCS_CKM.5 / FCS_CKM_EXT.8 Evaluation Activities</a>
 <ul class="sectlevel4">
 <li><a href="#_tss_activities_3">5.3.1.1. TSS Activities</a></li>
 <li><a href="#_guidance_activities_3">5.3.1.2. Guidance Activities</a></li>
@@ -534,13 +534,35 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
-<li><a href="#_fcs_ckm_6_cryptographic_key_destruction_catalogue_reference">5.4. FCS_CKM.6 Cryptographic Key Destruction (Catalogue Reference)</a>
+<li><a href="#_fcs_ckm_ext_1_cryptographic_key_management_master_keys">5.4. FCS_CKM_EXT.1 Cryptographic Key Management (Master Keys)</a>
 <ul class="sectlevel3">
-<li><a href="#_fcs_ckm_6_evaluation_activities">5.4.1. FCS_CKM.6 Evaluation Activities</a>
+<li><a href="#_fcs_ckm_ext_1_evaluation_activities">5.4.1. FCS_CKM_EXT.1 Evaluation Activities</a>
 <ul class="sectlevel4">
 <li><a href="#_tss_activities_4">5.4.1.1. TSS Activities</a></li>
 <li><a href="#_guidance_activities_4">5.4.1.2. Guidance Activities</a></li>
 <li><a href="#_test_activities_4">5.4.1.3. Test Activities</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_fcs_cop_1keyencap_ml_kem_encapsulation_and_decapsulation_selection_based">5.5. FCS_COP.1/KeyEncap ML-KEM Encapsulation and Decapsulation (Selection-Based)</a>
+<ul class="sectlevel3">
+<li><a href="#_fcs_cop_1keyencap_evaluation_activities">5.5.1. FCS_COP.1/KeyEncap Evaluation Activities</a>
+<ul class="sectlevel4">
+<li><a href="#_tss_activities_5">5.5.1.1. TSS Activities</a></li>
+<li><a href="#_guidance_activities_5">5.5.1.2. Guidance Activities</a></li>
+<li><a href="#_test_activities_5">5.5.1.3. Test Activities</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_fcs_ckm_6_cryptographic_key_destruction_catalogue_reference">5.6. FCS_CKM.6 Cryptographic Key Destruction (Catalogue Reference)</a>
+<ul class="sectlevel3">
+<li><a href="#_fcs_ckm_6_evaluation_activities">5.6.1. FCS_CKM.6 Evaluation Activities</a>
+<ul class="sectlevel4">
+<li><a href="#_tss_activities_6">5.6.1.1. TSS Activities</a></li>
+<li><a href="#_guidance_activities_6">5.6.1.2. Guidance Activities</a></li>
+<li><a href="#_test_activities_6">5.6.1.3. Test Activities</a></li>
 </ul>
 </li>
 </ul>
@@ -553,9 +575,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#_fdp_dar_ext_1_evaluation_activities">6.1.1. FDP_DAR_EXT.1 Evaluation Activities</a>
 <ul class="sectlevel4">
-<li><a href="#_tss_activities_5">6.1.1.1. TSS Activities</a></li>
-<li><a href="#_guidance_activities_5">6.1.1.2. Guidance Activities</a></li>
-<li><a href="#_test_activities_5">6.1.1.3. Test Activities</a></li>
+<li><a href="#_tss_activities_7">6.1.1.1. TSS Activities</a></li>
+<li><a href="#_guidance_activities_7">6.1.1.2. Guidance Activities</a></li>
+<li><a href="#_test_activities_7">6.1.1.3. Test Activities</a></li>
 </ul>
 </li>
 </ul>
@@ -564,20 +586,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#_fdp_dit_ext_1_evaluation_activities">6.2.1. FDP_DIT_EXT.1 Evaluation Activities</a>
 <ul class="sectlevel4">
-<li><a href="#_tss_activities_6">6.2.1.1. TSS Activities</a></li>
-<li><a href="#_guidance_activities_6">6.2.1.2. Guidance Activities</a></li>
-<li><a href="#_test_activities_6">6.2.1.3. Test Activities</a></li>
+<li><a href="#_tss_activities_8">6.2.1.1. TSS Activities</a></li>
+<li><a href="#_guidance_activities_8">6.2.1.2. Guidance Activities</a></li>
+<li><a href="#_test_activities_8">6.2.1.3. Test Activities</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_fdp_itc_ext_1_trusted_channel_for_key_import_and_external_key_management_selection_based">6.3. FDP_ITC_EXT.1 Trusted Channel for Key Import and External Key Management (Selection-Based)</a>
+<li><a href="#_fdp_itc_ext_1_trusted_channel_for_key_import_external_key_management_and_key_establishment_selection_based">6.3. FDP_ITC_EXT.1 Trusted Channel for Key Import, External Key Management, and Key Establishment (Selection-Based)</a>
 <ul class="sectlevel3">
 <li><a href="#_fdp_itc_ext_1_evaluation_activities">6.3.1. FDP_ITC_EXT.1 Evaluation Activities</a>
 <ul class="sectlevel4">
-<li><a href="#_tss_activities_7">6.3.1.1. TSS Activities</a></li>
-<li><a href="#_guidance_activities_7">6.3.1.2. Guidance Activities</a></li>
-<li><a href="#_test_activities_7">6.3.1.3. Test Activities</a></li>
+<li><a href="#_tss_activities_9">6.3.1.1. TSS Activities</a></li>
+<li><a href="#_guidance_activities_9">6.3.1.2. Guidance Activities</a></li>
+<li><a href="#_test_activities_9">6.3.1.3. Test Activities</a></li>
 </ul>
 </li>
 </ul>
@@ -677,6 +699,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-18</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Aligned with the module&#8217;s conversion of FCS_COP.1/KeyEncap to Selection-Based via FDP_ITC_EXT.1.4. Trigger table and ST-verification item now key off the FDP_ITC_EXT.1.4 selection and cover both the KeyWrap and KeyEncap supplementary-protection options. FDP_ITC_EXT.1 TSS activities gain the .4 coverage: which flows are wrapped or encapsulated, under which component, key establishment and protection for the mechanism, and the location of unwrapping or decapsulation.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-20</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Aligned the ML-KEM evaluation model with role-specific KeyGen, encapsulation, and decapsulation. Added FCS_CKM.1/KEM activities for TOE-performed KeyGen; made RBG evidence conditional on KeyGen or encapsulation; added activities and tests for the "Established through Key Encapsulation" Master Key origin; corrected FDP_ITC_EXT.1.4 coverage to evaluate a KEM-derived KEK used with KeyWrap or AEAD; and added boundary/allocation checks for externally performed KMIP or KMS operations. CAVP evidence now maps KeyGen separately from EncapDecap.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-20</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Added TSS, guidance, and test coverage for the explicit FCS_CKM_EXT.1.2 Master Key protection models, including cryptographic protection, non-exportable hardware-backed storage, and transient-only handling. Aligned evaluation evidence with the module&#8217;s normative audit-event refinement and rolled the coordinated review set to Version 0.5.</p></td>
+</tr>
 </tbody>
 </table>
 <!-- toc disabled -->
@@ -688,7 +720,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_technology_area_and_scope_of_supporting_document">2.1. Technology Area and Scope of Supporting Document</h3>
 <div class="paragraph">
-<p>This Supporting Document (SD) defines Evaluation Activities (EAs) for the DBMS-specific SFRs and integration behavior in the <strong>collaborative PP-Module for DBMS Cryptographic Functions</strong> (DBMS_MOD_CRYPTO), version 0.4. The technology area addressed is Database Management Systems (DBMS) that implement cryptographic protections for data at rest, data in transit, and cryptographic key management.</p>
+<p>This Supporting Document (SD) defines Evaluation Activities (EAs) for the DBMS-specific SFRs and integration behavior in the <strong>collaborative PP-Module for DBMS Cryptographic Functions</strong> (DBMS_MOD_CRYPTO), version 0.5. The technology area addressed is Database Management Systems (DBMS) that implement cryptographic protections for data at rest, data in transit, and cryptographic key management.</p>
 </div>
 <div class="paragraph">
 <p>This SD provides Evaluation Activities that evaluators shall perform to determine whether a TOE satisfies the DBMS-specific SFRs and integration requirements specified in the DBMS Cryptographic Functions PP-Module. It does not originate or reproduce algorithm-level Evaluation Activities for CCDB-018 components. CCDB-018 assigns those activities to its companion evaluation-methods document. Until that document is available, <a href="#scheme_recognized_validation">Section 3.1.2, &#8220;Use of Scheme-Recognized Cryptographic Validation Results&#8221;</a> permits Certification Body-recognized cryptographic validation results to be used as evidence for the algorithm-correctness objectives they demonstrably cover; it does not define replacement algorithm tests. This SD also complements the Supporting Document for the collaborative Protection Profile for Database Management Systems (cPP_DBMS SD), which remains applicable for all SFRs inherited from the Base PP.</p>
@@ -824,7 +856,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p><strong>collaborative PP-Module for DBMS Cryptographic Functions (DBMS_MOD_CRYPTO)</strong>, version 0.4</p>
+<p><strong>collaborative PP-Module for DBMS Cryptographic Functions (DBMS_MOD_CRYPTO)</strong>, version 0.5</p>
 <div class="paragraph">
 <p>This SD provides Evaluation Activities for the SFRs defined in the PP-Module. Evaluators shall verify conformance to all mandatory SFRs and any selection-based SFRs included in the Security Target.</p>
 </div>
@@ -1045,7 +1077,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>For every uncovered element, the evaluator shall apply a specifically identified method accepted by the responsible Certification Body. Merely stating that a CAVP record exists, or that the Catalogue Evaluation Methods are not yet available, is not sufficient.</p>
 </div>
 <div class="paragraph">
-<p>The transitional mechanism applies equally to the PP-Module&#8217;s anticipated post-Version 1.0 rows — ML-DSA in <code>FCS_COP.1/SigVer</code> and ML-KEM in <code>FCS_COP.1/KeyEncap</code>. FIPS PUB 203 and FIPS PUB 204 are final and CAVP validates implementations of both, so algorithm correctness for those selections is evidenced in the same way as for the published Catalogue rows, pending the corresponding Catalogue entries and Evaluation Methods.</p>
+<p>The transitional mechanism applies equally to the PP-Module&#8217;s anticipated post-Version 1.0 rows — ML-DSA in <code>FCS_COP.1/SigVer</code>, ML-KEM KeyGen in <code>FCS_CKM.1/KEM</code>, and ML-KEM encapsulation or decapsulation in <code>FCS_COP.1/KeyEncap</code>. FIPS PUB 203 and FIPS PUB 204 are final and CAVP validates implementations of both. The validation coverage matrix shall map the ML-KEM KeyGen capability separately from EncapDecap and shall identify which of encapsulation and decapsulation the TOE performs. Algorithm correctness for those selections is otherwise evidenced in the same way as for published Catalogue rows, pending the corresponding Catalogue entries and Evaluation Methods.</p>
 </div>
 <div class="paragraph">
 <p>When a scheme-recognized version of [<a href="#Crypto_Eval_Methods">[Crypto_Eval_Methods]</a>] becomes available, that document becomes the primary algorithm evaluation method for this SD. Existing validation results may continue to satisfy individual activities only to the extent permitted by that document or by the responsible Certification Body. The DBMS-specific integration activities in this SD remain applicable and are not displaced by publication of the Catalogue methods.</p>
@@ -1101,7 +1133,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 4.10 and/or Section 4.2</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Random Bit Generation (when direct key generation is claimed)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Random Bit Generation (when direct symmetric key generation, ML-KEM KeyGen, or ML-KEM encapsulation is claimed)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>FCS_RBG.1</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 6.2</p></td>
 </tr>
@@ -1126,9 +1158,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">Section 4.8 and supporting primitive section; ML-DSA row anticipates post-Version 1.0 publication</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Supplementary end-to-end protection of keying material in transit, when selected in <code>FDP_ITC_EXT.1.4</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FCS_COP.1/KeyWrap</code> or <code>FCS_COP.1/KeyEncap</code>, plus <code>FCS_RBG.1</code> and <code>FCS_CKM.6</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Section 4.9 for key wrapping; the ML-KEM completions anticipate the post-Version 1.0 key-encapsulation component</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Non-protocol ML-KEM key establishment for a Master Key origin or supplementary end-to-end protection, when selected</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FCS_COP.1/KeyEncap</code> for the TOE role and <code>FCS_CKM.5</code>; <code>FCS_CKM.1/KEM</code> and <code>FCS_RBG.1</code> for TOE KeyGen; <code>FCS_RBG.1</code> for encapsulation; <code>FCS_COP.1/KeyWrap</code> or <code>FCS_COP.1/AEAD</code> for a transferred key; <code>FCS_CKM.6</code> for secret values</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ML-KEM components anticipate post-Version 1.0 publication; key derivation and transferred-key protection use the applicable published Catalogue components</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Key Destruction (MEK/DEK lifecycle)</p></td>
@@ -1149,7 +1181,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>When the TOE directly generates DEKs, the ST includes the same key-generation and RBG component set for DEK generation.</p>
 </li>
 <li>
-<p>When <code>FCS_CKM_EXT.1.1</code> selects "Imported from External Entity", the ST includes mutual TLS channel components from the Functional Package for TLS v2.1 (<code>FCS_TLSC_EXT.1</code> or <code>FCS_TLSS_EXT.1</code>, as applicable to the TOE role).</p>
+<p>When <code>FCS_CKM_EXT.1.1</code> selects "Imported from External Entity", "Externally Managed", or "Established through Key Encapsulation", the ST includes mutual TLS channel components from the Functional Package for TLS v2.1 (<code>FCS_TLSC_EXT.1</code> or <code>FCS_TLSS_EXT.1</code>, as applicable to the TOE role).</p>
+</li>
+<li>
+<p>When <code>FCS_CKM_EXT.1.1</code> selects "Established through Key Encapsulation", the ST includes <code>FCS_COP.1/KeyEncap</code> with the TOE&#8217;s operations selected, <code>FCS_CKM.5</code> for MEK derivation, and the required supporting primitives. It includes <code>FCS_CKM.1/KEM</code> and <code>FCS_RBG.1</code> when the TOE performs KeyGen, and <code>FCS_RBG.1</code> when the TOE performs encapsulation.</p>
 </li>
 <li>
 <p>When <code>FCS_CKM_EXT.1.2</code> selects key wrapping for DEK protection, the ST includes <code>FCS_COP.1/KeyWrap</code>.</p>
@@ -1161,7 +1196,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>When an included operation requires IVs, nonces, tweaks, or other one-time values, the ST includes <code>FCS_OTV_EXT.1</code>.</p>
 </li>
 <li>
-<p>When <code>FDP_ITC_EXT.1.4</code> selects supplementary end-to-end protection, the ST includes the corresponding <code>FCS_COP.1/KeyWrap</code> or <code>FCS_COP.1/KeyEncap</code> component; for key encapsulation, the ST includes <code>FCS_RBG.1</code> with its seeding and self-test components and lists the encapsulation and decapsulation keys and derived shared secrets under <code>FCS_CKM.6</code>. Key encapsulation within a protocol is claimed through the applicable Functional Package instead.</p>
+<p>When <code>FDP_ITC_EXT.1.4</code> selects direct supplementary key wrapping, the ST includes <code>FCS_COP.1/KeyWrap</code>. When it selects KEM-based supplementary protection, the ST includes <code>FCS_COP.1/KeyEncap</code> for the TOE role, <code>FCS_CKM.5</code> for KEK derivation, and <code>FCS_COP.1/KeyWrap</code> or <code>FCS_COP.1/AEAD</code> for protection of the transferred key. It includes <code>FCS_CKM.1/KEM</code> and <code>FCS_RBG.1</code> when the TOE performs KeyGen, <code>FCS_RBG.1</code> when the TOE performs encapsulation, and lists all secret ML-KEM values under <code>FCS_CKM.6</code>. Protocol KEMs are claimed through the applicable Functional Package instead.</p>
 </li>
 <li>
 <p>When certificate-based mutual TLS authentication requires signature generation or verification support, the ST includes the applicable asymmetric components required by the TLS Functional Package.</p>
@@ -1223,7 +1258,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><code>FCS_CKM.1/SKG</code>: Direct symmetric key generation includes the consumed <code>FCS_RBG.1</code> component when the TOE directly generates DEKs or internally generates MEKs. DEK derivation triggers the consumed <code>FCS_CKM.5</code> or <code>FCS_CKM_EXT.8</code> component and the supplementary DBMS-specific derivation activities in this SD.</p>
 </li>
 <li>
-<p><code>FCS_CKM_EXT.1.1</code>: "Generated Internally" vs. "Imported from External Entity" - determines whether MEK generation tests or MEK import/BYOK tests apply. Both selections require testing; the evaluator performs the tests applicable to the selected path.</p>
+<p><code>FCS_CKM.1/KEM</code>: TOE-performed ML-KEM.KeyGen includes <code>FCS_RBG.1</code> and is evaluated separately from encapsulation and decapsulation. A provisioned or externally generated key pair does not trigger this component.</p>
+</li>
+<li>
+<p><code>FCS_COP.1/KeyEncap</code>: Encapsulation, decapsulation, or both are selected according to the TOE role. Encapsulation triggers <code>FCS_RBG.1</code>; decapsulation alone does not. Protocol-level KEM use is outside this component.</p>
+</li>
+<li>
+<p><code>FCS_CKM_EXT.1.1</code>: The selected internal, imported, externally managed, or KEM-established origin determines the applicable MEK tests. A KEM-established origin also triggers MEK derivation and the role-specific ML-KEM activities.</p>
 </li>
 <li>
 <p><code>FCS_CKM_EXT.1.2</code>: Key wrapping vs. symmetric key encryption vs. authenticated encryption for stored DEK protection - determines whether the ST includes <code>FCS_COP.1/KeyWrap</code>, <code>FCS_COP.1/SKC</code>, or <code>FCS_COP.1/AEAD</code>, and whether <code>FCS_OTV_EXT.1</code> is required.</p>
@@ -1470,7 +1511,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_fcs_ckm_1skg_cryptographic_key_generation_toe_generated_symmetric_keys_selection_based">5.1. FCS_CKM.1/SKG Cryptographic Key Generation (TOE-Generated Symmetric Keys) (Selection-Based)</h3>
 <div class="paragraph">
-<p>This consumed SFR applies when the TOE directly generates DEKs or internally generates MEKs. Random bit generation and algorithm correctness are evaluated using the Catalogue methods. The activities below cover only DBMS-specific use of directly generated keys within the key hierarchy and their protection under the Master Encryption Key (MEK). Internally generated MEKs are evaluated through the <code>FCS_CKM_EXT.1</code> integration activities. When the TOE derives DEKs, the consumed <code>FCS_CKM.5</code> or <code>FCS_CKM_EXT.8</code> component is evaluated using the Catalogue methods and the DBMS integration activities in <a href="#FCS_CKM_5_FCS_CKM_EXT_8_Key_Derivation_Conditional_Catalogue_Claims">Section 5.2, &#8220;FCS_CKM.5 / FCS_CKM_EXT.8 Key Derivation (Consumed Catalogue Components)&#8221;</a>.</p>
+<p>This consumed SFR applies when the TOE directly generates DEKs or internally generates MEKs. Random bit generation and algorithm correctness are evaluated using the Catalogue methods. The activities below cover only DBMS-specific use of directly generated keys within the key hierarchy and their protection under the Master Encryption Key (MEK). Internally generated MEKs are evaluated through the <code>FCS_CKM_EXT.1</code> integration activities. When the TOE derives DEKs, the consumed <code>FCS_CKM.5</code> or <code>FCS_CKM_EXT.8</code> component is evaluated using the Catalogue methods and the DBMS integration activities in <a href="#FCS_CKM_5_FCS_CKM_EXT_8_Key_Derivation_Conditional_Catalogue_Claims">Section 5.3, &#8220;FCS_CKM.5 / FCS_CKM_EXT.8 Key Derivation (Consumed Catalogue Components)&#8221;</a>.</p>
 </div>
 <div class="sect3">
 <h4 id="_fcs_ckm_1skg_evaluation_activities">5.1.1. FCS_CKM.1/SKG Evaluation Activities</h4>
@@ -1497,7 +1538,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>The source of randomness used for direct key generation, identifying <code>FCS_RBG.1</code> and its selected seeding component.</p>
 </li>
 <li>
-<p>If the TOE derives DEKs instead of, or in addition to, directly generating DEKs, the applicable <code>FCS_CKM.5</code> or <code>FCS_CKM_EXT.8</code> component and the derivation path evaluated under <a href="#FCS_CKM_5_FCS_CKM_EXT_8_Key_Derivation_Conditional_Catalogue_Claims">Section 5.2, &#8220;FCS_CKM.5 / FCS_CKM_EXT.8 Key Derivation (Consumed Catalogue Components)&#8221;</a>.</p>
+<p>If the TOE derives DEKs instead of, or in addition to, directly generating DEKs, the applicable <code>FCS_CKM.5</code> or <code>FCS_CKM_EXT.8</code> component and the derivation path evaluated under <a href="#FCS_CKM_5_FCS_CKM_EXT_8_Key_Derivation_Conditional_Catalogue_Claims">Section 5.3, &#8220;FCS_CKM.5 / FCS_CKM_EXT.8 Key Derivation (Consumed Catalogue Components)&#8221;</a>.</p>
 </li>
 </ul>
 </div>
@@ -1581,46 +1622,118 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="FCS_CKM_5_FCS_CKM_EXT_8_Key_Derivation_Conditional_Catalogue_Claims">5.2. FCS_CKM.5 / FCS_CKM_EXT.8 Key Derivation (Consumed Catalogue Components)</h3>
+<h3 id="FCS_CKM_1_KEM">5.2. FCS_CKM.1/KEM Cryptographic Key Generation - ML-KEM Key Pair (Selection-Based)</h3>
 <div class="paragraph">
-<p>These activities apply when the TOE derives DEKs instead of, or in addition to, directly generating DEKs. Algorithm-level KDF correctness, approved parameters, and primitive testing are evaluated using the Catalogue component evaluation methods for <code>FCS_CKM.5</code> or <code>FCS_CKM_EXT.8</code>. This SD verifies only the DBMS-specific integration of the derived DEKs into the database encryption hierarchy.</p>
+<p>This anticipated component applies only when the TOE performs ML-KEM.KeyGen. Provisioning or generation by an external KMS does not trigger it.</p>
 </div>
 <div class="sect3">
-<h4 id="_fcs_ckm_5_fcs_ckm_ext_8_evaluation_activities">5.2.1. FCS_CKM.5 / FCS_CKM_EXT.8 Evaluation Activities</h4>
+<h4 id="_fcs_ckm_1kem_evaluation_activities">5.2.1. FCS_CKM.1/KEM Evaluation Activities</h4>
 <div class="sect4">
 <h5 id="_tss_activities_2">5.2.1.1. TSS Activities</h5>
+<div class="paragraph">
+<p>The evaluator shall verify that the TSS identifies:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The ML-KEM parameter set and the TOE component performing KeyGen.</p>
+</li>
+<li>
+<p>The randomness source and corresponding <code>FCS_RBG.1</code> claim.</p>
+</li>
+<li>
+<p>The representations and storage locations of the encapsulation key, decapsulation key, and any retained KeyGen seed.</p>
+</li>
+<li>
+<p>How the decapsulation key and KeyGen seed are protected and destroyed under <code>FCS_CKM.6</code>.</p>
+</li>
+<li>
+<p>The DBMS function and <code>FCS_COP.1/KeyEncap</code> role for which the key pair is generated.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The evaluator shall verify that the Cryptographic Validation Coverage Matrix maps ML-KEM KeyGen evidence separately from EncapDecap evidence and covers the selected parameter set.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_guidance_activities_2">5.2.1.2. Guidance Activities</h5>
+<div class="paragraph">
+<p>The evaluator shall verify that the guidance describes how to generate, activate, rotate, back up where permitted, restore where permitted, and destroy the ML-KEM key pair, and how an administrator confirms the active parameter set and key identifier without exposing secret key material.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_test_activities_2">5.2.1.3. Test Activities</h5>
+<div class="paragraph">
+<p><strong>Test 1: ML-KEM Key-Pair Generation and Protection</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Step: Generate an ML-KEM key pair using the documented TOE procedure.</p>
+</li>
+<li>
+<p>Step: Verify that the reported parameter set and key identifier match the ST and TSS.</p>
+</li>
+<li>
+<p>Step: Exercise the claimed encapsulation or decapsulation function using the generated key pair and verify successful shared-secret establishment with the peer test implementation.</p>
+</li>
+<li>
+<p>Step: Inspect persistent key records and administrator-visible outputs and verify that the decapsulation key and any retained KeyGen seed are not exposed in plaintext.</p>
+</li>
+<li>
+<p>Step: Destroy the key pair, then verify that the TOE no longer permits the claimed operation with that key identifier.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Expected result: The TOE generates the claimed ML-KEM key pair using the claimed RBG, the pair supports the selected operation, secret representations are protected, and destruction prevents subsequent use.</p>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="FCS_CKM_5_FCS_CKM_EXT_8_Key_Derivation_Conditional_Catalogue_Claims">5.3. FCS_CKM.5 / FCS_CKM_EXT.8 Key Derivation (Consumed Catalogue Components)</h3>
+<div class="paragraph">
+<p>These activities apply when the TOE derives DEKs instead of, or in addition to, directly generating DEKs, or when the TOE uses <code>FCS_CKM.5</code> to derive an MEK or key-encryption key (KEK) from an ML-KEM shared secret. Algorithm-level KDF correctness, approved parameters, and primitive testing are evaluated using the Catalogue component evaluation methods for <code>FCS_CKM.5</code> or <code>FCS_CKM_EXT.8</code>. This SD verifies the DBMS-specific integration of the derived keys into the database encryption hierarchy.</p>
+</div>
+<div class="sect3">
+<h4 id="_fcs_ckm_5_fcs_ckm_ext_8_evaluation_activities">5.3.1. FCS_CKM.5 / FCS_CKM_EXT.8 Evaluation Activities</h4>
+<div class="sect4">
+<h5 id="_tss_activities_3">5.3.1.1. TSS Activities</h5>
 <div class="paragraph">
 <p>The evaluator shall verify the TSS describes:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Whether DEKs are derived from existing keying material or other non-password derivation inputs (<code>FCS_CKM.5</code>) or from a password/passphrase (<code>FCS_CKM_EXT.8</code>).</p>
+<p>Whether DEKs are derived from existing keying material or other non-password derivation inputs (<code>FCS_CKM.5</code>), from a password/passphrase (<code>FCS_CKM_EXT.8</code>), or whether an ML-KEM shared secret is used as the input to <code>FCS_CKM.5</code> to derive an MEK or KEK.</p>
 </li>
 <li>
-<p>The derivation inputs used by the DBMS, including salts, labels, context strings, key identifiers, tenant/database identifiers, counters, iteration counts, memory or work factors, and any other values required by the included Catalogue component.</p>
+<p>The derivation inputs used by the DBMS, including salts, labels, context strings, key identifiers, tenant/database identifiers, counters, iteration counts, memory or work factors, and any other values required by the included Catalogue component. For ML-KEM input, the description shall identify the context that binds the derived key to the TOE and peer identities, the selected key purpose, and the applicable establishment transaction or protected-key record.</p>
 </li>
 <li>
 <p>The supporting Catalogue primitive components used by the derivation function (for example, hash, keyed hash, CMAC, SKC, or AEAD components), and how those components match the ST assignments.</p>
 </li>
 <li>
-<p>The output key sizes and how derived DEKs are bound to the encrypted database object, tenant, table, column, or storage scope.</p>
+<p>The output key sizes and how derived DEKs are bound to the encrypted database object, tenant, table, column, or storage scope, or how an ML-KEM-derived MEK or KEK is bound to its key-establishment or key-transfer purpose.</p>
 </li>
 <li>
-<p>How derived DEKs are protected after derivation and whether any derived key material is cached, persisted, rotated, or destroyed.</p>
+<p>How derived keys are protected after derivation and whether any derived key material is cached, persisted, rotated, or destroyed. Where ML-KEM input is used, the TSS shall explain when the raw shared secret is destroyed and demonstrate that it is not used directly as an MEK, KEK, or data-encryption key.</p>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_guidance_activities_2">5.2.1.2. Guidance Activities</h5>
+<h5 id="_guidance_activities_3">5.3.1.2. Guidance Activities</h5>
 <div class="paragraph">
 <p>The evaluator shall verify the guidance describes:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Any administrator-visible configuration that affects DEK derivation, including password/passphrase policy when <code>FCS_CKM_EXT.8</code> is claimed.</p>
+<p>Any administrator-visible configuration that affects key derivation, including password/passphrase policy when <code>FCS_CKM_EXT.8</code> is claimed and ML-KEM derivation context or key-purpose configuration when <code>FCS_CKM.5</code> consumes an ML-KEM shared secret.</p>
 </li>
 <li>
 <p>How derivation parameters are generated, stored, backed up, restored, and migrated during upgrade or rotation.</p>
@@ -1632,7 +1745,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect4">
-<h5 id="_test_activities_2">5.2.1.3. Test Activities</h5>
+<h5 id="_test_activities_3">5.3.1.3. Test Activities</h5>
 <div class="paragraph">
 <p><strong>Test 1: Non-Password DEK Derivation Parameter Binding</strong></p>
 </div>
@@ -1711,25 +1824,54 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Expected result: Secret derivation inputs and derived DEK material are not stored in plaintext. Public derivation parameters are stored only as documented, and the derived DEK is protected under the MEK or equivalent claimed mechanism.</p>
 </div>
 <hr>
+<div class="paragraph">
+<p><strong>Test 4: ML-KEM Shared-Secret Derivation, Context Binding, and Destruction</strong></p>
+</div>
+<div class="paragraph">
+<p>Applicable when <code>FCS_CKM.5</code> is used to derive an MEK or KEK from the output of <code>FCS_COP.1/KeyEncap</code>.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Step: Complete an ML-KEM key-establishment operation using the selected encapsulation or decapsulation role and cause the TOE to derive the claimed MEK or KEK.</p>
+</li>
+<li>
+<p>Step: Repeat the operation after changing a context input identified in the TSS, such as the peer identifier, key purpose, transaction identifier, or protected-key-record identifier.</p>
+</li>
+<li>
+<p>Step: Compare observable derived-key identifiers, protected key records, or ciphertext effects and verify they differ when the bound context differs.</p>
+</li>
+<li>
+<p>Step: Inspect persistent key records, logs, and administrator-visible output and verify that the raw ML-KEM shared secret is not persisted or exposed and is not used directly as the MEK, KEK, or DEK.</p>
+</li>
+<li>
+<p>Step: Complete the destruction or lifecycle transition described in the TSS and verify that the raw shared secret is no longer available for reuse.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Expected result: The TOE derives the claimed key with the selected KDF and context, distinct bound contexts do not produce interchangeable protected artifacts, and the raw ML-KEM shared secret is destroyed without being used directly as a database protection key.</p>
+</div>
+<hr>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_fcs_ckm_ext_1_cryptographic_key_management_master_keys">5.3. FCS_CKM_EXT.1 Cryptographic Key Management (Master Keys)</h3>
+<h3 id="_fcs_ckm_ext_1_cryptographic_key_management_master_keys">5.4. FCS_CKM_EXT.1 Cryptographic Key Management (Master Keys)</h3>
 <div class="paragraph">
-<p>This SFR governs the full lifecycle of the Master Encryption Key (MEK) - the root key in the DBMS key hierarchy. It covers internal generation, external import (BYOK), and external management (e.g., a KMIP-conformant key manager) of the MEK, DEK protection under the MEK, and MEK protection and destruction requirements.</p>
+<p>This SFR governs the full lifecycle of the Master Encryption Key (MEK) - the root key in the DBMS key hierarchy. It covers internal generation, external import (BYOK), external management (e.g., a KMIP-conformant key manager), and establishment from an ML-KEM shared secret, as well as DEK protection under the MEK and MEK protection and destruction requirements.</p>
 </div>
 <div class="sect3">
-<h4 id="_fcs_ckm_ext_1_evaluation_activities">5.3.1. FCS_CKM_EXT.1 Evaluation Activities</h4>
+<h4 id="_fcs_ckm_ext_1_evaluation_activities">5.4.1. FCS_CKM_EXT.1 Evaluation Activities</h4>
 <div class="sect4">
-<h5 id="_tss_activities_3">5.3.1.1. TSS Activities</h5>
+<h5 id="_tss_activities_4">5.4.1.1. TSS Activities</h5>
 <div class="paragraph">
 <p>The evaluator shall verify the TSS describes:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Which option is selected in <code>FCS_CKM_EXT.1.1</code> ("Generated Internally", "Imported from External Entity", or "Externally Managed") and the rationale for that selection.</p>
+<p>Which option is selected in <code>FCS_CKM_EXT.1.1</code> ("Generated Internally", "Imported from External Entity", "Externally Managed", or "Established through Key Encapsulation") and the rationale for that selection.</p>
 </li>
 </ul>
 </div>
@@ -1748,7 +1890,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>The storage location of the generated MEK (e.g., software keystore/wallet, filesystem-protected keyfile, platform key store integration).</p>
 </li>
 <li>
-<p>The protection mechanism applied to the stored MEK (e.g., password-based encryption of the keystore, filesystem ACLs, OS keyring or HSM integration).</p>
+<p>The <code>FCS_CKM_EXT.1.2</code> protection model selected for the stored MEK and the evidence that the implementation satisfies that model.</p>
 </li>
 <li>
 <p>How the TOE ensures the MEK storage location is accessible only to authorized roles.</p>
@@ -1770,7 +1912,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>The mutual TLS authentication requirements for the import operation, including the TOE certificate or credential used to authenticate to the external entity.</p>
 </li>
 <li>
-<p>How the imported MEK is stored and protected within the TOE boundary after import.</p>
+<p>How the imported MEK is stored and protected within the TOE boundary after import, including the <code>FCS_CKM_EXT.1.2</code> protection model selected for that storage path.</p>
 </li>
 </ul>
 </div>
@@ -1797,10 +1939,38 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </div>
 <div class="paragraph">
+<p><strong>If "Established through Key Encapsulation" is selected, additionally verify the TSS describes:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The external entity with which the TOE establishes the ML-KEM shared secret, the ML-KEM parameter set, and whether the TOE performs encapsulation, decapsulation, or both under <code>FCS_COP.1/KeyEncap</code>.</p>
+</li>
+<li>
+<p>Whether an ML-KEM key pair used by the TOE is generated within the TOE under <code>FCS_CKM.1/KEM</code> and <code>FCS_RBG.1</code>, or is provisioned from an external source. Externally performed KeyGen, encapsulation, or decapsulation shall be clearly identified as outside the TOE and shall not be claimed as a TOE cryptographic operation.</p>
+</li>
+<li>
+<p>For encapsulation, how the TOE authenticates the recipient encapsulation key; for decapsulation, where and how the TOE protects the decapsulation key and how it is destroyed under <code>FCS_CKM.6</code>.</p>
+</li>
+<li>
+<p>How the TOE passes the ML-KEM shared secret to <code>FCS_CKM.5</code>, the context bound by the derivation, the resulting MEK size and purpose, and when the raw shared secret is destroyed.</p>
+</li>
+<li>
+<p>How the mutually authenticated channel in <code>FDP_ITC_EXT.1</code> protects the key-establishment exchange. If the exchange occurs inside a higher-level protocol such as TLS, the applicable protocol Functional Package, rather than <code>FCS_COP.1/KeyEncap</code>, shall own that protocol use.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
 <p><strong>For all selections, additionally verify the TSS describes:</strong></p>
 </div>
 <div class="ulist">
 <ul>
+<li>
+<p>Each Master Key storage or use path and the corresponding protection model selected in the first selection of <code>FCS_CKM_EXT.1.2</code>: cryptographic protection under <code>FCS_COP.1/KeyWrap</code> or <code>FCS_COP.1/AEAD</code>, non-exportable hardware-backed key storage within the TOE boundary, or no persistent Master Key material within the TOE boundary. If more than one model is selected, the TSS shall map each model to the applicable key path.</p>
+</li>
+<li>
+<p>For cryptographic protection, the protecting key, claimed Catalogue operation, one-time values where applicable, and separation between the protected MEK and the protecting key. For non-exportable hardware-backed storage, the evaluated interface, TOE-boundary allocation, authorization enforcement, and non-exportability property. For no-persistent-material handling, the lifetime, clearing, and restart behavior of transient copies and the locations examined to establish that no plaintext or reversibly encoded MEK persists.</p>
+</li>
 <li>
 <p>The DEK protection method selected in <code>FCS_CKM_EXT.1.2</code> (<code>FCS_COP.1/KeyWrap</code>, <code>FCS_COP.1/SKC</code>, or <code>FCS_COP.1/AEAD</code>) and the corresponding Catalogue component claims. Where <code>FCS_COP.1/SKC</code> is selected, the evaluator shall examine any compensating integrity mechanisms for stored DEKs described in the TSS (for example, keystore-container integrity protection); the module does not require such mechanisms under the General-Purpose use case.</p>
 </li>
@@ -1817,7 +1987,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect4">
-<h5 id="_guidance_activities_3">5.3.1.2. Guidance Activities</h5>
+<h5 id="_guidance_activities_4">5.4.1.2. Guidance Activities</h5>
 <div class="paragraph">
 <p>The evaluator shall verify the guidance describes:</p>
 </div>
@@ -1833,7 +2003,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Step-by-step instructions for external key-management integration (if "Externally Managed" is selected), including prerequisites for establishing the mutual TLS connection to the key management service, endpoint and credential configuration, and how to verify the integration is active and the MEK is usable.</p>
 </li>
 <li>
+<p>Step-by-step instructions for ML-KEM establishment (if "Established through Key Encapsulation" is selected), including peer and trusted-key configuration, the TOE&#8217;s selected role, local ML-KEM key-pair generation or provisioning where applicable, derivation-context configuration, rotation or replacement, and how to verify that the derived MEK is active.</p>
+</li>
+<li>
 <p>The DEK protection method used by the TOE and any administrator-visible controls that affect whether DEKs are key-wrapped, symmetrically encrypted, or authenticated-encrypted under the MEK.</p>
+</li>
+<li>
+<p>How to configure each selected Master Key protection model, restrict Master Key use to authorized TSF functions and roles, and verify that cryptographic protection, hardware-backed non-exportability, or transient-only handling is active as claimed.</p>
 </li>
 <li>
 <p>The MEK rotation procedure, including the steps to generate or import a new MEK, how DEK re-protection occurs (automatically or requiring an administrator action), how to verify data remains accessible after rotation, and any operational impact or downtime considerations.</p>
@@ -1848,7 +2024,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect4">
-<h5 id="_test_activities_3">5.3.1.3. Test Activities</h5>
+<h5 id="_test_activities_4">5.4.1.3. Test Activities</h5>
 <div class="paragraph">
 <p><strong>Test 1: Master Key Generation (Internal)</strong></p>
 </div>
@@ -1952,6 +2128,38 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <hr>
 <div class="paragraph">
+<p><strong>Test 2b: Master Key Established through ML-KEM</strong></p>
+</div>
+<div class="paragraph">
+<p>Applicable when "Established through Key Encapsulation" is selected in <code>FCS_CKM_EXT.1.1</code>.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Step: Configure the TOE and external peer per the administrator guidance, including the claimed ML-KEM parameter set, selected TOE role, peer-key authentication, and mutual TLS channel.</p>
+</li>
+<li>
+<p>Step: Complete the ML-KEM operation and <code>FCS_CKM.5</code> derivation, then verify the TOE reports that the resulting MEK is active.</p>
+</li>
+<li>
+<p>Step: Encrypt a small test dataset and verify that it can be decrypted and read using the established MEK hierarchy.</p>
+</li>
+<li>
+<p>Step: Repeat establishment after rotating the applicable ML-KEM key or derivation context and verify that the TOE obtains a distinct active MEK while retaining access according to the documented rotation procedure.</p>
+</li>
+<li>
+<p>Step: Present an invalid ML-KEM ciphertext or an unauthorized/mismatched encapsulation key, as applicable to the selected TOE role, and verify that establishment fails without activating a new MEK.</p>
+</li>
+<li>
+<p>Step: Inspect persistent records, administrator-visible output, and logs and verify that neither the raw ML-KEM shared secret nor plaintext MEK material is exposed or persistently stored.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Expected result: The TOE establishes and derives the MEK only with an authenticated peer and valid ML-KEM input, uses it successfully in the database key hierarchy, handles rotation as documented, and does not expose the raw shared secret or plaintext MEK.</p>
+</div>
+<hr>
+<div class="paragraph">
 <p><strong>Test 3: Master Key Rotation</strong></p>
 </div>
 <div class="olist arabic">
@@ -2032,18 +2240,148 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Expected result: The observed DEK protection method is consistent with the ST selections and included Catalogue components. DEKs are stored only in protected form, one-time-value handling is consistent with the TSS, and the TOE does not expose plaintext DEK material.</p>
 </div>
 <hr>
+<div class="paragraph">
+<p><strong>Test 6: Master Key Protection Model Consistency</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Step: Identify every Master Key storage or use path and the protection model selected for it in the first selection of <code>FCS_CKM_EXT.1.2</code>.</p>
+</li>
+<li>
+<p>Step: Using an unauthorized database role and, where applicable, a standard unprivileged platform account, attempt to invoke Master Key operations, read a persistent Master Key artifact, or export the key through the documented key-store interface.</p>
+</li>
+<li>
+<p>Step: For a cryptographically protected persistent copy, inspect the protected record and the TSS/developer evidence to verify that the claimed <code>FCS_COP.1/KeyWrap</code> or <code>FCS_COP.1/AEAD</code> operation protects the MEK and that the protecting key is not stored alongside it in an equivalent plaintext form.</p>
+</li>
+<li>
+<p>Step: For non-exportable hardware-backed storage, exercise the documented export or read interface, or the closest negative operation the interface permits, and verify that plaintext export is refused and only authorized TOE operations can use the key.</p>
+</li>
+<li>
+<p>Step: For a no-persistent-material path, stop and restart the TOE or force it past the documented transient-key lifetime, then inspect the persistent locations and artifacts identified in the TSS and verify that no plaintext or reversibly encoded Master Key remains within the TOE boundary.</p>
+</li>
+<li>
+<p>Step: Verify that the selected mechanism is TSF behavior within the evaluated TOE boundary and is not satisfied solely by the operational-environment protections assigned to <code>OE.KEY_STORE_PROTECTION</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Expected result: Each Master Key path implements the protection model selected in the ST; unauthorized use or export is denied; persistent material is cryptographically protected or non-exportable as claimed; transient-only paths leave no persistent Master Key; and environmental storage protection is treated only as supporting protection.</p>
+</div>
+<hr>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_fcs_ckm_6_cryptographic_key_destruction_catalogue_reference">5.4. FCS_CKM.6 Cryptographic Key Destruction (Catalogue Reference)</h3>
+<h3 id="_fcs_cop_1keyencap_ml_kem_encapsulation_and_decapsulation_selection_based">5.5. FCS_COP.1/KeyEncap ML-KEM Encapsulation and Decapsulation (Selection-Based)</h3>
+<div class="paragraph">
+<p>Algorithm-level ML-KEM validation is performed using the Catalogue evaluation methods and applicable scheme-recognized validation program. The following activities verify the DBMS integration and the operation roles selected in the ST.</p>
+</div>
+<div class="sect3">
+<h4 id="_fcs_cop_1keyencap_evaluation_activities">5.5.1. FCS_COP.1/KeyEncap Evaluation Activities</h4>
+<div class="sect4">
+<h5 id="_tss_activities_5">5.5.1.1. TSS Activities</h5>
+<div class="paragraph">
+<p>The evaluator shall verify the TSS describes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The selected ML-KEM parameter set and whether the TOE performs encapsulation, decapsulation, or both.</p>
+</li>
+<li>
+<p>The source, storage location, authentication, protection, rotation, and destruction of each ML-KEM encapsulation or decapsulation key used by the TOE.</p>
+</li>
+<li>
+<p>Whether the TOE generates an ML-KEM key pair under <code>FCS_CKM.1/KEM</code>; if KeyGen is external, the TOE boundary and provisioning interface shall be identified without claiming external generation as a TOE operation.</p>
+</li>
+<li>
+<p>For encapsulation, the <code>FCS_RBG.1</code> source used by the operation. For a decapsulation-only implementation, the evaluator shall verify that no RBG dependency is asserted merely for decapsulation.</p>
+</li>
+<li>
+<p>How the resulting shared secret is passed to <code>FCS_CKM.5</code>, the derived MEK or KEK purpose, and how the raw shared secret is destroyed under <code>FCS_CKM.6</code>.</p>
+</li>
+<li>
+<p>When a KEM-derived KEK protects transferred keying material, the <code>FCS_COP.1/KeyWrap</code> or <code>FCS_COP.1/AEAD</code> operation that protects the existing MEK or DEK; ML-KEM shall not be described as directly encapsulating that existing key.</p>
+</li>
+<li>
+<p>Any externally performed ML-KEM operation and any ML-KEM use owned by a protocol Functional Package, such as TLS, so those operations are not also claimed under this component.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_guidance_activities_5">5.5.1.2. Guidance Activities</h5>
+<div class="paragraph">
+<p>The evaluator shall verify the guidance describes how to configure the selected TOE role, establish and authenticate peer encapsulation keys, provision or generate TOE key pairs where applicable, rotate and destroy ML-KEM keys, diagnose rejected ciphertexts or keys, and identify any operation allocated to an external KMS or other environmental component.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_test_activities_5">5.5.1.3. Test Activities</h5>
+<div class="paragraph">
+<p><strong>Test 1: ML-KEM Encapsulation Integration</strong></p>
+</div>
+<div class="paragraph">
+<p>Applicable when encapsulation is selected.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Step: Configure an authenticated recipient encapsulation key and cause the TOE to perform encapsulation.</p>
+</li>
+<li>
+<p>Step: Verify the recipient can decapsulate the resulting ciphertext to the same shared secret used as input to the TOE&#8217;s claimed derivation operation, using evaluator or developer instrumentation that does not expose secret material in operational interfaces.</p>
+</li>
+<li>
+<p>Step: Replace the recipient key with an unauthorized or mismatched key and verify the TOE rejects it or otherwise prevents establishment with an unauthenticated peer.</p>
+</li>
+<li>
+<p>Step: Verify evidence identifies the claimed <code>FCS_RBG.1</code> source for encapsulation.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Expected result: Encapsulation succeeds only for an authenticated recipient key, interoperates at the selected parameter set, and uses the claimed randomness source.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Test 2: ML-KEM Decapsulation Integration and Invalid Ciphertext Handling</strong></p>
+</div>
+<div class="paragraph">
+<p>Applicable when decapsulation is selected.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Step: Configure the TOE decapsulation key and provide a valid ML-KEM ciphertext generated for the corresponding encapsulation key.</p>
+</li>
+<li>
+<p>Step: Verify the TOE completes the claimed derivation or key-establishment workflow without exposing the raw shared secret.</p>
+</li>
+<li>
+<p>Step: Modify the ciphertext and repeat the operation, then verify that the resulting value cannot activate, unwrap, or decrypt the protected database key material associated with the valid exchange.</p>
+</li>
+<li>
+<p>Step: Destroy or deactivate the decapsulation key and verify subsequent operations using that key identifier are refused.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Expected result: Valid ciphertext supports the claimed workflow, malformed or mismatched ciphertext cannot recover protected database key material, and destroyed decapsulation keys cannot be reused.</p>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fcs_ckm_6_cryptographic_key_destruction_catalogue_reference">5.6. FCS_CKM.6 Cryptographic Key Destruction (Catalogue Reference)</h3>
 <div class="paragraph">
 <p>This consumed SFR is reproduced in the PP-Module from <code>FCS_CKM.6</code> (CCDB-018 Section 3.7). The primary evaluation methods for key destruction are defined by the Catalogue and associated evaluation-methods guidance. This SD provides only supplementary activities specific to the DBMS key hierarchy and destruction consequences.</p>
 </div>
 <div class="sect3">
-<h4 id="_fcs_ckm_6_evaluation_activities">5.4.1. FCS_CKM.6 Evaluation Activities</h4>
+<h4 id="_fcs_ckm_6_evaluation_activities">5.6.1. FCS_CKM.6 Evaluation Activities</h4>
 <div class="sect4">
-<h5 id="_tss_activities_4">5.4.1.1. TSS Activities</h5>
+<h5 id="_tss_activities_6">5.6.1.1. TSS Activities</h5>
 <div class="paragraph">
 <p>The evaluator shall verify the TSS describes:</p>
 </div>
@@ -2062,7 +2400,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect4">
-<h5 id="_guidance_activities_4">5.4.1.2. Guidance Activities</h5>
+<h5 id="_guidance_activities_6">5.6.1.2. Guidance Activities</h5>
 <div class="paragraph">
 <p>The evaluator shall verify the guidance describes:</p>
 </div>
@@ -2078,7 +2416,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect4">
-<h5 id="_test_activities_4">5.4.1.3. Test Activities</h5>
+<h5 id="_test_activities_6">5.6.1.3. Test Activities</h5>
 <div class="paragraph">
 <p><strong>Note:</strong> Detailed zeroization testing is performed as part of the Crypto Catalogue evaluation methods for <code>FCS_CKM.6</code>. The following supplementary test verifies DBMS-specific destruction behaviour.</p>
 </div>
@@ -2124,7 +2462,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect3">
 <h4 id="_fdp_dar_ext_1_evaluation_activities">6.1.1. FDP_DAR_EXT.1 Evaluation Activities</h4>
 <div class="sect4">
-<h5 id="_tss_activities_5">6.1.1.1. TSS Activities</h5>
+<h5 id="_tss_activities_7">6.1.1.1. TSS Activities</h5>
 <div class="paragraph">
 <p>The evaluator shall verify the TSS describes:</p>
 </div>
@@ -2198,7 +2536,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect4">
-<h5 id="_guidance_activities_5">6.1.1.2. Guidance Activities</h5>
+<h5 id="_guidance_activities_7">6.1.1.2. Guidance Activities</h5>
 <div class="paragraph">
 <p>The evaluator shall verify the guidance describes:</p>
 </div>
@@ -2258,7 +2596,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect4">
-<h5 id="_test_activities_5">6.1.1.3. Test Activities</h5>
+<h5 id="_test_activities_7">6.1.1.3. Test Activities</h5>
 <div class="paragraph">
 <p><strong>Test 1: Storage-Scope Encryption - Storage Inspection</strong></p>
 </div>
@@ -2408,7 +2746,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect3">
 <h4 id="_fdp_dit_ext_1_evaluation_activities">6.2.1. FDP_DIT_EXT.1 Evaluation Activities</h4>
 <div class="sect4">
-<h5 id="_tss_activities_6">6.2.1.1. TSS Activities</h5>
+<h5 id="_tss_activities_8">6.2.1.1. TSS Activities</h5>
 <div class="paragraph">
 <p>The evaluator shall verify the TSS:</p>
 </div>
@@ -2430,13 +2768,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect4">
-<h5 id="_guidance_activities_6">6.2.1.2. Guidance Activities</h5>
+<h5 id="_guidance_activities_8">6.2.1.2. Guidance Activities</h5>
 <div class="paragraph">
 <p>The evaluator shall verify the operational guidance describes how to configure each protected channel, including protocol selection, certificate and trust-anchor configuration, and any options that enable or disable data-in-transit protection for a channel.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_test_activities_6">6.2.1.3. Test Activities</h5>
+<h5 id="_test_activities_8">6.2.1.3. Test Activities</h5>
 <div class="paragraph">
 <p><strong>Test 1: Protected Channel Establishment</strong></p>
 </div>
@@ -2484,17 +2822,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_fdp_itc_ext_1_trusted_channel_for_key_import_and_external_key_management_selection_based">6.3. FDP_ITC_EXT.1 Trusted Channel for Key Import and External Key Management (Selection-Based)</h3>
+<h3 id="_fdp_itc_ext_1_trusted_channel_for_key_import_external_key_management_and_key_establishment_selection_based">6.3. FDP_ITC_EXT.1 Trusted Channel for Key Import, External Key Management, and Key Establishment (Selection-Based)</h3>
 <div class="paragraph">
-<p>This SFR governs the mutually authenticated trusted channel used to import the Master Encryption Key from an external Key Management System (KMS) in BYOK scenarios, or to communicate with an external key management service that remains the authoritative store for the MEK (e.g., a KMIP-conformant key manager). The channel protocol is evaluated using the Functional Package for TLS v2.1 [<a href="#TLS_FP">[TLS_FP]</a>]. This SD covers the DBMS-specific channel properties: authentication behaviour, key material protection in transit, and failure handling. The activities below apply to whichever external Key Origin is selected in <code>FCS_CKM_EXT.1.1</code>; "key import operation" is read as the applicable key import or key-management operation.</p>
+<p>This SFR governs the mutually authenticated trusted channel used to import the Master Encryption Key from an external Key Management System (KMS) in BYOK scenarios, communicate with an external key management service that remains the authoritative store for the MEK (e.g., a KMIP-conformant key manager), or exchange the values needed to establish keying material through ML-KEM. The channel protocol is evaluated using the Functional Package for TLS v2.1 [<a href="#TLS_FP">[TLS_FP]</a>]. This SD covers the DBMS-specific channel properties: authentication behaviour, key material protection in transit, and failure handling. The activities below apply to whichever external Key Origin is selected in <code>FCS_CKM_EXT.1.1</code>; "key operation" is read as the applicable import, external-management, or key-establishment operation.</p>
 </div>
 <div class="paragraph">
-<p><strong>Application Note:</strong> The evaluator shall also apply TLS Evaluation Activities from the Functional Package for TLS v2.1 for the <code>FCS_TLSC_EXT.1</code> or <code>FCS_TLSS_EXT.1</code> components claimed in the ST. The activities below are supplementary and focus on the DBMS-to-KMS channel specifically; any key-management message protocol carried over the channel (e.g., KMIP) is not itself evaluated. Mutual TLS is mandatory for both external Key Origin paths.</p>
+<p><strong>Application Note:</strong> The evaluator shall also apply TLS Evaluation Activities from the Functional Package for TLS v2.1 for the <code>FCS_TLSC_EXT.1</code> or <code>FCS_TLSS_EXT.1</code> components claimed in the ST. The activities below are supplementary and focus on the DBMS-to-external-entity channel specifically; any key-management message protocol carried over the channel (e.g., KMIP) is not itself evaluated. Mutual TLS is mandatory for every external Key Origin path. ML-KEM inside TLS is owned by the TLS Functional Package and is not claimed again as <code>FCS_COP.1/KeyEncap</code>.</p>
 </div>
 <div class="sect3">
 <h4 id="_fdp_itc_ext_1_evaluation_activities">6.3.1. FDP_ITC_EXT.1 Evaluation Activities</h4>
 <div class="sect4">
-<h5 id="_tss_activities_7">6.3.1.1. TSS Activities</h5>
+<h5 id="_tss_activities_9">6.3.1.1. TSS Activities</h5>
 <div class="paragraph">
 <p>The evaluator shall verify the TSS describes:</p>
 </div>
@@ -2513,13 +2851,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>That key material transmitted over the channel is protected by the TLS layer and is never transmitted in plaintext.</p>
 </li>
 <li>
-<p>The <code>FDP_ITC_EXT.1.4</code> selection: where supplementary end-to-end protection is selected, which keying-material flows are wrapped or encapsulated, under which component (<code>FCS_COP.1/KeyWrap</code> or <code>FCS_COP.1/KeyEncap</code>), how the wrapping or encapsulation keys are established and protected, and where unwrapping or decapsulation occurs within the TOE.</p>
+<p>The <code>FDP_ITC_EXT.1.4</code> selection: where supplementary end-to-end protection is selected, whether transferred keying material is directly protected by <code>FCS_COP.1/KeyWrap</code>, or whether ML-KEM establishes a shared secret from which <code>FCS_CKM.5</code> derives a KEK and <code>FCS_COP.1/KeyWrap</code> or <code>FCS_COP.1/AEAD</code> protects the existing MEK or DEK. The TSS shall identify the TOE&#8217;s ML-KEM role, the locations of the ML-KEM keys, derivation inputs, KEK, and transferred key, and where unwrapping, authenticated decryption, or decapsulation occurs.</p>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_guidance_activities_7">6.3.1.2. Guidance Activities</h5>
+<h5 id="_guidance_activities_9">6.3.1.2. Guidance Activities</h5>
 <div class="paragraph">
 <p>The evaluator shall verify the guidance describes:</p>
 </div>
@@ -2540,11 +2878,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p>The TOE&#8217;s behavior when the KMS is unavailable (e.g., whether cached key material allows continued operation or whether the TOE fails to start or denies new connections).</p>
 </li>
+<li>
+<p>When supplementary ML-KEM protection is selected, how to configure the TOE role and peer keys, establish the KEM-derived KEK, select the KeyWrap or AEAD protection operation, rotate the relevant keys, and diagnose failed decapsulation, derivation, unwrap, or authenticated-decryption operations.</p>
+</li>
 </ul>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_test_activities_7">6.3.1.3. Test Activities</h5>
+<h5 id="_test_activities_9">6.3.1.3. Test Activities</h5>
 <div class="paragraph">
 <p><strong>Test 1: Successful Channel Establishment and Key Import</strong></p>
 </div>
@@ -2628,6 +2969,35 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Expected result: Key material is not found in plaintext in any captured packets. The payload of all post-handshake TLS records is encrypted and not interpretable without the session keys.</p>
 </div>
 <hr>
+<div class="paragraph">
+<p><strong>Test 5: KEM-Derived Protection for Transferred Keying Material</strong></p>
+</div>
+<div class="paragraph">
+<p>Applicable when <code>FDP_ITC_EXT.1.4</code> selects supplementary protection using ML-KEM.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Step: Configure the TOE and external entity for the selected ML-KEM role and establish a shared secret over the mutually authenticated trusted channel.</p>
+</li>
+<li>
+<p>Step: Cause <code>FCS_CKM.5</code> to derive the KEK and transfer a known test MEK or DEK protected by the selected <code>FCS_COP.1/KeyWrap</code> or <code>FCS_COP.1/AEAD</code> operation.</p>
+</li>
+<li>
+<p>Step: Verify the TOE receives and can use the same test key while network capture shows only the mutually authenticated TLS exchange and protected key artifact.</p>
+</li>
+<li>
+<p>Step: Repeat using an incorrect ML-KEM key, modified ML-KEM ciphertext, or mismatched derivation context and verify that unwrap or authenticated decryption fails and the transferred key is not activated.</p>
+</li>
+<li>
+<p>Step: Inspect persistent records and operational interfaces and verify that the raw ML-KEM shared secret and derived KEK are not exposed or persistently stored except where protected storage is explicitly claimed and evaluated.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Expected result: ML-KEM establishes the input to KEK derivation, KeyWrap or AEAD protects the transferred key, invalid or mismatched establishment inputs prevent key recovery, and the mutually authenticated channel remains in use.</p>
+</div>
+<hr>
 </div>
 </div>
 </div>
@@ -2663,16 +3033,28 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">Up to 2 DEK generation tests when direct DEK generation is claimed; internally generated MEK generation is tested under FCS_CKM_EXT.1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM.1/KEM Cryptographic Key Generation (ML-KEM Key Pair) (Selection-Based)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Verify parameter set, randomness source, key use, secret-key protection, lifecycle, and boundary when TOE KeyGen is claimed</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure local KeyGen, key use, protection, rotation, and destruction</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 test: ML-KEM key-pair generation and lifecycle</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM.5 / FCS_CKM_EXT.8 Key Derivation (Conditional)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Verify derivation input type, parameters, supporting primitive claims, output sizes, derived DEK protection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Configure derivation parameters, passphrase policy where applicable, parameter backup/restore</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3 tests: Non-password parameter binding, password-based parameters, derived DEK storage protection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Verify derivation input type, parameters and context, supporting primitive claims, output sizes, derived-key protection, and ML-KEM shared-secret destruction where applicable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure derivation parameters, passphrase policy where applicable, ML-KEM key-purpose context, and parameter backup/restore</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Up to 4 tests: Non-password parameter binding, password-based parameters, derived DEK storage protection, ML-KEM context binding and destruction</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM_EXT.1 Cryptographic Key Management (Master Keys)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Verify key origin selection, MEK generation, import, or external management, DEK protection method, storage and protection (including no plaintext persistence for the Externally Managed origin), in-memory protection, destruction procedure</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Configure MEK generation, import, or external key-management integration, DEK protection method, rotation procedure, destruction procedure, access restrictions</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Up to 6 tests: internal generation, BYOK import, or externally managed MEK per the selected origin, rotation, destruction, DEK protection method consistency</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Verify key origin selection, MEK generation, import, external management, or ML-KEM establishment, explicit MEK protection model, DEK protection method, storage and protection, in-memory protection, and destruction procedure</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure MEK generation, import, external key-management integration, or ML-KEM establishment, MEK and DEK protection methods, rotation procedure, destruction procedure, access restrictions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Up to 8 tests: one of four key-origin paths, rotation, destruction, DEK protection method consistency, and MEK protection model consistency</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FCS_COP.1/KeyEncap ML-KEM Encapsulation and Decapsulation (Selection-Based)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Verify selected operation roles, parameter set, key source and protection, randomness dependencies, shared-secret handling, KDF integration, and external/protocol boundary</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure roles, peer-key authentication, local keys, rotation, destruction, and external allocation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Up to 2 tests: encapsulation integration; decapsulation integration and invalid-ciphertext handling</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM.6 Key Destruction (Catalogue Reference)</p></td>
@@ -2693,10 +3075,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">3 tests: protected channel establishment, endpoint authentication, negotiation failure handling</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FDP_ITC_EXT.1 Trusted Channel for Key Import and External Key Management (Selection-Based)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Verify mutual TLS protocol, certificate infrastructure, failure handling, plaintext protection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Configure mutual TLS prerequisites, KMS endpoint, certificate rotation, failure diagnostics</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4 tests when an external Key Origin is selected: successful mutual TLS establishment and key operation, untrusted certificate rejection, client certificate enforcement, in-transit confidentiality</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FDP_ITC_EXT.1 Trusted Channel for Key Import, External Key Management, and Key Establishment (Selection-Based)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Verify mutual TLS protocol, certificate infrastructure, failure handling, plaintext protection, and compound KEM-derived KEK plus KeyWrap/AEAD construction where selected</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure mutual TLS prerequisites, external endpoint, certificate rotation, failure diagnostics, and supplementary KEM-derived transfer protection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Up to 5 tests when an external Key Origin is selected: mutual TLS operation, certificate failures, in-transit confidentiality, and KEM-derived transferred-key protection</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FPT_TST.1/RBG TSF Self-Testing (Catalogue Dependency)</p></td>
@@ -2740,6 +3122,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>An external KMS test instance (hardware or software) for BYOK, external key-management, and trusted channel tests.</p>
 </li>
 <li>
+<p>An ML-KEM-capable peer or test harness supporting the selected parameter set and TOE operation role when <code>FCS_CKM.1/KEM</code>, <code>FCS_COP.1/KeyEncap</code>, or KEM-derived transfer protection is claimed.</p>
+</li>
+<li>
 <p>Separate operating system accounts with differing privilege levels for access control tests.</p>
 </li>
 </ol>
@@ -2748,7 +3133,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_kms_test_environment">B.2. KMS Test Environment</h3>
 <div class="paragraph">
-<p>For evaluations involving FDP_ITC_EXT.1 and FCS_CKM_EXT.1 BYOK paths:</p>
+<p>For evaluations involving <code>FDP_ITC_EXT.1</code> and any external <code>FCS_CKM_EXT.1</code> origin path:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -2766,6 +3151,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li>
 <p>Confirm network capture is possible between the TOE and KMS prior to beginning tests.</p>
+</li>
+<li>
+<p>When ML-KEM is claimed, configure the external entity or test harness with the complementary ML-KEM operation, authenticated encapsulation keys, known invalid or mismatched test inputs, and the ability to confirm KDF and KeyWrap/AEAD interoperability without exposing secret material through operational interfaces.</p>
 </li>
 </ol>
 </div>
@@ -3091,7 +3479,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><span id="CNSA_2">[CNSA_2]</span> Commercial National Security Algorithm Suite 2.0 Cybersecurity Advisory, PP-22-1338, Version 1.0, September 2022, and CNSA 2.0 FAQ, PP-24-4014, Version 2.1, December 2024. Available from <a href="https://www.nsa.gov/Press-Room/Digital-Media-Center/Document-Gallery/igphoto/2003728741/">nsa.gov</a> and <a href="https://www.nsa.gov/Press-Room/Digital-Media-Center/Document-Gallery/igphoto/2003071836/">nsa.gov</a>.</p>
 </li>
 <li>
-<p><span id="DBMS_MOD_CRYPTO">[DBMS_MOD_CRYPTO]</span> collaborative PP-Module for DBMS Cryptographic Functions (DBMS_MOD_CRYPTO), Version 0.4, 2026-06-30.</p>
+<p><span id="DBMS_MOD_CRYPTO">[DBMS_MOD_CRYPTO]</span> collaborative PP-Module for DBMS Cryptographic Functions (DBMS_MOD_CRYPTO), Version 0.5, 2026-07-20.</p>
 </li>
 <li>
 <p><span id="cPP_DBMS">[cPP_DBMS]</span> collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.</p>
@@ -3100,10 +3488,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><span id="cPP_DBMS_SD">[cPP_DBMS_SD]</span> Supporting Document Mandatory Technical Document Evaluation Activities for the collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.</p>
 </li>
 <li>
-<p><span id="DBMS_Cloud_MOD">[DBMS_Cloud_MOD]</span> collaborative PP-Module for DBMS in the Cloud (DBMS_Cloud_MOD), Version 0.4, 2026-06-30.</p>
+<p><span id="DBMS_Cloud_MOD">[DBMS_Cloud_MOD]</span> collaborative PP-Module for DBMS in the Cloud (DBMS_Cloud_MOD), Version 0.5, 2026-07-20.</p>
 </li>
 <li>
-<p><span id="DBMS_Cloud_SD">[DBMS_Cloud_SD]</span> Supporting Document for collaborative PP-Module for DBMS in the Cloud, Version 0.4.</p>
+<p><span id="DBMS_Cloud_SD">[DBMS_Cloud_SD]</span> Supporting Document for collaborative PP-Module for DBMS in the Cloud, Version 0.5.</p>
 </li>
 </ul>
 </div>
@@ -3112,8 +3500,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.4<br>
-Last updated 2026-07-18 20:02:33 -0500
+Version 0.5<br>
+Last updated 2026-07-20 16:34:48 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

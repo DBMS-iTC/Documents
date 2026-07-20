@@ -8,14 +8,14 @@
 :imagesdir: images
 :icons: font
 :doctype: book
-:revnumber: 0.4
-:revdate: 2026-06-30
+:revnumber: 0.5
+:revdate: 2026-07-20
 :xrefstyle: full
 
 :iTC-shortname: DBMS-iTC
 :iTC-longname: Database Management Systems
 :pp-module-name: collaborative PP-Module for DBMS in the Cloud
-:pp-module-version: 0.4
+:pp-module-version: 0.5
 :base-pp-version: Version 2.0
 :base-pp-date: 27 April 2026
 
@@ -73,6 +73,14 @@
 |0.4
 |2026-07-08
 |Editorial sweep: hardcoded section numbers replaced with section names in the Structure of the Document; RFC-2119 capitals normalized in the Evaluation Cloud Environment Requirements; element reference updated to FMT_SMF.1.1/Cloud; CEM cross-reference appendix scope clarified (narrative FAU/FIA/FMT/FPT activities refine the generic ASE/AGD/ATE_IND work units).
+
+|0.4
+|2026-07-20
+|Aligned Crypto Module coordination with the role-specific ML-KEM model. Cloud evidence now distinguishes TOE KeyGen, encapsulation, and decapsulation from external KMS allocations; coordinates KEM-to-Master-Key or KEK derivation and transferred-key protection results; and leaves protocol-level ML-KEM to the applicable Functional Package.
+
+|0.5
+|2026-07-20
+|Assigned stable identifiers to every narrative SFR TSS, Guidance, and Test activity group and added complete CEM work-unit mapping for those groups, eliminating the prior dual-format traceability gap. Rolled all Crypto coordination references to the Version 0.5 module set.
 
 |===
 
@@ -688,6 +696,7 @@ This SFR is an iteration of the Base PP's FAU_GEN.1. The Base PP SD's FAU_GEN.1 
 
 ==== FAU_GEN.1/Cloud Evaluation Activities
 
+[[EA-FAU_GEN.1-Cloud-TSS]]
 ===== TSS Activities
 
 The evaluator shall verify the TSS describes:
@@ -714,6 +723,7 @@ The evaluator shall verify the TSS describes:
 
 The evaluator shall verify the TSS identifies all interfaces through which audit records are generated, including internal TSF components and any cloud-native logging APIs.
 
+[[EA-FAU_GEN.1-Cloud-Guidance]]
 ===== Guidance Activities
 
 The evaluator shall verify the guidance describes:
@@ -738,6 +748,7 @@ The evaluator shall verify the guidance describes:
 
 * Any operational constraints on audit functionality (e.g., storage limitations, performance impacts).
 
+[[EA-FAU_GEN.1-Cloud-Test]]
 ===== Test Activities
 
 *Test 1: Audit Function Startup/Shutdown Recording*
@@ -813,6 +824,7 @@ Expected result: Audit behavior matches the documented configuration. Events tha
 
 ==== FAU_SEL.1/Cloud Evaluation Activities
 
+[[EA-FAU_SEL.1-Cloud-TSS]]
 ===== TSS Activities
 
 The evaluator shall verify the TSS describes:
@@ -833,6 +845,7 @@ The evaluator shall verify the TSS describes:
 
 * The default selection state (all events audited, no events audited, or specific baseline).
 
+[[EA-FAU_SEL.1-Cloud-Guidance]]
 ===== Guidance Activities
 
 The evaluator shall verify the guidance describes:
@@ -865,6 +878,7 @@ The evaluator shall verify the guidance describes:
 
 * How to reset selection criteria to defaults.
 
+[[EA-FAU_SEL.1-Cloud-Test]]
 ===== Test Activities
 
 *Test 1: Object Identity Based Selection*
@@ -947,6 +961,7 @@ Expected result: The TSF handles conflicting rules according to documented prece
 
 ==== FAU_STG.2/Cloud Evaluation Activities
 
+[[EA-FAU_STG.2-Cloud-TSS]]
 ===== TSS Activities
 
 The evaluator shall verify the TSS describes:
@@ -971,6 +986,7 @@ The evaluator shall verify the TSS describes:
 
 * How the TSF handles audit storage failures in cloud deployments where instances may be ephemeral.
 
+[[EA-FAU_STG.2-Cloud-Guidance]]
 ===== Guidance Activities
 
 The evaluator shall verify the guidance describes:
@@ -991,6 +1007,7 @@ The evaluator shall verify the guidance describes:
 
 * Security considerations for audit storage in ephemeral cloud instances.
 
+[[EA-FAU_STG.2-Cloud-Test]]
 ===== Test Activities
 
 *Test 1: Audit Record Storage Verification*
@@ -1061,6 +1078,7 @@ Expected result: The TSF handles external entity unavailability according to doc
 
 ==== FAU_STG_EXT.1 Evaluation Activities
 
+[[EA-FAU_STG_EXT.1-Cloud-TSS]]
 ===== TSS Activities
 
 The evaluator shall verify the TSS describes:
@@ -1080,6 +1098,7 @@ The evaluator shall verify the TSS describes:
 
 * How the TSF maintains export state across ephemeral instance restarts.
 
+[[EA-FAU_STG_EXT.1-Cloud-Guidance]]
 ===== Guidance Activities
 
 The evaluator shall verify the guidance describes:
@@ -1102,6 +1121,7 @@ The evaluator shall verify the guidance describes:
 
 * How to handle export credential rotation.
 
+[[EA-FAU_STG_EXT.1-Cloud-Test]]
 ===== Test Activities
 
 *Test 1: Audit Export to Cloud Logging Service*
@@ -1185,6 +1205,7 @@ The Base PP supplies `FIA_UID.2` and `FIA_UAU.2`, and the Base PP SD provides th
 
 ==== FIA_UID_EXT.1 Evaluation Activities
 
+[[EA-FIA_UID_EXT.1-Cloud-TSS]]
 ===== TSS Activities
 
 The evaluator shall verify the TSS describes:
@@ -1213,6 +1234,7 @@ The evaluator shall verify the TSS describes:
 
 * How the TSF detects and handles forged or tampered identity assertions.
 
+[[EA-FIA_UID_EXT.1-Cloud-Guidance]]
 ===== Guidance Activities
 
 The evaluator shall verify the guidance describes:
@@ -1243,6 +1265,7 @@ The evaluator shall verify the guidance describes:
 
 * Security considerations for external identity integration.
 
+[[EA-FIA_UID_EXT.1-Cloud-Test]]
 ===== Test Activities
 
 *Test 1: No Pre-Identification Actions*
@@ -1384,6 +1407,7 @@ Expected result: The connection to the identity provider is protected against di
 
 ==== FMT_MOF.1 Evaluation Activities
 
+[[EA-FMT_MOF.1-Cloud-TSS]]
 ===== TSS Activities
 
 The evaluator shall verify that the TSS describes:
@@ -1405,6 +1429,7 @@ The evaluator shall verify that the TSS describes:
 
 . The relationship between FMT_MOF.1 functions and those specified in FMT_SMF.1/Cloud, demonstrating that all cloud management functions are subject to appropriate access restrictions.
 
+[[EA-FMT_MOF.1-Cloud-Guidance]]
 ===== Guidance Activities
 
 The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
@@ -1429,6 +1454,7 @@ The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
 .. Granting administrative privileges broadly
 .. Configuring management access from public networks without encryption
 
+[[EA-FMT_MOF.1-Cloud-Test]]
 ===== Test Activities
 
 The evaluator shall perform the following tests:
@@ -1478,6 +1504,7 @@ The activities below address FMT_MTD.1/Cloud (role-based restriction of operatio
 
 ==== FMT_MTD.1/Cloud and FMT_MTD_EXT.1 Evaluation Activities
 
+[[EA-FMT_MTD-Cloud-TSS]]
 ===== TSS Activities
 
 The evaluator shall verify that the TSS describes:
@@ -1514,6 +1541,7 @@ The evaluator shall verify that the TSS describes:
 .. Protection against environment variable disclosure through error messages or logs
 .. Handling of sensitive environment variables in container orchestration environments
 
+[[EA-FMT_MTD-Cloud-Guidance]]
 ===== Guidance Activities
 
 The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
@@ -1543,6 +1571,7 @@ The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
 .. Exposing credentials in logs or error messages
 .. Overly permissive IAM policies for secret access
 
+[[EA-FMT_MTD-Cloud-Test]]
 ===== Test Activities
 
 *Test 1: Role-Based Access to TSF Data*
@@ -1623,6 +1652,7 @@ Expected result: Secrets are retrieved securely and handled appropriately in mem
 
 ==== FMT_SMF.1/Cloud Evaluation Activities
 
+[[EA-FMT_SMF.1-Cloud-TSS]]
 ===== TSS Activities
 
 The evaluator shall verify that the TSS describes each management function listed in FMT_SMF.1.1/Cloud, specifically:
@@ -1660,6 +1690,7 @@ The evaluator shall verify that the TSS describes each management function liste
 . **Other cloud-specific management functions:**
 .. Any additional functions specified by the ST author
 
+[[EA-FMT_SMF.1-Cloud-Guidance]]
 ===== Guidance Activities
 
 The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
@@ -1681,6 +1712,7 @@ The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
 .. Kubernetes ConfigMap and Secret management
 .. Cloud provider-specific management interfaces
 
+[[EA-FMT_SMF.1-Cloud-Test]]
 ===== Test Activities
 
 *Test 1: Audit Selection Configuration*
@@ -1743,6 +1775,7 @@ For cloud-deployed TOEs:
 
 ==== FMT_SMR.1/Cloud Evaluation Activities
 
+[[EA-FMT_SMR.1-Cloud-TSS]]
 ===== TSS Activities
 
 The evaluator shall verify that the TSS describes:
@@ -1766,6 +1799,7 @@ The evaluator shall verify that the TSS describes:
 .. Multi-tenant role isolation (how roles in one tenant cannot affect another tenant)
 .. Service account and machine identity role assignments
 
+[[EA-FMT_SMR.1-Cloud-Guidance]]
 ===== Guidance Activities
 
 The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
@@ -1787,6 +1821,7 @@ The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
 .. Managing roles in multi-tenant deployments
 .. Role inheritance and hierarchy (if applicable)
 
+[[EA-FMT_SMR.1-Cloud-Test]]
 ===== Test Activities
 
 *Test 1: Role Maintenance*
@@ -1854,6 +1889,7 @@ For multi-tenant deployments:
 
 ==== FPT_ARS_EXT.1 Evaluation Activities
 
+[[EA-FPT_ARS_EXT.1-Cloud-TSS]]
 ===== TSS Activities
 
 The evaluator shall verify that the TSS describes:
@@ -1881,6 +1917,7 @@ The evaluator shall verify that the TSS describes:
 .. Kubernetes health checks and liveness/readiness probes
 .. Container orchestration failure detection
 
+[[EA-FPT_ARS_EXT.1-Cloud-Guidance]]
 ===== Guidance Activities
 
 The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
@@ -1902,6 +1939,7 @@ The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
 .. Configuration of cloud provider monitoring services
 .. Best practices for alerting in ephemeral/elastic environments
 
+[[EA-FPT_ARS_EXT.1-Cloud-Test]]
 ===== Test Activities
 
 *Test 1: Configuration Drift Detection*
@@ -1977,6 +2015,7 @@ The PP-Module deliberately leaves the FPT_FLS.1.1 failure-type assignment to the
 
 ==== FPT_FLS.1 Evaluation Activities
 
+[[EA-FPT_FLS.1-Cloud-TSS]]
 ===== TSS Activities
 
 The evaluator shall verify the TSS:
@@ -1986,10 +2025,12 @@ The evaluator shall verify the TSS:
 * describes, for each claimed failure type, how the TOE detects or is informed of the failure and how it transitions to the secure state; and
 * where a claimed failure type overlaps a condition monitored under FPT_ARS_EXT.1, describes the relationship between the notification behavior and the secure-state transition.
 
+[[EA-FPT_FLS.1-Cloud-Guidance]]
 ===== Guidance Activities
 
 The evaluator shall verify the operational guidance describes any configuration that affects failure-handling behavior, and the procedures for recovering the TOE to normal operation from the secure state.
 
+[[EA-FPT_FLS.1-Cloud-Test]]
 ===== Test Activities
 
 *Test 1: Secure State Preservation*
@@ -2007,6 +2048,7 @@ Expected result: For each claimed failure type, the TOE preserves the TSS-define
 
 ==== FPT_ITT.1 Evaluation Activities
 
+[[EA-FPT_ITT.1-Cloud-TSS]]
 ===== TSS Activities
 
 The evaluator shall verify that the TSS describes:
@@ -2038,6 +2080,7 @@ The evaluator shall verify that the TSS describes:
 .. Use of cloud-native encryption for inter-component traffic
 .. Network security groups or policies for component isolation
 
+[[EA-FPT_ITT.1-Cloud-Guidance]]
 ===== Guidance Activities
 
 The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
@@ -2056,6 +2099,7 @@ The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
 .. Cloud VPC configuration for cluster isolation
 .. Load balancer and service mesh configuration
 
+[[EA-FPT_ITT.1-Cloud-Test]]
 ===== Test Activities
 
 *Test 1: Disclosure Protection Verification*
@@ -2116,6 +2160,7 @@ For replicated deployments:
 
 ==== FPT_TUD_EXT.1 Evaluation Activities
 
+[[EA-FPT_TUD_EXT.1-Cloud-TSS]]
 ===== TSS Activities
 
 The evaluator shall verify that the TSS describes:
@@ -2141,6 +2186,7 @@ The evaluator shall verify that the TSS describes:
 .. Verification of images from cloud provider registries
 .. Integration with cloud-native update services
 
+[[EA-FPT_TUD_EXT.1-Cloud-Guidance]]
 ===== Guidance Activities
 
 The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
@@ -2164,6 +2210,7 @@ The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
 .. Signing keys or certificates
 .. Verification endpoints
 
+[[EA-FPT_TUD_EXT.1-Cloud-Test]]
 ===== Test Activities
 
 *Test 1: Version Query*
@@ -2229,6 +2276,7 @@ For cloud-managed update services:
 
 This SFR is selection-based and applies when "secure boot or image verification mechanisms as defined in FPT_SBT_EXT.1" is selected in `FPT_TUD_EXT.1.2`.
 
+[[EA-FPT_SBT_EXT.1-Cloud-TSS]]
 ===== TSS Activities
 
 The evaluator shall verify that the TSS describes:
@@ -2259,6 +2307,7 @@ The evaluator shall verify that the TSS describes:
 .. Registry trust configuration
 .. Kubernetes admission controller integration
 
+[[EA-FPT_SBT_EXT.1-Cloud-Guidance]]
 ===== Guidance Activities
 
 The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
@@ -2277,6 +2326,7 @@ The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
 .. Kubernetes admission controller configuration
 .. Cloud provider image verification services
 
+[[EA-FPT_SBT_EXT.1-Cloud-Test]]
 ===== Test Activities
 
 *Test 1: Boot Chain Verification*
@@ -2329,6 +2379,7 @@ If alert is selected as the failure action:
 
 This SFR is selection-based and applies when "integrity failure via self-test" is selected in FPT_ARS_EXT.1.
 
+[[EA-FPT_TST.1-Cloud-TSS]]
 ===== TSS Activities
 
 The evaluator shall verify that the TSS describes:
@@ -2355,6 +2406,7 @@ The evaluator shall verify that the TSS describes:
 .. Interfaces available
 .. Information provided
 
+[[EA-FPT_TST.1-Cloud-Guidance]]
 ===== Guidance Activities
 
 The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
@@ -2370,6 +2422,7 @@ The evaluator shall verify that the operational guidance (AGD_OPE/AGD_PRE):
 
 . Provides troubleshooting guidance for self-test failures.
 
+[[EA-FPT_TST.1-Cloud-Test]]
 ===== Test Activities
 
 *Test 1: Startup Self-Test*
@@ -3107,7 +3160,120 @@ d) Vulnerabilities dependent on specific cloud misconfigurations
 [appendix]
 == Cross-Reference to CEM Work Units
 
-This appendix maps the identifier-based evaluation activities in this document (the FDP coordination activities and the SAR activities) to CEM:2022 work units. The narrative TSS, Guidance, and Test activities defined for the module's FAU, FIA, FMT, and FPT SFRs refine the generic ASE_TSS.1, AGD_OPE.1/AGD_PRE.1, and ATE_IND.2 work units respectively and are not individually enumerated here.
+This appendix maps every evaluation-activity group in this document to CEM:2022 work units. Narrative SFR activities use a stable group identifier attached to each TSS, Guidance, and Test heading. FDP coordination and SAR activities retain their more granular, individually numbered identifiers. Both forms are normative identifiers in this SD; the difference reflects the level at which the activity is decomposed, not a difference in evaluation status.
+
+=== Module SFR Evaluation Activities to CEM Mapping
+
+For each row below, the `-TSS`, `-Guidance`, and `-Test` identifiers name the complete activity block under the corresponding heading. Individual tests within a `-Test` block are the test cases that collectively satisfy the mapped ATE work units.
+
+[cols="2,5",options="header"]
+|===
+| SFR activity group | EA group identifiers and CEM work units
+
+| FAU_GEN.1/Cloud
+a|
+* *TSS:* `EA-FAU_GEN.1-Cloud-TSS` - ASE_TSS.1-1
+* *Guidance:* `EA-FAU_GEN.1-Cloud-Guidance` - AGD_OPE.1-1, AGD_OPE.1-4; AGD_PRE.1-1 where preparative configuration applies
+* *Test:* `EA-FAU_GEN.1-Cloud-Test` - ATE_IND.2-3, ATE_IND.2-4
+
+| FAU_SEL.1/Cloud
+a|
+* *TSS:* `EA-FAU_SEL.1-Cloud-TSS` - ASE_TSS.1-1
+* *Guidance:* `EA-FAU_SEL.1-Cloud-Guidance` - AGD_OPE.1-1, AGD_OPE.1-4; AGD_PRE.1-1 where preparative configuration applies
+* *Test:* `EA-FAU_SEL.1-Cloud-Test` - ATE_IND.2-3, ATE_IND.2-4
+
+| FAU_STG.2/Cloud
+a|
+* *TSS:* `EA-FAU_STG.2-Cloud-TSS` - ASE_TSS.1-1
+* *Guidance:* `EA-FAU_STG.2-Cloud-Guidance` - AGD_OPE.1-1, AGD_OPE.1-4; AGD_PRE.1-1 where preparative configuration applies
+* *Test:* `EA-FAU_STG.2-Cloud-Test` - ATE_IND.2-3, ATE_IND.2-4
+
+| FAU_STG_EXT.1
+a|
+* *TSS:* `EA-FAU_STG_EXT.1-Cloud-TSS` - ASE_TSS.1-1
+* *Guidance:* `EA-FAU_STG_EXT.1-Cloud-Guidance` - AGD_OPE.1-1, AGD_OPE.1-4; AGD_PRE.1-1 where preparative configuration applies
+* *Test:* `EA-FAU_STG_EXT.1-Cloud-Test` - ATE_IND.2-3, ATE_IND.2-4
+|===
+
+<<<
+
+[cols="2,5",options="header"]
+|===
+| SFR activity group | EA group identifiers and CEM work units
+
+| FIA_UID_EXT.1
+a|
+* *TSS:* `EA-FIA_UID_EXT.1-Cloud-TSS` - ASE_TSS.1-1
+* *Guidance:* `EA-FIA_UID_EXT.1-Cloud-Guidance` - AGD_OPE.1-1, AGD_OPE.1-4; AGD_PRE.1-1 where preparative configuration applies
+* *Test:* `EA-FIA_UID_EXT.1-Cloud-Test` - ATE_IND.2-3, ATE_IND.2-4
+
+| FMT_MOF.1
+a|
+* *TSS:* `EA-FMT_MOF.1-Cloud-TSS` - ASE_TSS.1-1
+* *Guidance:* `EA-FMT_MOF.1-Cloud-Guidance` - AGD_OPE.1-1, AGD_OPE.1-4; AGD_PRE.1-1 where preparative configuration applies
+* *Test:* `EA-FMT_MOF.1-Cloud-Test` - ATE_IND.2-3, ATE_IND.2-4
+
+| FMT_MTD.1/Cloud and FMT_MTD_EXT.1
+a|
+* *TSS:* `EA-FMT_MTD-Cloud-TSS` - ASE_TSS.1-1
+* *Guidance:* `EA-FMT_MTD-Cloud-Guidance` - AGD_OPE.1-1, AGD_OPE.1-4; AGD_PRE.1-1 where preparative configuration applies
+* *Test:* `EA-FMT_MTD-Cloud-Test` - ATE_IND.2-3, ATE_IND.2-4
+
+| FMT_SMF.1/Cloud
+a|
+* *TSS:* `EA-FMT_SMF.1-Cloud-TSS` - ASE_TSS.1-1
+* *Guidance:* `EA-FMT_SMF.1-Cloud-Guidance` - AGD_OPE.1-1, AGD_OPE.1-4; AGD_PRE.1-1 where preparative configuration applies
+* *Test:* `EA-FMT_SMF.1-Cloud-Test` - ATE_IND.2-3, ATE_IND.2-4
+
+| FMT_SMR.1/Cloud
+a|
+* *TSS:* `EA-FMT_SMR.1-Cloud-TSS` - ASE_TSS.1-1
+* *Guidance:* `EA-FMT_SMR.1-Cloud-Guidance` - AGD_OPE.1-1, AGD_OPE.1-4; AGD_PRE.1-1 where preparative configuration applies
+* *Test:* `EA-FMT_SMR.1-Cloud-Test` - ATE_IND.2-3, ATE_IND.2-4
+
+| FPT_ARS_EXT.1
+a|
+* *TSS:* `EA-FPT_ARS_EXT.1-Cloud-TSS` - ASE_TSS.1-1
+* *Guidance:* `EA-FPT_ARS_EXT.1-Cloud-Guidance` - AGD_OPE.1-1, AGD_OPE.1-4; AGD_PRE.1-1 where preparative configuration applies
+* *Test:* `EA-FPT_ARS_EXT.1-Cloud-Test` - ATE_IND.2-3, ATE_IND.2-4
+|===
+
+<<<
+
+[cols="2,5",options="header"]
+|===
+| SFR activity group | EA group identifiers and CEM work units
+
+| FPT_FLS.1
+a|
+* *TSS:* `EA-FPT_FLS.1-Cloud-TSS` - ASE_TSS.1-1
+* *Guidance:* `EA-FPT_FLS.1-Cloud-Guidance` - AGD_OPE.1-1, AGD_OPE.1-4; AGD_PRE.1-1 where preparative configuration applies
+* *Test:* `EA-FPT_FLS.1-Cloud-Test` - ATE_IND.2-3, ATE_IND.2-4
+
+| FPT_ITT.1
+a|
+* *TSS:* `EA-FPT_ITT.1-Cloud-TSS` - ASE_TSS.1-1
+* *Guidance:* `EA-FPT_ITT.1-Cloud-Guidance` - AGD_OPE.1-1, AGD_OPE.1-4; AGD_PRE.1-1 where preparative configuration applies
+* *Test:* `EA-FPT_ITT.1-Cloud-Test` - ATE_IND.2-3, ATE_IND.2-4
+
+| FPT_TUD_EXT.1
+a|
+* *TSS:* `EA-FPT_TUD_EXT.1-Cloud-TSS` - ASE_TSS.1-1
+* *Guidance:* `EA-FPT_TUD_EXT.1-Cloud-Guidance` - AGD_OPE.1-1, AGD_OPE.1-4; AGD_PRE.1-1 where preparative configuration applies
+* *Test:* `EA-FPT_TUD_EXT.1-Cloud-Test` - ATE_IND.2-3, ATE_IND.2-4
+
+| FPT_SBT_EXT.1
+a|
+* *TSS:* `EA-FPT_SBT_EXT.1-Cloud-TSS` - ASE_TSS.1-1
+* *Guidance:* `EA-FPT_SBT_EXT.1-Cloud-Guidance` - AGD_OPE.1-1, AGD_OPE.1-4; AGD_PRE.1-1 where preparative configuration applies
+* *Test:* `EA-FPT_SBT_EXT.1-Cloud-Test` - ATE_IND.2-3, ATE_IND.2-4
+
+| FPT_TST.1
+a|
+* *TSS:* `EA-FPT_TST.1-Cloud-TSS` - ASE_TSS.1-1
+* *Guidance:* `EA-FPT_TST.1-Cloud-Guidance` - AGD_OPE.1-1, AGD_OPE.1-4; AGD_PRE.1-1 where preparative configuration applies
+* *Test:* `EA-FPT_TST.1-Cloud-Test` - ATE_IND.2-3, ATE_IND.2-4
+|===
 
 === FDP Evaluation Activities to CEM Mapping
 
@@ -3205,8 +3371,8 @@ The FDP_DAR_EXT.1 and FDP_DIT_EXT.1 evaluation activities reference cryptographi
 | Coordinate TLS package evaluation activities for included TLS components and execute DBMS-specific cryptographic integration testing
 
 | Key Management Testing
-| Verify cloud integration for key storage/retrieval
-| Execute key generation, storage, destruction testing
+| Verify cloud integration for key storage, retrieval, external management, or KEM exchange and identify every operation allocated outside the TOE
+| Execute role-specific KeyGen, encapsulation or decapsulation, derivation, storage, transferred-key protection, and destruction testing as selected
 
 | Integration Testing
 | Test encryption/TLS enable/disable, cloud-specific scenarios
@@ -3221,12 +3387,15 @@ When a TOE claims both the DBMS Cloud Module and the DBMS Crypto Module:
 1. The Cloud Module evaluation team shall request test results from the Crypto Module evaluation team for:
    - FCS_COP.1 testing (encryption algorithms)
    - FCS_CKM.1 testing (key generation)
+   - `FCS_CKM.1/KEM` KeyGen, `FCS_COP.1/KeyEncap` encapsulation or decapsulation, and `FCS_CKM.5` derivation testing when non-protocol ML-KEM is selected
+   - `FCS_COP.1/KeyWrap` or `FCS_COP.1/AEAD` integration testing when a KEM-derived KEK protects transferred keying material
    - FCS_TLSC_EXT.1 testing (TLS client)
    - FCS_TLSS_EXT.1 testing (TLS server)
    - Mapping of HTTPS interfaces to the applicable TLS client or server tests
 
 2. The Crypto Module evaluation team shall confirm:
    - Testing covers the algorithms/protocols used by the TOE for data-at-rest and data-in-transit protection
+   - ML-KEM evidence covers only operations performed inside the TOE boundary, while protocol-level ML-KEM is covered by the applicable Functional Package and external KMS operations are recorded as environmental allocations
    - Test results are documented in the Crypto Module ETR
 
 3. The Cloud Module ETR shall reference the Crypto Module ETR and confirm that cryptographic testing obligations have been met through module coordination.
@@ -3322,8 +3491,8 @@ The following configurations are recommended for independent testing:
 * [#CC5]#[CC5]# Common Criteria for Information Technology Security Evaluation, Part 5: Pre-defined packages of security requirements, CCMB-2022-11-005, CC:2022 Revision 1, November 2022.
 * [#CCE]#[CCE]# Common Criteria for Information Technology Security Evaluation, Errata and interpretation for CC:2022 (Release 1) and CEM:2022 (Release 1), CCMB-002, Version 1.1, July 22, 2024.
 * [#CEM]#[CEM]# Common Methodology for Information Technology Security Evaluation, Evaluation methodology, CCMB-2022-11-006, CEM:2022 Revision 1, November 2022.
-* [#DBMS_Cloud_MOD]#[DBMS_Cloud_MOD]# collaborative PP-Module for DBMS in the Cloud (DBMS_Cloud_MOD), Version 0.4, 2026-06-30.
+* [#DBMS_Cloud_MOD]#[DBMS_Cloud_MOD]# collaborative PP-Module for DBMS in the Cloud (DBMS_Cloud_MOD), Version 0.5, 2026-07-20.
 * [#cPP_DBMS]#[cPP_DBMS]# collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.
 * [#cPP_DBMS_SD]#[cPP_DBMS_SD]# Supporting Document Mandatory Technical Document Evaluation Activities for the collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.
-* [#DBMS_MOD_CRYPTO]#[DBMS_MOD_CRYPTO]# collaborative PP-Module for DBMS Cryptographic Functions, Version 0.4, 2026-06-30.
-* [#DBMS_MOD_CRYPTO_SD]#[DBMS_MOD_CRYPTO_SD]# Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.4, 2026-06-30.
+* [#DBMS_MOD_CRYPTO]#[DBMS_MOD_CRYPTO]# collaborative PP-Module for DBMS Cryptographic Functions, Version 0.5, 2026-07-20.
+* [#DBMS_MOD_CRYPTO_SD]#[DBMS_MOD_CRYPTO_SD]# Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.5, 2026-07-20.

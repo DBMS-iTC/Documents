@@ -440,8 +440,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>PP-Configuration for cPP_DBMS and DBMS Cryptographic Functions Module</h1>
 <div class="details">
-<span id="revnumber">version 0.4,</span>
-<span id="revdate">2026-06-30</span>
+<span id="revnumber">version 0.5,</span>
+<span id="revdate">2026-07-20</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -510,6 +510,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2026-06-30</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Initial public review draft. Defines the PP-Configuration for claiming the DBMS Cryptographic Functions Module with the DBMS Base PP, including formal CCDB-018 consumption and the optional Enterprise Enhanced use case.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-20</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Aligned the standalone Crypto composition with the role-specific ML-KEM design. The ST separates TOE KeyGen, encapsulation, and decapsulation; derives Master Keys or KEKs through <code>FCS_CKM.5</code>; uses KeyWrap or AEAD for transferred existing keys; identifies operations allocated outside the TOE; and leaves protocol-level ML-KEM to the applicable Functional Package.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-20</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Updated the composition to the Version 0.5 Cryptographic Functions Module and SD, including the explicit Master Key protection model and normative cryptographic audit-event refinement.</p></td>
+</tr>
 </tbody>
 </table>
 <!-- toc disabled -->
@@ -522,7 +532,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_pp_configuration_overview">1.1. PP-Configuration Overview</h3>
 <div class="paragraph">
-<p>This PP-Configuration combines the collaborative Protection Profile for Database Management Systems (Version 2.0) with the collaborative PP-Module for DBMS Cryptographic Functions, Version 0.4.</p>
+<p>This PP-Configuration combines the collaborative Protection Profile for Database Management Systems (Version 2.0) with the collaborative PP-Module for DBMS Cryptographic Functions, Version 0.5.</p>
 </div>
 <div class="paragraph">
 <p>The configuration is intended for DBMS products that claim DBMS-specific cryptographic support without also claiming a cloud deployment module. The DBMS Cryptographic Functions Module defines the TOE-enforced requirements for DBMS key management, data-at-rest encryption, and data-in-transit protection.</p>
@@ -553,11 +563,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PP-Configuration Version</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0.4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.5</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PP-Configuration Publication Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2026-06-30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2026-07-20</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Sponsor</p></td>
@@ -598,7 +608,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PP-Module</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">collaborative PP-Module for DBMS Cryptographic Functions</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Version 0.4, 2026-06-30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version 0.5, 2026-07-20</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Adds DBMS-specific cryptographic SFRs and consumes CCDB-018 components for key management and data-at-rest encryption; data-in-transit protocols and certificate behavior are supplied by applicable Functional Packages.</p></td>
 </tr>
 </tbody>
@@ -635,7 +645,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>DBMS master key and data encryption key lifecycle requirements</p>
+<p>DBMS master key and data encryption key lifecycle requirements, including the optional "Established through Key Encapsulation" origin</p>
 </li>
 <li>
 <p>Data-at-rest encryption strategy</p>
@@ -647,6 +657,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Applicable Catalogue-derived components consumed in the Crypto Module and applicable TLS/X.509 Functional Package components</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>When non-protocol ML-KEM is selected, the ST shall identify whether the TOE performs KeyGen, encapsulation, decapsulation, or a combination and shall claim only the operations within the TOE boundary. A KEM-established shared secret is input to <code>FCS_CKM.5</code> for Master Key or KEK derivation. A transferred pre-existing key remains protected by <code>FCS_COP.1/KeyWrap</code> or <code>FCS_COP.1/AEAD</code>; it is not described as directly encapsulated by ML-KEM. Protocol-level ML-KEM, including hybrid TLS, remains governed by the applicable Functional Package.</p>
 </div>
 </div>
 <div class="sect2">
@@ -812,10 +825,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><span id="cPP_DBMS_SD">[cPP_DBMS_SD]</span> Supporting Document Mandatory Technical Document Evaluation Activities for the collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.</p>
 </li>
 <li>
-<p><span id="DBMS_MOD_CRYPTO">[DBMS_MOD_CRYPTO]</span> collaborative PP-Module for DBMS Cryptographic Functions, Version 0.4, 2026-06-30.</p>
+<p><span id="DBMS_MOD_CRYPTO">[DBMS_MOD_CRYPTO]</span> collaborative PP-Module for DBMS Cryptographic Functions, Version 0.5, 2026-07-20.</p>
 </li>
 <li>
-<p><span id="DBMS_MOD_CRYPTO_SD">[DBMS_MOD_CRYPTO_SD]</span> Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.4, 2026-06-30.</p>
+<p><span id="DBMS_MOD_CRYPTO_SD">[DBMS_MOD_CRYPTO_SD]</span> Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.5, 2026-07-20.</p>
 </li>
 </ul>
 </div>
@@ -888,8 +901,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.4<br>
-Last updated 2026-06-30 17:21:41 -0500
+Version 0.5<br>
+Last updated 2026-07-20 17:03:01 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

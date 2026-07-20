@@ -440,8 +440,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>collaborative PP-Module for Database-as-a-Service (DBaaS)</h1>
 <div class="details">
-<span id="revnumber">version 0.4,</span>
-<span id="revdate">2026-06-30</span>
+<span id="revnumber">version 0.5,</span>
+<span id="revdate">2026-07-20</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -780,6 +780,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-14</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Two design corrections from self-review. FCS_CKM_DBAAS_EXT.1.3&#8217;s recovery-mechanism exception now requires that recovery be authorized by the tenant or an agent under the tenant&#8217;s control (provider-held escrow or any unilaterally exercisable provider recovery path cannot complete the exception), with recovery-mechanism use added to the auditable events. FDP_ACC.2/DBaaS replaced by FDP_ACC.1/DBaaS (Subset access control): the Tenant Isolation SFP governs tenant-scoped subjects, objects, and operations, and the complete-access-control claim is not made because completeness across all TSF-controlled subjects and objects is a property of the composed ST rather than of this module.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-20</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Aligned customer-controlled key models with the Crypto Module&#8217;s role-specific ML-KEM design. Added an optional customer-authorized KEM-establishment mechanism and mapped it to the "Established through Key Encapsulation" Key Origin. Clarified that the TOE claims only ML-KEM operations inside its boundary, that the KEM shared secret is passed through <code>FCS_CKM.5</code> to derive the Master Key, and that customer revocation or denial remains subject to the bounded key-state enforcement requirement.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-20</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Rolled the completed managed-service security architecture, normative audit model, provider-role separation, trusted service update, and customer-authorized ML-KEM integration into the coordinated Version 0.5 review set.</p></td>
+</tr>
 </tbody>
 </table>
 <!-- toc disabled -->
@@ -854,13 +864,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><span id="cPP_DBMS_SD">[cPP_DBMS_SD]</span> Supporting Document Mandatory Technical Document Evaluation Activities for the collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.</p>
 </li>
 <li>
-<p><span id="DBMS_MOD_CRYPTO">[DBMS_MOD_CRYPTO]</span> collaborative PP-Module for DBMS Cryptographic Functions, Version 0.4.</p>
+<p><span id="DBMS_MOD_CRYPTO">[DBMS_MOD_CRYPTO]</span> collaborative PP-Module for DBMS Cryptographic Functions, Version 0.5.</p>
 </li>
 <li>
-<p><span id="DBMS_MOD_CRYPTO_SD">[DBMS_MOD_CRYPTO_SD]</span> Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.4.</p>
+<p><span id="DBMS_MOD_CRYPTO_SD">[DBMS_MOD_CRYPTO_SD]</span> Supporting Document - Evaluation Activities for DBMS Cryptographic Functions Module, Version 0.5.</p>
 </li>
 <li>
-<p><span id="DBMS_MOD_DBAAS_SD">[DBMS_MOD_DBAAS_SD]</span> Supporting Document - Evaluation Activities for DBaaS Module, Version 0.4.</p>
+<p><span id="DBMS_MOD_DBAAS_SD">[DBMS_MOD_DBAAS_SD]</span> Supporting Document - Evaluation Activities for DBaaS Module, Version 0.5.</p>
 </li>
 <li>
 <p><span id="Crypto_Catalog">[Crypto_Catalog]</span> Specification of Functional Requirements for Cryptography (CCDB-018), Version 1.0, January 2025.</p>
@@ -913,11 +923,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PP-Module Version</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0.4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.5</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PP-Module Publication Date</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2026-06-30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2026-07-20</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PP-Module Sponsor</p></td>
@@ -1670,7 +1680,7 @@ In a DBaaS model the customer does not control the physical infrastructure, and 
 <div class="sect3">
 <h4 id="_fcs_ckm_dbaas_ext_1_customer_controlled_keys">10.1.1. FCS_CKM_DBAAS_EXT.1 Customer-Controlled Keys</h4>
 <div class="paragraph">
-<p><strong>FCS_CKM_DBAAS_EXT.1.1</strong> The TSF shall support customer-controlled master encryption keys using one or more of the following mechanisms: [selection: customer-generated master keys imported into the TOE through a trusted channel specified by the DBMS Cryptographic Functions Module; externally managed master keys accessed through a key management service interface where plaintext master key material is not exported to the TOE; customer-controlled key references or key handles that permit the TOE to perform authorized cryptographic operations without exposing plaintext master key material to service provider administrators].</p>
+<p><strong>FCS_CKM_DBAAS_EXT.1.1</strong> The TSF shall support customer-controlled master encryption keys using one or more of the following mechanisms: [selection: customer-generated master keys imported into the TOE through a trusted channel specified by the DBMS Cryptographic Functions Module; externally managed master keys accessed through a key management service interface where plaintext master key material is not exported to the TOE; customer-controlled key references or key handles that permit the TOE to perform authorized cryptographic operations without exposing plaintext master key material to service provider administrators; customer-authorized Master Key establishment through ML-KEM with an authenticated external entity, using the role-specific key-encapsulation and key-derivation requirements of the DBMS Cryptographic Functions Module].</p>
 </div>
 <div class="paragraph">
 <p><strong>FCS_CKM_DBAAS_EXT.1.2</strong> The TSF shall not provide an interface by which a service provider administrator can view, export, or recover plaintext customer-controlled master key material.</p>
@@ -1687,7 +1697,11 @@ The key-state enforcement interval assignment in FCS_CKM_DBAAS_EXT.1.3 accommoda
 </div>
 <div class="paragraph">
 <p>+
-The mechanisms selected in FCS_CKM_DBAAS_EXT.1.1 couple to the Key Origin selection in the Crypto Module&#8217;s <code>FCS_CKM_EXT.1.1</code>: customer-generated master keys imported into the TOE correspond to "Imported from External Entity"; externally managed master keys and customer-controlled key references correspond to "Externally Managed". The ST shall complete <code>FCS_CKM_EXT.1.1</code> with the corresponding selection, which includes <code>FDP_ITC_EXT.1</code> (Trusted Channel for Key Import and External Key Management) in either case.</p>
+The mechanisms selected in FCS_CKM_DBAAS_EXT.1.1 couple to the Key Origin selection in the Crypto Module&#8217;s <code>FCS_CKM_EXT.1.1</code>: customer-generated master keys imported into the TOE correspond to "Imported from External Entity"; externally managed master keys and customer-controlled key references correspond to "Externally Managed"; and customer-authorized ML-KEM establishment corresponds to "Established through Key Encapsulation". The ST shall complete <code>FCS_CKM_EXT.1.1</code> with the corresponding selection, and every external origin includes <code>FDP_ITC_EXT.1</code> (Trusted Channel for Key Import, External Key Management, and Key Establishment).</p>
+</div>
+<div class="paragraph">
+<p>+
+For the KEM-established model, the ST shall identify whether the TOE performs encapsulation, decapsulation, or both; shall include <code>FCS_CKM.1/KEM</code> only for TOE-performed ML-KEM.KeyGen; and shall identify any operation performed by an external KMS or customer-controlled service as outside the TOE boundary. The ML-KEM shared secret is not itself the customer-controlled Master Key: the Crypto Module&#8217;s <code>FCS_CKM.5</code> derives the Master Key with a context that binds the customer, service instance, key purpose, and applicable establishment transaction. Selection of this mechanism is permitted only where the customer or its authorized external entity retains a control whose revocation, unavailability, or denial causes the TSF to enforce FCS_CKM_DBAAS_EXT.1.3 within the assigned interval. A one-time KEM exchange after which the provider can use the derived Master Key indefinitely without customer authorization does not satisfy this customer-controlled model.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 3. FCS_CKM_DBAAS_EXT.1 Dependencies</caption>
@@ -1704,7 +1718,7 @@ The mechanisms selected in FCS_CKM_DBAAS_EXT.1.1 couple to the Key Origin select
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Key management trusted channel, key destruction, data-at-rest encryption</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Satisfied by the mandatory DBMS Cryptographic Functions Module: <code>FDP_ITC_EXT.1</code> is included through the coupled "Imported from External Entity" or "Externally Managed" selection in that module&#8217;s <code>FCS_CKM_EXT.1.1</code> (see the Application Note), together with <code>FCS_CKM.6</code>, <code>FDP_DAR_EXT.1</code>, and the applicable Catalogue-derived components consumed there.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Satisfied by the mandatory DBMS Cryptographic Functions Module: <code>FDP_ITC_EXT.1</code> is included through the coupled "Imported from External Entity", "Externally Managed", or "Established through Key Encapsulation" selection in that module&#8217;s <code>FCS_CKM_EXT.1.1</code> (see the Application Note), together with <code>FCS_CKM.6</code>, <code>FDP_DAR_EXT.1</code>, and the applicable Catalogue-derived or anticipated role-specific ML-KEM components consumed there.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FMT_SMF.1</p></td>
@@ -2971,8 +2985,8 @@ Update pipeline mechanics may reside partly in the operational environment, but 
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.4<br>
-Last updated 2026-07-18 20:02:33 -0500
+Version 0.5<br>
+Last updated 2026-07-20 17:03:01 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
