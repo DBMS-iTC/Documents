@@ -867,7 +867,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-08</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Added FPT_FLS.1 (CC Part 2) as a mandatory SFR of this module, replacing the incorrect attribution "FPT_FLS.1 (inherited from Base PP)" in the O.INTERNAL_RESOURCE_RESILIENCE mappings — the Base PP does not define FPT_FLS.1. The failure-type assignment is deliberately left to the ST author; the application note gives illustrative cloud failure types only, as failure modes and secure-state semantics differ across implementations. Also aligned Package Conformance with the Crypto Module&#8217;s Functional Package requirements (TLS FP v2.1, X.509 FP v1.0) instead of disclaiming package claims, and added the TLS FP, X.509 FP, and CCDB-018 bibliography entries this module&#8217;s text cites.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Added FPT_FLS.1 (CC Part 2) as a mandatory SFR of this module, replacing the incorrect attribution "FPT_FLS.1 (inherited from Base PP)" in the O.INTERNAL_RESOURCE_RESILIENCE mappings; the Base PP does not define FPT_FLS.1. The failure-type assignment is deliberately left to the ST author; the application note gives illustrative cloud failure types only, as failure modes and secure-state semantics differ across implementations. Also aligned Package Conformance with the Crypto Module&#8217;s Functional Package requirements (TLS FP v2.1, X.509 FP v1.0) instead of disclaiming package claims, and added the TLS FP, X.509 FP, and CCDB-018 bibliography entries this module&#8217;s text cites.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
@@ -892,7 +892,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-08</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Split FMT_MTD_EXT.1: its first element duplicated CC Part 2 FMT_MTD.1 and is now claimed as the iteration FMT_MTD.1/Cloud (Base PP&#8217;s FMT_MTD.1 unchanged); FMT_MTD_EXT.1 retains the cloud-specific behavior, renumbered — element 1 (protection of TSF data exchanged with cloud secret management systems, now explicitly against unauthorized disclosure and modification) and element 2 (the FDP_DIT_EXT.1 channel binding, formerly element 3). Dependencies declared consistently (iteration: FMT_SMF.1 and FMT_SMR.1; extension: FMT_SMF.1); FAU_SEL.1/Cloud&#8217;s FMT_MTD.1 dependency now resolves to the Base PP&#8217;s FMT_MTD.1 directly; rationale, dependency, SFR List, and ECD references updated.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Split FMT_MTD_EXT.1: its first element duplicated CC Part 2 FMT_MTD.1 and is now claimed as the iteration FMT_MTD.1/Cloud (Base PP&#8217;s FMT_MTD.1 unchanged); FMT_MTD_EXT.1 retains the cloud-specific behavior, renumbered: element 1 (protection of TSF data exchanged with cloud secret management systems, now explicitly against unauthorized disclosure and modification) and element 2 (the FDP_DIT_EXT.1 channel binding, formerly element 3). Dependencies declared consistently (iteration: FMT_SMF.1 and FMT_SMR.1; extension: FMT_SMF.1); FAU_SEL.1/Cloud&#8217;s FMT_MTD.1 dependency now resolves to the Base PP&#8217;s FMT_MTD.1 directly; rationale, dependency, SFR List, and ECD references updated.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
@@ -922,7 +922,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>This PP-Module, the <strong>DBMS in the Cloud Module</strong>, extends the collaborative Protection Profile for Database Management Systems (cPP_DBMS) to support secure deployment of DBMS products in cloud environments. It is intended to address tenant-operated deployments on infrastructure- or platform-as-a-service (IaaS/PaaS) offerings in public or private clouds, whether the DBMS is a cloud-native product designed for cloud deployment or a traditional DBMS deployed using a lift-and-shift strategy.</p>
 </div>
 <div class="paragraph">
-<p>This module is aligned with the architectural concepts defined by the Common Criteria in the Cloud Technical Community (CCiTC), as described in the "Guidance for Cloud Evaluations" v1.1 publication. In particular, this module recognizes a <strong>Trusted Platform</strong>&#8201;&#8212;&#8201;the cloud infrastructure and services outside the TOE boundary on which the TOE relies to satisfy operational environment assumptions and objectives. The composition of the TOE, TOE Platform, Trusted Platform, and other operational environment components depends on the evaluated architecture and shall be identified in the ST.</p>
+<p>This module is aligned with the architectural concepts defined by the Common Criteria in the Cloud Technical Community (CCiTC), as described in the "Guidance for Cloud Evaluations" v1.1 publication. In particular, this module recognizes a <strong>Trusted Platform</strong> (the cloud infrastructure and services outside the TOE boundary on which the TOE relies to satisfy operational environment assumptions and objectives). The composition of the TOE, TOE Platform, Trusted Platform, and other operational environment components depends on the evaluated architecture and shall be identified in the ST.</p>
 </div>
 <div class="paragraph">
 <p>The DBMS in the Cloud Module is focused on scenarios where:</p>
@@ -1573,7 +1573,7 @@ Sensitive or regulated data (e.g., customer PII, financial data, or intellectual
 <dl>
 <dt class="hdlist1">A.TRUSTED_PLATFORM</dt>
 <dd>
-<p>The underlying cloud environment&#8201;&#8212;&#8201;including compute, network, storage, and orchestration infrastructure&#8201;&#8212;&#8201;is assumed to be a Trusted Platform as defined by the CCiTC model. Specifically, the platform must:</p>
+<p>The underlying cloud environment (including compute, network, storage, and orchestration infrastructure) is assumed to be a Trusted Platform as defined by the CCiTC model. Specifically, the platform must:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -1616,7 +1616,7 @@ Sensitive or regulated data (e.g., customer PII, financial data, or intellectual
 </dd>
 <dt class="hdlist1">A.CLOUD_SERVICE_INTEGRITY</dt>
 <dd>
-<p>The cloud-native services that the TOE integrates with&#8201;&#8212;&#8201;such as IAM, key vaults, logging services, and configuration management systems&#8201;&#8212;&#8201;are assumed to operate correctly and provide accurate, untampered data to the TOE under normal operating conditions. In the event of partial service failures:</p>
+<p>The cloud-native services that the TOE integrates with (such as IAM, key vaults, logging services, and configuration management systems) are assumed to operate correctly and provide accurate, untampered data to the TOE under normal operating conditions. In the event of partial service failures:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -2873,7 +2873,7 @@ g) [assignment: <em>other cloud-specific management functions</em>].</p>
 <p><strong>FPT_FLS.1.1</strong> The TSF shall preserve a secure state when the following types of failures occur: [assignment: <em>list of types of failures in the TSF</em>].</p>
 </div>
 <div class="paragraph">
-<p><strong>Application Note:</strong> This SFR is CC:2022 Part 2 FPT_FLS.1, claimed by this module; it is not defined by the Base PP. The assignment is deliberately left to the ST author: failure modes and secure-state semantics differ dramatically across DBMS implementations and cloud architectures, and this module does not prescribe them. In cloud deployments the claimed failure types commonly include loss of connectivity to required cloud services (identity, secrets, or logging), orchestration-induced termination or rescheduling, storage detachment, and conditions detected through FPT_ARS_EXT.1 monitoring — these are examples, not required completions. The TSS defines what constitutes a secure state for the TOE (for example, refusing new connections, denying access to protected data, or controlled shutdown) and identifies the failure types claimed in the assignment.</p>
+<p><strong>Application Note:</strong> This SFR is CC:2022 Part 2 FPT_FLS.1, claimed by this module; it is not defined by the Base PP. The assignment is deliberately left to the ST author: failure modes and secure-state semantics differ dramatically across DBMS implementations and cloud architectures, and this module does not prescribe them. In cloud deployments the claimed failure types commonly include loss of connectivity to required cloud services (identity, secrets, or logging), orchestration-induced termination or rescheduling, storage detachment, and conditions detected through FPT_ARS_EXT.1 monitoring; these are examples, not required completions. The TSS defines what constitutes a secure state for the TOE (for example, refusing new connections, denying access to protected data, or controlled shutdown) and identifies the failure types claimed in the assignment.</p>
 </div>
 <div class="sect4">
 <h5 id="_dependencies_13">11.4.3.1. Dependencies</h5>
@@ -3078,7 +3078,7 @@ g) [assignment: <em>other cloud-specific management functions</em>].</p>
 <p><strong>FPT_SBT_EXT.1.3</strong> The TSF shall [selection: prevent boot/startup, alert administrators, [assignment: <em>other action</em>]] if integrity or authenticity verification fails.</p>
 </div>
 <div class="paragraph">
-<p><strong>Application Note:</strong> This SFR applies primarily to containerized deployments, appliance images, or orchestrated workloads with explicit image trust requirements. It is triggered when "secure boot or image verification mechanisms as defined in FPT_SBT_EXT.1" is selected in <code>FPT_TUD_EXT.1.2</code>. If "alert administrators" is selected in FPT_SBT_EXT.1.3 without "prevent boot/startup", the ST shall justify the selection, and the TSS shall describe the recovery path by which the orchestration or administrative response removes the failed component from service — this accommodates orchestrated environments where rescheduling, rather than halting, is the intended containment behavior.</p>
+<p><strong>Application Note:</strong> This SFR applies primarily to containerized deployments, appliance images, or orchestrated workloads with explicit image trust requirements. It is triggered when "secure boot or image verification mechanisms as defined in FPT_SBT_EXT.1" is selected in <code>FPT_TUD_EXT.1.2</code>. If "alert administrators" is selected in FPT_SBT_EXT.1.3 without "prevent boot/startup", the ST shall justify the selection, and the TSS shall describe the recovery path by which the orchestration or administrative response removes the failed component from service; this accommodates orchestrated environments where rescheduling, rather than halting, is the intended containment behavior.</p>
 </div>
 <div class="sect4">
 <h5 id="_dependencies_15">A.1.1.1. Dependencies</h5>
@@ -3683,7 +3683,7 @@ b) Basic: Changes to export configuration.</p>
 <div class="sect2">
 <h3 id="_consistency_of_toe_type">D.1. Consistency of TOE Type</h3>
 <div class="paragraph">
-<p>The Base PP defines a Database Management System TOE. This PP-Module constrains that TOE type by deployment and operation model — a DBMS deployed in a cloud environment and operated by the tenant — and not by product lineage: both cloud-native DBMS products and lift-and-shift deployments of traditional DBMS products remain the Base PP TOE type. The module adds cloud-integration security functionality to that TOE; it does not redefine what the TOE is, and all Base PP SFRs continue to apply to it.</p>
+<p>The Base PP defines a Database Management System TOE. This PP-Module constrains that TOE type by deployment and operation model (a DBMS deployed in a cloud environment and operated by the tenant) and not by product lineage: both cloud-native DBMS products and lift-and-shift deployments of traditional DBMS products remain the Base PP TOE type. The module adds cloud-integration security functionality to that TOE; it does not redefine what the TOE is, and all Base PP SFRs continue to apply to it.</p>
 </div>
 </div>
 <div class="sect2">
@@ -3698,13 +3698,13 @@ b) Basic: Changes to export configuration.</p>
 <div class="sect2">
 <h3 id="_consistency_of_security_objectives">D.3. Consistency of Security Objectives</h3>
 <div class="paragraph">
-<p>The module&#8217;s TOE objectives (O.CLOUD_IDENTITY_INTEGRATION, O.CLOUD_AUDIT_INTEGRATION, O.INTERNAL_RESOURCE_RESILIENCE, O.CLOUD_DEPLOYMENT_INTEGRITY, O.CONFIGURATION_PROTECTION) are additive: each addresses a cloud-specific threat or policy, and none redefines, weakens, or replaces a Base PP objective. The operational environment objectives assign to the environment only properties the Base PP never assigned to the TOE — platform isolation (OE.TRUSTED_PLATFORM), orchestration integrity (OE.SECURE_ORCHESTRATION), external logging, identity, and secrets services (OE.LOGGING_SERVICES, OE.IDENTITY_PROVIDERS, OE.SECRETS_MANAGEMENT), and organizational personnel controls (OE.AUTHORIZED_ADMINISTRATORS). No Base PP TOE responsibility is reassigned to the operational environment.</p>
+<p>The module&#8217;s TOE objectives (O.CLOUD_IDENTITY_INTEGRATION, O.CLOUD_AUDIT_INTEGRATION, O.INTERNAL_RESOURCE_RESILIENCE, O.CLOUD_DEPLOYMENT_INTEGRITY, O.CONFIGURATION_PROTECTION) are additive: each addresses a cloud-specific threat or policy, and none redefines, weakens, or replaces a Base PP objective. The operational environment objectives assign to the environment only properties the Base PP never assigned to the TOE: platform isolation (OE.TRUSTED_PLATFORM), orchestration integrity (OE.SECURE_ORCHESTRATION), external logging, identity, and secrets services (OE.LOGGING_SERVICES, OE.IDENTITY_PROVIDERS, OE.SECRETS_MANAGEMENT), and organizational personnel controls (OE.AUTHORIZED_ADMINISTRATORS). No Base PP TOE responsibility is reassigned to the operational environment.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_consistency_of_security_functional_requirements">D.4. Consistency of Security Functional Requirements</h3>
 <div class="paragraph">
-<p>Components also defined by the Base PP are claimed by this module as iterations — FAU_GEN.1/Cloud, FAU_SEL.1/Cloud, FMT_MTD.1/Cloud, FMT_SMF.1/Cloud, FMT_SMR.1/Cloud — leaving the Base PP components claimed unchanged in the PP-Configuration. FAU_STG.2/Cloud, FMT_MOF.1, and FPT_FLS.1 use CC Part 2 components the Base PP does not claim, so no conflicting completion can arise. Module SFRs depend on Base PP components where appropriate (FIA_UID.2 and FIA_UAU.2 for identification and authentication; the FMT management components) and do not alter their Base PP completions.</p>
+<p>Components also defined by the Base PP are claimed by this module as iterations (FAU_GEN.1/Cloud, FAU_SEL.1/Cloud, FMT_MTD.1/Cloud, FMT_SMF.1/Cloud, FMT_SMR.1/Cloud), leaving the Base PP components claimed unchanged in the PP-Configuration. FAU_STG.2/Cloud, FMT_MOF.1, and FPT_FLS.1 use CC Part 2 components the Base PP does not claim, so no conflicting completion can arise. Module SFRs depend on Base PP components where appropriate (FIA_UID.2 and FIA_UAU.2 for identification and authentication; the FMT management components) and do not alter their Base PP completions.</p>
 </div>
 <div class="paragraph">
 <p>FPT_ITT.1 is claimed by this module to protect internal TSF transfers in cloud deployments. The Base PP does not claim FPT_ITT.1; it relies on A.CONNECT to discharge the FPT_ITT.1 dependency of FPT_TRC.1. This module&#8217;s claim supplements A.CONNECT with TOE-enforced protection for cloud deployments; A.CONNECT is retained in full in the PP-Configuration and is not rescinded or weakened.</p>
@@ -3716,7 +3716,7 @@ b) Basic: Changes to export configuration.</p>
 <div class="sect2">
 <h3 id="_consistency_with_the_dbms_cryptographic_functions_module">D.5. Consistency with the DBMS Cryptographic Functions Module</h3>
 <div class="paragraph">
-<p>Every PP-Configuration claiming this module also includes the DBMS Cryptographic Functions Module. This module references, and does not redefine, the Crypto Module&#8217;s requirements: FDP_DIT_EXT.1 (this module only identifies the cloud deployment channels — management, IAM, audit export, and external service connections — to which the inherited requirement applies), FDP_DAR_EXT.1 (data-at-rest protection), and the key-lifecycle components. The threats T.NETWORK_INTERCEPTION and T.SECRETS_EXPOSURE are countered jointly with the Crypto Module — its O.PROTECTED_TRANSIT objective covers external channel protection, and its key-management objectives cover Master Key lifecycle protection. The channel list identified by this module is a subset of the channels FDP_DIT_EXT.1 covers, and this module introduces no completion of any Crypto Module operation, so no contradiction can arise between the two modules.</p>
+<p>Every PP-Configuration claiming this module also includes the DBMS Cryptographic Functions Module. This module references, and does not redefine, the Crypto Module&#8217;s requirements: FDP_DIT_EXT.1 (this module only identifies the cloud deployment channels (management, IAM, audit export, and external service connections) to which the inherited requirement applies), FDP_DAR_EXT.1 (data-at-rest protection), and the key-lifecycle components. The threats T.NETWORK_INTERCEPTION and T.SECRETS_EXPOSURE are countered jointly with the Crypto Module: its O.PROTECTED_TRANSIT objective covers external channel protection, and its key-management objectives cover Master Key lifecycle protection. The channel list identified by this module is a subset of the channels FDP_DIT_EXT.1 covers, and this module introduces no completion of any Crypto Module operation, so no contradiction can arise between the two modules.</p>
 </div>
 </div>
 </div>
@@ -4147,7 +4147,7 @@ b) Basic: Changes to export configuration.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.5<br>
-Last updated 2026-07-20 17:03:00 -0500
+Last updated 2026-07-24 23:18:00 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

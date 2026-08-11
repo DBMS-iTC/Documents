@@ -94,7 +94,7 @@ JISEC - Japan IT Security Evaluation and Certification Scheme
 
 |0.4
 |2026-07-08
-|Added FPT_FLS.1 (CC Part 2) as a mandatory SFR of this module, replacing the incorrect attribution "FPT_FLS.1 (inherited from Base PP)" in the O.INTERNAL_RESOURCE_RESILIENCE mappings — the Base PP does not define FPT_FLS.1. The failure-type assignment is deliberately left to the ST author; the application note gives illustrative cloud failure types only, as failure modes and secure-state semantics differ across implementations. Also aligned Package Conformance with the Crypto Module's Functional Package requirements (TLS FP v2.1, X.509 FP v1.0) instead of disclaiming package claims, and added the TLS FP, X.509 FP, and CCDB-018 bibliography entries this module's text cites.
+|Added FPT_FLS.1 (CC Part 2) as a mandatory SFR of this module, replacing the incorrect attribution "FPT_FLS.1 (inherited from Base PP)" in the O.INTERNAL_RESOURCE_RESILIENCE mappings; the Base PP does not define FPT_FLS.1. The failure-type assignment is deliberately left to the ST author; the application note gives illustrative cloud failure types only, as failure modes and secure-state semantics differ across implementations. Also aligned Package Conformance with the Crypto Module's Functional Package requirements (TLS FP v2.1, X.509 FP v1.0) instead of disclaiming package claims, and added the TLS FP, X.509 FP, and CCDB-018 bibliography entries this module's text cites.
 
 |0.4
 |2026-07-08
@@ -114,7 +114,7 @@ JISEC - Japan IT Security Evaluation and Certification Scheme
 
 |0.4
 |2026-07-08
-|Split FMT_MTD_EXT.1: its first element duplicated CC Part 2 FMT_MTD.1 and is now claimed as the iteration FMT_MTD.1/Cloud (Base PP's FMT_MTD.1 unchanged); FMT_MTD_EXT.1 retains the cloud-specific behavior, renumbered — element 1 (protection of TSF data exchanged with cloud secret management systems, now explicitly against unauthorized disclosure and modification) and element 2 (the FDP_DIT_EXT.1 channel binding, formerly element 3). Dependencies declared consistently (iteration: FMT_SMF.1 and FMT_SMR.1; extension: FMT_SMF.1); FAU_SEL.1/Cloud's FMT_MTD.1 dependency now resolves to the Base PP's FMT_MTD.1 directly; rationale, dependency, SFR List, and ECD references updated.
+|Split FMT_MTD_EXT.1: its first element duplicated CC Part 2 FMT_MTD.1 and is now claimed as the iteration FMT_MTD.1/Cloud (Base PP's FMT_MTD.1 unchanged); FMT_MTD_EXT.1 retains the cloud-specific behavior, renumbered: element 1 (protection of TSF data exchanged with cloud secret management systems, now explicitly against unauthorized disclosure and modification) and element 2 (the FDP_DIT_EXT.1 channel binding, formerly element 3). Dependencies declared consistently (iteration: FMT_SMF.1 and FMT_SMR.1; extension: FMT_SMF.1); FAU_SEL.1/Cloud's FMT_MTD.1 dependency now resolves to the Base PP's FMT_MTD.1 directly; rationale, dependency, SFR List, and ECD references updated.
 
 |0.4
 |2026-07-08
@@ -136,7 +136,7 @@ toc::[]
 
 This PP-Module, the *DBMS in the Cloud Module*, extends the collaborative Protection Profile for Database Management Systems (cPP_DBMS) to support secure deployment of DBMS products in cloud environments. It is intended to address tenant-operated deployments on infrastructure- or platform-as-a-service (IaaS/PaaS) offerings in public or private clouds, whether the DBMS is a cloud-native product designed for cloud deployment or a traditional DBMS deployed using a lift-and-shift strategy.
 
-This module is aligned with the architectural concepts defined by the Common Criteria in the Cloud Technical Community (CCiTC), as described in the "Guidance for Cloud Evaluations" v1.1 publication. In particular, this module recognizes a *Trusted Platform* -- the cloud infrastructure and services outside the TOE boundary on which the TOE relies to satisfy operational environment assumptions and objectives. The composition of the TOE, TOE Platform, Trusted Platform, and other operational environment components depends on the evaluated architecture and shall be identified in the ST.
+This module is aligned with the architectural concepts defined by the Common Criteria in the Cloud Technical Community (CCiTC), as described in the "Guidance for Cloud Evaluations" v1.1 publication. In particular, this module recognizes a *Trusted Platform* (the cloud infrastructure and services outside the TOE boundary on which the TOE relies to satisfy operational environment assumptions and objectives). The composition of the TOE, TOE Platform, Trusted Platform, and other operational environment components depends on the evaluated architecture and shall be identified in the ST.
 
 The DBMS in the Cloud Module is focused on scenarios where:
 
@@ -481,7 +481,7 @@ A malicious actor may attempt to intercept, modify, or inject data into communic
 This section describes the assumptions about the operational environment that must be satisfied for the TOE to provide its security functionality. If these assumptions are not met, the TOE cannot be expected to operate securely.
 
 A.TRUSTED_PLATFORM::
-The underlying cloud environment -- including compute, network, storage, and orchestration infrastructure -- is assumed to be a Trusted Platform as defined by the CCiTC model. Specifically, the platform must:
+The underlying cloud environment (including compute, network, storage, and orchestration infrastructure) is assumed to be a Trusted Platform as defined by the CCiTC model. Specifically, the platform must:
 +
 * Enforce isolation between tenants such that one tenant cannot access another tenant's compute resources, memory, storage, or network traffic;
 * Protect the integrity of virtual machine or container boundaries against escape or breakout attacks;
@@ -499,7 +499,7 @@ The TOE is deployed using an approved, authentic, and correctly configured image
 * The deployment pipeline must be protected against unauthorized modification.
 
 A.CLOUD_SERVICE_INTEGRITY::
-The cloud-native services that the TOE integrates with -- such as IAM, key vaults, logging services, and configuration management systems -- are assumed to operate correctly and provide accurate, untampered data to the TOE under normal operating conditions. In the event of partial service failures:
+The cloud-native services that the TOE integrates with (such as IAM, key vaults, logging services, and configuration management systems) are assumed to operate correctly and provide accurate, untampered data to the TOE under normal operating conditions. In the event of partial service failures:
 +
 * The TOE will detect service unavailability through timeout or error responses;
 * The TOE will fail securely by denying operations that depend on unavailable services rather than falling back to insecure defaults;
@@ -1221,7 +1221,7 @@ When "disclosure" is selected, confidentiality protection is required. When "mod
 
 *FPT_FLS.1.1* The TSF shall preserve a secure state when the following types of failures occur: [assignment: _list of types of failures in the TSF_].
 
-*Application Note:* This SFR is CC:2022 Part 2 FPT_FLS.1, claimed by this module; it is not defined by the Base PP. The assignment is deliberately left to the ST author: failure modes and secure-state semantics differ dramatically across DBMS implementations and cloud architectures, and this module does not prescribe them. In cloud deployments the claimed failure types commonly include loss of connectivity to required cloud services (identity, secrets, or logging), orchestration-induced termination or rescheduling, storage detachment, and conditions detected through FPT_ARS_EXT.1 monitoring — these are examples, not required completions. The TSS defines what constitutes a secure state for the TOE (for example, refusing new connections, denying access to protected data, or controlled shutdown) and identifies the failure types claimed in the assignment.
+*Application Note:* This SFR is CC:2022 Part 2 FPT_FLS.1, claimed by this module; it is not defined by the Base PP. The assignment is deliberately left to the ST author: failure modes and secure-state semantics differ dramatically across DBMS implementations and cloud architectures, and this module does not prescribe them. In cloud deployments the claimed failure types commonly include loss of connectivity to required cloud services (identity, secrets, or logging), orchestration-induced termination or rescheduling, storage detachment, and conditions detected through FPT_ARS_EXT.1 monitoring; these are examples, not required completions. The TSS defines what constitutes a secure state for the TOE (for example, refusing new connections, denying access to protected data, or controlled shutdown) and identifies the failure types claimed in the assignment.
 
 ===== Dependencies
 
@@ -1335,7 +1335,7 @@ These SFRs apply only when the TOE implements the specified functionality or whe
 
 *FPT_SBT_EXT.1.3* The TSF shall [selection: prevent boot/startup, alert administrators, [assignment: _other action_]] if integrity or authenticity verification fails.
 
-*Application Note:* This SFR applies primarily to containerized deployments, appliance images, or orchestrated workloads with explicit image trust requirements. It is triggered when "secure boot or image verification mechanisms as defined in FPT_SBT_EXT.1" is selected in `FPT_TUD_EXT.1.2`. If "alert administrators" is selected in FPT_SBT_EXT.1.3 without "prevent boot/startup", the ST shall justify the selection, and the TSS shall describe the recovery path by which the orchestration or administrative response removes the failed component from service — this accommodates orchestrated environments where rescheduling, rather than halting, is the intended containment behavior.
+*Application Note:* This SFR applies primarily to containerized deployments, appliance images, or orchestrated workloads with explicit image trust requirements. It is triggered when "secure boot or image verification mechanisms as defined in FPT_SBT_EXT.1" is selected in `FPT_TUD_EXT.1.2`. If "alert administrators" is selected in FPT_SBT_EXT.1.3 without "prevent boot/startup", the ST shall justify the selection, and the TSS shall describe the recovery path by which the orchestration or administrative response removes the failed component from service; this accommodates orchestrated environments where rescheduling, rather than halting, is the intended containment behavior.
 
 ===== Dependencies
 
@@ -1709,7 +1709,7 @@ This appendix demonstrates, per the ACE_MCO requirements of CC:2022, that this P
 
 === Consistency of TOE Type
 
-The Base PP defines a Database Management System TOE. This PP-Module constrains that TOE type by deployment and operation model — a DBMS deployed in a cloud environment and operated by the tenant — and not by product lineage: both cloud-native DBMS products and lift-and-shift deployments of traditional DBMS products remain the Base PP TOE type. The module adds cloud-integration security functionality to that TOE; it does not redefine what the TOE is, and all Base PP SFRs continue to apply to it.
+The Base PP defines a Database Management System TOE. This PP-Module constrains that TOE type by deployment and operation model (a DBMS deployed in a cloud environment and operated by the tenant) and not by product lineage: both cloud-native DBMS products and lift-and-shift deployments of traditional DBMS products remain the Base PP TOE type. The module adds cloud-integration security functionality to that TOE; it does not redefine what the TOE is, and all Base PP SFRs continue to apply to it.
 
 === Consistency of Security Problem Definition
 
@@ -1719,11 +1719,11 @@ The module's assumptions (A.TRUSTED_PLATFORM, A.SECURE_DEPLOYMENT, A.CLOUD_SERVI
 
 === Consistency of Security Objectives
 
-The module's TOE objectives (O.CLOUD_IDENTITY_INTEGRATION, O.CLOUD_AUDIT_INTEGRATION, O.INTERNAL_RESOURCE_RESILIENCE, O.CLOUD_DEPLOYMENT_INTEGRITY, O.CONFIGURATION_PROTECTION) are additive: each addresses a cloud-specific threat or policy, and none redefines, weakens, or replaces a Base PP objective. The operational environment objectives assign to the environment only properties the Base PP never assigned to the TOE — platform isolation (OE.TRUSTED_PLATFORM), orchestration integrity (OE.SECURE_ORCHESTRATION), external logging, identity, and secrets services (OE.LOGGING_SERVICES, OE.IDENTITY_PROVIDERS, OE.SECRETS_MANAGEMENT), and organizational personnel controls (OE.AUTHORIZED_ADMINISTRATORS). No Base PP TOE responsibility is reassigned to the operational environment.
+The module's TOE objectives (O.CLOUD_IDENTITY_INTEGRATION, O.CLOUD_AUDIT_INTEGRATION, O.INTERNAL_RESOURCE_RESILIENCE, O.CLOUD_DEPLOYMENT_INTEGRITY, O.CONFIGURATION_PROTECTION) are additive: each addresses a cloud-specific threat or policy, and none redefines, weakens, or replaces a Base PP objective. The operational environment objectives assign to the environment only properties the Base PP never assigned to the TOE: platform isolation (OE.TRUSTED_PLATFORM), orchestration integrity (OE.SECURE_ORCHESTRATION), external logging, identity, and secrets services (OE.LOGGING_SERVICES, OE.IDENTITY_PROVIDERS, OE.SECRETS_MANAGEMENT), and organizational personnel controls (OE.AUTHORIZED_ADMINISTRATORS). No Base PP TOE responsibility is reassigned to the operational environment.
 
 === Consistency of Security Functional Requirements
 
-Components also defined by the Base PP are claimed by this module as iterations — FAU_GEN.1/Cloud, FAU_SEL.1/Cloud, FMT_MTD.1/Cloud, FMT_SMF.1/Cloud, FMT_SMR.1/Cloud — leaving the Base PP components claimed unchanged in the PP-Configuration. FAU_STG.2/Cloud, FMT_MOF.1, and FPT_FLS.1 use CC Part 2 components the Base PP does not claim, so no conflicting completion can arise. Module SFRs depend on Base PP components where appropriate (FIA_UID.2 and FIA_UAU.2 for identification and authentication; the FMT management components) and do not alter their Base PP completions.
+Components also defined by the Base PP are claimed by this module as iterations (FAU_GEN.1/Cloud, FAU_SEL.1/Cloud, FMT_MTD.1/Cloud, FMT_SMF.1/Cloud, FMT_SMR.1/Cloud), leaving the Base PP components claimed unchanged in the PP-Configuration. FAU_STG.2/Cloud, FMT_MOF.1, and FPT_FLS.1 use CC Part 2 components the Base PP does not claim, so no conflicting completion can arise. Module SFRs depend on Base PP components where appropriate (FIA_UID.2 and FIA_UAU.2 for identification and authentication; the FMT management components) and do not alter their Base PP completions.
 
 FPT_ITT.1 is claimed by this module to protect internal TSF transfers in cloud deployments. The Base PP does not claim FPT_ITT.1; it relies on A.CONNECT to discharge the FPT_ITT.1 dependency of FPT_TRC.1. This module's claim supplements A.CONNECT with TOE-enforced protection for cloud deployments; A.CONNECT is retained in full in the PP-Configuration and is not rescinded or weakened.
 
@@ -1731,7 +1731,7 @@ The extended components defined by this module (FIA_UID_EXT.1, FMT_MTD_EXT.1, FP
 
 === Consistency with the DBMS Cryptographic Functions Module
 
-Every PP-Configuration claiming this module also includes the DBMS Cryptographic Functions Module. This module references, and does not redefine, the Crypto Module's requirements: FDP_DIT_EXT.1 (this module only identifies the cloud deployment channels — management, IAM, audit export, and external service connections — to which the inherited requirement applies), FDP_DAR_EXT.1 (data-at-rest protection), and the key-lifecycle components. The threats T.NETWORK_INTERCEPTION and T.SECRETS_EXPOSURE are countered jointly with the Crypto Module — its O.PROTECTED_TRANSIT objective covers external channel protection, and its key-management objectives cover Master Key lifecycle protection. The channel list identified by this module is a subset of the channels FDP_DIT_EXT.1 covers, and this module introduces no completion of any Crypto Module operation, so no contradiction can arise between the two modules.
+Every PP-Configuration claiming this module also includes the DBMS Cryptographic Functions Module. This module references, and does not redefine, the Crypto Module's requirements: FDP_DIT_EXT.1 (this module only identifies the cloud deployment channels (management, IAM, audit export, and external service connections) to which the inherited requirement applies), FDP_DAR_EXT.1 (data-at-rest protection), and the key-lifecycle components. The threats T.NETWORK_INTERCEPTION and T.SECRETS_EXPOSURE are countered jointly with the Crypto Module: its O.PROTECTED_TRANSIT objective covers external channel protection, and its key-management objectives cover Master Key lifecycle protection. The channel list identified by this module is a subset of the channels FDP_DIT_EXT.1 covers, and this module introduces no completion of any Crypto Module operation, so no contradiction can arise between the two modules.
 
 [appendix]
 == SFR List

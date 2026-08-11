@@ -299,7 +299,7 @@ A CAVP or equivalent validation result may replace only algorithm-correctness te
 
 For every uncovered element, the evaluator shall apply a specifically identified method accepted by the responsible Certification Body. Merely stating that a CAVP record exists, or that the Catalogue Evaluation Methods are not yet available, is not sufficient.
 
-The transitional mechanism applies equally to the PP-Module's anticipated post-Version 1.0 rows — ML-DSA in `FCS_COP.1/SigVer`, ML-KEM KeyGen in `FCS_CKM.1/KEM`, and ML-KEM encapsulation or decapsulation in `FCS_COP.1/KeyEncap`. FIPS PUB 203 and FIPS PUB 204 are final and CAVP validates implementations of both. The validation coverage matrix shall map the ML-KEM KeyGen capability separately from EncapDecap and shall identify which of encapsulation and decapsulation the TOE performs. Algorithm correctness for those selections is otherwise evidenced in the same way as for published Catalogue rows, pending the corresponding Catalogue entries and Evaluation Methods.
+The transitional mechanism applies equally to the PP-Module's anticipated post-Version 1.0 rows: ML-DSA in `FCS_COP.1/SigVer`, ML-KEM KeyGen in `FCS_CKM.1/KEM`, and ML-KEM encapsulation or decapsulation in `FCS_COP.1/KeyEncap`. FIPS PUB 203 and FIPS PUB 204 are final and CAVP validates implementations of both. The validation coverage matrix shall map the ML-KEM KeyGen capability separately from EncapDecap and shall identify which of encapsulation and decapsulation the TOE performs. Algorithm correctness for those selections is otherwise evidenced in the same way as for published Catalogue rows, pending the corresponding Catalogue entries and Evaluation Methods.
 
 When a scheme-recognized version of [<<Crypto_Eval_Methods>>] becomes available, that document becomes the primary algorithm evaluation method for this SD. Existing validation results may continue to satisfy individual activities only to the extent permitted by that document or by the responsible Certification Body. The DBMS-specific integration activities in this SD remain applicable and are not displaced by publication of the Catalogue methods.
 
@@ -308,7 +308,7 @@ When a scheme-recognized version of [<<Crypto_Eval_Methods>>] becomes available,
 `FPT_TST.1/RBG` and `FPT_FLS.1/RBG` are CC Part 2 iterations completed for the `FCS_RBG.1` dependency. The Catalogue delegates RBG health testing to FPT_TST.1 claimed alongside the FCS_RBG components, and the evaluation methods for that behavior are expected from the Catalogue Evaluation Methods [<<Crypto_Eval_Methods>>]. Until a scheme-recognized version of that document is available, the evaluator shall proceed as follows, subject to Certification Body approval:
 
 . The evaluator shall verify the TSS identifies the DRBG self-tests performed and when they run (per the FPT_TST.1.1/RBG selection), and the failure behavior by which the TOE preserves a secure state per FPT_FLS.1.1/RBG.
-. Where the DRBG implementation is within the boundary of a cryptographic module validated under the CMVP (FIPS 140-3 / ISO/IEC 19790) — whose validation examines pre-operational and conditional self-tests, including DRBG health tests, and the module's error states — the evaluator may accept that module validation as evidence for the self-test execution and failure behavior of the validated module, applying the same acceptance conditions as for algorithm validation evidence above (official listing status, implementation identity, operating-environment match, and TSS boundary identification) and recording the determination in the Cryptographic Validation Coverage Matrix.
+. Where the DRBG implementation is within the boundary of a cryptographic module validated under the CMVP (FIPS 140-3 / ISO/IEC 19790) (whose validation examines pre-operational and conditional self-tests, including DRBG health tests, and the module's error states), the evaluator may accept that module validation as evidence for the self-test execution and failure behavior of the validated module, applying the same acceptance conditions as for algorithm validation evidence above (official listing status, implementation identity, operating-environment match, and TSS boundary identification) and recording the determination in the Cryptographic Validation Coverage Matrix.
 . The TOE-integration residue remains evaluated: the evaluator shall verify, per the TSS, that the TOE refuses RBG-dependent cryptographic services when the module reports a self-test failure or error state. Where inducing the failure is not practical, the evaluator shall use a method accepted by the responsible Certification Body and record it in the evaluation report.
 
 This transitional coverage does not originate evaluation methodology for the RBG health tests themselves; it reuses the self-test examination already performed in the module validation, pending the Catalogue Evaluation Methods.
@@ -467,7 +467,7 @@ For each SAR inherited from the cPP_DBMS, the evaluator shall:
 
 === Documentation Requirements
 
-==== AGD_OPE: Operational User Guidance — Cryptographic Requirements
+==== AGD_OPE: Operational User Guidance (Cryptographic Requirements)
 
 The operational user guidance shall include sections addressing:
 
@@ -490,7 +490,7 @@ The operational user guidance shall include sections addressing:
 * Supported external KMS types
 * Troubleshooting key import failures
 
-==== AGD_PRE: Preparative Procedures — Cryptographic Deployment
+==== AGD_PRE: Preparative Procedures (Cryptographic Deployment)
 
 The preparative procedures shall include:
 
@@ -1102,7 +1102,7 @@ This SFR governs the protection of data transmitted between the TOE and external
 The evaluator shall verify the TSS:
 
 * identifies each channel over which the TOE transmits data to or from external entities, including client-to-database connections, database-to-database connections, management and administrative channels, audit export channels, and connections to external services;
-* identifies the protocol protecting each channel: TLS (including HTTPS over TLS where applicable), which is mandatory for every conforming TOE, or a supplementary protocol claimed in the `FDP_DIT_EXT.1.1` selection — the evaluator shall verify the TLS Functional Package claim is present regardless of any supplementary protocol, and that any supplementary protocol is claimed from an applicable Functional Package and implemented within the TOE boundary (not by the underlying operating system or kernel);
+* identifies the protocol protecting each channel: TLS (including HTTPS over TLS where applicable), which is mandatory for every conforming TOE, or a supplementary protocol claimed in the `FDP_DIT_EXT.1.1` selection; the evaluator shall verify the TLS Functional Package claim is present regardless of any supplementary protocol, and that any supplementary protocol is claimed from an applicable Functional Package and implemented within the TOE boundary (not by the underlying operating system or kernel);
 * identifies the TLS and X.509 components included from the Functional Package for TLS v2.1 and the Functional Package for X.509 Certificates that implement each protected channel; and
 * describes how channel endpoints are authenticated, including certificate validation, where required by the selected protocol.
 

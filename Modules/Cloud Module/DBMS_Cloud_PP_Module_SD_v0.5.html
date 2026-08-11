@@ -873,7 +873,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-08</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Evaluation-activity corrections: FIA_UID_EXT.1 Test 1 recast as a negative test (no TSF-mediated actions before identification and authentication, consistent with the Base PP&#8217;s FIA_UID.2/FIA_UAU.2 — the previous test assumed permitted pre-identification actions and was unexecutable). Test 12&#8217;s certificate-rejection step replaced with confirmation that certificate validation is covered by the DBMS Crypto Module and TLS/X.509 Functional Package evidence, removing duplicated TLS testing. FMT_SMR.1/Cloud activities keyed to the roles assigned in the ST rather than levying role minimums beyond the SFR. Operational-environment mechanisms marked as supplementary, non-TSF evidence in the FPT_ITT.1 mechanisms list and Test 5, FPT_TUD_EXT.1 Test 5 (registry/orchestrator enforcement), and FPT_SBT_EXT.1 Test 4 (admission controllers), consistent with the PP-Module&#8217;s Security Function Allocation.</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Evaluation-activity corrections: FIA_UID_EXT.1 Test 1 recast as a negative test (no TSF-mediated actions before identification and authentication, consistent with the Base PP&#8217;s FIA_UID.2/FIA_UAU.2; the previous test assumed permitted pre-identification actions and was unexecutable). Test 12&#8217;s certificate-rejection step replaced with confirmation that certificate validation is covered by the DBMS Crypto Module and TLS/X.509 Functional Package evidence, removing duplicated TLS testing. FMT_SMR.1/Cloud activities keyed to the roles assigned in the ST rather than levying role minimums beyond the SFR. Operational-environment mechanisms marked as supplementary, non-TSF evidence in the FPT_ITT.1 mechanisms list and Test 5, FPT_TUD_EXT.1 Test 5 (registry/orchestrator enforcement), and FPT_SBT_EXT.1 Test 4 (admission controllers), consistent with the PP-Module&#8217;s Security Function Allocation.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0.4</p></td>
@@ -5446,7 +5446,7 @@ The evaluator shall apply the DBMS Crypto Module SD for <code>FDP_DAR_EXT.1</cod
 <p>Authentication between components</p>
 </li>
 <li>
-<p>Any supplementary operational-environment measures (network isolation, private networks, VPCs, or OS/kernel-implemented protocols such as IPsec) — the TSS shall distinguish these from TSF-provided protection, because they are defense in depth and cannot alone satisfy FPT_ITT.1 (see the PP-Module&#8217;s Security Function Allocation)</p>
+<p>Any supplementary operational-environment measures (network isolation, private networks, VPCs, or OS/kernel-implemented protocols such as IPsec): the TSS shall distinguish these from TSF-provided protection, because they are defense in depth and cannot alone satisfy FPT_ITT.1 (see the PP-Module&#8217;s Security Function Allocation)</p>
 </li>
 </ol>
 </div>
@@ -5606,7 +5606,7 @@ The evaluator shall apply the DBMS Crypto Module SD for <code>FDP_DAR_EXT.1</cod
 </ol>
 </div>
 <div class="paragraph">
-<p><strong>Test 5: Cloud Network Isolation (Supplementary — Operational Environment)</strong></p>
+<p><strong>Test 5: Cloud Network Isolation (Supplementary, Operational Environment)</strong></p>
 </div>
 <div class="paragraph">
 <p>For cloud deployments. This test examines defense-in-depth configuration of the operational environment and does not contribute TSF evidence for FPT_ITT.1; the TSF evidence is provided by Tests 1 through 4.</p>
@@ -8193,7 +8193,7 @@ d) Vulnerabilities dependent on specific cloud misconfigurations</p></td>
 <div id="footer">
 <div id="footer-text">
 Version 0.5<br>
-Last updated 2026-07-20 16:46:24 -0500
+Last updated 2026-07-24 23:09:23 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

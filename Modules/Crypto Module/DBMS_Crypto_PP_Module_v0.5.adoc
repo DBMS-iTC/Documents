@@ -184,6 +184,7 @@ Although the PP-Module may contain minor editorial errors, it is recognized as a
 * [#cPP_DBMS]#[cPP_DBMS]# collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.
 * [#cPP_DBMS_SD]#[cPP_DBMS_SD]# Supporting Document Mandatory Technical Document Evaluation Activities for the collaborative Protection Profile for Database Management Systems, Version 2.0, 27 April 2026.
 * [#DBMS_Cloud_MOD]#[DBMS_Cloud_MOD]# collaborative PP-Module for DBMS in the Cloud, Version 0.5.
+* [#DBMS_MOD_DBAAS]#[DBMS_MOD_DBAAS]# collaborative PP-Module for Database-as-a-Service (DBaaS), Version 0.5, DBMS-iTC.
 
 For more information, see the http://www.commoncriteriaportal.org/[Common Criteria Portal].
 
@@ -237,6 +238,12 @@ This standalone configuration is used when a DBMS requires cryptographic protect
 +
 This configuration is required when the DBMS Cloud Module [<<DBMS_Cloud_MOD>>] is claimed. The Cloud Module mandates the inclusion of this Crypto Module to provide Data-in-Transit protections using TLS, including HTTPS over TLS where applicable, and Data-at-Rest encryption protections. See the DBMS Cloud Module for full PP-Configuration requirements.
 
+. *cPP_DBMS + DBMS DBaaS Module + DBMS Cryptographic Module*
++
+This configuration is required when the DBMS DBaaS Module [<<DBMS_MOD_DBAAS>>] is claimed. The DBaaS Module mandates the inclusion of this Crypto Module to provide Data-in-Transit protections using TLS, including HTTPS over TLS where applicable, and Data-at-Rest encryption protections. See the DBMS DBaaS Module for full PP-Configuration requirements.
+
+The DBMS Cloud Module and the DBMS DBaaS Module are mutually exclusive: they are never combined in a single PP-Configuration. A TOE claims one or the other according to who holds administrative authority over the DBMS software lifecycle.
+
 === PP-Module Relationship Diagram
 
 [ditaa, crypto-module-relationship, png]
@@ -251,17 +258,18 @@ This configuration is required when the DBMS Cloud Module [<<DBMS_Cloud_MOD>>] i
                     +-------------------+
                     | DBMS Crypto Module|
                     |  (This Document)  |
-                    +-------------------+
-                              ^
-                              |  Required Dependency
-                              |
-                    +-------------------+
-                    | DBMS Cloud Module |
-                    |   (Optional)      |
-                    +-------------------+
+                    +--------+----------+
+                             ^
+                             |  Required Dependency
+                +------------+------------+
+                |                         |
+      +-------------------+     +-------------------+
+      | DBMS Cloud Module |     | DBMS DBaaS Module |
+      |    (Optional)     |     |    (Optional)     |
+      +-------------------+     +-------------------+
 ----
 
-*Application Note:* When the DBMS Cloud Module is included in the PP-Configuration, this module is a mandatory dependency. When the DBMS Cloud Module is not included, this module may be claimed independently against the cPP_DBMS Base PP.
+*Application Note:* When the DBMS Cloud Module or the DBMS DBaaS Module is included in the PP-Configuration, this module is a mandatory dependency of that module. When neither is included, this module may be claimed independently against the cPP_DBMS Base PP.
 
 == TOE Overview
 
@@ -728,6 +736,10 @@ FDP_ITC_EXT.1.4 distinguishes key wrapping from key establishment. ML-KEM does n
 | FCS_CKM.6; FCS_RBG.1
 | Anticipated post-Version 1.0 key-generation iteration included only when the TOE performs ML-KEM.KeyGen; resolved by the consumed key-destruction and RBG component set.
 
+| FCS_CKM.5
+| [`FCS_CKM.2` or `FCS_COP.1`] (CCDB-018 Section 3.6); `FCS_CKM.6`; [`FCS_COP.1/CMAC`, `FCS_COP.1/Hash`, `FCS_COP.1/KeyedHash`, `FCS_COP.1/SKC`, or `FCS_COP.1/AEAD`]
+| Included when the TOE derives an in-scope key from non-password input, including the Master Key derived from a KEM shared secret. Resolved by the consumed key-destruction and derivation-primitive components; the [`FCS_CKM.2` or `FCS_COP.1`] key-utilization dependency is resolved by the `FCS_COP.1/KeyWrap` or `FCS_COP.1/AEAD` component that consumes the derived Master Key.
+
 | FCS_CKM_EXT.1
 | FCS_CKM.6 (CCDB-018 Section 3.7); FCS_CKM.1/SKG and FCS_RBG.1 (when MEKs are generated internally); FCS_COP.1/KeyEncap and FCS_CKM.5 for a KEM-established origin, with FCS_CKM.1/KEM and FCS_RBG.1 as triggered by the TOE role; selected `FCS_COP.1/KeyWrap` or `FCS_COP.1/AEAD` for cryptographic protection of persistent MEK material; selected `FCS_COP.1/KeyWrap`, `FCS_COP.1/SKC`, or `FCS_COP.1/AEAD` for DEK protection; `FCS_OTV_EXT.1` when required; FDP_ITC_EXT.1 (when an external origin is selected)
 | Crypto Catalogue and anticipated post-Version 1.0 components for selected key-generation, establishment, derivation, and protection claims; FDP_ITC_EXT.1 for every external Key Origin
@@ -905,7 +917,7 @@ Dependencies: [`FCS_CKM.2`, `FCS_CKM.5`, `FCS_CKM_EXT.7`, or `FCS_COP.1`]; `FCS_
 |NIST SP 800-133 Revision 2, Section 6.1
 |===
 
-*Application Note:* Include this component when the TOE creates symmetric keys directly from the output of an RBG without further conditioning. Use `FCS_CKM.5` for keys derived from other keying material and `FCS_CKM_EXT.8` for keys derived from passwords; both are consumed in this PP-Module. `FCS_CKM_EXT.7` (keys derived from material contributed by multiple parties) is not consumed in this PP-Module — multi-party key derivation is outside its scope, and references to it in reproduced Catalogue dependency lists are retained only as Catalogue context.
+*Application Note:* Include this component when the TOE creates symmetric keys directly from the output of an RBG without further conditioning. Use `FCS_CKM.5` for keys derived from other keying material and `FCS_CKM_EXT.8` for keys derived from passwords; both are consumed in this PP-Module. `FCS_CKM_EXT.7` (keys derived from material contributed by multiple parties) is not consumed in this PP-Module; multi-party key derivation is outside its scope, and references to it in reproduced Catalogue dependency lists are retained only as Catalogue context.
 
 [#FCS_CKM_1_KEM]
 ==== FCS_CKM.1/KEM Cryptographic Key Generation - ML-KEM Key Pair
@@ -914,7 +926,7 @@ Dependencies: [`FCS_CKM.2`, `FCS_CKM.5`, `FCS_CKM_EXT.7`, or `FCS_COP.1`]; `FCS_
 
 Hierarchical to: No other components.
 
-Dependencies: `FCS_CKM.6`; `FCS_RBG.1`.
+Dependencies: [`FCS_CKM.2` or `FCS_COP.1`]; `FCS_CKM.6`; `FCS_RBG.1`.
 
 *FCS_CKM.1.1/KEM* The TSF shall generate ML-KEM encapsulation and decapsulation key pairs in accordance with the specified cryptographic key generation algorithm [ML-KEM.KeyGen] and cryptographic algorithm parameters [selection: ML-KEM-512, ML-KEM-768, ML-KEM-1024] that meet the following standard: [FIPS PUB 203].
 
@@ -1179,7 +1191,7 @@ Dependencies: [`FDP_ITC.1`, `FDP_ITC.2`, `FCS_CKM.1`, `FCS_CKM.5`, or no other c
 
 *Application Note:* When a public verification key is integrity protected within the TOE, the ST may select no key-import, generation, or derivation dependency. The selected hash or XOF component remains included. DSA is retained only for verification of legacy signatures as permitted by the Catalogue.
 +
-The ML-DSA row anticipates the Catalogue's post-Version 1.0 development: FIPS PUB 204 is final, CAVP validates ML-DSA implementations, and the transitional evidence mechanism of the Crypto SD applies to this row in the same way as to the published rows until the corresponding Catalogue entry and Evaluation Methods are available. Pure ML-DSA has no hash dependency; HashML-DSA includes the selected Hash or XOF component. This module defines signature verification only: signature generation — including the state management on which the security of the stateful hash-based schemes depends (NIST SP 800-208) — is a function of the signing infrastructure that produces DBMS software and artifacts, not of a DBMS, and no signature-generation component is offered. LMS, HSS, XMSS, and XMSSMT therefore appear here strictly for verification.
+The ML-DSA row anticipates the Catalogue's post-Version 1.0 development: FIPS PUB 204 is final, CAVP validates ML-DSA implementations, and the transitional evidence mechanism of the Crypto SD applies to this row in the same way as to the published rows until the corresponding Catalogue entry and Evaluation Methods are available. Pure ML-DSA has no hash dependency; HashML-DSA includes the selected Hash or XOF component. This module defines signature verification only: signature generation, including the state management on which the security of the stateful hash-based schemes depends (NIST SP 800-208), is a function of the signing infrastructure that produces DBMS software and artifacts, not of a DBMS, and no signature-generation component is offered. LMS, HSS, XMSS, and XMSSMT therefore appear here strictly for verification.
 
 [#FCS_COP_1_KeyWrap]
 ==== FCS_COP.1/KeyWrap Cryptographic Operation - Key Wrapping
@@ -1238,7 +1250,7 @@ Dependencies: [`FDP_ITC.1`, `FDP_ITC.2`, `FCS_CKM.1/KEM`, `FCS_CKM_EXT.1`, or no
 |ML-KEM |Module-Lattice-Based Key-Encapsulation Mechanism |Parameter set [selection: ML-KEM-512, ML-KEM-768, ML-KEM-1024] |FIPS PUB 203
 |===
 
-*Application Note:* This component anticipates the Catalogue's post-Version 1.0 key-encapsulation development: FIPS PUB 203 is final, CAVP validates ML-KEM implementations, and the transitional evidence mechanism of the Crypto SD applies until the corresponding Catalogue entry and Evaluation Methods are available. The ST selects the operations actually performed by the TOE. Encapsulation uses an encapsulation public key and fresh randomness and therefore triggers `FCS_RBG.1`; decapsulation uses the TOE's decapsulation key and does not by itself trigger a fresh-randomness dependency. TOE-performed ML-KEM.KeyGen is claimed separately through `FCS_CKM.1/KEM`; provisioned or externally generated keys do not trigger that component. The decapsulation key, KeyGen seed, shared secret, and any derived MEK or key-encryption key are secret values subject to `FCS_CKM.6`; the public encapsulation key is not secret but its authenticity and association with the intended recipient shall be described in the TSS. For a KEM-established Master Key, `FCS_CKM.5` derives the MEK from the shared secret. For supplementary protection of a pre-existing transferred key, `FCS_CKM.5` derives a key-encryption key and `FCS_COP.1/KeyWrap` or `FCS_COP.1/AEAD` protects the transferred key. Protocol-level KEMs remain Functional Package-governed.
+*Application Note:* This component anticipates the Catalogue's post-Version 1.0 key-encapsulation development: FIPS PUB 203 is final, CAVP validates ML-KEM implementations, and the transitional evidence mechanism of the Crypto SD applies until the corresponding Catalogue entry and Evaluation Methods are available. The ST selects the operations actually performed by the TOE. Encapsulation uses an encapsulation public key and fresh randomness and therefore triggers `FCS_RBG.1`; decapsulation uses the TOE's decapsulation key and does not by itself trigger a fresh-randomness dependency. TOE-performed ML-KEM.KeyGen is claimed separately through `FCS_CKM.1/KEM`; provisioned or externally generated keys do not trigger that component. The decapsulation key, KeyGen seed, shared secret, and any derived MEK or key-encryption key are secret values subject to `FCS_CKM.6`; the public encapsulation key is not secret but its authenticity and association with the intended recipient shall be described in the TSS. For a KEM-established Master Key, `FCS_CKM.5` derives the MEK from the shared secret. For supplementary protection of a pre-existing transferred key, `FCS_CKM.5` derives a key-encryption key and `FCS_COP.1/KeyWrap` or `FCS_COP.1/AEAD` protects the transferred key. The "or no other component" choice in the key-source dependency is a deliberate DBMS-iTC relaxation of the standard `FCS_COP.1` key-source dependency, added to accommodate a provisioned decapsulation key that the TOE did not itself generate, import, or derive; the protection of such a provisioned decapsulation key is addressed in the TSS and by `FCS_CKM.6`. Protocol-level KEMs remain Functional Package-governed.
 
 [#FCS_COP_1_SKC]
 ==== FCS_COP.1/SKC Cryptographic Operation - Symmetric-Key Cryptography
@@ -1341,7 +1353,7 @@ Hierarchical to: No other components.
 
 Dependencies: [`FCS_RBG.2` or `FCS_RBG.3`]; `FCS_COP.1/Hash`; `FCS_COP.1/SKC`; `FPT_FLS.1/RBG`; `FPT_TST.1/RBG`.
 
-*DBMS-iTC Application Note:* The dependency list above reproduces the Catalogue text. The DBMS-iTC interprets it as follows, without modifying the underlying components: the seeding dependency is satisfied by `FCS_RBG.2`, `FCS_RBG.3`, or `FCS_RBG.4` according to the TOE's seeding architecture (the Catalogue's disjunction predates the internal-seeding-multiple-sources component, which equally satisfies the dependency's purpose); and the primitive dependency applies per the selected DRBG type — `FCS_COP.1/Hash` for Hash_DRBG and HMAC_DRBG, `FCS_COP.1/SKC` for CTR_DRBG.
+*DBMS-iTC Application Note:* The dependency list above reproduces the Catalogue text. The DBMS-iTC interprets it as follows, without modifying the underlying components: the seeding dependency is satisfied by `FCS_RBG.2`, `FCS_RBG.3`, or `FCS_RBG.4` according to the TOE's seeding architecture (the Catalogue's disjunction predates the internal-seeding-multiple-sources component, which equally satisfies the dependency's purpose); and the primitive dependency applies per the selected DRBG type: `FCS_COP.1/Hash` for Hash_DRBG and HMAC_DRBG, `FCS_COP.1/SKC` for CTR_DRBG.
 
 *FCS_RBG.1.1* The TSF shall perform deterministic random bit generation services using [selection: DRBG algorithm] in accordance with [selection: list of standards] after initialization.
 
@@ -1474,7 +1486,7 @@ An ST claiming `[USE CASE 2] Enterprise Enhanced` shall satisfy every applicable
 
 |`FCS_COP.1/SigVer`
 |When the TOE verifies signatures on DBMS software or firmware updates, select ML-DSA with the ML-DSA-87 parameter set, and/or LMS, HSS, XMSS, or XMSSMT with parameters permitted by NIST SP 800-208 and the applicable CNSA 2.0 transition policy. Do not use a legacy DSA, RSA, ECDSA, KCDSA, or EdDSA row to satisfy this use-case entry.
-|CNSA 2.0 signature algorithms — ML-DSA-87 (FIPS PUB 204) and the SP 800-208 hash-based schemes — per the applicable transition policy and current NIAP treatment.
+|CNSA 2.0 signature algorithms, ML-DSA-87 (FIPS PUB 204) and the SP 800-208 hash-based schemes, per the applicable transition policy and current NIAP treatment.
 
 |`FCS_COP.1/KeyWrap`
 |Select AES in KW, KWP, CCM, or GCM mode with a 256-bit key. When GCM is selected, use a 128-bit tag and the deterministic 96-bit IV construction required by the Catalogue row.
@@ -1695,7 +1707,7 @@ d) Detailed: Certificate validation results during channel establishment.
 
 Hierarchical to: No other components.
 
-Dependencies: `FCS_TLSC_EXT.1` and/or `FCS_TLSS_EXT.1` from the Functional Package for TLS v2.1 [<<TLS_FP>>], as required by the TOE role. These components must be included in the ST and configured to support mutual TLS for the key import channel.
+Dependencies: `FCS_TLSC_EXT.1` and/or `FCS_TLSS_EXT.1` from the Functional Package for TLS v2.1 [<<TLS_FP>>], as required by the TOE role. These components must be included in the ST and configured to support mutual TLS for the key import channel. When supplementary end-to-end protection is selected in FDP_ITC_EXT.1.4: `FCS_COP.1/KeyWrap`; or `FCS_COP.1/KeyEncap`, `FCS_CKM.5`, and `FCS_COP.1/KeyWrap` or `FCS_COP.1/AEAD`.
 
 *FDP_ITC_EXT.1.1* The TSF shall be capable of establishing a trusted channel between itself and an external key management entity for the purpose of importing cryptographic keys, communicating with an external key management service, or exchanging authenticated values used to establish keying material through key encapsulation.
 
@@ -1740,9 +1752,9 @@ Hierarchical to: No other components.
 
 Dependencies: `FCS_TLSC_EXT.1` and/or `FCS_TLSS_EXT.1` from the Functional Package for TLS v2.1 [<<TLS_FP>>] when TLS is selected; `FIA_X509_EXT` certificate-validation components from the Functional Package for X.509 Certificates [<<X509_FP>>] when certificate authentication is used; applicable protocol-specific components from another Functional Package when another protocol is selected.
 
-*FDP_DIT_EXT.1.1* The TSF shall protect data in transit between the TOE and external entities from unauthorized disclosure and modification using TLS as claimed from the Functional Package for TLS and [selection: no other cryptographic protocol, [assignment: other cryptographic protocol claimed from an applicable Functional Package]].
+*FDP_DIT_EXT.1.1* The TSF shall protect data in transit between the TOE and external entities from unauthorized disclosure and modification using TLS as claimed from the Functional Package for TLS v2.1 and [selection: no other cryptographic protocol, [assignment: other cryptographic protocol claimed from an applicable Functional Package]].
 
-*FDP_DIT_EXT.1.2* The TSF shall authenticate the endpoints of the protected channel using X.509 certificates specified by the Functional Package for X.509 Certificates, where required by the selected protocol.
+*FDP_DIT_EXT.1.2* The TSF shall authenticate the endpoints of the protected channel using X.509 certificates claimed from the Functional Package for X.509 Certificates, where required by the selected protocol.
 
 [appendix]
 == Consistency Rationale
@@ -1751,30 +1763,30 @@ This appendix demonstrates, per the ACE_MCO requirements of CC:2022, that this P
 
 === Consistency of TOE Type
 
-The Base PP defines a Database Management System TOE. This PP-Module adds cryptographic functionality — key hierarchy and Master Key lifecycle management, data-at-rest encryption, and data-in-transit protection — to that same TOE type. It does not redefine what the TOE is, and all Base PP SFRs continue to apply to it.
+The Base PP defines a Database Management System TOE. This PP-Module adds cryptographic functionality (key hierarchy and Master Key lifecycle management, data-at-rest encryption, and data-in-transit protection) to that same TOE type. It does not redefine what the TOE is, and all Base PP SFRs continue to apply to it.
 
 === Consistency of Security Problem Definition
 
-The Base PP defines no cryptographic SFRs and leaves cryptographic protection concerns to the operational environment. This module's threats (T.KEY_COMPROMISE, T.KEY_IMPORT_INTERCEPTION, T.WEAK_CRYPTO_IMPLEMENTATION, T.DATA_IN_TRANSIT_DISCLOSURE) address exactly that cryptographic attack surface; none contradicts a Base PP threat. A.KEY_STORE_SECURITY adds an operational environment property — protection of key material stored outside the TOE execution boundary — that no Base PP assumption addresses, and neither removes nor weakens any Base PP assumption. The organizational security policies (P.CRYPTOGRAPHIC_STANDARDS, P.KEY_LIFECYCLE) are additive and have no Base PP counterpart with which to conflict.
+The Base PP defines no cryptographic SFRs and leaves cryptographic protection concerns to the operational environment. This module's threats (T.KEY_COMPROMISE, T.KEY_IMPORT_INTERCEPTION, T.WEAK_CRYPTO_IMPLEMENTATION, T.DATA_IN_TRANSIT_DISCLOSURE) address exactly that cryptographic attack surface; none contradicts a Base PP threat. A.KEY_STORE_SECURITY adds an operational environment property (protection of key material stored outside the TOE execution boundary) that no Base PP assumption addresses, and neither removes nor weakens any Base PP assumption. The organizational security policies (P.CRYPTOGRAPHIC_STANDARDS, P.KEY_LIFECYCLE) are additive and have no Base PP counterpart with which to conflict.
 
 === Consistency of Security Objectives
 
-The module's TOE objectives (O.KEY_HIERARCHY, O.MASTER_KEY_MANAGEMENT, O.TRUSTED_KEY_IMPORT, O.CATALOGUE_CONFORMANCE, O.PROTECTED_TRANSIT) are additive: each addresses a cryptographic threat or policy the Base PP does not cover, and none redefines, weakens, or replaces a Base PP objective. OE.KEY_STORE_PROTECTION assigns to the environment only the persistent protection of stored key material outside the TOE execution boundary — a responsibility the Base PP never assigned to the TOE; the TOE protects keys while in use within its boundary (FCS_CKM_EXT.1).
+The module's TOE objectives (O.KEY_HIERARCHY, O.MASTER_KEY_MANAGEMENT, O.TRUSTED_KEY_IMPORT, O.CATALOGUE_CONFORMANCE, O.PROTECTED_TRANSIT) are additive: each addresses a cryptographic threat or policy the Base PP does not cover, and none redefines, weakens, or replaces a Base PP objective. OE.KEY_STORE_PROTECTION assigns to the environment only the persistent protection of stored key material outside the TOE execution boundary, a responsibility the Base PP never assigned to the TOE; the TOE protects keys while in use within its boundary (FCS_CKM_EXT.1).
 
 === Consistency of Security Functional Requirements
 
-The Base PP claims no FCS components, so the FCS components of this module — both module-defined and consumed from the Cryptographic Catalogue [<<Crypto_Catalog>>] — cannot conflict with any Base PP completion. The module's FDP components (FDP_DAR_EXT.1, FDP_DIT_EXT.1, FDP_ITC_EXT.1) are extended components with no Base PP counterpart; they do not modify the Base PP's access-control or residual-information FDP components. Where module SFRs depend on Base PP functionality (management and audit), the dependency is satisfied without altering any Base PP completion. Data-in-transit treatment is analyzed separately in <<dit_base_consistency>>.
+The Base PP claims no FCS components, so the FCS components of this module (both module-defined and consumed from the Cryptographic Catalogue [<<Crypto_Catalog>>]) cannot conflict with any Base PP completion. The module's FDP components (FDP_DAR_EXT.1, FDP_DIT_EXT.1, FDP_ITC_EXT.1) are extended components with no Base PP counterpart; they do not modify the Base PP's access-control or residual-information FDP components. Where module SFRs depend on Base PP functionality (management and audit), the dependency is satisfied without altering any Base PP completion. Data-in-transit treatment is analyzed separately in <<dit_base_consistency>>.
 
 === Consistency Across PP-Configurations
 
-This module's consistency argument is identical in every allowed PP-Configuration — claimed with the Base PP alone, together with the DBMS Cloud Module, or together with the DBMS DBaaS Module. Modules claimed alongside this module reference and scope its requirements; they do not modify them. No additional per-configuration consistency analysis therefore arises from this module.
+This module's consistency argument is identical in every allowed PP-Configuration: claimed with the Base PP alone, together with the DBMS Cloud Module, or together with the DBMS DBaaS Module. Modules claimed alongside this module reference and scope its requirements; they do not modify them. No additional per-configuration consistency analysis therefore arises from this module.
 
 [#dit_base_consistency]
 === Consistency with the Base PP Data-in-Transit Treatment
 
 The Base PP (cPP_DBMS) does not define cryptographic SFRs. It addresses the protection of transmitted data through the operational-environment assumption A.CONNECT, which also discharges the FPT_ITT.1 dependency of FPT_TRC.1 for distributed TOEs. For any PP-Configuration that includes this PP-Module, FDP_DIT_EXT.1 is mandatory and provides TOE-enforced protection for data transmitted between the TOE and external entities, using TLS and X.509 components from the applicable Functional Packages.
 
-FDP_DIT_EXT.1 supplements A.CONNECT; it does not replace it. The assumption is retained in full in the PP-Configuration and remains the basis for the aspects the TOE does not enforce — in particular the protection of transfers between separate parts of a distributed TOE, the leg of A.CONNECT that discharges the FPT_ITT.1 dependency of FPT_TRC.1. FDP_DIT_EXT.1 is scoped to channels between the TOE and external entities and does not address inter-TSF transfer. No Base PP assumption is removed or weakened. The module therefore strengthens, and does not contradict, the Base PP.
+FDP_DIT_EXT.1 supplements A.CONNECT; it does not replace it. The assumption is retained in full in the PP-Configuration and remains the basis for the aspects the TOE does not enforce: in particular the protection of transfers between separate parts of a distributed TOE, the leg of A.CONNECT that discharges the FPT_ITT.1 dependency of FPT_TRC.1. FDP_DIT_EXT.1 is scoped to channels between the TOE and external entities and does not address inter-TSF transfer. No Base PP assumption is removed or weakened. The module therefore strengthens, and does not contradict, the Base PP.
 
 [appendix]
 == SFR List
@@ -1917,12 +1929,12 @@ Optional:: The requirement may be included in the ST at the ST author's discreti
 |Resolved by the consumed `FCS_CKM.6`, `FCS_RBG.1`, and applicable `FCS_COP.1` components. This component is not included for a derived-only DEK path.
 
 |FCS_CKM.1/KEM
-|`FCS_CKM.6`; `FCS_RBG.1`
-|Included only for TOE-performed ML-KEM.KeyGen and resolved by the consumed key-destruction and RBG component set. Provisioned or externally generated ML-KEM key pairs do not trigger this component.
+|[`FCS_CKM.2` or `FCS_COP.1`]; `FCS_CKM.6`; `FCS_RBG.1`
+|Included only for TOE-performed ML-KEM.KeyGen and resolved by the consumed key-destruction and RBG component set. The [`FCS_CKM.2` or `FCS_COP.1`] key-utilization dependency is resolved by `FCS_COP.1/KeyEncap`, which consumes the generated ML-KEM key pair. Provisioned or externally generated ML-KEM key pairs do not trigger this component.
 
 |FCS_CKM.5 / FCS_CKM_EXT.8
-|`FCS_CKM.6`; applicable `FCS_COP.1` primitive; `FCS_OTV_EXT.1` for password-based derivation
-|Resolved by the consumed key-destruction, primitive, and one-time-value components selected for the derivation path.
+|[`FCS_CKM.2` or `FCS_COP.1`]; `FCS_CKM.6`; applicable `FCS_COP.1` primitive; `FCS_OTV_EXT.1` for password-based derivation
+|Resolved by the consumed key-destruction, primitive, and one-time-value components selected for the derivation path. The [`FCS_CKM.2` or `FCS_COP.1`] key-utilization dependency is resolved by the `FCS_COP.1/KeyWrap` or `FCS_COP.1/AEAD` component that consumes the derived Master Key.
 
 |FCS_CKM.6
 |A component that creates, imports, accesses, derives, or agrees the keys being destroyed
@@ -2015,8 +2027,8 @@ This section provides a comprehensive view of all SFR dependencies and their res
 | Consumed `FCS_RBG.1` and its selected seeding, primitive, failure, and self-test dependencies
 
 | FCS_CKM.1/KEM
-| FCS_CKM.6; FCS_RBG.1
-| Consumed `FCS_CKM.6`, `FCS_RBG.1`, and the selected seeding, primitive, failure, and self-test dependencies when the TOE performs ML-KEM.KeyGen
+| [FCS_CKM.2 or FCS_COP.1]; FCS_CKM.6; FCS_RBG.1
+| Anticipated `FCS_COP.1/KeyEncap` for the [FCS_CKM.2 or FCS_COP.1] key-utilization dependency, consuming the generated ML-KEM key pair; consumed `FCS_CKM.6`, `FCS_RBG.1`, and the selected seeding, primitive, failure, and self-test dependencies when the TOE performs ML-KEM.KeyGen
 
 | FCS_CKM_EXT.1
 | FCS_CKM.6; FCS_CKM.1/SKG and FCS_RBG.1 when MEKs are generated internally; FCS_COP.1/KeyEncap and FCS_CKM.5 for a KEM-established origin, with FCS_CKM.1/KEM and FCS_RBG.1 as triggered by the TOE role; selected DEK protection operation

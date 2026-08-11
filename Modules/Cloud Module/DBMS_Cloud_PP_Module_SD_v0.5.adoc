@@ -64,7 +64,7 @@
 
 |0.4
 |2026-07-08
-|Evaluation-activity corrections: FIA_UID_EXT.1 Test 1 recast as a negative test (no TSF-mediated actions before identification and authentication, consistent with the Base PP's FIA_UID.2/FIA_UAU.2 — the previous test assumed permitted pre-identification actions and was unexecutable). Test 12's certificate-rejection step replaced with confirmation that certificate validation is covered by the DBMS Crypto Module and TLS/X.509 Functional Package evidence, removing duplicated TLS testing. FMT_SMR.1/Cloud activities keyed to the roles assigned in the ST rather than levying role minimums beyond the SFR. Operational-environment mechanisms marked as supplementary, non-TSF evidence in the FPT_ITT.1 mechanisms list and Test 5, FPT_TUD_EXT.1 Test 5 (registry/orchestrator enforcement), and FPT_SBT_EXT.1 Test 4 (admission controllers), consistent with the PP-Module's Security Function Allocation.
+|Evaluation-activity corrections: FIA_UID_EXT.1 Test 1 recast as a negative test (no TSF-mediated actions before identification and authentication, consistent with the Base PP's FIA_UID.2/FIA_UAU.2; the previous test assumed permitted pre-identification actions and was unexecutable). Test 12's certificate-rejection step replaced with confirmation that certificate validation is covered by the DBMS Crypto Module and TLS/X.509 Functional Package evidence, removing duplicated TLS testing. FMT_SMR.1/Cloud activities keyed to the roles assigned in the ST rather than levying role minimums beyond the SFR. Operational-environment mechanisms marked as supplementary, non-TSF evidence in the FPT_ITT.1 mechanisms list and Test 5, FPT_TUD_EXT.1 Test 5 (registry/orchestrator enforcement), and FPT_SBT_EXT.1 Test 4 (admission controllers), consistent with the PP-Module's Security Function Allocation.
 
 |0.4
 |2026-07-08
@@ -2073,7 +2073,7 @@ The evaluator shall verify that the TSS describes:
 . The mechanisms used to protect transfers:
 .. TSF-implemented cryptographic protocols (TLS, mTLS)
 .. Authentication between components
-.. Any supplementary operational-environment measures (network isolation, private networks, VPCs, or OS/kernel-implemented protocols such as IPsec) — the TSS shall distinguish these from TSF-provided protection, because they are defense in depth and cannot alone satisfy FPT_ITT.1 (see the PP-Module's Security Function Allocation)
+.. Any supplementary operational-environment measures (network isolation, private networks, VPCs, or OS/kernel-implemented protocols such as IPsec): the TSS shall distinguish these from TSF-provided protection, because they are defense in depth and cannot alone satisfy FPT_ITT.1 (see the PP-Module's Security Function Allocation)
 
 . For cloud deployments specifically:
 .. Protection of cluster communication in cloud networks
@@ -2137,7 +2137,7 @@ If the TOE has separate management and data planes:
 . Step: Capture traffic on both planes.
 . Expected Result: Both planes use appropriate protection mechanisms.
 
-*Test 5: Cloud Network Isolation (Supplementary — Operational Environment)*
+*Test 5: Cloud Network Isolation (Supplementary, Operational Environment)*
 
 For cloud deployments. This test examines defense-in-depth configuration of the operational environment and does not contribute TSF evidence for FPT_ITT.1; the TSF evidence is provided by Tests 1 through 4.
 
