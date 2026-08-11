@@ -441,7 +441,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Supporting Document: Evaluation Activities for collaborative PP-Module for Database-as-a-Service (DBaaS)</h1>
 <div class="details">
 <span id="revnumber">version 0.5,</span>
-<span id="revdate">2026-07-20</span>
+<span id="revdate">2026-08-11</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -464,8 +464,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_evaluator_access_strategy">3.3. Evaluator Access Strategy</a></li>
 <li><a href="#_audit_channel_identification">3.4. Audit Channel Identification</a></li>
 <li><a href="#_tenant_isolation_testing_strategy">3.5. Tenant Isolation Testing Strategy</a></li>
-<li><a href="#_external_service_dependencies">3.6. External Service Dependencies</a></li>
-<li><a href="#_handling_selections_and_assignments">3.7. Handling Selections and Assignments</a></li>
+<li><a href="#_representative_test_scoping">3.6. Representative-Test Scoping</a></li>
+<li><a href="#_external_service_dependencies">3.7. External Service Dependencies</a></li>
+<li><a href="#_handling_selections_and_assignments">3.8. Handling Selections and Assignments</a></li>
 </ul>
 </li>
 <li><a href="#_assurance_activities_overview">4. Assurance Activities Overview</a>
@@ -792,6 +793,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2026-07-20</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">Rolled the completed managed-service Evaluation Activities, evidence-vantage model, provider-supported demonstration paths, and Crypto Module coordination into the Version 0.5 review set.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0.5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2026-08-11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Refined broad Evaluation Activity scoping: representative testing now covers each distinct TSF path, with complete inventory review and ETR rationale, rather than every operational instance or permutation.</p></td>
+</tr>
 </tbody>
 </table>
 <!-- toc disabled -->
@@ -1052,7 +1058,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_external_service_dependencies">3.6. External Service Dependencies</h3>
+<h3 id="_representative_test_scoping">3.6. Representative-Test Scoping</h3>
+<div class="paragraph">
+<p><strong>Application Note:</strong> Where an activity refers to each, every, all, or no interface, the evaluator shall inventory the claimed variants and group only variants that share the same TSF implementation and security-relevant configuration. The evaluator shall test at least one representative of each group and every non-equivalent implementation path; review the complete inventory and record the mapping and rationale in the ETR. The activity does not require testing every operational instance, endpoint, data object, error condition, node, or deployment permutation unless it implements a distinct TSF path or the activity expressly says otherwise.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_external_service_dependencies">3.7. External Service Dependencies</h3>
 <div class="paragraph">
 <p>When the TOE relies on external key management, identity provider, logging, object storage, backup, management, or trusted time services, the evaluator shall verify that the ST identifies:</p>
 </div>
@@ -1074,7 +1086,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="_handling_selections_and_assignments">3.7. Handling Selections and Assignments</h3>
+<h3 id="_handling_selections_and_assignments">3.8. Handling Selections and Assignments</h3>
 <div class="paragraph">
 <p>The PP-Module leaves the following operations open for completion by the ST author. For each, the evaluator shall verify that the ST completes the operation with permitted content, that the completion is consistent with the TSS, and that the corresponding test activities of this SD exercise the completed value rather than the generic placeholder:</p>
 </div>
@@ -1124,7 +1136,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_assurance_approach_rationale">4.1. Assurance Approach Rationale</h3>
 <div class="paragraph">
-<p>The assurance package is EAL2 augmented by ALC_FLR.3, and the number understates where the assurance comes from. EAL2 bounds the design evidence (interface specification and basic subsystem design, without implementation representation), but confidence in the TOE&#8217;s security behavior is produced by this SD&#8217;s Evaluation Activities, and those are predominantly negative: cross-tenant access is attempted through every documented interface and denied; metadata, audit, and residual-data isolation are probed from a second tenant context; plaintext key export is attempted through every tenant-facing interface and denied; key revocation is enforced within the completed key-state enforcement interval; plaintext restore is attempted against an explicit ciphertext pass criterion; unauthorized quota modification, tenant-binding manipulation, audit tampering, and the disabling of audit or encryption are each attempted and denied; an invalid update signature is presented and rejected. The package substitutes requirement-bound adversarial testing for design-artifact depth.</p>
+<p>The assurance package is EAL2 augmented by ALC_FLR.3, and the number understates where the assurance comes from. EAL2 bounds the design evidence (interface specification and basic subsystem design, without implementation representation), but confidence in the TOE&#8217;s security behavior is produced by this SD&#8217;s Evaluation Activities, and those are predominantly negative: cross-tenant access is attempted through a representative of each distinct TSF path and denied; metadata, audit, and residual-data isolation are probed from a second tenant context; plaintext key export is attempted through a representative of each distinct applicable TSF path and denied; key revocation is enforced within the completed key-state enforcement interval; plaintext restore is attempted against an explicit ciphertext pass criterion; unauthorized quota modification, tenant-binding manipulation, audit tampering, and the disabling of audit or encryption are each attempted and denied; an invalid update signature is presented and rejected. The package substitutes requirement-bound adversarial testing for design-artifact depth.</p>
 </div>
 <div class="paragraph">
 <p>That substitution is unusually effective for this TOE type. Against locally installed software an attacker holds the binary, the file system, and process memory, so interface-level testing exercises a modest fraction of the reachable attack surface; closing the remainder is what implementation-level design assurance exists for. A tenant of a provider-operated DBaaS reaches the TOE only through the documented tenant interfaces: SQL, programmatic APIs, and the tenant service control plane. The tenant-reachable attack surface therefore substantially coincides with the interface set these Evaluation Activities exercise, and AVA_VAN.2 penetration testing probes the same vantage for paths the documentation does not admit.</p>
@@ -1139,7 +1151,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_negative_property_evidence_and_the_toetrusted_platform_boundary">4.2. Negative-Property Evidence and the TOE/Trusted-Platform Boundary</h3>
 <div class="paragraph">
-<p>The Evaluation Activities of this SD are predominantly negative, and how each negative property is evidenced is governed by two discriminators: what mediates the property, and proportionality to the assurance target. A property the TOE enforces through its own interfaces is evaluated as TOE behavior; a property of the infrastructure on which the service runs is a Trusted Platform property, addressed through assumptions, Operational Environment objectives, and scheme-accepted evidence, and is not established by testing the TOE. Several of this module&#8217;s exclusion requirements are written to make this boundary self-evident: <code>FCS_CKM_DBAAS_EXT.1.2</code> and <code>FDP_BKP_EXT.1.1</code> prohibit an <strong>interface</strong> by which a service provider administrator obtains plaintext key material or a plaintext restore, so the claim is bound to TOE-mediated surface by construction. For such a property, the proportionate evidence is enumeration of the interfaces available in the evaluated configuration and an attempt of the excluded action through each (native ADV_FSP.2 and ADV_ARC.1 territory), extended to a provider-supported demonstration at the provider-internal vantage (V4, see <a href="#_evidence_vantages">Section 2.5, &#8220;Evidence Vantages&#8221;</a>) where the interface is exposed only to provider roles, with each such reliance recorded in the ETR under the Evaluator Access Strategy (<a href="#_evaluator_access_strategy">Section 3.3, &#8220;Evaluator Access Strategy&#8221;</a>).</p>
+<p>The Evaluation Activities of this SD are predominantly negative, and how each negative property is evidenced is governed by two discriminators: what mediates the property, and proportionality to the assurance target. A property the TOE enforces through its own interfaces is evaluated as TOE behavior; a property of the infrastructure on which the service runs is a Trusted Platform property, addressed through assumptions, Operational Environment objectives, and scheme-accepted evidence, and is not established by testing the TOE. Several of this module&#8217;s exclusion requirements are written to make this boundary self-evident: <code>FCS_CKM_DBAAS_EXT.1.2</code> and <code>FDP_BKP_EXT.1.1</code> prohibit an <strong>interface</strong> by which a service provider administrator obtains plaintext key material or a plaintext restore, so the claim is bound to TOE-mediated surface by construction. For such a property, the proportionate evidence is complete enumeration of the interfaces available in the evaluated configuration and an attempt of the excluded action through a representative of each distinct TSF path under <a href="#_representative_test_scoping">Section 3.6, &#8220;Representative-Test Scoping&#8221;</a> (native ADV_FSP.2 and ADV_ARC.1 territory), extended to a provider-supported demonstration at the provider-internal vantage (V4, see <a href="#_evidence_vantages">Section 2.5, &#8220;Evidence Vantages&#8221;</a>) where a relevant path is exposed only to provider roles, with each such reliance recorded in the ETR under the Evaluator Access Strategy (<a href="#_evaluator_access_strategy">Section 3.3, &#8220;Evaluator Access Strategy&#8221;</a>).</p>
 </div>
 <div class="paragraph">
 <p>The boundary is a limit on what the Evaluation Activities may claim, not only on what the evaluator can reach. These exclusions bind the TOE&#8217;s interfaces; they neither assert nor are evaluated to establish that a Trusted Platform administrator cannot suppress or bypass a security function by acting through the infrastructure substrate (the memory, storage, network, or control plane the TOE does not own). That residual is held by <code>A.TRUSTED_PLATFORM_ADMIN</code>, which <code>OE.PROVIDER_ROLE_SEPARATION</code> keeps from extending to the Service Provider Administrator who is the threat agent of <code>T.KEY_DISCLOSURE_TO_PROVIDER_ADMIN</code>. An Evaluation Activity shall therefore confirm the absence of a TOE or service interface that performs the excluded action, and shall not attempt to demonstrate that the TOE prevents infrastructure-level suppression or bypass; an activity of the latter kind would evaluate an assumption and implicitly enlarge the TOE boundary. Architecture and interface review, rather than evaluator-conducted control-plane testing, is what holds this line, because it distinguishes a service interface from an infrastructure action where a live negative test against a replicated control plane can conflate the two. A provider environment that replicates the control plane is a permissible venue for a provider-supported demonstration, but its availability does not make evaluator-conducted control-plane penetration an expected method: that depth corresponds to the higher-assurance vulnerability families, and requiring it against an EAL2 package would be disproportionate to the assurance target and would invite findings against surface this PP-Module does not claim.</p>
@@ -1661,7 +1673,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Verify that access succeeds.</p>
 </li>
 <li>
-<p>Attempt to export, view, recover, or display the plaintext master key material through each tenant-facing DBMS interface and management interface available in the evaluated configuration.</p>
+<p>Use the representative-test scoping application note (<a href="#_representative_test_scoping">Section 3.6, &#8220;Representative-Test Scoping&#8221;</a>) to inventory the DBMS and management interfaces available to tenant or provider roles that expose, or could expose, plaintext master key material and select a representative from each group.</p>
+</li>
+<li>
+<p>Attempt to export, view, recover, or display the plaintext master key material through the selected representative interfaces.</p>
+</li>
+<li>
+<p>Where a relevant interface is restricted to provider roles, perform the corresponding representative attempt through a provider-supported demonstration under the Evaluator Access Strategy (<a href="#_evaluator_access_strategy">Section 3.3, &#8220;Evaluator Access Strategy&#8221;</a>) and record the method and results in the ETR.</p>
 </li>
 <li>
 <p>Verify that each attempt is denied or that the interface exposes only non-sensitive key identifiers, references, status, or metadata.</p>
@@ -1733,13 +1751,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Review audit records, status views, error messages, diagnostic outputs, backup metadata, and management outputs that are tenant-accessible in the evaluated configuration.</p>
+<p>Using a non-production customer-controlled test key whose material is known to the evaluator where the selected key model permits, induce a documented key authorization, lookup, or key-provider failure likely to generate diagnostic output.</p>
+</li>
+<li>
+<p>Apply the representative-test scoping application note (<a href="#_representative_test_scoping">Section 3.6, &#8220;Representative-Test Scoping&#8221;</a>) to review the error response and corresponding audit, status, diagnostic, backup-metadata, and management outputs from the exercised key operation.</p>
+</li>
+<li>
+<p>For every non-equivalent diagnostic TSF path identified in the TSS or operational guidance, induce one representative key-operation failure that reaches the path and review its output.</p>
+</li>
+<li>
+<p>For non-tenant-accessible diagnostics, use provider-supported observation under the Evaluator Access Strategy (<a href="#_evaluator_access_strategy">Section 3.3, &#8220;Evaluator Access Strategy&#8221;</a>) and verify that the observation method and results are documented in the ETR.</p>
 </li>
 <li>
 <p>Verify that plaintext customer-controlled master key material is not disclosed.</p>
-</li>
-<li>
-<p>If provider-supported observation is used for non-tenant-accessible diagnostics, verify that the observation method and results are documented in the ETR.</p>
 </li>
 </ol>
 </div>
@@ -1904,7 +1928,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Create tenant data objects in Tenant A with names and values known to the evaluator.</p>
 </li>
 <li>
-<p>As Tenant B, attempt to access Tenant A&#8217;s objects through documented SQL, API, management, import/export, backup, restore, and tenant administration interfaces available in the evaluated configuration.</p>
+<p>Use the representative-test scoping application note (<a href="#_representative_test_scoping">Section 3.6, &#8220;Representative-Test Scoping&#8221;</a>) to inventory the documented SQL, API, management, import/export, backup, restore, and tenant administration interfaces capable of accessing tenant data, and select representatives that cover every distinct Tenant Isolation SFP path.</p>
+</li>
+<li>
+<p>As Tenant B, attempt to access Tenant A&#8217;s objects through the selected representative interfaces.</p>
 </li>
 <li>
 <p>Verify that all unauthorized attempts fail.</p>
@@ -1920,7 +1947,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>As Tenant A, create objects with distinct names.</p>
 </li>
 <li>
-<p>As Tenant B, query system catalogs, metadata views, information schema views, management APIs, search interfaces, and monitoring views available to tenants.</p>
+<p>Use the representative-test scoping application note (<a href="#_representative_test_scoping">Section 3.6, &#8220;Representative-Test Scoping&#8221;</a>) to inventory the tenant-visible system catalogs, metadata views, information schema views, management APIs, search interfaces, and monitoring views, and select representatives that cover every distinct metadata-access-control path.</p>
+</li>
+<li>
+<p>As Tenant B, query the selected representative interfaces.</p>
 </li>
 <li>
 <p>Verify that Tenant B sees only Tenant B metadata and metadata explicitly defined as global system metadata.</p>
@@ -2271,16 +2301,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>For each claimed management function, perform the function as an authorized role using the interfaces available in the evaluated configuration.</p>
+<p>Use the representative-test scoping application note (<a href="#_representative_test_scoping">Section 3.6, &#8220;Representative-Test Scoping&#8221;</a>) to inventory the claimed management functions, their authorized roles, and their interfaces, and select representatives that cover every distinct management-function authorization path.</p>
+</li>
+<li>
+<p>Perform each selected management-function representative as an authorized role using the interfaces available in the evaluated configuration.</p>
+</li>
+<li>
+<p>For selected management-function representatives restricted to provider roles that are not available to the evaluator, perform the authorized-role leg through a provider-supported demonstration under the Evaluator Access Strategy (<a href="#_evaluator_access_strategy">Section 3.3, &#8220;Evaluator Access Strategy&#8221;</a>), recorded in the ETR; the unauthorized-role denial leg shall still be tested directly through tenant interfaces.</p>
 </li>
 <li>
 <p>Verify that the function operates as described.</p>
 </li>
 <li>
 <p>Attempt the same function as an unauthorized role and verify that it is denied. This test may be performed jointly with the <code>FMT_MOF.1/DBaaS</code> iteration tests.</p>
-</li>
-<li>
-<p>For management functions restricted to provider roles that are not available to the evaluator, perform the authorized-role leg through a provider-supported demonstration under the Evaluator Access Strategy (<a href="#_evaluator_access_strategy">Section 3.3, &#8220;Evaluator Access Strategy&#8221;</a>), recorded in the ETR; the unauthorized-role denial leg shall still be tested directly through tenant interfaces.</p>
 </li>
 <li>
 <p>Where automated autonomous management logic is selected in <code>FMT_SMR.1/DBaaS</code>, identify at least one record of an autonomous management action in the ST-identified audit channel and verify that it identifies the autonomous subject as the actor and, where the action affected a tenant context, carries the affected tenant&#8217;s identifier and is visible to that tenant.</p>
@@ -2300,7 +2333,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>The evaluator shall verify the TSS identifies the security functions that cannot be disabled in the evaluated configuration (<code>FMT_MOF.1/DBaaS-Disable</code>) and the roles authorized to modify DBaaS security functions such as resource governance, patching and updates, and audit export (<code>FMT_MOF.1/DBaaS-Modify</code>).</p>
 </div>
 <div class="paragraph">
-<p>For <code>FMT_MOF.1/DBaaS-Disable</code>, the evaluator shall confirm, from the TSS and the functional specification, that the interfaces which manage audit generation and data-at-rest encryption are enumerated, and that none of those interfaces, in any role, disables audit generation or data-at-rest encryption, consistent with the component&#8217;s refinement and aligned to the "no interface" idiom of <code>FCS_CKM_DBAAS_EXT.1.2</code> and <code>FDP_BKP_EXT.1.1</code>.</p>
+<p>For <code>FMT_MOF.1/DBaaS-Disable</code>, the evaluator shall confirm, from the TSS and the functional specification, a complete inventory of the interfaces that manage audit generation and data-at-rest encryption, their authorized roles, and their TSF implementation paths. Applying the representative-test scoping application note (<a href="#_representative_test_scoping">Section 3.6, &#8220;Representative-Test Scoping&#8221;</a>) when selecting executed tests, the evaluator shall verify that the inventory identifies no documented interface that permits disabling either function in the evaluated configuration, consistent with the component&#8217;s refinement and aligned to the no-interface idiom of <code>FCS_CKM_DBAAS_EXT.1.2</code> and <code>FDP_BKP_EXT.1.1</code>.</p>
 </div>
 </div>
 <div class="sect4">
@@ -2317,13 +2350,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Confirm, from the TSS and the functional specification, the enumeration of interfaces that manage audit generation, and that none is documented to disable audit generation for TOE-required audit events in any role.</p>
+<p>Confirm, from the TSS and the functional specification, the complete inventory of interfaces that manage audit generation and their role exposure.</p>
 </li>
 <li>
-<p>Attempt to disable audit generation for TOE-required audit events through tenant-administrator interfaces (the tenant data plane V1 and the tenant service control plane V2) and, through a provider-supported demonstration at the provider-internal vantage (V4) under the Evaluator Access Strategy (<a href="#_evaluator_access_strategy">Section 3.3, &#8220;Evaluator Access Strategy&#8221;</a>) recorded in the ETR, through service-provider-administrator interfaces.</p>
+<p>Apply the representative-test scoping application note (<a href="#_representative_test_scoping">Section 3.6, &#8220;Representative-Test Scoping&#8221;</a>) to select representatives that cover every distinct TSF path through which a request to disable audit generation is handled.</p>
 </li>
 <li>
-<p>Verify that no interface, in any role, performs the disable.</p>
+<p>Attempt to disable audit generation for TOE-required audit events through the selected tenant-administrator representatives (the tenant data plane V1 and tenant service control plane V2). Where the inventory identifies a relevant provider-only group, perform its representative attempt through a provider-supported demonstration at the provider-internal vantage (V4) under the Evaluator Access Strategy (<a href="#_evaluator_access_strategy">Section 3.3, &#8220;Evaluator Access Strategy&#8221;</a>) and record the method and results in the ETR.</p>
+</li>
+<li>
+<p>Verify that the selected attempts are denied and that the complete inventory identifies no documented interface that performs the disable.</p>
 </li>
 <li>
 <p>The evaluator does not attempt to establish that infrastructure-level suppression of audit generation by a Trusted Platform administrator is prevented; that residual is held by <code>A.TRUSTED_PLATFORM_ADMIN</code> and is not evaluated as TOE behaviour (see <a href="#_negative_property_evidence_and_the_toe_trusted_platform_boundary">[_negative_property_evidence_and_the_toe_trusted_platform_boundary]</a>).</p>
@@ -2336,13 +2372,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Confirm, from the TSS and the functional specification, the enumeration of interfaces that manage data-at-rest encryption, and that none is documented to disable data-at-rest encryption for protected tenant data in any role.</p>
+<p>Confirm, from the TSS and the functional specification, the complete inventory of interfaces that manage data-at-rest encryption and their role exposure.</p>
 </li>
 <li>
-<p>Attempt to disable data-at-rest encryption for protected tenant data through tenant-administrator interfaces (V1 and V2) and, through a provider-supported demonstration at the provider-internal vantage (V4) under the Evaluator Access Strategy (<a href="#_evaluator_access_strategy">Section 3.3, &#8220;Evaluator Access Strategy&#8221;</a>) recorded in the ETR, through service-provider-administrator interfaces.</p>
+<p>Apply the representative-test scoping application note (<a href="#_representative_test_scoping">Section 3.6, &#8220;Representative-Test Scoping&#8221;</a>) to select representatives that cover every distinct TSF path through which a request to disable data-at-rest encryption is handled.</p>
 </li>
 <li>
-<p>Verify that no interface, in any role, performs the disable.</p>
+<p>Attempt to disable data-at-rest encryption for protected tenant data through the selected tenant-administrator representatives (V1 and V2). Where the inventory identifies a relevant provider-only group, perform its representative attempt through a provider-supported demonstration at the provider-internal vantage (V4) under the Evaluator Access Strategy (<a href="#_evaluator_access_strategy">Section 3.3, &#8220;Evaluator Access Strategy&#8221;</a>) and record the method and results in the ETR.</p>
+</li>
+<li>
+<p>Verify that the selected attempts are denied and that the complete inventory identifies no documented interface that performs the disable.</p>
 </li>
 <li>
 <p>The evaluator does not attempt to establish that infrastructure-level suppression of data-at-rest encryption by a Trusted Platform administrator is prevented; that residual is held by <code>A.TRUSTED_PLATFORM_ADMIN</code> and is not evaluated as TOE behaviour (see <a href="#_negative_property_evidence_and_the_toe_trusted_platform_boundary">[_negative_property_evidence_and_the_toe_trusted_platform_boundary]</a>).</p>
@@ -2784,8 +2823,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM_DBAAS_EXT.1 Test 1 (Provider Inaccessibility)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">V1, V2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Key-export and key-display attempts through every tenant-facing database and management interface; denial or metadata-only responses.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V1, V2; V4 for any provider-restricted disclosure path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Representative key-export and key-display attempts for every distinct TSF path; denial or metadata-only responses, with provider-supported demonstration where applicable.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM_DBAAS_EXT.1 Test 2 (Key Revocation)</p></td>
@@ -2800,7 +2839,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM_DBAAS_EXT.1 Test 3 (Key Material Handling Evidence)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">V1, V2; V4 for non-tenant diagnostics</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tenant-accessible audit records, status views, error messages, and backup metadata reviewed for key-material disclosure; provider-supported observation for diagnostics not exposed to tenants.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Representative diagnostic-producing key operations cover every distinct diagnostic TSF path; the error, audit, status, diagnostic, backup-metadata, and management outputs are reviewed for key-material disclosure, with provider-supported observation for non-tenant diagnostics.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FCS_CKM_DBAAS_EXT.1 Test 4 (KEM-Established Customer Control)</p></td>
@@ -2815,7 +2854,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FDP_ACF.1/DBaaS Tests 1–4 (Tenant Isolation)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">V1 (V2 to provision and configure sharing)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cross-tenant data, metadata, and audit access attempts at V1; tenant provisioning and any evaluated sharing configuration at V2.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Representative cross-tenant data and metadata access attempts cover every distinct Tenant Isolation SFP path at V1; tenant provisioning and any evaluated sharing configuration are at V2.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FDP_BKP_EXT.1 Test 1 (Provider Plaintext Restore Prevention)</p></td>
@@ -2850,12 +2889,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FMT_SMF.1/DBaaS Test 1 (Management Functions)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">V2 (V1 for database-level functions); V4 for the authorized leg of provider-restricted functions</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Each claimed management function exercised as an authorized role; denial leg always tested directly from tenant vantages.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Representative management functions cover every distinct authorization path and are exercised as an authorized role; denial leg is tested directly from tenant vantages, with provider-supported authorized legs where required.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FMT_MOF.1/DBaaS Tests 1–3 (Immutability and Role Restriction)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">V1, V2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Tenant-administrator attempts to disable audit, disable encryption, and escalate privileges; denial observed.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">V1, V2; V4 for any provider-only management path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Representative tenant-administrator and provider-only attempts to disable audit or encryption cover every distinct TSF path; denial and the complete interface inventory are verified. Privilege-escalation denial is observed.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">FAU_SEL.1/DBaaS Test 1 (Audit Scope Leakage)</p></td>
@@ -3023,7 +3062,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 0.5<br>
-Last updated 2026-08-11 08:54:55 -0500
+Last updated 2026-08-11 14:38:39 -0500
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
